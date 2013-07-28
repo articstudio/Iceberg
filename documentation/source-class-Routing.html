@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+	<meta name="robots" content="noindex" />
+
+	<title>File includes/Routing.class.php | Iceberg 1.0</title>
+
+	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
+	<script type="text/javascript" src="elementlist.js?3811943975"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
+						<ul>
+				<li><a href="package-Iceberg.API.html">API</a>
+						</li>
+				<li><a href="package-Iceberg.Application.html">Application</a>
+						</li>
+				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-Iceberg.Exception.html">Exception</a>
+						</li>
+				<li><a href="package-Iceberg.I18N.html">I18N</a>
+						</li>
+				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+						</li>
+				<li class="active"><a href="package-Iceberg.Routing.html">Routing</a>
+						</li>
+							</ul></li>
+				<li><a href="package-IcebergException.html">IcebergException</a>
+						</li>
+				<li><a href="package-None.html">None</a>
+						</li>
+				<li><a href="package-PHP.html">PHP</a>
+						</li>
+				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Domains.html">Domains</a></li>
+				<li><a href="class-Request.html">Request</a></li>
+				<li class="active"><a href="class-Routing.html">Routing</a></li>
+				<li><a href="class-RoutingExtension.html">RoutingExtension</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Iceberg.Routing.html" title="Summary of Iceberg\Routing"><span>Package</span></a>
+			</li>
+			<li>
+				<a href="class-Routing.html" title="Summary of Routing"><span>Class</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+			<li>
+				<a href="deprecated.html" title="List of deprecated elements"><span>Deprecated</span></a>
+			</li>
+			<li>
+				<a href="todo.html" title="Todo list"><span>Todo</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="iceberg-1-0-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
+		</ul>
+	</div>
+
+<pre><code><span id="1" class="l"><a class="l" href="#1"> 1: </a><span class="xlang">&lt;?php</span>
+</span><span id="2" class="l"><a class="l" href="#2"> 2: </a>
+</span><span id="3" class="l"><a class="l" href="#3"> 3: </a><span class="php-comment">/** Include helpers routing file */</span>
+</span><span id="4" class="l"><a class="l" href="#4"> 4: </a><span class="php-keyword1">require_once</span> ICEBERG_DIR_HELPERS . <span class="php-quote">'routing.php'</span>;
+</span><span id="5" class="l"><a class="l" href="#5"> 5: </a>
+</span><span id="6" class="l"><a class="l" href="#6"> 6: </a><span class="php-comment">/**
+</span></span><span id="7" class="l"><a class="l" href="#7"> 7: </a><span class="php-comment"> * Routing
+</span></span><span id="8" class="l"><a class="l" href="#8"> 8: </a><span class="php-comment"> * 
+</span></span><span id="9" class="l"><a class="l" href="#9"> 9: </a><span class="php-comment"> * Routing management
+</span></span><span id="10" class="l"><a class="l" href="#10">10: </a><span class="php-comment"> *  
+</span></span><span id="11" class="l"><a class="l" href="#11">11: </a><span class="php-comment"> * @package Iceberg
+</span></span><span id="12" class="l"><a class="l" href="#12">12: </a><span class="php-comment"> * @subpackage Routing
+</span></span><span id="13" class="l"><a class="l" href="#13">13: </a><span class="php-comment"> * @author Marc Mascort Bou
+</span></span><span id="14" class="l"><a class="l" href="#14">14: </a><span class="php-comment"> * @version 1.0
+</span></span><span id="15" class="l"><a class="l" href="#15">15: </a><span class="php-comment"> * @since 1.0
+</span></span><span id="16" class="l"><a class="l" href="#16">16: </a><span class="php-comment"> */</span>
+</span><span id="17" class="l"><a class="l" href="#17">17: </a>
+</span><span id="18" class="l"><a class="l" href="#18">18: </a><span class="php-keyword1">abstract</span> <span class="php-keyword1">class</span> <a id="Routing" href="#Routing">Routing</a> <span class="php-keyword1">extends</span> Request
+</span><span id="19" class="l"><a class="l" href="#19">19: </a>{
+</span><span id="20" class="l"><a class="l" href="#20">20: </a>    <span class="php-keyword1">protected</span> <span class="php-var"><a id="$language" href="#$language">$language</a></span> = <span class="php-keyword1">null</span>;
+</span><span id="21" class="l"><a class="l" href="#21">21: </a>    <span class="php-keyword1">protected</span> <span class="php-var"><a id="$controller" href="#$controller">$controller</a></span> = <span class="php-keyword1">null</span>;
+</span><span id="22" class="l"><a class="l" href="#22">22: </a>    
+</span><span id="23" class="l"><a class="l" href="#23">23: </a>    
+</span><span id="24" class="l"><a class="l" href="#24">24: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_SetController" href="#_SetController">SetController</a>(<span class="php-var">$controller</span>)
+</span><span id="25" class="l"><a class="l" href="#25">25: </a>    {
+</span><span id="26" class="l"><a class="l" href="#26">26: </a>        <span class="php-var">$this</span>-&gt;controller = <span class="php-var">$controller</span>;
+</span><span id="27" class="l"><a class="l" href="#27">27: </a>    }
+</span><span id="28" class="l"><a class="l" href="#28">28: </a>    
+</span><span id="29" class="l"><a class="l" href="#29">29: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_GetController" href="#_GetController">GetController</a>()
+</span><span id="30" class="l"><a class="l" href="#30">30: </a>    {
+</span><span id="31" class="l"><a class="l" href="#31">31: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;controller;
+</span><span id="32" class="l"><a class="l" href="#32">32: </a>    }
+</span><span id="33" class="l"><a class="l" href="#33">33: </a>}
+</span><span id="34" class="l"><a class="l" href="#34">34: </a>
+</span><span id="35" class="l"><a class="l" href="#35">35: </a><span class="php-keyword1">interface</span> <a id="Routing_interface" href="#Routing_interface">Routing_interface</a>
+</span><span id="36" class="l"><a class="l" href="#36">36: </a>{
+</span><span id="37" class="l"><a class="l" href="#37">37: </a>}
+</span><span id="38" class="l"><a class="l" href="#38">38: </a>
+</span><span id="39" class="l"><a class="l" href="#39">39: </a><span class="php-keyword1">abstract</span> <span class="php-keyword1">class</span> <a id="RoutingExtension" href="#RoutingExtension">RoutingExtension</a> <span class="php-keyword1">extends</span> Routing <span class="php-keyword1">implements</span> Routing_interface
+</span><span id="40" class="l"><a class="l" href="#40">40: </a>{
+</span><span id="41" class="l"><a class="l" href="#41">41: </a>    <span class="php-keyword1">protected</span> <span class="php-var"><a id="$controllers" href="#$controllers">$controllers</a></span> = <span class="php-keyword1">array</span>();
+</span><span id="42" class="l"><a class="l" href="#42">42: </a>}
+</span><span id="43" class="l"><a class="l" href="#43">43: </a></span></code></pre>
+
+	<div id="footer">
+		Iceberg 1.0 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

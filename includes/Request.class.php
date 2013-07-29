@@ -155,7 +155,7 @@ class Request extends ObjectConfig
             print '</ul>';
             print '<h4>Developing contributors</h4>';
             print '<ul>';
-            print '<li>Xevi Sañé (<a href="http://www.codibit.com">www.codibit.com</a>)</li>';
+            print '<li>Xevi Sañé Farrés (<a href="http://www.codibit.com">www.codibit.com</a>)</li>';
             print '<li>David Gironella Casademont (<a href="http://www.xapes.net">www.xapes.net</a>)</li>';
             print '</ul>';
             print '<h4>Usability and performance testing contributors</h4>';

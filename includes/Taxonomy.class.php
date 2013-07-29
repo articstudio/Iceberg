@@ -55,8 +55,7 @@ abstract class Taxonomy extends ObjectDBRelations
             'name' => 'taxonomy-domain',
             'force' => true,
             'function' => 'get_domain_request_id',
-            'language' => false
-            //'language' => true
+            'language' => true
         )
     );
     

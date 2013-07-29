@@ -72,6 +72,10 @@ abstract class PageBase extends ObjectDBRelations
         )
     );
     
+    const TYPE_DEFAULT = 'page';
+    
+    const STATUS_ACTIVE = 1;
+    const STATUS_UNACTIVE = 0;
 }
 
 
@@ -81,5 +85,32 @@ class Page extends PageBase
     public function __construct($group=null, $parent=null, $taxonomy=null, $type=null, $metas=array(), $lang=null)
     {
         
+    }
+    
+    public static function Insert($group=null, $parent=null, $taxonomy=null, $type=null, $metas=array(), $lang=null)
+    {
+        $args = array(
+            'taxonomy' => is_null($taxonomy) ? '' : $taxonomy,
+            'type' => is_null($type) ? static::TYPE_DEFAULT : $type,
+            'status' => static::STATUS_UNACTIVE
+        );
+        $relations = array(
+            'Group' => $group,
+            'Page' => $parent
+        );
+        $id = static::DB_Insert($args, $relations, $lang);
+        if ($id)
+        {
+            $metas = PageMeta::Normalize($metas);
+            foreach ($metas AS $key => $value)
+            {
+                $args = array(
+                    'name' => $key,
+                    'value' => $value
+                );
+                static::DB_InsertChild('PageMeta', $args, $id);
+            }
+        }
+        return $id;
     }
 }

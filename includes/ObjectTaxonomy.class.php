@@ -28,7 +28,7 @@ abstract class ObjectTaxonomy
         if (count($arr) > 0)
         {
             $row = current($arr);
-            $obj = Taxonomy::DB_DecodeFieldValue($row->value);
+            $obj = $row->value;
             $obj->SetID($id);
             return $obj;
         }

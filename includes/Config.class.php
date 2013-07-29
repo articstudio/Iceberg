@@ -89,10 +89,10 @@ class Config extends ConfigBase
     {
         global $__CONFIG;
         $value = $default;
-        $buffer = static::DB_Select(array('name', 'value'), array('name' => $keyname), array(), array(), array(), $lang);
+        $buffer = static::DB_Select(array('value'), array('name' => $keyname), array(), array(), array(), $lang);
         if (count($buffer) > 0) {
             $config = current($buffer);
-            $value = static::DB_DecodeFieldValue($config);
+            $value = static::DB_DecodeFieldValue($config->value);
         }
         list($keyname, $value, $default, $isBuffer, $lang) = action_event('config_select', $keyname, $value, $default, $isBuffer, $lang);
         if (!$isBuffer)

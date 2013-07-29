@@ -65,4 +65,15 @@ class PageMeta extends ObjectDBRelations
      */
     const META_IMAGE = 'image';
     
+    
+    
+    public static function Normalize($metas)
+    {
+        $metas[static::META_TITLE] = isset($metas[static::META_TITLE]) ? $metas[static::META_TITLE] : '';
+        $metas[static::META_PERMALINK] = isset($metas[static::META_PERMALINK]) ? $metas[static::META_PERMALINK] : '';
+        $metas[static::META_TEXT] = isset($metas[static::META_TEXT]) ? $metas[static::META_TEXT] : '';
+        $metas[static::META_IMAGE] = isset($metas[static::META_IMAGE]) ? $metas[static::META_IMAGE] : '';
+        return $metas;
+    }
+    
 }

@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class RoutingBackend | Iceberg</title>
+
+	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
+	<script type="text/javascript" src="elementlist.js?1342617136"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
+						<ul>
+				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
+						</li>
+				<li><a href="package-Iceberg.Database.html">Database</a>
+						</li>
+				<li><a href="package-Iceberg.Environment.html">Environment</a>
+						</li>
+				<li><a href="package-Iceberg.Exception.html">Exception</a>
+						</li>
+				<li><a href="package-Iceberg.Extension.html">Extension</a>
+						</li>
+				<li><a href="package-Iceberg.Files.html">Files</a>
+						</li>
+				<li><a href="package-Iceberg.I18N.html">I18N</a>
+						</li>
+				<li><a href="package-Iceberg.Install.html">Install</a>
+						</li>
+				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
+						</li>
+				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+						</li>
+				<li class="active"><a href="package-Iceberg.Routing.html">Routing</a>
+						</li>
+				<li><a href="package-Iceberg.Session.html">Session</a>
+						</li>
+				<li><a href="package-Iceberg.User.html">User</a>
+						</li>
+							</ul></li>
+				<li><a href="package-IcebergException.html">IcebergException</a>
+						</li>
+				<li><a href="package-None.html">None</a>
+						</li>
+				<li><a href="package-PHP.html">PHP</a>
+						</li>
+				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Domains.html">Domains</a></li>
+				<li><a href="class-Request.html">Request</a></li>
+				<li><a href="class-Routing.html">Routing</a></li>
+				<li class="active"><a href="class-RoutingBackend.html">RoutingBackend</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Iceberg.Routing.html" title="Summary of Iceberg\Routing"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class RoutingBackend</h1>
+
+
+	<div class="description">
+	
+<p>Routing</p>
+
+<p>Routing management</p>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-ObjectConfigBase.html"><span>ObjectConfigBase</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by" />
+			<a href="class-ObjectConfig.html"><span>ObjectConfig</span></a>
+			
+			 implements 
+				<a href="class-ObjectConfigInterface.html"><span>ObjectConfigInterface</span></a>
+			
+			
+		</dd>
+		<dd style="padding-left:60px">
+			<img src="resources/inherit.png" alt="Extended by" />
+			<a href="class-Request.html"><span>Request</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:90px">
+			<img src="resources/inherit.png" alt="Extended by" />
+			<a href="class-Routing.html"><span>Routing</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:120px">
+			<img src="resources/inherit.png" alt="Extended by" />
+<b><span>RoutingBackend</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-Iceberg.html">Iceberg</a>\<a href="package-Iceberg.Routing.html">Routing</a><br />
+
+				<b>Author:</b>
+				Marc Mascort Bou<br />
+				<b>Version:</b>
+				1.0<br />
+				<b>Since:</b>
+				1.0<br />
+		<b>Located at</b> <a href="source-class-RoutingBackend.html#3-207" title="Go to source code">admin/includes/RoutingBackend.class.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="ParseRequest" id="_ParseRequest">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ParseRequest">#</a>
+		<code><a href="source-class-RoutingBackend.html#65-80" title="Go to source code">ParseRequest</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetParsedRequest" id="_GetParsedRequest">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetParsedRequest">#</a>
+		<code><a href="source-class-RoutingBackend.html#82-85" title="Go to source code">GetParsedRequest</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetParsedRequestValue" id="_GetParsedRequestValue">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetParsedRequestValue">#</a>
+		<code><a href="source-class-RoutingBackend.html#87-91" title="Go to source code">GetParsedRequestValue</a>( <span>mixed <var>$key</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetRequestLogout" id="_GetRequestLogout">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetRequestLogout">#</a>
+		<code><a href="source-class-RoutingBackend.html#96-100" title="Go to source code">GetRequestLogout</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetModules" id="_GetModules">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetModules">#</a>
+		<code><a href="source-class-RoutingBackend.html#102-107" title="Go to source code">GetModules</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetRequestModule" id="_GetRequestModule">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetRequestModule">#</a>
+		<code><a href="source-class-RoutingBackend.html#109-113" title="Go to source code">GetRequestModule</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetModule" id="_GetModule">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetModule">#</a>
+		<code><a href="source-class-RoutingBackend.html#115-137" title="Go to source code">GetModule</a>( <span>mixed <var>$key</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetModes" id="_GetModes">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetModes">#</a>
+		<code><a href="source-class-RoutingBackend.html#139-150" title="Go to source code">GetModes</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetRequestMode" id="_GetRequestMode">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetRequestMode">#</a>
+		<code><a href="source-class-RoutingBackend.html#152-156" title="Go to source code">GetRequestMode</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetMode" id="_GetMode">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetMode">#</a>
+		<code><a href="source-class-RoutingBackend.html#158-181" title="Go to source code">GetMode</a>( <span>mixed <var>$key</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetBreadcrumb" id="_GetBreadcrumb">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetBreadcrumb">#</a>
+		<code><a href="source-class-RoutingBackend.html#183-193" title="Go to source code">GetBreadcrumb</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetRequestAction" id="_GetRequestAction">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetRequestAction">#</a>
+		<code><a href="source-class-RoutingBackend.html#195-199" title="Go to source code">GetRequestAction</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetRequestID" id="_GetRequestID">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetRequestID">#</a>
+		<code><a href="source-class-RoutingBackend.html#201-205" title="Go to source code">GetRequestID</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-Routing.html#methods">Routing</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-Routing.html#_GetLanguage">GetLanguage()</a>, 
+			<a href="class-Routing.html#_GetLogin">GetLogin()</a>, 
+			<a href="class-Routing.html#_GetRouting">GetRouting()</a>, 
+			<a href="class-Routing.html#_MakeURL">MakeURL()</a>, 
+			<a href="class-Routing.html#_MakeURLDir">MakeURLDir()</a>, 
+			<a href="class-Routing.html#_SetLanguage">SetLanguage()</a>, 
+			<a href="class-Routing.html#_SetLogin">SetLogin()</a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-Request.html#methods">Request</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-Request.html#_AddMagicQuotes">AddMagicQuotes()</a>, 
+			<a href="class-Request.html#_GetBaseUrl">GetBaseUrl()</a>, 
+			<a href="class-Request.html#_GetBaseUrlAPI">GetBaseUrlAPI()</a>, 
+			<a href="class-Request.html#_GetBaseUrlAdmin">GetBaseUrlAdmin()</a>, 
+			<a href="class-Request.html#_GetDomain">GetDomain()</a>, 
+			<a href="class-Request.html#_GetProtocol">GetProtocol()</a>, 
+			<a href="class-Request.html#_GetURI">GetURI()</a>, 
+			<a href="class-Request.html#_GetUrl">GetUrl()</a>, 
+			<a href="class-Request.html#_GetValueG">GetValueG()</a>, 
+			<a href="class-Request.html#_GetValueGP">GetValueGP()</a>, 
+			<a href="class-Request.html#_GetValueP">GetValueP()</a>, 
+			<a href="class-Request.html#_GetValueSGP">GetValueSGP()</a>, 
+			<a href="class-Request.html#_IssetKeyG">IssetKeyG()</a>, 
+			<a href="class-Request.html#_IssetKeyGP">IssetKeyGP()</a>, 
+			<a href="class-Request.html#_IssetKeyP">IssetKeyP()</a>, 
+			<a href="class-Request.html#_IssetKeyS">IssetKeyS()</a>, 
+			<a href="class-Request.html#_IssetKeySGP">IssetKeySGP()</a>, 
+			<a href="class-Request.html#_LoadRequest">LoadRequest()</a>, 
+			<a href="class-Request.html#_Locate">Locate()</a>, 
+			<a href="class-Request.html#_Response">Response()</a>, 
+			<a href="class-Request.html#_SetValueG">SetValueG()</a>, 
+			<a href="class-Request.html#_SetValueP">SetValueP()</a>, 
+			<a href="class-Request.html#_StripSlashes">StripSlashes()</a>, 
+			<a href="class-Request.html#___construct">__construct()</a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-ObjectConfig.html#methods">ObjectConfig</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-ObjectConfig.html#_GetConfigValue">GetConfigValue()</a>, 
+			<a href="class-ObjectConfig.html#_SetConfigValue">SetConfigValue()</a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-ObjectConfigBase.html#methods">ObjectConfigBase</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-ObjectConfigBase.html#_GetConfig">GetConfig()</a>, 
+			<a href="class-ObjectConfigBase.html#_NormalizeConfig">NormalizeConfig()</a>, 
+			<a href="class-ObjectConfigBase.html#_SaveConfig">SaveConfig()</a>, 
+			<a href="class-ObjectConfigBase.html#_SelectConfig">SelectConfig()</a>, 
+			<a href="class-ObjectConfigBase.html#_SetConfig">SetConfig()</a>, 
+			<a href="class-ObjectConfigBase.html#_UnsaveConfig">UnsaveConfig()</a>, 
+			<a href="class-ObjectConfigBase.html#_UnsetConfig">UnsetConfig()</a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+	<table class="summary" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="REQUEST_KEY_LANGUAGE" id="REQUEST_KEY_LANGUAGE">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-RoutingBackend.html#6" title="Go to source code"><b>REQUEST_KEY_LANGUAGE</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">'lang'</span></code></td>
+		<td class="description"><div>
+			<a href="#REQUEST_KEY_LANGUAGE" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="REQUEST_KEY_MODULE" id="REQUEST_KEY_MODULE">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-RoutingBackend.html#7" title="Go to source code"><b>REQUEST_KEY_MODULE</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">'module'</span></code></td>
+		<td class="description"><div>
+			<a href="#REQUEST_KEY_MODULE" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="REQUEST_KEY_MODE" id="REQUEST_KEY_MODE">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-RoutingBackend.html#8" title="Go to source code"><b>REQUEST_KEY_MODE</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">'mode'</span></code></td>
+		<td class="description"><div>
+			<a href="#REQUEST_KEY_MODE" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="REQUEST_KEY_ACTION" id="REQUEST_KEY_ACTION">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-RoutingBackend.html#9" title="Go to source code"><b>REQUEST_KEY_ACTION</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">'action'</span></code></td>
+		<td class="description"><div>
+			<a href="#REQUEST_KEY_ACTION" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="REQUEST_KEY_PAGE" id="REQUEST_KEY_PAGE">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-RoutingBackend.html#10" title="Go to source code"><b>REQUEST_KEY_PAGE</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">'page'</span></code></td>
+		<td class="description"><div>
+			<a href="#REQUEST_KEY_PAGE" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="REQUEST_KEY_TAXONOMY" id="REQUEST_KEY_TAXONOMY">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-RoutingBackend.html#11" title="Go to source code"><b>REQUEST_KEY_TAXONOMY</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">'taxonomy'</span></code></td>
+		<td class="description"><div>
+			<a href="#REQUEST_KEY_TAXONOMY" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="REQUEST_KEY_ID" id="REQUEST_KEY_ID">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-RoutingBackend.html#12" title="Go to source code"><b>REQUEST_KEY_ID</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">'id'</span></code></td>
+		<td class="description"><div>
+			<a href="#REQUEST_KEY_ID" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="REQUEST_KEY_USERNAME" id="REQUEST_KEY_USERNAME">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-RoutingBackend.html#13" title="Go to source code"><b>REQUEST_KEY_USERNAME</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">'username'</span></code></td>
+		<td class="description"><div>
+			<a href="#REQUEST_KEY_USERNAME" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="REQUEST_KEY_PASSWORD" id="REQUEST_KEY_PASSWORD">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-RoutingBackend.html#14" title="Go to source code"><b>REQUEST_KEY_PASSWORD</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">'password'</span></code></td>
+		<td class="description"><div>
+			<a href="#REQUEST_KEY_PASSWORD" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="REQUEST_KEY_LOGOUT" id="REQUEST_KEY_LOGOUT">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-RoutingBackend.html#15" title="Go to source code"><b>REQUEST_KEY_LOGOUT</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">'logout'</span></code></td>
+		<td class="description"><div>
+			<a href="#REQUEST_KEY_LOGOUT" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="MODULE_DASHBOARD" id="$MODULE_DASHBOARD">
+		<td class="attributes"><code>
+			public static 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RoutingBackend.html#29-33" title="Go to source code"><var>$MODULE_DASHBOARD</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(
+    <span class="php-quote">'module'</span> =&gt; <span class="php-quote">'dashboard'</span>,
+    <span class="php-quote">'template'</span> =&gt; <span class="php-quote">'dashboard.php'</span>,
+    <span class="php-quote">'name'</span> =&gt; <span class="php-quote">'DASHBOARD'</span>
+)</code></td>
+		<td class="description"><div>
+			<a href="#$MODULE_DASHBOARD" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="MODULE_ERROR" id="$MODULE_ERROR">
+		<td class="attributes"><code>
+			public static 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RoutingBackend.html#35-40" title="Go to source code"><var>$MODULE_ERROR</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(
+    <span class="php-quote">'module'</span> =&gt; <span class="php-quote">'error'</span>,
+    <span class="php-quote">'mode'</span> =&gt; <span class="php-quote">'error'</span>,
+    <span class="php-quote">'template'</span> =&gt; <span class="php-quote">'error.php'</span>,
+    <span class="php-quote">'name'</span> =&gt; <span class="php-quote">'ERROR'</span>
+)</code></td>
+		<td class="description"><div>
+			<a href="#$MODULE_ERROR" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-Routing.html#properties">Routing</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-Routing.html#$CONFIG_KEY"><var>$CONFIG_KEY</var></a>, 
+			<a href="class-Routing.html#$language"><var>$language</var></a>, 
+			<a href="class-Routing.html#$password"><var>$password</var></a>, 
+			<a href="class-Routing.html#$user"><var>$user</var></a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-Request.html#properties">Request</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-Request.html#$HTTP_RESPONSES"><var>$HTTP_RESPONSES</var></a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-ObjectConfig.html#properties">ObjectConfig</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-ObjectConfig.html#$CONFIG_EVENT_GET_VALUE"><var>$CONFIG_EVENT_GET_VALUE</var></a>, 
+			<a href="class-ObjectConfig.html#$CONFIG_EVENT_SET_VALUE"><var>$CONFIG_EVENT_SET_VALUE</var></a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-ObjectConfigBase.html#properties">ObjectConfigBase</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-ObjectConfigBase.html#$CONFIG_DEFAULTS"><var>$CONFIG_DEFAULTS</var></a>, 
+			<a href="class-ObjectConfigBase.html#$CONFIG_EVENT_GET"><var>$CONFIG_EVENT_GET</var></a>, 
+			<a href="class-ObjectConfigBase.html#$CONFIG_EVENT_SAVE"><var>$CONFIG_EVENT_SAVE</var></a>, 
+			<a href="class-ObjectConfigBase.html#$CONFIG_EVENT_SELECT"><var>$CONFIG_EVENT_SELECT</var></a>, 
+			<a href="class-ObjectConfigBase.html#$CONFIG_EVENT_SET"><var>$CONFIG_EVENT_SET</var></a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Iceberg API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

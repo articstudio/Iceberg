@@ -211,5 +211,20 @@ pip-log.txt
 #Translations
 *.mo
 
+
+
+#############
+## Netbeans
+#############
+
+#Netbeans directories
+nbproject/
+
+
+#############
+## Iceberg
+#############
 #Mr Developer
 .mr.developer.cfg
+/db.php
+/content/uploads/

@@ -1,6 +1,7 @@
 <?php
 
 $action = get_request_action();
+$group = get_request_group();
 $id = get_request_id(); 
 
 if ($action == 'remove')
@@ -16,17 +17,24 @@ if ($action == 'remove')
 }
 else if ($action == 'insert')
 {
-    /*$pagegroup = new PageGroup(
-        get_request_gp('name', '', true)
+    $parent = null;
+    $taxonomy = null;
+    $type = null;
+    $metas = array(
+        PageMeta::META_TITLE => get_request_p('name', '', true),
+        PageMeta::META_PERMALINK => get_request_p('permalink', '', true),
+        PageMeta::META_TEXT => get_request_p('text', '', true),
+        PageMeta::META_IMAGE => get_request_p('image', '', true)
     );
-    if (PageGroup::Insert($pagegroup))
+    $lang = null;
+    if (Page::Insert($group, $parent, $taxonomy, $type, $metas, $lang))
     {
-        add_alert('Page group inserted', 'success');
+        add_alert('Page inserted', 'success');
     }
     else
     {
-        add_alert('Failed to inesrt page group', 'error');
-    }*/
+        add_alert('Failed to inesrt page', 'error');
+    }
 }
 else if ($action == 'update')
 {

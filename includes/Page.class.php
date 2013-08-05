@@ -56,7 +56,7 @@ abstract class PageBase extends ObjectDBRelations
             'name' => 'page-domain',
             'force' => true,
             'function' => 'get_domain_request_id',
-            'language' => false
+            'language' => true
         ),
         'Group' => array(
             'name' => 'page-group',
@@ -92,7 +92,7 @@ class Page extends PageBase
         $args = array(
             'taxonomy' => is_null($taxonomy) ? '' : $taxonomy,
             'type' => is_null($type) ? static::TYPE_DEFAULT : $type,
-            'status' => static::STATUS_UNACTIVE
+            'status' => static::STATUS_ACTIVE
         );
         $relations = array(
             'Group' => $group,
@@ -112,5 +112,35 @@ class Page extends PageBase
             }
         }
         return $id;
+    }
+    
+    public static function GetList($args=array())
+    {
+        $fields = array(
+            'taxonomy',
+            'type',
+            'status'
+        );
+        $where = array();
+        if (isset($args['taxonomy']))
+        {
+            $where['taxonomy'] = $args['taxonomy'];
+        }
+        if (isset($args['type']))
+        {
+            $where['type'] = $args['type'];
+        }
+        if (isset($args['status']))
+        {
+            $where['status'] = $args['status'];
+        }
+        $orderby = array();
+        $limit = array();
+        $relations = array();
+        /*@todo Relations */
+        $lang = null;
+        $pages = static::DB_Select($fields, $where, $orderby, $limit, $relations, $lang);
+        /*@todo CACHE / METAS */
+        return $pages;
     }
 }

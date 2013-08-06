@@ -81,14 +81,13 @@ class User extends ObjectDBRelations
      * @var array 
      */
     public static $DB_PARENTS = array(
-        'Domains' => array(
-            'name' => 'user2domain',
+        'user2domain' => array(
+            'object' => 'Domains',
             'force' => true,
             'function' => 'get_domain_request_id'
         ),
-        
-        'User' => array(
-            'name' => 'user-user'
+        'user-user' => array(
+            'object' => 'User'
         )
     );
     

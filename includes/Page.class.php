@@ -52,25 +52,29 @@ abstract class PageBase extends ObjectDBRelations
      * @var array 
      */
     public static $DB_PARENTS = array(
-        'Domains' => array(
-            'name' => 'page-domain',
+        'page-domain' => array(
+            'object' => 'Domains',
             'force' => true,
             'function' => 'get_domain_request_id',
             'language' => true
         ),
-        'Group' => array(
-            'name' => 'page-group',
+        'page-group' => array(
+            'object' => 'Group',
             'force' => false,
             'function' => '',
             'language' => false
         ),
-        'Page' => array(
-            'name' => 'page-parent',
+        'page-parent' => array(
+            'object' => 'Page',
             'force' => false,
             'function' => '',
             'language' => false
         )
     );
+    
+    const RELATION_KEY_DOMAIN = 'page-domain';
+    const RELATION_KEY_GROUP = 'page-group';
+    const RELATION_KEY_PARENT = 'page-parent';
     
     const TYPE_DEFAULT = 'page';
     
@@ -95,8 +99,8 @@ class Page extends PageBase
             'status' => static::STATUS_ACTIVE
         );
         $relations = array(
-            'Group' => $group,
-            'Page' => $parent
+            static::RELATION_KEY_GROUP => $group,
+            static::RELATION_KEY_PARENT => $parent
         );
         $id = static::DB_Insert($args, $relations, $lang);
         if ($id)
@@ -137,10 +141,26 @@ class Page extends PageBase
         $orderby = array();
         $limit = array();
         $relations = array();
-        /*@todo Relations */
+        if (isset($args['group']))
+        {
+            $relations['Group'] = $args['group'];
+        }
+        if (isset($args['page']))
+        {
+            $relations['Page'] = $args['page'];
+        }
         $lang = null;
         $pages = static::DB_Select($fields, $where, $orderby, $limit, $relations, $lang);
-        /*@todo CACHE / METAS */
+        foreach ($pages AS $k => $page)
+        {
+            $page->metas = array();
+            $metas = static::DB_SelectChild('PageMeta', $k, array('name', 'value'), array(), array(), array());
+            foreach ($metas AS $meta)
+            {
+                $page->metas[$meta->name] = static::DB_DecodeFieldValue($meta->value);
+            }
+        }
+        /*@todo CACHE */
         return $pages;
     }
 }

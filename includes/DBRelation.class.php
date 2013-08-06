@@ -82,10 +82,6 @@ class DBRelation extends ObjectDB
     
     public static $DB_COUNT_FIELD = 'count';
     
-    public static $DB_LANGUAGE_FUNCTION = 'get_lang';
-    
-    public static $DB_ALL_LANGUAGE_FUNCTION = 'get_locales';
-    
     public static function GetParentField()
     {
         return static::$DB_PARENT_FIELD;

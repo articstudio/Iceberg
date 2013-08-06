@@ -47,8 +47,8 @@ class UserMeta extends ObjectDBRelations
      * @var array 
      */
     public static $DB_PARENTS = array(
-        'User' => array(
-            'name' => 'user-meta',
+        'user-meta' => array(
+            'object' => 'User',
             'force' => true,
             'function' => 'get_user_id'
         )

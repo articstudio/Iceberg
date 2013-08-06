@@ -6,7 +6,7 @@
         
         <title>Iceberg v<?php print_text( ICEBERG_VERSION ); ?> - <?php print_text('INSTALLATION'); ?> - <?php print_text(get_install_step()); ?></title>
         
-        <link rel="shortcut icon" href="<?php print_html_attr($__INSTALL_URL); ?>img/iceberg.ico" />
+        <link rel="shortcut icon" href="<?php print get_install_url(); ?>img/iceberg.ico" />
         
         <link rel="stylesheet" type="text/css" href="<?php print get_install_url(); ?>css/bootstrap.css" />
         <link rel="stylesheet" type="text/css" href="<?php print get_install_url(); ?>css/main.css" />

@@ -42,10 +42,12 @@ class Domains extends ObjectDBRelations
      * @var array 
      */
     public static $DB_PARENTS = array(
-        'Domains' => array(
-            'name' => 'domain-canonical'
+        'domain-canonical' => array(
+            'object' => 'Domains'
         )
     );
+    
+    const RELATION_KEY_CANONICAL = 'domain-canonical';
     
     /**
      * Request key for Domain ID
@@ -67,7 +69,16 @@ class Domains extends ObjectDBRelations
         if (is_null($__DOMAIN_ID))
         {
             $domains = self::DB_Select(
-                array('id'),
+                array(
+                    'id',
+                    array(
+                        'relation' => static::RELATION_KEY_CANONICAL,
+                        'fields' => array(
+                            'id',
+                            'name'
+                        )
+                    )
+                ),
                 array(
                     'name' => $domain
                 )
@@ -78,7 +89,7 @@ class Domains extends ObjectDBRelations
                 $__DOMAIN_ID = $row->id;
             }
         }
-        $parent = self::GetParentObjectsID($__DOMAIN_ID, 'Domains');
+        $parent = self::GetParentObjectsID($__DOMAIN_ID, 'domain-canonical');
         if ($parent)
         {
             $__DOMAIN_ID = current($parent);

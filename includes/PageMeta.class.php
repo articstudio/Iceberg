@@ -37,8 +37,8 @@ class PageMeta extends ObjectDBRelations
      * @var array 
      */
     public static $DB_PARENTS = array(
-        'Page' => array(
-            'name' => 'page-meta',
+        'page-meta' => array(
+            'object' => 'Page',
             'force' => true,
             'function' => 'get_page_id',
             'language' => true

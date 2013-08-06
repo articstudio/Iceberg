@@ -31,10 +31,6 @@ abstract class ObjectDB extends ObjectDBBase implements ObjectDBInterface
     {
         $result = false;
         $primary_field = static::DB_GetPrimaryField();
-        if (!in_array($primary_field, $fields))
-        {
-            array_push($fields, $primary_field);
-        }
         $select = static::DB_GenereateSelect($fields);
         $where = static::DB_GenerateWhere($where);
         $orderby = static::DB_GenereateOrderBy($orderby);
@@ -96,14 +92,22 @@ abstract class ObjectDB extends ObjectDBBase implements ObjectDBInterface
         return db_delete(static::DB_GetTableName(), $where, $apply_table);
     }
     
+    
     protected static function DB_GenereateSelect($fields)
     {
+        $t = static::DB_GetTableName();
+        $primary_field = static::DB_GetPrimaryField();
+        if (!in_array($primary_field, $fields))
+        {
+            array_push($fields, $primary_field);
+        }
         $fields = static::DB_FilterFieldsOnValues($fields);
-        return ' ' . implode(', ', $fields) . ' ';
+        return ' ' . $t . '.' . implode(', ' . $t . '.', $fields) . ' ';
     }
     
     protected static function DB_GenerateWhere($where)
     {
+        $t = static::DB_GetTableName();
         $sql = ' WHERE 1';
         $where = static::DB_FilterFields($where);
         foreach ($where AS $k => $v)
@@ -121,11 +125,11 @@ abstract class ObjectDB extends ObjectDBBase implements ObjectDBInterface
             }
             if (is_string($v) || is_numeric($v))
             {
-                $sql .= " AND " . mysql_escape($k) . "='" . mysql_escape($v) . "'";
+                $sql .= " AND " . $t . '.' . mysql_escape($k) . "='" . mysql_escape($v) . "'";
             }
             else if (is_null($v))
             {
-                $sql .= " AND " . mysql_escape($k) . " IS NULL";
+                $sql .= " AND " . $t . '.' . mysql_escape($k) . " IS NULL";
             }
             else if (is_array($v))
             {
@@ -137,11 +141,11 @@ abstract class ObjectDB extends ObjectDBBase implements ObjectDBInterface
                 }
                 if ($ints)
                 {
-                    $sql .= " AND " . mysql_escape($k) . " IN (" . implode(",", $v) . ")";
+                    $sql .= " AND " . $t . '.' . mysql_escape($k) . " IN (" . implode(",", $v) . ")";
                 }
                 else
                 {
-                    $sql .= " AND " . mysql_escape($k) . " IN ('" . implode("','", $v) . "')";
+                    $sql .= " AND " . $t . '.' . mysql_escape($k) . " IN ('" . implode("','", $v) . "')";
                 }
             }
         }
@@ -179,7 +183,7 @@ abstract class ObjectDB extends ObjectDBBase implements ObjectDBInterface
                 unset($fields[$k]);
             }
         }
-        return empty($fields) ? '' : ' ' . implode(', ', $fields) . ' ';
+        return empty($fields) ? '' : ' ' . $t . '.' . implode(', ' . $t . '.', $fields) . ' ';
     }
     
     protected static function DB_GenerateLimit($limit)

@@ -7,6 +7,11 @@ if ($pagegroup_id != null)
     $pagegroup_id = (int)$pagegroup_id;
     $pagegroup = isset($pagegroups[$pagegroup_id]) ? $pagegroups[$pagegroup_id]->GetName() : '';
 }
+
+$pages = get_pages(array(
+    'group' => $pagegroup_id
+));
+var_dump($pages);
 ?>
 
 <div class="DTTT btn-group">

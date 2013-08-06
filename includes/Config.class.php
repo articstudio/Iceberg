@@ -42,8 +42,8 @@ abstract class ConfigBase extends ObjectDBRelations
      * @var array 
      */
     public static $DB_PARENTS = array(
-        'Domains' => array(
-            'name' => 'config-domain',
+        'config-domain' => array(
+            'object' => 'Domains',
             'force' => true,
             'function' => 'get_domain_request_id',
             'language' => true

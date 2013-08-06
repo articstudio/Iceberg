@@ -348,7 +348,7 @@ class Install
                                 'name' => $alias,
                             ),
                             array(
-                                'Domains' => $domainID
+                                Domains::RELATION_KEY_CANONICAL => $domainID
                             )
                         );
                         if (!$done)

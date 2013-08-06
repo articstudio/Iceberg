@@ -209,7 +209,7 @@ abstract class ObjectDBBase implements ObjectDBBaseInterface
         $o_fields = static::DB_GetFields();
         foreach ($fields AS $k => $v)
         {
-            if (!isset($o_fields[$v]))
+            if ((!is_string($v) && !is_numeric($v)) || !isset($o_fields[$v]))
             {
                 $fields[$k] = null;
                 unset($fields[$k]);

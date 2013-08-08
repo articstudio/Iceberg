@@ -247,7 +247,7 @@ class Install
             $done = false;
             add_install_error('Create DBRELATION table.');
         }
-        if (!Domains::DB_CreateTable())
+        if (!Domain::DB_CreateTable())
         {
             $done = false;
             add_install_error('Create DOMAINS table.');
@@ -327,13 +327,13 @@ class Install
     
     public static function NewDomain($domain, $domainAliases, $timezone, $user, $password=null, $email=null)
     {
-        $domainID = Domains::DB_Insert(array(
+        $domainID = Domain::DB_Insert(array(
             'name' => $domain
         ));
         if ($domainID)
         {
             /* SET DOMAIN REQUEST ID */
-            Domains::SetRequestID($domainID);
+            Domain::SetRequestID($domainID);
             
             /* DOMAIN ALIASES */
             if (is_array($domainAliases) && !empty($domainAliases))
@@ -343,12 +343,12 @@ class Install
                     $alias .= substr($alias, -1) == '/' ? '' : '/';
                     if ($alias != $domain)
                     {
-                        $done = Domains::DB_Insert(
+                        $done = Domain::DB_Insert(
                             array(
                                 'name' => $alias,
                             ),
                             array(
-                                Domains::RELATION_KEY_CANONICAL => $domainID
+                                Domain::RELATION_KEY_CANONICAL => $domainID
                             )
                         );
                         if (!$done)
@@ -429,7 +429,7 @@ class Install
                     $done = false;
                     add_install_error('Drop DBRELATION table.');
                 }
-                if (!Domains::DB_DropTable())
+                if (!Domain::DB_DropTable())
                 {
                     $done = false;
                     add_install_error('Drop DOMAINS table.');

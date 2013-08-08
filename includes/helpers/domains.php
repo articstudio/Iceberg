@@ -8,7 +8,7 @@
  */
 function get_domain_id()
 {
-    return Domains::GetID();
+    return Domain::GetID();
 }
 
 /**
@@ -19,7 +19,7 @@ function get_domain_id()
  */
 function get_domain_request_id()
 {
-    return Domains::GetRequestID();
+    return Domain::GetRequestID();
 }
 
 /**
@@ -31,7 +31,7 @@ function get_domain_request_id()
  */
 function set_domain_request_id($id)
 {
-    return Domains::SetRequestID($id);
+    return Domain::SetRequestID($id);
 }
 
 /**
@@ -43,30 +43,30 @@ function set_domain_request_id($id)
  */
 function set_domain_id($id)
 {
-    return Domains::SetRequestID($id);
+    return Domain::SetDomainID($id);
 }
 
 function get_domain_canonical()
 {
-    return Domains::GetCanonical();
+    return Domain::GetCanonical();
 }
 
 function get_domain_name()
 {
-    return Domains::GetName();
+    return Domain::GetName();
 }
 
 function get_domains_canonicals()
 {
-    return Domains::GetCanonicals();
+    return Domain::GetCanonicals();
 }
 
 function get_domains_alias($id=null)
 {
-    return Domains::GetAlias($id);
+    return Domain::GetAlias($id);
 }
 
 function get_domains_tree()
 {
-    return Domains::GetTree();
+    return Domain::GetTree();
 }

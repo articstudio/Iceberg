@@ -30,12 +30,14 @@ abstract class ObjectDB extends ObjectDBBase implements ObjectDBInterface
     public static function DB_Select($fields, $where=array(), $orderby=array(), $limit=array())
     {
         $result = false;
+        $tables = static::DB_GetRelatedTables();
+        $t = static::DB_GetTableName() . ' AS ' . $tables['self']['alias'];
         $primary_field = static::DB_GetPrimaryField();
-        $select = static::DB_GenereateSelect($fields);
-        $where = static::DB_GenerateWhere($where);
-        $orderby = static::DB_GenereateOrderBy($orderby);
+        $select = static::DB_GenereateSelect($fields, $tables);
+        $where = static::DB_GenerateWhere($where, $tables);
+        $orderby = static::DB_GenereateOrderBy($orderby, $tables);
         $limit = static::DB_GenerateLimit($limit);
-        db_select(static::DB_GetTableName(), $select, $where, $orderby, $limit);
+        db_select($t, $select, $where, $orderby, $limit);
         if (db_numrows() > 0)
         {
             $result = array();
@@ -49,27 +51,32 @@ abstract class ObjectDB extends ObjectDBBase implements ObjectDBInterface
     
     public static function DB_Insert($args)
     {
+        $t = static::DB_GetTableName();
         $args = static::DB_FilterFields($args);
         $fields = array_keys($args);
         $values = array_map('db_encode', array_values($args));
-        $done = db_insert(static::DB_GetTableName(), $fields, $values);
+        $done = db_insert($t, $fields, $values);
         return $done ? db_getInsertId() : false;
     }
     
     public static function DB_Update($id, $args)
     {
+        $tables = static::DB_GetRelatedTables();
+        $t = static::DB_GetTableName() . ' AS ' . $tables['self']['alias'];
         $fields = array_map('db_encode', static::DB_FilterFields($args));
         $where = static::DB_GenerateWhere(array(
             static::DB_GetPrimaryField() => $id
-        ));
-        return db_update(static::DB_GetTableName(), $fields, $where);
+        ), $tables);
+        return db_update($t, $fields, $where);
     }
     
     public static function DB_UpdateWhere($args, $where=array())
     {
+        $tables = static::DB_GetRelatedTables();
+        $t = static::DB_GetTableName() . ' AS ' . $tables['self']['alias'];
         $fields = array_map('db_encode', static::DB_FilterFields($args));
-        $where = static::DB_GenerateWhere($where);
-        return db_update(static::DB_GetTableName(), $fields, $where);
+        $where = static::DB_GenerateWhere($where, $tables);
+        return db_update($t, $fields, $where);
     }
     
     public static function DB_InsertUpdate($args, $where=array())
@@ -93,9 +100,20 @@ abstract class ObjectDB extends ObjectDBBase implements ObjectDBInterface
     }
     
     
-    protected static function DB_GenereateSelect($fields)
+    protected static function DB_GetRelatedTables()
     {
-        $t = static::DB_GetTableName();
+        $tables = array(
+            'self' => array(
+                'table' => static::DB_GetTableName(),
+                'alias' => 't0'
+            )
+        );
+        return $tables;
+    }
+    
+    protected static function DB_GenereateSelect($fields, $tables)
+    {
+        $t = $tables['self']['alias'];
         $primary_field = static::DB_GetPrimaryField();
         if (!in_array($primary_field, $fields))
         {
@@ -105,9 +123,9 @@ abstract class ObjectDB extends ObjectDBBase implements ObjectDBInterface
         return ' ' . $t . '.' . implode(', ' . $t . '.', $fields) . ' ';
     }
     
-    protected static function DB_GenerateWhere($where)
+    protected static function DB_GenerateWhere($where, $tables)
     {
-        $t = static::DB_GetTableName();
+        $t = $tables['self']['alias'];
         $sql = ' WHERE 1';
         $where = static::DB_FilterFields($where);
         foreach ($where AS $k => $v)
@@ -153,7 +171,7 @@ abstract class ObjectDB extends ObjectDBBase implements ObjectDBInterface
         return $sql;
     }
     
-    protected static function DB_GenereateOrderBy($fields)
+    protected static function DB_GenereateOrderBy($fields, $tables)
     {
         if (empty($fields))
         {
@@ -174,16 +192,22 @@ abstract class ObjectDB extends ObjectDBBase implements ObjectDBInterface
             }
             
         }
+        $t = $tables['self']['alias'];
         $orderFields = static::DB_FilterFieldsOnValues($orderFields);
         foreach ($fields AS $k => $v)
         {
-            if (isset($orderFields[$k]))
+            $v = explode(' ', $v);
+            if (in_array($v[0], $orderFields))
+            {
+                $fields[$k] = $t . '.' . $v[0] . ' ' . (isset($v[1]) ? $v[1] : 'ASC');
+            }
+            else
             {
                 $fields[$k] = null;
                 unset($fields[$k]);
             }
         }
-        return empty($fields) ? '' : ' ' . $t . '.' . implode(', ' . $t . '.', $fields) . ' ';
+        return empty($fields) ? '' : ' ' . implode(', ', $fields) . ' ';
     }
     
     protected static function DB_GenerateLimit($limit)

@@ -75,21 +75,109 @@ abstract class PageBase extends ObjectDBRelations
     const RELATION_KEY_DOMAIN = 'page-domain';
     const RELATION_KEY_GROUP = 'page-group';
     const RELATION_KEY_PARENT = 'page-parent';
-    
-    const TYPE_DEFAULT = 'page';
-    
-    const STATUS_ACTIVE = 1;
-    const STATUS_UNACTIVE = 0;
 }
 
 
 class Page extends PageBase
 {
+    const TYPE_DEFAULT = 'page';
     
-    public function __construct($group=null, $parent=null, $taxonomy=null, $type=null, $metas=array(), $lang=null)
+    const STATUS_ACTIVE = 1;
+    const STATUS_UNACTIVE = 0;
+    
+    var $id;
+    var $group;
+    var $parent;
+    var $taxonomy;
+    var $type;
+    var $status;
+    var $order;
+    var $metas;
+    var $lang;
+    
+    const METAS_FORCE_LOAD = 'METAS_FORCE_LOAD';
+    
+    public function __construct($id, $type=null, $taxonomy=null, $group=null, $parent=null, $status=0, $order=0, $metas=array(), $lang=null)
     {
-        
+        $this->id = $id;
+        $this->group = $group;
+        $this->parent = $parent;
+        $this->taxonomy = $taxonomy;
+        $this->type = is_null($type) ? static::TYPE_DEFAULT : $type;
+        $this->status = $status;
+        $this->order = $order;
+        $this->lang = is_null($lang) ? get_lang() : $lang;
+        $this->metas = $metas;
+        if ($this->metas === static::METAS_FORCE_LOAD)
+        {
+            $this->LoadMetas($this->lang);
+        }
     }
+    
+    public function LoadMetas($lang=null)
+    {
+        $metas = static::DB_SelectChild(
+            'PageMeta', 
+            $this->id, 
+            array(
+                'name', 
+                'value', 
+                PageMeta::RELATION_KEY_PAGE => array(
+                    array(DBRelation::GetLanguageField(), 'lang')
+                )
+            ), 
+            array(), 
+            array(), 
+            array(), 
+            $lang
+        );
+        foreach ($metas AS $meta)
+        {
+            $this->SetMeta($meta->name, static::DB_DecodeFieldValue($meta->value), $meta->lang);
+        }
+    }
+    
+    public function SetMeta($key, $value, $lang=null)
+    {
+        $lang = is_null($lang) ? get_lang() : $lang;
+        $this->metas = !is_array($this->metas) ? array() : $this->metas;
+        $this->metas[$lang] = (!isset($this->metas[$lang]) || !is_array($this->metas[$lang])) ? array() : $this->metas[$lang];
+        $this->metas[$lang][$key] = $value;
+    }
+    
+    public function GetMeta($key, $default=false, $lang=null)
+    {
+        $lang = is_null($lang) ? get_lang() : $lang;
+        if (is_array($this->metas) && isset($this->metas[$lang]))
+        {
+            if (is_array($this->metas[$lang]) && isset($this->metas[$lang][$key]))
+            {
+                return $this->metas[$lang][$key];
+            }
+        }
+        return $default;
+    }
+    
+    public function GetTitle($lang=null)
+    {
+        return $this->GetMeta(PageMeta::META_TITLE, '', $lang);
+    }
+    
+    public function GetPermalink($lang=null)
+    {
+        return $this->GetMeta(PageMeta::META_PERMALINK, '', $lang);
+    }
+    
+    public function GetText($lang=null)
+    {
+        return $this->GetMeta(PageMeta::META_TEXT, '', $lang);
+    }
+    
+    public function GetImage($lang=null)
+    {
+        return $this->GetMeta(PageMeta::META_IMAGE, '', $lang);
+    }
+    
     
     public static function Insert($group=null, $parent=null, $taxonomy=null, $type=null, $metas=array(), $lang=null)
     {
@@ -118,49 +206,111 @@ class Page extends PageBase
         return $id;
     }
     
-    public static function GetList($args=array())
+    public static function GetList($args=array(), $lang=null)
     {
-        $fields = array(
-            'taxonomy',
-            'type',
-            'status'
-        );
-        $where = array();
-        if (isset($args['taxonomy']))
-        {
-            $where['taxonomy'] = $args['taxonomy'];
-        }
-        if (isset($args['type']))
-        {
-            $where['type'] = $args['type'];
-        }
-        if (isset($args['status']))
-        {
-            $where['status'] = $args['status'];
-        }
-        $orderby = array();
-        $limit = array();
-        $relations = array();
-        if (isset($args['group']))
-        {
-            $relations['Group'] = $args['group'];
-        }
-        if (isset($args['page']))
-        {
-            $relations['Page'] = $args['page'];
-        }
-        $lang = null;
+        $fields = static::GetSelectFields();
+        $where = static::GetWhereFields($args);
+        $orderby = static::GetOrderFields($args);
+        $limit = static::GetLimitFields($args);
+        $relations = static::GetRelationsFields($args);
         $pages = static::DB_Select($fields, $where, $orderby, $limit, $relations, $lang);
         foreach ($pages AS $k => $page)
         {
-            $page->metas = array();
-            $metas = static::DB_SelectChild('PageMeta', $k, array('name', 'value'), array(), array(), array());
-            foreach ($metas AS $meta)
+            $pages[$k] = new Page($page->id, $page->type, $page->taxonomy, $page->gid, $page->pid, $page->status, $page->count, Page::METAS_FORCE_LOAD, $lang);
+        }
+        /** @todo CACHE */
+        return $pages;
+    }
+    
+    public static function GetPage($id, $lang=null)
+    {
+        $fields = static::GetSelectFields();
+        $where = static::GetWhereFields(array('id' => $id));
+        $pages = static::DB_Select($fields, $where, array(), array(0, 1), array(), $lang);
+        if (is_array($pages) && !empty($pages))
+        {
+            $page = current($pages);
+            return new Page($page->id, $page->type, $page->taxonomy, $page->gid, $page->pid, $page->status, $page->count, Page::METAS_FORCE_LOAD, $lang);
+            
+        }
+        return false;
+    }
+    
+    
+    protected static function GetSelectFields()
+    {
+        return array(
+            'id',
+            'taxonomy',
+            'type',
+            'status',
+            static::RELATION_KEY_PARENT => array(
+                array(DBRelation::GetParentField(), 'pid'),
+                array(DBRelation::GetCountField(), 'count')
+            ),
+            static::RELATION_KEY_GROUP => array(
+                array(DBRelation::GetParentField(), 'gid')
+            )
+        );
+    }
+    
+    protected static function GetWhereFields($args)
+    {
+        $arr = array();
+        if (isset($args['id']))
+        {
+            $arr['id'] = $args['id'];
+        }
+        if (isset($args['taxonomy']))
+        {
+            $arr['taxonomy'] = $args['taxonomy'];
+        }
+        if (isset($args['type']))
+        {
+            $arr['type'] = $args['type'];
+        }
+        if (isset($args['status']))
+        {
+            $arr['status'] = $args['status'];
+        }
+        return $arr;
+    }
+    
+    protected static function GetOrderFields($args)
+    {
+        $arr = array();
+        if (isset($args['order']))
+        {
+            if ($args['order'] == 'name')
             {
-                $page->metas[$meta->name] = static::DB_DecodeFieldValue($meta->value);
+                
+            }
+            else
+            {
+                $arr[static::RELATION_KEY_DOMAIN] = DBRelation::GetCountField();
+                $arr[] = static::DB_GetPrimaryField();
             }
         }
-        /*@todo CACHE */
-        return $pages;
+        return $arr;
+    }
+    
+    protected static function GetLimitFields($args)
+    {
+        $arr = array();
+        return $arr;
+    }
+    
+    protected static function GetRelationsFields($args)
+    {
+        $arr = array();
+        if (isset($args['group']))
+        {
+            $arr[static::RELATION_KEY_GROUP] = $args['group'];
+        }
+        if (isset($args['parent']))
+        {
+            $arr[static::RELATION_KEY_PARENT] = $args['parent'];
+        }
+        return $arr;
     }
 }

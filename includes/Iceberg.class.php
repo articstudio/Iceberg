@@ -195,7 +195,7 @@ class Iceberg {
      */
     private static function Domain()
     {
-        return Domains::Initialize();
+        return Domain::Initialize();
     }
 
     /**

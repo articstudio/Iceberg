@@ -3,17 +3,7 @@
 /** Include domains request file */
 require_once ICEBERG_DIR_HELPERS . 'domains.php';
 
-/**
- * Domains
- * 
- * Domains management
- *  
- * @package Iceberg
- * @subpackage Routing
- * @author Marc Mascort Bou
- * @version 1.0
- */
-class Domains extends ObjectDBRelations
+class DomainBase extends ObjectDBRelations
 {
     /**
      * DB table name
@@ -54,59 +44,24 @@ class Domains extends ObjectDBRelations
      */
     const REQUEST_KEY_ID = 'domain-id';
     
+    
     /**
      * Initialize domain
-     * 
-     * @global int $__DOMAIN_ID Actual domain ID
-     * @global int $__DOMAIN_CANONICAL Canonical domain ID
      */
-    static public function Initialize()
+    public static function Initialize()
     {
-        global $__DOMAIN_ID, $__DOMAIN_CANONICAL;
-        $domain = Request::GetBaseUrl(false);
-        $__DOMAIN_ID = self::GetRequestID();
-        $__DOMAIN_CANONICAL = Request::GetProtocol() . '://' . $domain;
-        if (is_null($__DOMAIN_ID))
-        {
-            $domains = self::DB_Select(
-                array(
-                    'id',
-                    array(
-                        'relation' => static::RELATION_KEY_CANONICAL,
-                        'fields' => array(
-                            'id',
-                            'name'
-                        )
-                    )
-                ),
-                array(
-                    'name' => $domain
-                )
-            );
-            if (count($domains) > 0)
-            {
-                $row = current($domains);
-                $__DOMAIN_ID = $row->id;
-            }
-        }
-        $parent = self::GetParentObjectsID($__DOMAIN_ID, 'domain-canonical');
-        if ($parent)
-        {
-            $__DOMAIN_ID = current($parent);
-            $domains = self::DB_Select(
-                array('name'),
-                array(
-                    'id' => $__DOMAIN_ID
-                )
-            );
-            if (count($domains) > 0)
-            {
-                $row = current($domains);
-                $__DOMAIN_CANONICAL = Request::GetProtocol() . '://' . $row->name;
-            }
-        }
-        return $__DOMAIN_ID;
-        //self::SetRequestID($__DOMAIN_ID);
+        $domain_name = Request::GetBaseUrl(false);
+        $domain_id = static::GetRequestID();
+        
+        $domain = is_null($domain_id) ?  static::GetDomainByName($domain_name) : static::GetDomainByID($domain_id);
+        
+        $domain_id = $domain->GetCanonicalID();
+        static::SetDomainID($domain_id);
+        
+        $domain_name = $domain->GetCanonicalDomain();
+        static::SetDomainCanonical($domain_name);
+        
+        return $domain_id;
     }
     
     /**
@@ -129,6 +84,19 @@ class Domains extends ObjectDBRelations
     static public function SetRequestID($id)
     {
         return set_session_value(self::REQUEST_KEY_ID, $id);
+    }
+    
+    /**
+     * Set domain canonical
+     * @global string $__DOMAIN_CANONICAL
+     * @param string $canonical
+     * @return boolean 
+     */
+    static public function SetDomainCanonical($canonical)
+    {
+        global $__DOMAIN_CANONICAL;
+        $__DOMAIN_CANONICAL = $canonical;
+        return true;
     }
     
     /**
@@ -177,9 +145,66 @@ class Domains extends ObjectDBRelations
         return $domain;
     }
     
+    public static function GetDomainByID($id)
+    {
+        $domains = self::DB_Select(
+            array(
+                'id',
+                'name',
+                static::RELATION_KEY_CANONICAL => array(
+                    array(
+                        DBRelation::GetParentField(),
+                        'pid'
+                    )
+                )
+            ),
+            array(
+                'id' => $id
+            )
+        );
+        if (count($domains) > 0)
+        {
+            $row = current($domains);
+            return new Domain($row->id, $row->name, $row->pid);
+        }
+        return false;
+    }
+    
+    public static function GetDomainByName($name)
+    {
+        $domains = self::DB_Select(
+            array(
+                'id',
+                'name',
+                static::RELATION_KEY_CANONICAL => array(
+                    array(
+                        DBRelation::GetParentField(),
+                        'pid'
+                    )
+                )
+            ),
+            array(
+                'name' => $name
+            )
+        );
+        if (count($domains) > 0)
+        {
+            $row = current($domains);
+            return new Domain($row->id, $row->name, $row->pid);
+        }
+        return false;
+    }
+    
+    
+    
+    
+    
+    /** @TODO */
+    
+    
     public static function GetCanonicals()
     {
-        return static::DB_Select(array('name'), array(), array(), array(), array('Domains'=>null));
+        return static::DB_Select(array('name'), array(), array(), array(), array(static::RELATION_KEY_CANONICAL=>null));
     }
     
     public static function GetAlias($id=null)
@@ -196,5 +221,44 @@ class Domains extends ObjectDBRelations
             $items[$k]->alias = static::GetAlias($k);
         }
         return $items;
+    }
+}
+
+/**
+ * Domains
+ * 
+ * Domains management
+ *  
+ * @package Iceberg
+ * @subpackage Routing
+ * @author Marc Mascort Bou
+ * @version 1.0
+ */
+class Domain extends DomainBase
+{
+    
+    var $id;
+    var $name;
+    var $parent;
+    
+    public function __construct($id, $name, $parent=null) {
+        $this->id = $id;
+        $this->name = $name;
+        $this->parent = is_null($parent) ? false : static::GetDomainByID($parent);
+    }
+    
+    public function GetCanonicalID()
+    {
+        return $this->parent === false ? $this->id : $this->parent->GetCanonicalID();
+    }
+    
+    public function GetCanonicalName()
+    {
+        return $this->parent === false ? $this->name : $this->parent->GetCanonicalDomain();
+    }
+    
+    public function GetCanonicalDomain()
+    {
+        return Request::GetProtocol() . '://' . $this->GetCanonicalName();
     }
 }

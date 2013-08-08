@@ -1,11 +1,11 @@
 <?php
 
             /* DOMAINS TABLE */
-            $done = Domains::DB_CreateTable();
+            $done = Domain::DB_CreateTable();
             if (!$done) { array_push($install_sms, array('type'=>'alert', 'text'=>'Create DOMAINS table.') ); $install_nerrors++; }
             
             /* DOMAIN DATA */
-            $domainId = $done = Domains::DB_Insert(array(
+            $domainId = $done = Domain::DB_Insert(array(
                 'name' => get_base_url(false)
             ));
             if (!$done) { array_push($install_sms, array('type'=>'alert', 'text'=>'Insert URL Base configuration to DOMAINS.') ); $install_nerrors++; }
@@ -14,7 +14,7 @@
             $domainAliases = json_decode(get_request_gp('domainslist', '[]', true), true);
             if (!empty($domainAliases)) {
                 foreach ($domainAliases AS $alias) {
-                    Domains::DB_Insert(array(
+                    Domain::DB_Insert(array(
                         'name' => $alias,
                         'pid' => $domainId
                     ));

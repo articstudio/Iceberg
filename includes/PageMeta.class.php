@@ -45,6 +45,8 @@ class PageMeta extends ObjectDBRelations
         )
     );
     
+    const RELATION_KEY_PAGE = 'page-meta';
+    
     /**
      * Title META
      */

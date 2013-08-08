@@ -59,6 +59,8 @@ abstract class Taxonomy extends ObjectDBRelations
         )
     );
     
+    const RELATION_KEY_DOMAIN = 'taxonomy-domain';
+    
     
     
     

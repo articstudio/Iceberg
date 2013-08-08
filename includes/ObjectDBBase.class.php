@@ -217,4 +217,10 @@ abstract class ObjectDBBase implements ObjectDBBaseInterface
         }
         return $fields;
     }
+    
+    protected static function DB_IsField($field)
+    {
+        $o_fields = static::DB_GetFields();
+        return isset($o_fields[$field]);
+    }
 }

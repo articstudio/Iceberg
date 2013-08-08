@@ -66,9 +66,10 @@ abstract class ObjectTaxonomy
         return false;
     }
     
-    public static function GetList($relations=array(), $lang=null)
+    public static function GetList($args=array(), $lang=null)
     {
-        $arr = Taxonomy::DB_Select(array('value'), array('name'=>static::$TAXONOMY_KEY), array(DBRelation::GetCountField()), array(), $relations, $lang);
+        $relations = array();
+        $arr = Taxonomy::DB_Select(array('value'), array('name'=>static::$TAXONOMY_KEY), array(Taxonomy::RELATION_KEY_DOMAIN=>DBRelation::GetCountField()), array(), $relations, $lang);
         foreach ($arr AS $k => $v)
         {
             $arr[$k] = Taxonomy::DB_DecodeFieldValue($v->value);

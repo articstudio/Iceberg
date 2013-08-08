@@ -121,12 +121,12 @@ abstract class ObjectDBRelations extends ObjectDB
             $relations = static::DB_FilterParentsRelations($relations, $fields);
             $tables = static::DB_GetRelatedTables($relations, $fields);
             
-            $t = static::DB_GetTableName();
+            $t = $tables['self']['table'] . ' AS ' . $tables['self']['alias'];
             $t_field = static::DB_GetPrimaryField();
             $sql = "SELECT " . static::DB_GenereateSelect($fields, $tables);
-            $sql .= " FROM " . $tables['self']['table'] . ' AS ' . $tables['self']['alias'];
-            $sql .= " " . static::DB_GenereateJoins($relations, $tables, $lang);
-            $sql .= " " . static::DB_GenerateWhere($where, $relations, $tables);
+            $sql .= " FROM " . $t;
+            $sql .= " " . static::DB_GenereateJoins($relations, $fields, $tables, $lang);
+            $sql .= " " . static::DB_GenerateWhere($where, $tables, $relations);
             $sql .= ' GROUP BY ' . mysql_escape($tables['self']['alias']) . '.' . mysql_escape($t_field);
             $orderby = static::DB_GenereateOrderBy($orderby, $tables);
             $limit = static::DB_GenerateLimit($limit);
@@ -286,14 +286,14 @@ abstract class ObjectDBRelations extends ObjectDB
         return false;
     }
     
-    public static function DB_SelectChild($childObj, $id=null, $fields=array(), $where=array(), $orderby=array(), $limit=array())
+    public static function DB_SelectChild($childObj, $id=null, $fields=array(), $where=array(), $orderby=array(), $limit=array(), $lang=null)
     {
         $parentObj = get_called_class();
         $rel = $childObj::IsParentObject($parentObj);
         if ($rel)
         {
             $relations = is_null($id) ? array() : array($rel => $id);
-            return $childObj::DB_Select($fields, $where, $orderby, $limit, $relations, null);
+            return $childObj::DB_Select($fields, $where, $orderby, $limit, $relations, $lang);
         }
         return array();
     }
@@ -410,11 +410,11 @@ abstract class ObjectDBRelations extends ObjectDB
             );
             $n++;
         }
-        foreach ($fields AS $field)
+        foreach ($fields AS $rel => $field)
         {
-            if (isset($field['relation']) && !isset($tables[$field['relation']]))
+            if (is_array($field) && !isset($tables[$rel]))
             {
-                $tables[$field['relation']] = array(
+                $tables[$rel] = array(
                     'table' => DBRelation::DB_GetTableName(),
                     'alias' => 't' . $n
                 );
@@ -425,22 +425,48 @@ abstract class ObjectDBRelations extends ObjectDB
     }
     
     
-    protected static function DB_GenereateSelect($fields, $tables=array())
+    protected static function DB_GenereateSelect($fields, $tables)
     {
         $t_field = static::DB_GetPrimaryField();
         if (!in_array($t_field, $fields))
         {
             array_push($fields, $t_field);
         }
-        $fields = static::DB_FilterFieldsOnValues($fields);
+        $t = $tables['self']['alias'];
+        $fieldsTable = static::DB_FilterFieldsOnValues($fields);
+        $sql_fields = array();
         foreach ($fields AS $k => $v)
         {
-            $fields[$k] = $tables['self']['alias'] . '.' . $v;
+            if (is_string($v) && in_array($v, $fieldsTable))
+            {
+                array_push($sql_fields, $t . '.' . $v);
+            }
+            else if (is_array($v) && isset($tables[$k]))
+            {
+                $t_relation = $tables[$k]['alias'];
+                foreach ($v AS $field)
+                {
+                    if (is_string($field))
+                    {
+                        if (DBRelation::DB_IsField($field))
+                        {
+                            array_push($sql_fields, $t_relation . '.' . $field);
+                        }
+                    }
+                    else if (is_array($field) && count($field)>1)
+                    {
+                        if (DBRelation::DB_IsField($field[0]))
+                        {
+                            array_push($sql_fields, $t_relation . '.' . $field[0] . ' AS ' . $field[1]);
+                        }
+                    }
+                }
+            }
         }
-        return ' ' . implode(', ', $fields) . ' ';
+        return empty($sql_fields) ? '' : ' ' . implode(', ', $sql_fields) . ' ';
     }
     
-    protected static function DB_GenereateJoins($relations, $tables, $lang=null)
+    protected static function DB_GenereateJoins($relations, $fields, $tables, $lang=null)
     {
         $t = $tables['self']['alias'];
         $t_field = static::DB_GetPrimaryField();
@@ -453,45 +479,54 @@ abstract class ObjectDBRelations extends ObjectDB
         $parents = static::GetParents();
         
         $sql = '';
-        foreach ($relations AS $rel => $pid)
+        
+        foreach ($tables AS $rel => $table)
         {
-            if ($pid !== false && isset($tables[$rel])) // || is_null($relations[$obj])
+            if ($rel !== 'self')
             {
-                $t_relation = $tables[$rel]['alias'];
-                $buffer = '';
-                if (is_null($relations[$rel]))
+                if (isset($relations[$rel])) // $pid !== false && is_null($relations[$obj])
                 {
-                    $buffer .= ' LEFT OUTER JOIN ' . $tables[$rel]['table'] . ' AS ' . $t_relation . ' ON ' . $t_relation . "." . $t_relation_name_field . "='" . $rel . "' AND " . $t_relation . "." . $t_relation_child_field . "=" . $t . "." . $t_field . ' ';
-                }
-                else if (is_string($relations[$rel]) || is_numeric($relations[$rel]))
-                {
-                    $buffer .= ' INNER JOIN ' . $tables[$rel]['table'] . ' AS ' . $t_relation . ' ON ' . $t_relation . "." . $t_relation_name_field . "='" . $rel . "' AND " . $t_relation . "." . $t_relation_parent_field . "=" . (int)$relations[$rel] . " AND " . $t_relation . "." . $t_relation_child_field . "=" . $t . "." . $t_field . ' ';
-                }
-                else if (is_array($relations[$rel]))
-                {
-                    $buffer .= ' INNER JOIN ' . $tables[$rel]['table'] . ' AS ' . $t_relation . ' ON ' . $t_relation . "." . $t_relation_name_field . "='" . $rel . "' AND " . $t_relation . "." . $t_relation_parent_field . " IN (" . implode(',', $relations[$rel]) . ") AND " . $t_relation . "." . $t_relation_child_field . "=" . $t . "." . $t_field . ' ';
-                }
-                
-                if ($lang == static::REPLICATE_CONFIG_ALL_LANGUAGES)
-                {
-                    $langs  = call_user_func(static::DB_ALL_LANGUAGE_FUNCTION);
-                    if (is_array($langs) && !empty($langs))
+                    $t_relation = $tables[$rel]['alias'];
+                    $buffer = '';
+                    if (is_null($relations[$rel]))
                     {
-                        $buffer .= ' AND ' . $t_relation . "." . $t_relation_language_field . " IN ('" . implode("','", $langs) . "') ";
+                        $buffer .= ' LEFT OUTER JOIN ' . $tables[$rel]['table'] . ' AS ' . $t_relation . ' ON ' . $t_relation . "." . $t_relation_name_field . "='" . $rel . "' AND " . $t_relation . "." . $t_relation_child_field . "=" . $t . "." . $t_field . ' ';
                     }
+                    else if (is_string($relations[$rel]) || is_numeric($relations[$rel]))
+                    {
+                        $buffer .= ' INNER JOIN ' . $tables[$rel]['table'] . ' AS ' . $t_relation . ' ON ' . $t_relation . "." . $t_relation_name_field . "='" . $rel . "' AND " . $t_relation . "." . $t_relation_parent_field . "=" . (int)$relations[$rel] . " AND " . $t_relation . "." . $t_relation_child_field . "=" . $t . "." . $t_field . ' ';
+                    }
+                    else if (is_array($relations[$rel]))
+                    {
+                        $buffer .= ' INNER JOIN ' . $tables[$rel]['table'] . ' AS ' . $t_relation . ' ON ' . $t_relation . "." . $t_relation_name_field . "='" . $rel . "' AND " . $t_relation . "." . $t_relation_parent_field . " IN (" . implode(',', $relations[$rel]) . ") AND " . $t_relation . "." . $t_relation_child_field . "=" . $t . "." . $t_field . ' ';
+                    }
+
+                    if ($lang == static::REPLICATE_CONFIG_ALL_LANGUAGES)
+                    {
+                        $langs  = call_user_func(static::DB_ALL_LANGUAGE_FUNCTION);
+                        if (is_array($langs) && !empty($langs))
+                        {
+                            $buffer .= ' AND ' . $t_relation . "." . $t_relation_language_field . " IN ('" . implode("','", $langs) . "') ";
+                        }
+                    }
+                    else if (isset($parents[$rel]) && $parents[$rel]['language'] && !empty($buffer))
+                    {
+                        $lang = is_null($lang) ? call_user_func(static::DB_LANGUAGE_FUNCTION) : $lang;
+                        $buffer .= ' AND ' . $t_relation . "." . $t_relation_language_field . "='" . $lang . "' ";
+                    }
+                    $sql .= $buffer;
                 }
-                else if (isset($parents[$rel]) && $parents[$rel]['language'] && !empty($buffer))
+                else if (isset($fields[$rel]))
                 {
-                    $lang = is_null($lang) ? call_user_func(static::DB_LANGUAGE_FUNCTION) : $lang;
-                    $buffer .= ' AND ' . $t_relation . "." . $t_relation_language_field . "='" . $lang . "' ";
+                    $t_relation = $tables[$rel]['alias'];
+                    $sql .= ' LEFT JOIN ' . $tables[$rel]['table'] . ' AS ' . $t_relation . ' ON ' . $t_relation . "." . $t_relation_name_field . "='" . $rel . "' AND " . $t_relation . "." . $t_relation_child_field . "=" . $t . "." . $t_field . ' ';
                 }
-                $sql .= $buffer;
             }
         }
         return $sql;
     }
     
-    protected static function DB_GenerateWhere($where, $relations=array(), $tables=array())
+    protected static function DB_GenerateWhere($where, $tables, $relations=array())
     {
         $t = $tables['self']['alias'];
         $sql = ' WHERE 1 ';
@@ -552,7 +587,7 @@ abstract class ObjectDBRelations extends ObjectDB
         return $sql;
     }
     
-    protected static function DB_GenereateOrderBy($fields, $tables=array())
+    protected static function DB_GenereateOrderBy($fields, $tables)
     {
         if (empty($fields))
         {
@@ -571,31 +606,28 @@ abstract class ObjectDBRelations extends ObjectDB
                 $v = explode(' ', $v);
                 $orderFields[$k] = $v[0];
             }
-            
         }
         $t = $tables['self']['alias'];
         $orderFieldsTable = static::DB_FilterFieldsOnValues($orderFields);
-        
-        //$orderFieldsRelation = DBRelation::DB_FilterFieldsOnValues($orderFields);
+        $orderFieldsRelation = DBRelation::DB_FilterFieldsOnValues($orderFields);
         foreach ($fields AS $k => $v)
         {
             $v = explode(' ', $v);
-            if (isset($orderFieldsTable[$k]))
+            if (in_array($v[0], $orderFieldsTable))
             {
                 $fields[$k] = $t . '.' . $v[0] . ' ' . (isset($v[1]) ? $v[1] : 'ASC');
             }
-            /*else if (isset($orderFieldsRelation[$k]))
+            else if (in_array($v[0], $orderFieldsRelation) && isset($tables[$k]))
             {
-                $t_relation = DBRelation::DB_GetTableName();
+                $t_relation = $tables[$k]['alias'];
                 $fields[$k] = $t_relation . '.' . $v[0] . ' ' . (isset($v[1]) ? $v[1] : 'ASC');
-            }*/
+            }
             else
             {
                 $fields[$k] = null;
                 unset($fields[$k]);
             }
         }
-        
         return empty($fields) ? '' : ' ' . implode(', ', $fields) . ' ';
     }
     

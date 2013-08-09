@@ -223,6 +223,7 @@ abstract class ObjectDBRelations extends ObjectDB
     
     public static function DB_Delete($where, $relations=array(), $lang=null)
     {
+        $done = false;
         $primary_field = static::DB_GetPrimaryField();
         $items = static::DB_Select(array($primary_field), $where, array(), array(), $relations, $lang);
         if (count($items) > 0)
@@ -264,7 +265,7 @@ abstract class ObjectDBRelations extends ObjectDB
                                 {
                                     $r_args[$t_relation_language_field] = is_null($lang) ? call_user_func(static::DB_LANGUAGE_FUNCTION) : $lang;
                                 }
-                                DBRelation::DB_Insert($r_args);
+                                DBRelation::DB_Delete($r_args);
                             }
                         }
                     }

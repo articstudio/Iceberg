@@ -82,7 +82,7 @@ class User extends ObjectDBRelations
      */
     public static $DB_PARENTS = array(
         'user2domain' => array(
-            'object' => 'Domains',
+            'object' => 'Domain',
             'force' => true,
             'function' => 'get_domain_request_id'
         ),

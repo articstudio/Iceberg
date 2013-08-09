@@ -1,6 +1,9 @@
 <?php
 
-abstract class ObjectTaxonomy
+/** Include helpers taxonomy file */
+require_once ICEBERG_DIR_HELPERS . 'objtaxonomy.php';
+
+class ObjectTaxonomy
 {
     
     /**
@@ -9,83 +12,154 @@ abstract class ObjectTaxonomy
      */
     public static $TAXONOMY_KEY = 'object_taxonomy';
     
-    protected $id = -1;
+    protected $id;
+    protected $name;
+    protected $locked;
+    
+    
+    public function __construct($args=array()) {
+        $this->SetID(isset($args['id']) ? $args['id'] : -1);
+        $this->SetName(isset($args['name']) ? $args['name'] : '');
+        $this->SetLock(isset($args['locked']) ? $args['locked'] : false);
+    }
+    
+    public function SetID($id)
+    {
+        return $this->id = (int)$id;
+    }
     
     public function GetID()
     {
         return $this->id;
     }
     
-    public function SetID($id)
+    public function SetName($name)
     {
-        return $this->id = $id;
+        return $this->name = $name;
+    }
+    
+    public function GetName()
+    {
+        return $this->name;
+    }
+    
+    public function SetLock($locked)
+    {
+        $this->locked = (bool)$locked;
+    }
+    
+    public function Lock()
+    {
+        $this->locked = true;
+    }
+    
+    public function UnLock()
+    {
+        $this->locked = false;
+    }
+    
+    public function isLocked()
+    {
+        return $this->locked;
     }
     
     
+    public static function GetList($args=array(), $lang=null)
+    {
+        $fields = static::GetSelectFields();
+        $where = static::GetWhereFields($args);
+        $orderby = static::GetOrderFields($args);
+        $limit = static::GetLimitFields($args);
+        $relations = static::GetRelationsFields($args);
+        $arr = Taxonomy::DB_Select(
+            $fields, 
+            $where, 
+            $orderby, 
+            $limit, 
+            $relations, 
+            $lang
+        );
+        foreach ($arr AS $k => $v)
+        {
+            $arr[$k] = Taxonomy::DB_DecodeFieldValue($v->value);
+            $arr[$k]->SetID($k);
+            IcebergCache::AddObject($k, $arr[$k]);
+        }
+        reset($arr);
+        return $arr;
+    }
+    
     public static function Get($id=null)
     {
-        $arr = Taxonomy::DB_Select(array('value'), array('name'=>static::$TAXONOMY_KEY, 'id'=>$id));
-        if (count($arr) > 0)
-        {
-            $row = current($arr);
-            $obj = $row->value;
-            $obj->SetID($id);
-            return $obj;
-        }
         $class = get_called_class();
+        if (!is_null($id))
+        {
+            $obj = IcebergCache::GetObject($id, $class);
+            if ($obj !== false)
+            {
+                return $obj;
+            }
+            $fields = static::GetSelectFields();
+            $where = static::GetWhereFields(array('id' => $id));
+            $arr = Taxonomy::DB_Select($fields, $where);
+            if (count($arr) > 0)
+            {
+                $row = current($arr);
+                $obj = Taxonomy::DB_DecodeFieldValue($row->value);
+                $obj->SetID($id);
+                IcebergCache::AddObject($id, $obj);
+                return $obj;
+            }
+        }
         return new $class();
     }
     
     public static function Insert($object)
     {
-        if (is_a($object, get_called_class()))
+        if (is_subclass_of($object, get_class()))
         {
+            $class = get_class($object);
             $args = array(
-                'name' => static::$TAXONOMY_KEY,
-                'value' => serialize($object)
+                'name' => $class::$TAXONOMY_KEY,
+                'value' => $object
             );
-            return Taxonomy::DB_Insert($args, array(), null);
-            //return Taxonomy::DB_Insert($args, array(), Taxonomy::REPLICATE_CONFIG_ALL_LANGUAGES);
+            $id = Taxonomy::DB_Insert($args, array(), null);
+            if ($id !== false)
+            {
+                IcebergCache::AddObject($id, $object);
+            }
+            return $id;
         }
         return false;
     }
     
     public static function Update($id, $object)
     {
-        if (is_a($object, get_called_class()))
+        if (is_subclass_of($object, get_class()))
         {
             $args = array(
-                'value' => serialize($object)
+                'value' => $object
             );
-            $where = array(
-                'id' => $id
-            );
-            return Taxonomy::DB_UpdateWhere($args, $where, array(), null);
-            //return Taxonomy::DB_UpdateWhere($args, $where, array(), Taxonomy::REPLICATE_CONFIG_ALL_LANGUAGES);
+            $where = static::GetWhereFields(array(Taxonomy::DB_GetPrimaryField() => $id));
+            $done = Taxonomy::DB_UpdateWhere($args, $where, array(), null);
+            if ($done !== false)
+            {
+                IcebergCache::AddObject($id, $object);
+            }
+            return $done;
         }
         return false;
     }
     
-    public static function GetList($args=array(), $lang=null)
-    {
-        $relations = array();
-        $arr = Taxonomy::DB_Select(array('value'), array('name'=>static::$TAXONOMY_KEY), array(Taxonomy::RELATION_KEY_DOMAIN=>DBRelation::GetCountField()), array(), $relations, $lang);
-        foreach ($arr AS $k => $v)
-        {
-            $arr[$k] = Taxonomy::DB_DecodeFieldValue($v->value);
-            $arr[$k]->SetID($k);
-        }
-        return $arr;
-    }
-    
     public static function Remove($id)
     {
-        $args = array(
-            'id' => $id,
-            'name' => static::$TAXONOMY_KEY
-        );
-        return Taxonomy::DB_Delete($args, array(), null);
-        //return Taxonomy::DB_Delete($args, array(), Taxonomy::REPLICATE_CONFIG_ALL_LANGUAGES);
+        $where = static::GetWhereFields(array(Taxonomy::DB_GetPrimaryField() => $id));
+        $done = Taxonomy::DB_Delete($where, array(), null);
+        if ($done !== false)
+        {
+            IcebergCache::RemoveObject($id, get_called_class());
+        }
+        return $done;
     }
     
     public static function ReOrder($from, $to)
@@ -99,7 +173,72 @@ abstract class ObjectTaxonomy
             $arr[$k] = $v->GetID();
         }
         return Taxonomy::DB_ReOrder($arr, array(), null);
-        //return Taxonomy::DB_ReOrder($arr, array(), Taxonomy::REPLICATE_CONFIG_ALL_LANGUAGES);
     }
     
+    /*
+    public static function NormalizeSubClassName($str)
+    {
+        $found = false;
+        $parent = get_class();
+        $classes = get_declared_classes();
+        foreach ($classes AS $class)
+        {
+            if (is_subclass_of($class, $parent))
+            {
+                if ($str === $class || $class === strtolower($class))
+                {
+                    $found = $class;
+                    break;
+                }
+            }
+        }
+        return $found;
+    }
+    */
+    
+    protected static function GetSelectFields()
+    {
+        return array(
+            'value'
+        );
+    }
+    
+    protected static function GetWhereFields($args)
+    {
+        $arr = array();
+        if (isset($args['id']))
+        {
+            $arr['id'] = $args['id'];
+        }
+        if (isset($args['name']))
+        {
+            $arr['name'] = $args['name'];
+        }
+        else if (get_called_class() !== get_class())
+        {
+            $class = get_called_class();
+            $arr['name'] = $class::$TAXONOMY_KEY;
+        }
+        return $arr;
+    }
+    
+    protected static function GetOrderFields($args)
+    {
+        return array(
+            Taxonomy::RELATION_KEY_DOMAIN=>DBRelation::GetCountField(),
+            Taxonomy::DB_GetPrimaryField()
+        );
+    }
+    
+    protected static function GetLimitFields($args)
+    {
+        $arr = array();
+        return $arr;
+    }
+    
+    protected static function GetRelationsFields($args)
+    {
+        $arr = array();
+        return $arr;
+    }
 }

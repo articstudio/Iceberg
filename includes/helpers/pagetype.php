@@ -2,7 +2,7 @@
 
 function get_pagetypes()
 {
-    return PageGroup::GetList();
+    return PageType::GetList();
 }
 
 function get_pagetype($id=null)

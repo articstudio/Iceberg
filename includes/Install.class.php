@@ -359,6 +359,46 @@ class Install
                 }
             }
             
+            /* PAGE TAXONOMY */
+            $pagetaxonomy = new PageTaxonomy(array(
+                'name' => _T('Page'),
+                'locked' => true
+            ));
+            $pagetaxonomy_page = PageTaxonomy::Insert($pagetaxonomy);
+            
+            /* PAGE TYPE */
+            $pagetype = new PageType(array(
+                'name' => _T('Page'),
+                'locked' => true,
+                'taxonomy' => array($pagetaxonomy_page)
+            ));
+            $pagetype_page = PageType::Insert($pagetype);
+            $pagetype = new PageType(array(
+                'name' => _T('Link'),
+                'locked' => true,
+                'taxonomy' => array($pagetaxonomy_page)
+            ));
+            $pagetype_link = PageType::Insert($pagetype);
+            
+            /* PAGE GROUP */
+            $pagegroup = new PageGroup(array(
+                'name' => _T('Pages'),
+                'locked' => true,
+                'type' => array($pagetype_page)
+            ));
+            $pagegroup_pages = PageGroup::Insert($pagegroup, $pagetype_link);
+            
+            /* PAGE CONFIG */
+            PageConfig::SaveConfig(array(
+                'pagetaxonomy' => $pagetaxonomy_page,
+                'pagegroup' => $pagegroup_pages,
+                'pagetype' => $pagetype_page,
+                'linktype' => $pagetype_link
+            ));
+            
+            /* CACHE */
+            IcebergCache::SaveConfig(array());
+            
             /* REQUEST */
             Request::SaveConfig(array());
             

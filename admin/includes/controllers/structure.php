@@ -4,9 +4,17 @@
 function get_admin_modes_structure($args)
 {
     $array = array(
+        'pagetaxonomies' => array(
+            'template' => 'structure_objtaxonomy.php',
+            'name' => 'Taxonomies'
+        ),
+        'pagetypes' => array(
+            'template' => 'structure_objtaxonomy.php',
+            'name' => 'Types'
+        ),
         'pagegroups' => array(
-            'template' => 'structure_pagegroups.php',
-            'name' => 'Page groups'
+            'template' => 'structure_objtaxonomy.php',
+            'name' => 'Groups'
         )
     );
     $array = array_merge(isset($args[0]) ? $args[0] : array(), $array);
@@ -21,11 +29,11 @@ function get_admin_mode_structure($args)
     list($data, $key) = $args;
     $mode = get_request_mode();
     $action = get_request_action();
-    if ($mode == 'pagegroups')
+    if ($mode == 'pagegroups' || $mode == 'pagetypes' || $mode == 'pagetaxonomies')
     {
         if ($action == 'new' || $action == 'edit')
         {
-            $data['template'] = 'structure_pagegroups_edit.php';
+            $data['template'] = 'structure_objtaxonomy_edit.php';
         }
     }
     return array($data, $key);
@@ -39,7 +47,7 @@ function get_admin_breadcrumb_structure($args)
     $mode = get_request_mode();
     $action = get_request_action();
     $id = get_request_id();
-    if ($mode == 'pagegroups')
+    if ($mode == 'pagegroups' || $mode == 'pagetypes' || $mode == 'pagetaxonomies')
     {
         if ($action == 'new')
         {
@@ -47,8 +55,8 @@ function get_admin_breadcrumb_structure($args)
         }
         if ($action == 'edit')
         {
-            //$language = I18N::GetLanguageInfo($id);
-            //$array[_T('Edit') . ': ' . $language['name']] = get_admin_action_link(array(RoutingBackend::REQUEST_KEY_ACTION=>$action, RoutingBackend::REQUEST_KEY_ID=>$id));
+            $obj = get_objtaxonomy($id);
+            $array[_T('Edit') . ': ' . $obj->GetName()] = get_admin_action_link(array(RoutingBackend::REQUEST_KEY_ACTION=>$action, RoutingBackend::REQUEST_KEY_ID=>$id));
         }
     }
     $array = array_merge(isset($args[0]) ? $args[0] : array(), $array);

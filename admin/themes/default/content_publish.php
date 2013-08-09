@@ -1,8 +1,19 @@
 <?php
 $pagegroups = get_pagegroups();
+if (empty($pagegroups))
+{
+    //ERROR
+}
 $pagegroup_id = get_request_group();
 $pagegroup = _T('Pages');
-if ($pagegroup_id != null)
+if ($pagegroup_id === null)
+{
+    
+    $pagegroup = current($pagegroups);
+    $pagegroup_id = $pagegroup->GetID();
+    $pagegroup = $pagegroup->GetName();
+}
+else
 {
     $pagegroup_id = (int)$pagegroup_id;
     $pagegroup = isset($pagegroups[$pagegroup_id]) ? $pagegroups[$pagegroup_id]->GetName() : '';
@@ -19,11 +30,6 @@ $pages = get_pages(array(
         <b class="caret"></b>
     </a>
     <ul class="dropdown-menu" role="menu">
-        <li>
-            <a href="<?php print get_admin_action_link(array('group'=>null)); ?>">
-                <?php print_text('Pages'); ?>
-            </a>
-        </li>
         <?php foreach ($pagegroups AS $pg): ?>
         <li>
             <a href="<?php print get_admin_action_link(array('group'=>$pg->GetID())); ?>">

@@ -31,6 +31,10 @@ function get_admin_modes_configuration($args)
         'db' => array(
             'template' => 'configuration_db.php',
             'name' => 'DB'
+        ),
+        'details' => array(
+            'template' => 'configuration_details.php',
+            'name' => 'Details'
         )
     );
     $array = array_merge(isset($args[0]) ? $args[0] : array(), $array);
@@ -57,6 +61,13 @@ function get_admin_mode_configuration($args)
         if ($action == 'new' || $action == 'edit')
         {
             $data['template'] = 'configuration_domains_edit.php';
+        }
+    }
+    else if ($mode == 'details')
+    {
+        if ($action == 'new' || $action == 'edit')
+        {
+            $data['template'] = 'configuration_details_edit.php';
         }
     }
     return array($data, $key);

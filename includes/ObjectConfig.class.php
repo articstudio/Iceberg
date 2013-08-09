@@ -160,7 +160,8 @@ abstract class ObjectConfigBase
 
 interface ObjectConfigInterface
 {
-    static public function GetConfigValue($keyname, $default=false);
+    static public function GetConfigValue($key, $default=false);
+    static public function SetConfigValue($key, $value);
 }
 
 /**
@@ -187,7 +188,7 @@ abstract class ObjectConfig extends ObjectConfigBase implements ObjectConfigInte
      * Configuration event to set
      * @var string
      */
-    public static $CONFIG_EVENT_SET_VALUE = 'object_Set_config_value';
+    public static $CONFIG_EVENT_SET_VALUE = 'object_set_config_value';
     
     
     static public function GetConfigValue($key, $default=false)

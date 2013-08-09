@@ -56,7 +56,7 @@ class Iceberg {
         require_once ICEBERG_DIR_INCLUDES .'ObjectDBRelations.class.php'; /* @todo ObjectDBRelations documentation */
         
         
-        require_once ICEBERG_DIR_INCLUDES .'Domains.class.php';
+        require_once ICEBERG_DIR_INCLUDES .'Domain.class.php';
         
         
         require_once ICEBERG_DIR_INCLUDES .'Config.class.php';
@@ -75,6 +75,9 @@ class Iceberg {
         require_once ICEBERG_DIR_INCLUDES .'RoutingBackendAPI.class.php';
         
         
+        require_once ICEBERG_DIR_INCLUDES .'IcebergCache.class.php';
+        
+        
         require_once ICEBERG_DIR_INCLUDES .'User.class.php';
         require_once ICEBERG_DIR_INCLUDES .'UserMeta.class.php';
         
@@ -90,14 +93,17 @@ class Iceberg {
         require_once ICEBERG_DIR_INCLUDES .'Maintenance.class.php';
         
         
+        require_once ICEBERG_DIR_INCLUDES .'PageConfig.class.php';
         require_once ICEBERG_DIR_INCLUDES .'Taxonomy.class.php';
         require_once ICEBERG_DIR_INCLUDES .'TaxonomyElements.class.php';
         require_once ICEBERG_DIR_INCLUDES .'ObjectTaxonomy.class.php';
+        require_once ICEBERG_DIR_INCLUDES .'PageTaxonomy.class.php';
         require_once ICEBERG_DIR_INCLUDES .'PageGroup.class.php';
+        require_once ICEBERG_DIR_INCLUDES .'PageType.class.php';
         
         
-        require_once ICEBERG_DIR_INCLUDES .'Page.class.php';
         require_once ICEBERG_DIR_INCLUDES .'PageMeta.class.php';
+        require_once ICEBERG_DIR_INCLUDES .'Page.class.php';
         
         /*
         require_once ICEBERG_DIR_INCLUDES .'Widget.class.php';
@@ -214,6 +220,8 @@ class Iceberg {
         Config::AddRow(Theme::$CONFIG_KEY);
         Config::AddRow(Maintenance::$CONFIG_KEY);
         Config::AddRow(Extension::$CONFIG_KEY);
+        Config::AddRow(PageConfig::$CONFIG_KEY);
+        Config::AddRow(IcebergCache::$CONFIG_KEY);
         return Config::LoadConfig();
     }
     

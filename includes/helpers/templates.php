@@ -60,22 +60,30 @@ function print_html_attr($str, $strip_tags=true)
     printf('%s', get_html_attr($str, $strip_tags) );
 }
 
-function cut_text($text, $len=180, $strip_tags=true, $end='...')
+function cut_text($text, $len=180, $strip_tags=true, $end='...', $force=false)
 {
     if ($strip_tags) { $text = nl2br($text); $text = strip_tags($text); }
     if ( strlen($text) > $len ) {
-        $whitespaceposition = strpos($text," ",$len)-1;
-        if( $whitespaceposition > 0 ) {
-            $text = substr($text, 0, ($whitespaceposition+1));
+        if ($force)
+        {
+            $text = substr($text, 0, $len);
             $text .= $end;
         }
-        if (!$strip_tags && preg_match_all("|<([a-zA-Z]+)>|",$text,$aBuffer) ) {
-            if( !empty($aBuffer[1]) ) {
-                preg_match_all("|</([a-zA-Z]+)>|",$text,$aBuffer2);
-                if( count($aBuffer[1]) != count($aBuffer2[1]) ) {
-                    foreach( $aBuffer[1] as $index => $tag ) {
-                        if( empty($aBuffer2[1][$index]) || $aBuffer2[1][$index] != $tag) {
-                            $text .= '</'.$tag.'>';
+        else
+        {
+            $whitespaceposition = strpos($text," ",$len)-1;
+            if( $whitespaceposition > 0 ) {
+                $text = substr($text, 0, ($whitespaceposition+1));
+                $text .= $end;
+            }
+            if (!$strip_tags && preg_match_all("|<([a-zA-Z]+)>|",$text,$aBuffer) ) {
+                if( !empty($aBuffer[1]) ) {
+                    preg_match_all("|</([a-zA-Z]+)>|",$text,$aBuffer2);
+                    if( count($aBuffer[1]) != count($aBuffer2[1]) ) {
+                        foreach( $aBuffer[1] as $index => $tag ) {
+                            if( empty($aBuffer2[1][$index]) || $aBuffer2[1][$index] != $tag) {
+                                $text .= '</'.$tag.'>';
+                            }
                         }
                     }
                 }

@@ -4,6 +4,7 @@ define('DEFAULT_ADMIN_THEME_URL', get_file_url(DEFAULT_ADMIN_THEME_DIR, ICEBERG_
 
 require_once DEFAULT_ADMIN_THEME_DIR . 'elfinder/iceberg-elfinder.php';
 
+/* THEME */
 function default_admin_theme_head($args)
 {
     theme_enqueue_style('jquery-ui');
@@ -81,5 +82,30 @@ if (in_admin())
     
     add_action('theme_print_foot', 'default_admin_theme_foot');
     add_action('theme_print_head', 'default_admin_theme_head');
+}
+
+
+/* OBJECT TAXONOMY */
+function structure_objtaxonomy_edit_by_mode($args)
+{
+    $mode = get_mode('mode');
+    if ($mode === 'pagegroups')
+    {
+        include(DEFAULT_ADMIN_THEME_DIR . 'structure_objtaxonomy_edit_pagegroup.php');
+    }
+    else if ($mode === 'pagetypes')
+    {
+        include(DEFAULT_ADMIN_THEME_DIR . 'structure_objtaxonomy_edit_pagetype.php');
+    }
+    else if ($mode === 'pagetaxonomies')
+    {
+        
+    }
+    return $args;
+}
+
+if (in_admin())
+{
+    add_action('structure_objtaxonomy_edit', 'structure_objtaxonomy_edit_by_mode', 1);
 }
 

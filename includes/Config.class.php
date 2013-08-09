@@ -43,7 +43,7 @@ abstract class ConfigBase extends ObjectDBRelations
      */
     public static $DB_PARENTS = array(
         'config-domain' => array(
-            'object' => 'Domains',
+            'object' => 'Domain',
             'force' => true,
             'function' => 'get_domain_request_id',
             'language' => true
@@ -85,7 +85,7 @@ class Config extends ConfigBase
      * @param boolean $isBuffer
      * @return mixed 
      */
-    static public function SelectConfig($keyname, $default=false, $isBuffer=false, $lang=null)
+    public static function SelectConfig($keyname, $default=false, $isBuffer=false, $lang=null)
     {
         global $__CONFIG;
         $value = $default;
@@ -108,7 +108,7 @@ class Config extends ConfigBase
      * @global array $__CONFIG_ROWS
      * @param string $keyname 
      */
-    static public function AddRow($keyname)
+    public static function AddRow($keyname)
     {
         global $__CONFIG_ROWS;
         if (is_null($__CONFIG_ROWS) || !is_array($__CONFIG_ROWS)) { $__CONFIG_ROWS = array(); }
@@ -121,7 +121,7 @@ class Config extends ConfigBase
      * @global array $__CONFIG_ROWS
      * @param string $keyname 
      */
-    static public function RemoveRow($keyname)
+    public static function RemoveRow($keyname)
     {
         global $__CONFIG_ROWS;
         if (is_null($__CONFIG_ROWS)) { $__CONFIG_ROWS=array(); }
@@ -137,7 +137,7 @@ class Config extends ConfigBase
      * @param array $keys Configuration keys to load (If empty uses $__CONFIG_ROWS)
      * @return boolean
      */
-    static public function LoadConfig($keys=array(), $lang=null)
+    public static function LoadConfig($keys=array(), $lang=null)
     {
        global $__CONFIG, $__CONFIG_ROWS;
        $init = empty($keys) ? true : false;
@@ -164,7 +164,7 @@ class Config extends ConfigBase
      * @param mixed $value
      * @return boolean 
      */
-    static public function SetConfig($keyname, $value=null)
+    public static function SetConfig($keyname, $value=null)
     {
         global $__CONFIG;
         $done = false;
@@ -187,7 +187,7 @@ class Config extends ConfigBase
      * @param string $keyname
      * @return boolean 
      */
-    static public function UnsetConfig($keyname)
+    public static function UnsetConfig($keyname)
     {
         global $__CONFIG;
         $__CONFIG[$keyname] = null;
@@ -203,7 +203,7 @@ class Config extends ConfigBase
      * @param mixed $value
      * @return boolean 
      */
-    static public function SaveConfig($keyname, $value=null, $lang=null)
+    public static function SaveConfig($keyname, $value=null, $lang=null)
     {
         $done = (is_null($lang) || I18N::GetLanguage() == $lang || static::REPLICATE_CONFIG_ALL_LANGUAGES == $lang) ? self::SetConfig($keyname, $value) : true;
         if ($done)
@@ -264,7 +264,7 @@ class Config extends ConfigBase
      * @param string $keyname
      * @return boolean 
      */
-    static public function UnsaveConfig($keyname, $lang=null)
+    public static function UnsaveConfig($keyname, $lang=null)
     {
         return self::SaveConfig($keyname, null, $lang);
     }
@@ -278,7 +278,7 @@ class Config extends ConfigBase
      * @param mixed $default
      * @return mixed 
      */
-    static public function GetConfig($keyname, $default=false)
+    public static function GetConfig($keyname, $default=false)
     {
         global $__CONFIG;
         $return = $default;
@@ -295,5 +295,70 @@ class Config extends ConfigBase
         }
         list($return, $keyname, $default) = action_event('config_get', $return, $keyname, $default);
         return $return;
+    }
+    
+    public static function SelectAll($isBuffer=false, $lang=null)
+    {
+        global $__CONFIG;
+        $config = array();
+        $buffer = static::DB_Select(array('id', 'name', 'value'), array(), array(), array(), array(), $lang);
+        if (count($buffer) > 0) {
+            foreach ($buffer AS $k => $v) {
+                $config[$v->name] = static::DB_DecodeFieldValue($config->value);
+            }
+            $config = current($buffer);
+        }
+        list($config, $isBuffer, $lang) = action_event('config_select_all', $config, $isBuffer, $lang);
+        if (!$isBuffer)
+        {
+            $__CONFIG = $config;
+        }
+        return $config;
+    }
+    
+    public static function SelectAllObjects($lang=null)
+    {
+        $config = static::DB_Select(array('id', 'name', 'value'), array(), array(), array(), array(), $lang);
+        list($config, $lang) = action_event('config_select_all_objects', $config, $lang);
+        return $config;
+    }
+    
+    public static function SelectConfigObject($keyname, $lang=null)
+    {
+        $config = false;
+        $buffer = static::DB_Select(array('id', 'name', 'value'), array('name' => $keyname), array(), array(), array(), $lang);
+        if (count($buffer) > 0) {
+            $config = current($buffer);
+        }
+        list($keyname, $config, $lang) = action_event('config_select_object_by_id', $keyname, $config, $lang);
+        if ($config === false)
+        {
+            return static::GetVoidObject();
+        }
+        return $config;
+    }
+    
+    public static function SelectConfigObjectByID($id)
+    {
+        $config = false;
+        $buffer = static::DB_Select(array('id', 'name', 'value'), array('id' => $id), array(), array(), array(), null);
+        if (count($buffer) > 0) {
+            $config = current($buffer);
+        }
+        list($config, $id) = action_event('config_select_object_by_id', $config, $id);
+        if ($config === false)
+        {
+            return static::GetVoidObject();
+        }
+        return $config;
+    }
+    
+    public static function GetVoidObject()
+    {
+        $obj = new stdClass();
+        $obj->id = -1;
+        $obj->name = '';
+        $obj->value = '';
+        return $obj;
     }
 }

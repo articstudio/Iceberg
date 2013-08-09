@@ -74,3 +74,23 @@ function select_config($keyname, $default=false, $isBuffer=false)
 {
     return Config::SelectConfig($keyname, $default, $isBuffer);
 }
+
+function select_all_config($isBuffer=false, $lang=null)
+{
+    return Config::SelectAll($isBuffer, $lang);
+}
+
+function select_all_config_objects($lang=null)
+{
+    return Config::SelectAllObjects($lang);
+}
+
+function select_config_object($keyname, $lang=null)
+{
+    return Config::SelectConfigObject($keyname, $lang);
+}
+
+function select_config_object_by_id($id)
+{
+    return Config::SelectConfigObjectByID($id);
+}

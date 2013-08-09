@@ -11,20 +11,26 @@ class PageGroup extends ObjectTaxonomy
      */
     public static $TAXONOMY_KEY = 'pagegroup';
     
-    protected $name = '';
+    protected $type;
     
-    
-    public function __construct($name='') {
-        $this->SetName($name);
+    public function __construct($args=array()) {
+        $this->type = isset($args['type']) ? $args['type'] : array();
+        $this->type = is_array($this->type) ? $this->type : explode(',', $this->type);
+        parent::__construct($args);
     }
     
-    public function GetName()
+    public function GetType()
     {
-        return $this->name;
+        return $this->type;
     }
     
-    public function SetName($name)
+    public function SetType($type)
     {
-        return $this->name = $name;
+        $this->type = is_array($type) ? $type : explode(',', $type);
+    }
+    
+    public function AcceptedType($id)
+    {
+        return in_array($id, $this->type);
     }
 }

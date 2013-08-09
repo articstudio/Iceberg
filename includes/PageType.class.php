@@ -11,20 +11,26 @@ class PageType extends ObjectTaxonomy
      */
     public static $TAXONOMY_KEY = 'pagetype';
     
-    protected $name = '';
+    protected $taxonomy;
     
-    
-    public function __construct($name='') {
-        $this->SetName($name);
+    public function __construct($args=array()) {
+        $this->taxonomy = isset($args['taxonomy']) ? $args['taxonomy'] : array();
+        $this->taxonomy = is_array($this->taxonomy) ? $this->taxonomy : explode(',', $this->taxonomy);
+        parent::__construct($args);
     }
     
-    public function GetName()
+    public function GetTaxonomy()
     {
-        return $this->name;
+        return $this->taxonomy;
     }
     
-    public function SetName($name)
+    public function SetTaxonomy($taxonomy)
     {
-        return $this->name = $name;
+        $this->taxonomy = is_array($taxonomy) ? $taxonomy : explode(',', $taxonomy);
+    }
+    
+    public function AcceptedTaxonomy($id)
+    {
+        return in_array($id, $this->taxonomy);
     }
 }

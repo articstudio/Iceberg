@@ -33,7 +33,7 @@ class DomainBase extends ObjectDBRelations
      */
     public static $DB_PARENTS = array(
         'domain-canonical' => array(
-            'object' => 'Domains'
+            'object' => 'Domain'
         )
     );
     
@@ -225,9 +225,9 @@ class DomainBase extends ObjectDBRelations
 }
 
 /**
- * Domains
+ * Domain
  * 
- * Domains management
+ * Domain management
  *  
  * @package Iceberg
  * @subpackage Routing

@@ -506,8 +506,8 @@ class Query extends MySQLBase {
 
     public function delete($table, $where, $apply_table = '') {
         $this->validIdConnection( MYSQL_QUERY_ALL_CONNECTIONS );
-        $apply_table = empty($apply_table) ? '' : '`' . mysql_escape($apply_table) . '`';
-        $sql = "DELETE " . $apply_table . " FROM `" . mysql_escape($table) . "` " . $where;
+        $apply_table = empty($apply_table) ? '' : '' . mysql_escape($apply_table) . '';
+        $sql = "DELETE " . $apply_table . " FROM " . mysql_escape($table) . " " . $where;
         $done = false;
         foreach ($this->id as $key => $value) {
             $this->doQuery($sql, $value);

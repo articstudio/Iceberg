@@ -7,7 +7,7 @@ interface ObjectDBInterface
     public static function DB_Update($id, $args);
     public static function DB_UpdateWhere($args, $where=array());
     public static function DB_InsertUpdate($args, $where=array());
-    public static function DB_Delete($where, $apply_table = '');
+    public static function DB_Delete($where);
 }
 
 /**
@@ -93,10 +93,12 @@ abstract class ObjectDB extends ObjectDBBase implements ObjectDBInterface
         return false;
     }
     
-    public static function DB_Delete($where, $apply_table = '')
+    public static function DB_Delete($where)
     {
-        $where = static::DB_GenerateWhere($where);
-        return db_delete(static::DB_GetTableName(), $where, $apply_table);
+        $tables = static::DB_GetRelatedTables();
+        $t = static::DB_GetTableName() . ' AS ' . $tables['self']['alias'];
+        $where = static::DB_GenerateWhere($where, $tables);
+        return db_delete($t, $where, $tables['self']['alias']);
     }
     
     

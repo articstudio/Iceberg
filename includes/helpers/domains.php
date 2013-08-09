@@ -3,7 +3,7 @@
 /**
  * Returns domain ID
  * 
- * @uses Domains::GetID()
+ * @uses Domain::GetID()
  * @return int Domain ID
  */
 function get_domain_id()
@@ -14,7 +14,7 @@ function get_domain_id()
 /**
  * Returns domain request ID
  * 
- * @uses Domains::GetRequestID()
+ * @uses Domain::GetRequestID()
  * @return int Domain request ID
  */
 function get_domain_request_id()
@@ -25,7 +25,7 @@ function get_domain_request_id()
 /**
  * Set domain request ID
  * 
- * @uses Domains::SetRequestID()
+ * @uses Domain::SetRequestID()
  * @param int $id
  * @return bool
  */
@@ -37,7 +37,7 @@ function set_domain_request_id($id)
 /**
  * Set domain ID
  * 
- * @uses Domains::SetDomainID()
+ * @uses Domain::SetDomainID()
  * @param int $id
  * @return bool
  */

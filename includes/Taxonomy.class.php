@@ -52,7 +52,7 @@ abstract class Taxonomy extends ObjectDBRelations
      */
     public static $DB_PARENTS = array(
         'taxonomy-domain' => array(
-            'object' => 'Domains',
+            'object' => 'Domain',
             'force' => true,
             'function' => 'get_domain_request_id',
             'language' => false

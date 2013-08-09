@@ -120,6 +120,12 @@ $__CONFIG_ROWS = array();
 /**#@-*/
 
 /**#@+
+ * CACHE
+ */
+$__CACHE_OBJECTS = array();
+/**#@-*/
+
+/**#@+
  * User
  */
 $__USER_LOGIN = false;

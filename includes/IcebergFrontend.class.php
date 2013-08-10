@@ -20,9 +20,11 @@ class IcebergFrontend extends Environment
      * Environment
      * @var array 
      */
-    protected $environments = array();
-    
-    protected $alerts = array();
+    protected $environments = array(
+        'home' => 'index.php',
+        'content' => 'content.php',
+        '404' => '404.php'
+    );
     
     
     public function Load()
@@ -35,12 +37,18 @@ class IcebergFrontend extends Environment
     
     public function Config()
     {
+        //IF NO PAGE => HOME
+        //ELSE IF PAGE => CONTENT
+        //ELSE => 404
         action_event('iceberg_frontend_config');
         return parent::Config();
     }
     
     public function Generate()
     {
+        /* Exec controllers */
+        //
+        
         action_event('iceberg_frontend_generate');
         return parent::Generate();
     }

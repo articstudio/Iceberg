@@ -348,7 +348,7 @@ class I18N extends ObjectConfig
         global $__LANGUAGES;
         $config = static::GetConfig();
         $config['languages'] = $__LANGUAGES;
-        return static::SaveConfig($config, Config::REPLICATE_CONFIG_ALL_LANGUAGES);
+        return static::SaveConfig($config, Config::REPLICATE_ALL_LANGUAGES);
     }
     
     public static function Active($id)

@@ -227,4 +227,6 @@ nbproject/
 #Mr Developer
 .mr.developer.cfg
 /db.php
-/content/uploads/
+/content/uploads/*
+/content/themes/*
+!/content/themes/default/

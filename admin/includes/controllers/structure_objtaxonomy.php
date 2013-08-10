@@ -72,13 +72,25 @@ else if ($action == 'order')
 {
     $from = get_request_gp('fromPosition');
     $to = get_request_gp('toPosition');
-    
+    $class = 'ObjectTaxonomy';
+    if ($mode === 'pagegroups')
+    {
+        $class = 'PageGroup';
+    }
+    else if ($mode === 'pagetypes')
+    {
+        $class = 'PageType';
+    }
+    else if ($mode === 'pagetaxonomies')
+    {
+        $class = 'PageTaxonomy';
+    }
     
     if ($from!==false && $to!==false)
     {
         $from = (int)$from ;
         $to = (int)$to;
-        if (ObjectTaxonomy::ReOrder($from, $to))
+        if ($class::ReOrder($from, $to))
         {
             add_alert('Taxonomy item reordered', 'success');
         }

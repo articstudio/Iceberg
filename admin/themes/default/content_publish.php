@@ -59,8 +59,8 @@ $pages = get_pages(array(
         <?php foreach ($pages AS $k => $page): ?>
         <tr data-tt-id="<?php print $page->id; ?>" <?php if (!is_null($page->parent)): ?>data-tt-parent-id="<?php print $page->parent; ?>"<?php endif; ?>>
             <td><span class="file"><?php print $page->GetTitle(); ?></span></td>
-            <td><?php print $page->type; ?></td>
-            <td><?php print $page->taxonomy; ?></td>
+            <td><?php print $page->GetType()->GetName(); ?></td>
+            <td><?php print $page->GetTaxonomy()->GetName(); ?></td>
             <td class="text-right">
                 <?php if ($page->status): ?>
                 <a href="<?php print get_admin_action_link(array('id'=>$page->id, 'action'=>'unactive')); ?>" class="btn btn-success"><i class="icon-ok icon-white"></i></a>

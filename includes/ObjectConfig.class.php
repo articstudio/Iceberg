@@ -121,9 +121,9 @@ abstract class ObjectConfigBase
      */
     static public function SaveConfig($value=null, $lang=null)
     {
-        $value = is_null($value) ? $value : self::NormalizeConfig($value);
+        $value = is_null($value) ? $value : static::NormalizeConfig($value);
         list($key, $value, $class, $lang) = action_event(static::$CONFIG_EVENT_SAVE, static::$CONFIG_KEY, $value, get_called_class(), $lang);
-        $done = (is_null($lang) || $lang == I18N::GetLanguage() || $lang == Config::REPLICATE_CONFIG_ALL_LANGUAGES) ? static::SetConfig($value) : true;
+        $done = (is_null($lang) || $lang == I18N::GetLanguage() || $lang == Config::REPLICATE_ALL_LANGUAGES) ? static::SetConfig($value) : true;
         if ($done) {
             $value = static::NormalizeConfig($value);
             $done = Config::SaveConfig(static::$CONFIG_KEY, $value, $lang);
@@ -162,6 +162,7 @@ interface ObjectConfigInterface
 {
     static public function GetConfigValue($key, $default=false);
     static public function SetConfigValue($key, $value);
+    static public function SaveConfigValue($key, $value, $lang=null);
 }
 
 /**
@@ -188,7 +189,13 @@ abstract class ObjectConfig extends ObjectConfigBase implements ObjectConfigInte
      * Configuration event to set
      * @var string
      */
-    public static $CONFIG_EVENT_SET_VALUE = 'object_set_config_value';
+    public static $CONFIG_EVENT_SET_VALUE = 'object_Set_config_value';
+    
+    /**
+     * Configuration event to save
+     * @var string
+     */
+    public static $CONFIG_EVENT_SAVE_VALUE = 'object_save_config_value';
     
     
     static public function GetConfigValue($key, $default=false)
@@ -205,6 +212,14 @@ abstract class ObjectConfig extends ObjectConfigBase implements ObjectConfigInte
         list($key, $value, $class) = action_event(static::$CONFIG_EVENT_SET_VALUE, $key, $value, get_called_class());
         $config[$key] = $value;
         return static::SetConfig($config);
+    }
+    
+    static public function SaveConfigValue($key, $value, $lang=null)
+    {
+        $config = static::GetConfig();
+        list($key, $value, $class, $lang) = action_event(static::$CONFIG_EVENT_SET_VALUE, $key, $value, get_called_class(), $lang);
+        $config[$key] = $value;
+        return static::SaveConfig($config, $lang);
     }
     
 }

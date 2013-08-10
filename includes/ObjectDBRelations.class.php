@@ -17,9 +17,9 @@ abstract class ObjectDBRelations extends ObjectDB
     /**
      * Replicate content in all languages
      */
-    const REPLICATE_CONFIG_ALL_LANGUAGES = '_ALL_LLANGUAGES_';
+    const REPLICATE_ALL_LANGUAGES = '_ALL_LLANGUAGES_';
     
-    const DB_ALL_LANGUAGE_FUNCTION = 'get_locales';
+    const DB_ALL_LANGUAGE_FUNCTION = 'get_active_locales';
     
     const DB_LANGUAGE_FUNCTION = 'get_lang';
     
@@ -168,7 +168,7 @@ abstract class ObjectDBRelations extends ObjectDB
                             $t_relation_child_field => $done,
                             $t_relation_name_field => $rel
                         );
-                        if ($lang == static::REPLICATE_CONFIG_ALL_LANGUAGES)
+                        if ($lang == static::REPLICATE_ALL_LANGUAGES)
                         {
                             $langs  = call_user_func(static::DB_ALL_LANGUAGE_FUNCTION);
                             foreach ($langs AS $locale)
@@ -206,17 +206,27 @@ abstract class ObjectDBRelations extends ObjectDB
     
     public static function DB_InsertUpdate($args, $where = array(), $relations=array(), $lang=null)
     {
-        $primary_field = static::DB_GetPrimaryField();
-        $items = static::DB_Select(array($primary_field), $where, array(), array(), $relations, $lang);
-        if (count($items) > 0)
+        if ($lang === static::REPLICATE_ALL_LANGUAGES)
         {
-            $ids = array_keys($items);
-            return static::DB_Update($ids, $args);
+            $langs  = call_user_func(static::DB_ALL_LANGUAGE_FUNCTION);
+            foreach ($langs AS $lang)
+            {
+                static::DB_InsertUpdate($args, $where, $relations, $lang);
+            }
         }
-        else
-        {
-            $args = array_merge($where, $args);
-            return static::DB_Insert($args, $relations, $lang);
+        else {
+            $primary_field = static::DB_GetPrimaryField();
+            $items = static::DB_Select(array($primary_field), $where, array(), array(), $relations, $lang);
+            if (count($items) > 0)
+            {
+                $ids = array_keys($items);
+                return static::DB_Update($ids, $args);
+            }
+            else
+            {
+                $args = array_merge($where, $args);
+                return static::DB_Insert($args, $relations, $lang);
+            }
         }
         return false;
     }
@@ -250,7 +260,7 @@ abstract class ObjectDBRelations extends ObjectDB
                                 $t_relation_child_field => $ids,
                                 $t_relation_name_field => $rel
                             );
-                            if ($lang == static::REPLICATE_CONFIG_ALL_LANGUAGES)
+                            if ($lang == static::REPLICATE_ALL_LANGUAGES)
                             {
                                 $langs  = call_user_func(DBRelation::$DB_ALL_LANGUAGE_FUNCTION);
                                 foreach ($langs AS $locale)
@@ -275,7 +285,7 @@ abstract class ObjectDBRelations extends ObjectDB
         return $done;
     }
     
-    public static function DB_InsertChild($childObj, $args, $id=null)
+    public static function DB_InsertChild($childObj, $args, $id=null, $lang=null)
     {
         $parentObj = get_called_class();
         $rel = $childObj::IsParentObject($parentObj);
@@ -297,6 +307,18 @@ abstract class ObjectDBRelations extends ObjectDB
             return $childObj::DB_Select($fields, $where, $orderby, $limit, $relations, $lang);
         }
         return array();
+    }
+    
+    public static function DB_DeleteChild($childObj, $where=array(), $id=null, $lang=null)
+    {
+        $parentObj = get_called_class();
+        $rel = $childObj::IsParentObject($parentObj);
+        if ($rel)
+        {
+            $relations = is_null($id) ? array() : array($rel => $id);
+            return $childObj::DB_Delete($where, $relations, $lang);
+        }
+        return false;
     }
     
     public static function DB_InsertUpdateChild($childObj, $args, $where=array(), $id=null)
@@ -336,7 +358,7 @@ abstract class ObjectDBRelations extends ObjectDB
                             $t_relation_child_field => $cid,
                             $t_relation_name_field => $rel
                         );
-                        if ($lang == static::REPLICATE_CONFIG_ALL_LANGUAGES)
+                        if ($lang == static::REPLICATE_ALL_LANGUAGES)
                         {
                             $langs  = call_user_func(DBRelation::$DB_ALL_LANGUAGE_FUNCTION);
                             foreach ($langs AS $locale)
@@ -502,7 +524,7 @@ abstract class ObjectDBRelations extends ObjectDB
                         $buffer .= ' INNER JOIN ' . $tables[$rel]['table'] . ' AS ' . $t_relation . ' ON ' . $t_relation . "." . $t_relation_name_field . "='" . $rel . "' AND " . $t_relation . "." . $t_relation_parent_field . " IN (" . implode(',', $relations[$rel]) . ") AND " . $t_relation . "." . $t_relation_child_field . "=" . $t . "." . $t_field . ' ';
                     }
 
-                    if ($lang == static::REPLICATE_CONFIG_ALL_LANGUAGES)
+                    if ($lang == static::REPLICATE_ALL_LANGUAGES)
                     {
                         $langs  = call_user_func(static::DB_ALL_LANGUAGE_FUNCTION);
                         if (is_array($langs) && !empty($langs))

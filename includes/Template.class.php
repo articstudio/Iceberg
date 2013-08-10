@@ -3,6 +3,27 @@
 /** Include helpers template file */
 require_once ICEBERG_DIR_HELPERS . 'templates.php';
 
+
+abstract class TemplateBase extends ObjectConfig
+{
+    /**
+     * Configuration key
+     * @var string
+     */
+    public static $CONFIG_KEY = 'template_config';
+    
+    /**
+     * Configuration defaults
+     * @var array
+     */
+    public static $CONFIG_DEFAULTS = array(
+        'home' => array(),
+        'content' => array(),
+        '404' => array()
+    );
+    
+}
+
 /**
  * CMS Template
  * 
@@ -12,7 +33,7 @@ require_once ICEBERG_DIR_HELPERS . 'templates.php';
  * @author Marc Mascort Bou
  * @version 1.0
  */
-class Template extends ObjectConfig
+class Template extends TemplateBase
 {
     /**#@+
      * Private variables

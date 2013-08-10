@@ -6,28 +6,33 @@ $id = get_request_id();
 
 if ($action == 'remove')
 {
-    /*if (PageGroup::Remove($id))
+    if (Page::Remove($id))
     {
-        add_alert('Page group removed', 'success');
+        add_alert('Page removed', 'success');
     }
     else
     {
-        add_alert('Failed to remove page group', 'error');
-    }*/
+        add_alert('Failed to remove page', 'error');
+    }
 }
 else if ($action == 'insert')
 {
-    $parent = null;
-    $taxonomy = null;
-    $type = null;
     $metas = array(
         PageMeta::META_TITLE => get_request_p('name', '', true),
         PageMeta::META_PERMALINK => get_request_p('permalink', '', true),
         PageMeta::META_TEXT => get_request_p('text', '', true),
         PageMeta::META_IMAGE => get_request_p('image', '', true)
     );
+    $args = array(
+        'taxonomy' => get_request_p('taxonomy', get_default_pagetaxnomy()),
+        'type' => get_request_p('type', get_page_pagetype()),
+        'group' => $group,
+        'parent' => get_request_p('parent', null, true),
+        'metas' => $metas
+    );
+    $args['parent'] = $args['parent']==='NULL' ? null : $args['parent'];
     $lang = null;
-    if (Page::Insert($group, $parent, $taxonomy, $type, $metas, $lang))
+    if (Page::Insert($args, $lang))
     {
         add_alert('Page inserted', 'success');
     }
@@ -50,6 +55,28 @@ else if ($action == 'update')
     {
         add_alert('Failed to update page group', 'error');
     }*/
+}
+else if ($action == 'unactive')
+{
+    if (Page::Unactive($id))
+    {
+        add_alert('Page unactived', 'success');
+    }
+    else
+    {
+        add_alert('Failed to unactivate the page', 'error');
+    }
+}
+else if ($action == 'active')
+{
+    if (Page::Active($id))
+    {
+        add_alert('Page actived', 'success');
+    }
+    else
+    {
+        add_alert('Failed to activate the page', 'error');
+    }
 }
 else if ($action == 'order')
 {

@@ -205,7 +205,7 @@ class Config extends ConfigBase
      */
     public static function SaveConfig($keyname, $value=null, $lang=null)
     {
-        $done = (is_null($lang) || I18N::GetLanguage() == $lang || static::REPLICATE_CONFIG_ALL_LANGUAGES == $lang) ? self::SetConfig($keyname, $value) : true;
+        $done = (is_null($lang) || I18N::GetLanguage() == $lang || static::REPLICATE_ALL_LANGUAGES == $lang) ? self::SetConfig($keyname, $value) : true;
         if ($done)
         {
             if (is_null($value)) {
@@ -305,7 +305,7 @@ class Config extends ConfigBase
         if (count($buffer) > 0) {
             foreach ($buffer AS $k => $v) {
                 $config[$v->name] = static::DB_DecodeFieldValue($config->value);
-            }
+}
             $config = current($buffer);
         }
         list($config, $isBuffer, $lang) = action_event('config_select_all', $config, $isBuffer, $lang);

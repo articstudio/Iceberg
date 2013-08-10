@@ -56,6 +56,11 @@ abstract class Routing extends Request
     
     public function SetLanguage($language)
     {
+        $lang = I18N::GetLanguage();
+        if ($lang === $language)
+        {
+            return $this->language = $language;
+        }
         if (I18N::LoadLanguage($language, true))
         {
             return $this->language = $language;

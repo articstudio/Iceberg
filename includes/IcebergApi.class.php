@@ -20,8 +20,6 @@ class IcebergAPI extends Environment
      */
     protected $environments = array();
     
-    protected $alerts = array();
-    
     
     public function Load()
     {

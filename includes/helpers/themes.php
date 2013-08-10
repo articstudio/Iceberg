@@ -107,6 +107,16 @@ function get_themes($dir)
     return Theme::GetThemes($dir);
 }
 
+function get_frontend_themes()
+{
+    return Theme::GetFrontendThemes();
+}
+
+function get_backend_themes()
+{
+    return Theme::GetBackendhemes();
+}
+
 
 
 

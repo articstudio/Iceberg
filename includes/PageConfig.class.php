@@ -29,8 +29,7 @@ class PageConfig extends ObjectConfig
     public static $CONFIG_DEFAULTS = array(
         'pagetaxonomy' => 0,
         'pagegroup' => 0,
-        'pagetype' => 0,
-        'linktype' => 0
+        'pagetype' => 0
     );
     
     public static function GetDefaultTaxonomy()
@@ -46,11 +45,6 @@ class PageConfig extends ObjectConfig
     public static function GetPageType()
     {
         return static::GetConfigValue('pagetype', -1);
-    }
-    
-    public static function GetLinkType()
-    {
-        return static::GetConfigValue('linktype', -1);
     }
     
 }

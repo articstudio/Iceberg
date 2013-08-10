@@ -22,6 +22,24 @@ abstract class ThemeBase extends ObjectConfig
     public static $CONFIG_KEY = 'theme_config';
     
     /**
+     * Theme frontend config key to load
+     * @var string 
+     */
+    public static $THEME_FRONTEND_CONFIG_KEY = 'frontend';
+    
+    /**
+     * Theme backend config key to load
+     * @var string 
+     */
+    public static $THEME_BACKEND_CONFIG_KEY = 'backend';
+    
+    /**
+     * Theme api config key to load
+     * @var string 
+     */
+    public static $THEME_API_CONFIG_KEY = 'api';
+    
+    /**
      * Configuration defaults
      * @var array
      */
@@ -66,6 +84,106 @@ abstract class ThemeBase extends ObjectConfig
     protected static $HEADER_FILE = 'header.php';
     protected static $FOOTER_FILE = 'footer.php';
     protected static $PAGE_FILE = 'page.php';
+    
+    public static function GetFrontendTheme()
+    {
+        return static::GetConfigValue(static::$THEME_FRONTEND_CONFIG_KEY);
+    }
+    
+    public static function GetBackendTheme()
+    {
+        return static::GetConfigValue(static::$THEME_BACKEND_CONFIG_KEY);
+    }
+    
+    public static function GetAPITheme()
+    {
+        return static::GetConfigValue(static::$THEME_API_CONFIG_KEY);
+    }
+    
+    public static function GetThemeFileInfo($dir, $dirname)
+    {
+        $theme = array();
+        $path = $dir . $dirname;
+        if (is_dir($path)) {
+            $path_file = $path . DIRECTORY_SEPARATOR . static::$INFO_FILE;
+            if (is_file($path_file)) {
+                require $path_file;
+                $theme['dirname'] = $dirname;
+                $theme['dir'] = $path .DIRECTORY_SEPARATOR;
+            }
+        }
+        return static::NormalizeInfo($theme);
+    }
+    
+    public static function GetThemes($dir)
+    {
+        $themes = array();
+        $dh = opendir($dir);
+        if ($dh !== false) {
+            while (($file = readdir($dh)) !== false) {
+                $path = $dir . $file;
+                if (is_dir($path) && $file !== '.' && $file !== '..') {
+                    $theme = static::GetThemeFileInfo($dir, $file);
+                    array_push($themes, $theme);
+                }
+            }
+            closedir($dh);
+        }
+        return $themes;
+    }
+    
+    public static function GetFrontendThemes()
+    {
+        return static::GetThemes(ICEBERG_DIR_THEMES);
+    }
+    
+    public static function GetBackendhemes()
+    {
+        return static::GetThemes(ICEBERG_DIR_ADMIN_THEMES);
+    }
+    
+    static public function Active($type, $dirname)
+    {
+        $done = false;
+        $type = $type=='backend' ? $type : 'frontend';
+        $dir = $type=='backend' ? ICEBERG_DIR_ADMIN_THEMES : ICEBERG_DIR_THEMES;
+        $theme = static::GetThemeFileInfo($dir, $dirname);
+        $theme_config = array(
+            'name' => $theme['name'],
+            'dirname' => $dirname
+        );
+        
+        $install_file = $theme['dir'] . DIRECTORY_SEPARATOR . static::$INSTALL_FILE;
+        $install_settings_file = $theme['dir'] . DIRECTORY_SEPARATOR . static::$SETTINGS_FILE;
+        
+        $config_buffer = static::GetConfigValue($type, array('dirname'=>''));
+        $uninstall_file = $dir . $config_buffer['dirname'] . DIRECTORY_SEPARATOR . static::$UNINSTALL_FILE;
+        //$uninstall_settings_file = $dir . $config_buffer['dirname'] . DIRECTORY_SEPARATOR . static::$SETTINGS_FILE;
+        
+        $done = static::SaveConfigValue($type, $theme_config, Config::REPLICATE_ALL_LANGUAGES);
+        if ($done)
+        {
+            //if (is_file($uninstall_settings_file) && is_readable($uninstall_settings_file)) {
+            //    require_once $uninstall_settings_file;
+            //}
+            if (is_file($uninstall_file) && is_readable($uninstall_file)) {
+                require_once $uninstall_file;
+            }
+            if (is_file($install_settings_file) && is_readable($install_settings_file)) {
+                require_once $install_settings_file;
+            }
+            if (is_file($install_file) && is_readable($install_file)) {
+                require_once $install_file;
+            }
+        }
+        return $done;
+    }
+    
+    
+    private static function NormalizeInfo($info)
+    {
+        return array_merge(static::$DEFAULT_INFO, $info);
+    }
 }
 
 interface ThemeInterface
@@ -378,33 +496,6 @@ abstract class Theme extends ThemeBase
     
     
     
-    public static function GetThemes($dir)
-    {
-        $themes = array();
-        $dh = opendir($dir);
-        if ($dh !== false) {
-            while (($file = readdir($dh)) !== false) {
-                $path = $dir . $file;
-                if (is_dir($path)) {
-                    $path_file = $path . '/theme.php';
-                    if (is_file($path_file)) {
-                        $theme = array();
-                        require $path_file;
-                        $theme['dirname'] = $file;
-                        $theme['dir'] = $path .DIRECTORY_SEPARATOR;
-                        array_push($themes, $theme);
-                    }
-                }
-            }
-            closedir($dh);
-        }
-        return $themes;
-    }
-    
-    
-    
-    
-    
     
     
 
@@ -464,46 +555,6 @@ abstract class Theme extends ThemeBase
         return Config::SaveConfig(Config::$KEY_THEME, $config, true);
     }
     */
-    
-    static public function Active($type, $dir)
-    {
-        $done = false;
-        $type = $type=='backend' ? $type : 'frontend';
-        $base_dir = $type=='backend' ? CMS_DIR_ADMIN_THEMES : CMS_DIR_THEMES;
-        $path = $base_dir . $dir;
-        $path_file = $path . '/theme.php';
-        if (is_file($path_file)) {
-            $theme = array();
-            require $path_file;
-            $theme['dirname'] = $dir;
-            $theme['dir'] = $path .DIRECTORY_SEPARATOR;
-            $theme_config = array(
-                'name' => isset($theme['name']) ? $theme['name'] : '',
-                'dirname' => $dir
-            );
-            $install_file = $path . '/install.php';
-            $install_settings_file = $path . '/settings.php';
-            $config_buffer = self::GetConfig($type, array('dirname'=>''));
-            $uninstall_file = $base_dir . $config_buffer['dirname'] . '/uninstall.php';
-            $uninstall_settings_file = $base_dir . $config_buffer['dirname'] . '/settings.php';
-            $done = self::SaveConfig($type, $theme_config);
-            if ($done) {
-                if (is_file($uninstall_settings_file) && is_readable($uninstall_settings_file)) {
-                    require_once $uninstall_settings_file;
-                }
-                if (is_file($uninstall_file) && is_readable($uninstall_file)) {
-                    require_once $uninstall_file;
-                }
-                if (is_file($install_settings_file) && is_readable($install_settings_file)) {
-                    require_once $install_settings_file;
-                }
-                if (is_file($install_file) && is_readable($install_file)) {
-                    require_once $install_file;
-                }
-            }
-        }
-        return $done;
-    }
 }
 
 

@@ -33,4 +33,32 @@ class PageGroup extends ObjectTaxonomy
     {
         return in_array($id, $this->type);
     }
+    
+    public function GetTypeObject()
+    {
+        $args = array(
+            'id' => $this->type
+        );
+        return PageType::GetList($args);
+    }
+    
+    public function GetTaxonomy()
+    {
+        $taxonomy = array();
+        $types = $this->GetTypeObject();
+        foreach ($types AS $type)
+        {
+            $buffer = $type->GetTaxonomy();
+            $taxonomy = array_merge($taxonomy, $buffer);
+        }
+        return $taxonomy;
+    }
+    
+    public function GetTaxonomyObjects()
+    {
+        $args = array(
+            'id' => $this->GetTaxonomy()
+        );
+        return PageTaxonomy::GetList($args);
+    }
 }

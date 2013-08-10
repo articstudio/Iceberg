@@ -373,12 +373,6 @@ class Install
                 'taxonomy' => array($pagetaxonomy_page)
             ));
             $pagetype_page = PageType::Insert($pagetype);
-            $pagetype = new PageType(array(
-                'name' => _T('Link'),
-                'locked' => true,
-                'taxonomy' => array($pagetaxonomy_page)
-            ));
-            $pagetype_link = PageType::Insert($pagetype);
             
             /* PAGE GROUP */
             $pagegroup = new PageGroup(array(
@@ -386,14 +380,13 @@ class Install
                 'locked' => true,
                 'type' => array($pagetype_page)
             ));
-            $pagegroup_pages = PageGroup::Insert($pagegroup, $pagetype_link);
+            $pagegroup_pages = PageGroup::Insert($pagegroup);
             
             /* PAGE CONFIG */
             PageConfig::SaveConfig(array(
                 'pagetaxonomy' => $pagetaxonomy_page,
                 'pagegroup' => $pagegroup_pages,
-                'pagetype' => $pagetype_page,
-                'linktype' => $pagetype_link
+                'pagetype' => $pagetype_page
             ));
             
             /* CACHE */
@@ -428,6 +421,9 @@ class Install
                 'languages' => I18N::GetLanguages()
             ));
             
+            /* TEMPLATES */
+            Template::SaveConfig(array());
+            
             /* THEMES */
             Theme::SaveConfig(array());
             
@@ -446,6 +442,10 @@ class Install
              * Metatags
              * Menubar/s
              */
+            
+            /* THEME INSTALL */
+            Theme::Active('backend', 'default');
+            Theme::Active('frontend', 'default');
             
         }
         else {

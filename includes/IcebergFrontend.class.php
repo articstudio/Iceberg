@@ -23,7 +23,8 @@ class IcebergFrontend extends Environment
     protected $environments = array(
         'home' => 'index.php',
         'content' => 'content.php',
-        '404' => '404.php'
+        '404' => '404.php',
+        'maintenance' => 'maintenance.php.php'
     );
     
     

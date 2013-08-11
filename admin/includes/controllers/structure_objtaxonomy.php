@@ -18,21 +18,25 @@ else if ($action == 'insert')
 {
     $obj = false;
     $args = array(
-        'name' => get_request_gp('name', '', true)
+        'name' => get_request_p('name', '', true)
     );
     if ($mode === 'pagegroups')
     {
-        $args['type'] = get_request_gp('type', array());
+        $args['type'] = get_request_p('type', array());
         $obj = new PageGroup($args);
     }
     else if ($mode === 'pagetypes')
     {
-        $args['taxnomy'] = get_request_gp('taxonomy', array());
+        $args['taxnomy'] = get_request_p('taxonomy', array());
         $obj = new PageType($args);
     }
     else if ($mode === 'pagetaxonomies')
     {
         $obj = new PageTaxonomy($args);
+        $args['permalink'] = get_request_p('permalink', true);
+        $args['text'] = get_request_p('text', true);
+        $args['image'] = get_request_p('image', true);
+        $args['templates'] = get_request_p('templates', array());
     }
     if ($obj && ObjectTaxonomy::Insert($obj))
     {
@@ -46,18 +50,22 @@ else if ($action == 'insert')
 else if ($action == 'update')
 {
     $obj = ObjectTaxonomy::Get($id);
-    $obj->SetName(get_request_gp('name', '', true));
+    $obj->SetName(get_request_p('name', '', true));
     if ($mode === 'pagegroups')
     {
-        $obj->SetType(get_request_gp('type', array())); 
+        $obj->SetType(get_request_p('type', array())); 
     }
     else if ($mode === 'pagetypes')
     {
-        $obj->SetTaxonomy(get_request_gp('taxonomy', array()));
+        $obj->SetTaxonomy(get_request_p('taxonomy', array()));
     }
     else if ($mode === 'pagetaxonomies')
     {
-        
+        $obj->UsePermalink(get_request_p('permalink', true));
+        $obj->UseText(get_request_p('text', true));
+        $obj->UseImage(get_request_p('image', true));
+        $templates = get_request_p('templates', array());
+        $obj->SetTemplates($templates);
     }
     if (ObjectTaxonomy::Update($id, $obj))
     {
@@ -70,8 +78,8 @@ else if ($action == 'update')
 }
 else if ($action == 'order')
 {
-    $from = get_request_gp('fromPosition');
-    $to = get_request_gp('toPosition');
+    $from = get_request_p('fromPosition');
+    $to = get_request_p('toPosition');
     $class = 'ObjectTaxonomy';
     if ($mode === 'pagegroups')
     {

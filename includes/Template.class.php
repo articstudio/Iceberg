@@ -19,9 +19,62 @@ abstract class TemplateBase extends ObjectConfig
     public static $CONFIG_DEFAULTS = array(
         'home' => array(),
         'content' => array(),
-        '404' => array()
+        'maintenance' => array()
     );
     
+    
+    public static function AddTemplate($environment, $template)
+    {
+        $templates = static::GetConfigValue($environment, array());
+        if (is_array($template))
+        {
+            $templates = array_merge($templates, $template);
+        }
+        else
+        {
+            array_push($templates, $template);
+        }
+        array_unique ($templates);
+        return static::SaveConfigValue($environment, $templates, Config::REPLICATE_ALL_LANGUAGES);
+    }
+    
+    public static function RemoveTemplate($environment, $template)
+    {
+        $templates = static::GetConfigValue($environment, array());
+        if (is_array($template))
+        {
+            foreach ($template AS $temp)
+            {
+                if (isset($templates[$temp]))
+                {
+                    $templates[$temp] = null;
+                    unset($templates[$temp]);
+                }
+            }
+        }
+        else
+        {
+            $flip = array_flip($templates);
+            if (isset($flip[$template]))
+            {
+                $flip[$template] = null;
+                unset($flip[$template]);
+            }
+            $templates = array_flip($flip);
+        }
+        return static::SaveConfigValue($environment, $templates, Config::REPLICATE_ALL_LANGUAGES);
+    }
+    
+    public static function GetTemplates($environment)
+    {
+        $templates = static::GetConfigValue($environment, array());
+        return $templates;
+    }
+    
+    public static function GetTemplatesContent()
+    {
+        return static::GetTemplates('content');
+    }
 }
 
 /**

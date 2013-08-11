@@ -197,6 +197,19 @@ class Page extends PageBase
         return $default;
     }
     
+    public function HasMeta($key, $lang=null)
+    {
+        $lang = is_null($lang) ? get_lang() : $lang;
+        if (is_array($this->metas) && isset($this->metas[$lang]))
+        {
+            if (is_array($this->metas[$lang]) && isset($this->metas[$lang][$key]))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public function GetTitle($lang=null)
     {
         return $this->GetMeta(PageMeta::META_TITLE, '', $lang);

@@ -217,7 +217,7 @@ abstract class ObjectConfig extends ObjectConfigBase implements ObjectConfigInte
     static public function SaveConfigValue($key, $value, $lang=null)
     {
         $config = static::GetConfig();
-        list($key, $value, $class, $lang) = action_event(static::$CONFIG_EVENT_SET_VALUE, $key, $value, get_called_class(), $lang);
+        list($key, $value, $class, $lang) = action_event(static::$CONFIG_EVENT_SAVE_VALUE, $key, $value, get_called_class(), $lang);
         $config[$key] = $value;
         return static::SaveConfig($config, $lang);
     }

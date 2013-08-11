@@ -130,7 +130,91 @@ function SearchPagePermalink()
     });
 }
 
+
+/* DYNAMIC SELECTORS */
+function SearchDynamicSelectors() {
+    $('[data-select]').each(function(){
+        var $container = $(this);
+        var selector = $(this).attr('data-select');
+        //var $selector = $('#' + selector);
+        var $selectorList = $('#' + selector + '-list');
+        $('[data-add]').each(function(){
+            $(this).bind('click', function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                var $obj = $(this)
+                var source = $obj.attr('data-add');
+                var $source = $('#' + source);
+                if ($source.is('input[type=text]')) {
+                    var value = $source.val();
+                    $source.val('');
+                    $selectorList.append($("<option/>", {
+                        value: value,
+                        text: value
+                    }));
+                }
+                else if ($source.is('select')) {
+                    $('option:selected', $source).each(function(){
+                        value = $(this).val();
+                        $(this).remove();
+                        $selectorList.append($("<option/>", {
+                            value: value,
+                            text: value
+                        }));
+                    });
+                    dynamicSelectorDestination($source);
+                }
+                dynamicSelectorDestination($selectorList);
+                return false;
+            });
+        });
+        $('[data-remove]').each(function(){
+            $(this).bind('click',function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                var $obj = $(this)
+                var source = $obj.attr('data-remove');
+                var $source = $('#' + source);
+                if ($source.is('select')) {
+                    $('option:selected', $source).each(function(){
+                        value = $(this).val();
+                        $(this).remove();
+                        $('select[data-list]', $container).each(function(){
+                            var $destionation = $(this);
+                            var list = $(this).attr('data-list');
+                            list = list.split(',');
+                            if (list.indexOf(value) >= 0) {
+                                $destionation.append($("<option/>", {
+                                    value: value,
+                                    text: value
+                                }));
+                                dynamicSelectorDestination($destionation);
+                            }
+                        });
+                    });
+                    dynamicSelectorDestination($source);
+                }
+            });
+        });
+    });
+}
+function dynamicSelectorDestination($obj) {
+    if ($obj.is('select[data-destionation]')) {
+        var destionation = $obj.attr('data-destionation');
+        var $destionation = $('#' + destionation);
+        var list = [];
+        $('option', $obj).each(function(){
+            list.push( $(this).val() );
+        });
+        $destionation.val(list.join(','));
+    }
+}
+
+
+
+
 $(document).ready(function(){
     searchPageImage();
     SearchPagePermalink();
+    SearchDynamicSelectors();
 });

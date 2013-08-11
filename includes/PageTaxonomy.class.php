@@ -15,6 +15,7 @@ class PageTaxonomy extends ObjectTaxonomy
     protected $text;
     protected $image;
     protected $templates;
+    protected $elements;
     
     public function __construct($args=array()) {
         $this->permalink = isset($args['permalink']) ? $args['permalink'] : true;
@@ -69,5 +70,10 @@ class PageTaxonomy extends ObjectTaxonomy
     public function GetTemplates()
     {
         return $this->templates;
+    }
+    
+    public function AcceptedTemplate($id)
+    {
+        return in_array($id, $this->templates);
     }
 }

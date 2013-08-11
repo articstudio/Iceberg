@@ -92,3 +92,25 @@ function cut_text($text, $len=180, $strip_tags=true, $end='...', $force=false)
     }
     return $text; 
 }
+
+function add_template($environment, $template)
+{
+    return Template::AddTemplate($environment, $template);
+}
+
+function remove_template($environment, $template)
+{
+    return Template::RemoveTemplate($environment, $template);
+}
+
+function get_templates($environment)
+{
+    return Template::GetTemplates($environment);
+}
+
+function get_templates_content()
+{
+    return Template::GetTemplatesContent();
+}
+
+

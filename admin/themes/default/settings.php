@@ -99,7 +99,7 @@ function structure_objtaxonomy_edit_by_mode($args)
     }
     else if ($mode === 'pagetaxonomies')
     {
-        
+        include(DEFAULT_ADMIN_THEME_DIR . 'structure_objtaxonomy_edit_pagetaxonomy.php');
     }
     return $args;
 }

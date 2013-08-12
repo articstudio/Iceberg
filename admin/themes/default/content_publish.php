@@ -3,6 +3,7 @@ $pagegroups = get_pagegroups();
 if (empty($pagegroups))
 {
     //ERROR
+    die();
 }
 $pagegroup_id = get_request_group();
 $pagegroup_name = _T('Pages');
@@ -19,6 +20,7 @@ else
     if (is_null($pagegroup))
     {
         //ERROR
+        die();
     }
     $pagegroup_name = $pagegroup->GetName();
 }
@@ -30,7 +32,8 @@ $taxonomies = $pagegroup->GetTaxonomy();
 $pages = get_pages(array(
     'group' => $pagegroup_id,
     'type' => $types,
-    'taxonomy' => $taxonomies
+    'taxonomy' => $taxonomies,
+    'order' => 'tree'
 ));
 ?>
 

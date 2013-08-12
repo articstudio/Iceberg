@@ -16,6 +16,8 @@ $submit = $is_new ? array('action'=>'insert', 'group'=>$pagegroup_id) : array('a
 $back = array('group'=>$pagegroup_id);
 
 $page = get_page($id);
+$p_type = get_pagetype($page->type);
+$p_taxonomy = get_pagetaxonomy($page->taxonomy);
 
 $language = get_language_info();
 $languages = get_active_langs();
@@ -50,6 +52,7 @@ $taxonomies_image = $pagegroup->GetTaxonomyUseImage();
                     <textarea class="ckeditor input-block-level" id="text" name="text" rows="10" cols="10"><?php print $page->GetText(); ?></textarea>
                 </div>
                 
+                <?php if ($is_new): ?>
                 <?php foreach ($taxonomies AS $taxonomy): ?>
                 <div id="taxonomy-<?php print $taxonomy->GetID(); ?>" data-filter="taxonomy" data-filter-values="<?php print $taxonomy->GetID(); ?>">
                     <hr />
@@ -61,6 +64,17 @@ $taxonomies_image = $pagegroup->GetTaxonomyUseImage();
                     <?php endforeach; ?>
                 </div>
                 <?php endforeach; ?>
+                <?php else: ?>
+                
+                <hr />
+                <h5><?php print $p_taxonomy->GetName(); ?></h5>
+                <?php $elements = $p_taxonomy->GetElements(); foreach ($elements AS $e_name => $element): ?>
+                <hr />
+                <h6><?php print_text('Attribute'); ?>: <?php print $e_name; ?></h6>
+                <?php $element->FormEdit($page); ?>
+                <?php endforeach; ?>
+                
+                <?php endif; ?>
                 
                 
                 <div class="form-actions text-right">
@@ -95,10 +109,13 @@ $taxonomies_image = $pagegroup->GetTaxonomyUseImage();
                     <select name="parent" id="parent" class="input-block-level">
                         <option value="NULL"></option>
                         <?php foreach ($pages AS $parent_page): ?>
+                        <?php if ($parent_page->id != $page->id): ?>
                         <option value="<?php print $parent_page->id; ?>" <?php print ($parent_page->id == $page->parent) ? 'selected' : ''; ?>><?php print $parent_page->GetTitle(); ?></option>
+                        <?php endif; ?>
                         <?php endforeach; ?>
                     </select>
                 </p>
+                <?php if ($is_new): ?>
                 <p>
                     <label for="type"><?php print_text('Type'); ?>:</label>
                     <select name="type" id="type" class="input-block-level">
@@ -115,9 +132,17 @@ $taxonomies_image = $pagegroup->GetTaxonomyUseImage();
                         <?php endforeach; ?>
                     </select>
                 </p>
+                <?php else: ?>
+                <p>
+                    <label><?php print_text('Type'); ?>: <strong><?php print $p_type->GetName(); ?></strong></label>
+                </p>
+                <p>
+                    <label><?php print_text('Taxonomy'); ?>: <strong><?php print $p_taxonomy->GetName(); ?></strong></label>
+                </p>
+                <?php endif; ?>
             </div>
             
-            <?php if (count($languages) > 1): ?>
+            <?php if (count($languages) > 1 && false): ?>
             <div class="well">
                 <header><?php print_text('Translations'); ?></header>
                 <?php foreach ($languages AS $locale => $lang): ?>

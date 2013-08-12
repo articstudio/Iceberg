@@ -96,9 +96,9 @@ class TE_Relation extends TaxonomyElements
         ?>
         <select class="input-block-level" id="select-<?php print $this->GetAttrName(); ?>" name="select-<?php print $this->GetAttrName(); ?>">
             <option value="NULL"></option>
-            <?php foreach ($pages AS $id => $page): ?>
+            <?php foreach ($pages AS $id => $rpage): ?>
             <?php if ($page->id != $id): ?>
-            <option value="<?php print $id; ?>" <?php print $page_id == $id ? 'selected' : ''; ?>><?php print $page->GetTitle(); ?></option>
+            <option value="<?php print $id; ?>" <?php print $page_id == $id ? 'selected' : ''; ?>><?php print $rpage->GetTitle(); ?></option>
             <?php endif; ?>
             <?php endforeach; ?>
         </select>

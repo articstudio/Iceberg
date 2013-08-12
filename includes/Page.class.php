@@ -441,6 +441,13 @@ class Page extends PageBase
             $pages[$k] = static::GetPageFromObject($page, $lang);
         }
         /** @todo CACHE */
+        
+        if (isset($args['order']) && $args['order'] === 'tree')
+        {
+            $pages = order_pages_tree($pages);
+        }
+        reset($pages);
+        
         return $pages;
     }
     
@@ -550,6 +557,10 @@ class Page extends PageBase
             if ($args['order'] == 'time')
             {
                 $arr[] = 'created';
+            }
+            if ($args['order'] == 'tree')
+            {
+                $arr[static::RELATION_KEY_DOMAIN] = DBRelation::GetCountField();
             }
             else
             {

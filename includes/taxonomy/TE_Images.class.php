@@ -49,6 +49,7 @@ class TE_Images extends TaxonomyElements
     
     public function FormEdit($page) {
         $images = $this->GetImages($page);
+        $images = is_array($images) ? $images : array();
         ?>
         <p>
             <button type="button" id="images-button-<?php print $this->GetAttrName(); ?>" class="btn btn-inverse" data-images="images-<?php print $this->GetAttrName(); ?>"><?php print_text('Browse'); ?></button>

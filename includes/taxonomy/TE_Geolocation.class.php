@@ -34,7 +34,6 @@ class TE_Geolocation extends TaxonomyElements
             <label for="longitude-<?php print $this->GetAttrName(); ?>"><?php print_text( 'Longitude' ); ?></label>
             <input type="text" class="input-block-level" name="longitude-<?php print $this->GetAttrName(); ?>" id="longitude-<?php print $this->GetAttrName(); ?>" value="<?php print_html_attr($longitude); ?>" />
         </p>
-        <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
         <script>
             var markers = [];
             var map;

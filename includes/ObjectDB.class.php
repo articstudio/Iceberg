@@ -82,12 +82,13 @@ abstract class ObjectDB extends ObjectDBBase implements ObjectDBInterface
     public static function DB_InsertUpdate($args, $where=array())
     {
         $result = static::DB_Select(array(static::DB_GetPrimaryField()), $where);
-        if (count($result) > 0)
+        if (is_array($result) && count($result) > 0)
         {
             return static::DB_UpdateWhere($args, $where);
         }
         else
         {
+            $args = array_merge($where, $args);
             return static::DB_Insert($args);
         }
         return false;

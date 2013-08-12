@@ -60,7 +60,7 @@ abstract class RoutingBackendAPI extends Routing
         'content' => array(
             'template' => 'content.php',
             'name' => 'CONTENT',
-            'level' => 500
+            'level' => 200
         ),
         'media' => array(
             'template' => 'media.php',

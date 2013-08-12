@@ -534,7 +534,8 @@ function SearchTreeTables()
         /* EXPANDABLE DATA */
         var DataExpandable = $obj.hasClass('data-expandable');
         $obj.treetable({
-             expandable: DataExpandable
+             expandable: DataExpandable,
+             initialState: 'expanded'
         });
         /* SELECT DATA */
         var DataSelectable = $obj.hasClass('data-selectable');

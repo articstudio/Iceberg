@@ -60,11 +60,11 @@ else if ($action == 'update')
     $lang = null;
     if (Page::Update($id, $args, $lang))
     {
-        add_alert('Page group updated', 'success');
+        add_alert('Page updated', 'success');
     }
     else
     {
-        add_alert('Failed to update page group', 'error');
+        add_alert('Failed to update page', 'error');
     }
 }
 else if ($action == 'unactive')

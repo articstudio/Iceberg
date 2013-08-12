@@ -217,7 +217,7 @@ abstract class ObjectDBRelations extends ObjectDB
         else {
             $primary_field = static::DB_GetPrimaryField();
             $items = static::DB_Select(array($primary_field), $where, array(), array(), $relations, $lang);
-            if (count($items) > 0)
+            if (is_array($items) && count($items) > 0)
             {
                 $ids = array_keys($items);
                 return static::DB_Update($ids, $args);

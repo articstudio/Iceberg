@@ -13,17 +13,18 @@
 
         <script type="text/javascript">
             var callbackFunc = "<?php print_html_attr(get_request_action()); ?>";
+            var callbackAttr = "<?php print_html_attr(get_request_gp('callbackAttr', '')); ?>";
             $(document).ready(function() {
                 var elf = $('#elfinder').elfinder({
                     url : '<?php print get_elfinder_api_link(); ?>',
                     getFileCallback : function(file) {
                             if (typeof window.opener[callbackFunc] === 'function')
                             {
-                                window.opener[callbackFunc](file);
+                                window.opener[callbackFunc](file, callbackAttr);
                             }
                             window.close();
                     },
-                    resizable: false
+                    resizable: true
                 }).elfinder('instance');
             });
         </script>

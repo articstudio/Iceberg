@@ -16,7 +16,6 @@ $submit = $is_new ? array('action'=>'insert', 'group'=>$pagegroup_id) : array('a
 $back = array('group'=>$pagegroup_id);
 
 $page = get_page($id);
-var_dump($page);
 
 $language = get_language_info();
 $languages = get_active_langs();

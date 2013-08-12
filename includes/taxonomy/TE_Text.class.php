@@ -5,7 +5,8 @@ class TE_Text extends TaxonomyElements
     protected static $NAME = 'Text';
     protected $wysiwing = true;
     
-    function __construct($args=array()) {
+    function __construct($args=array())
+    {
         $this->wysiwing = isset($args['wysiwing']) ? $args['wysiwing'] : true;
         parent::__construct($args);
     }
@@ -27,7 +28,7 @@ class TE_Text extends TaxonomyElements
         ?>
         <p>
             <label for="wysiwing-<?php print $this->GetAttrName(); ?>" class="checkbox">
-                <input type="checkbox" name="wysiwing-<?php print $this->GetAttrName(); ?>" id="wysiwing-<?php print $this->GetAttrName(); ?>" value="1" <?php print $this->UseWysiwing() ? 'checked' : ''; ?> /> <?php print_text('This field uses wysiwing editor'); ?>
+                <input type="checkbox" name="wysiwing-<?php print $this->GetAttrName(); ?>" id="wysiwing-<?php print $this->GetAttrName(); ?>" value="1" <?php print $this->UseWysiwing() ? 'checked' : ''; ?> /> <?php print_text('Use wysiwing editor'); ?>
             </label>
         </p>
         <?php

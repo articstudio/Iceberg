@@ -4,7 +4,7 @@ $obj = get_pagegroup($obj_id);
 $types = get_pagetypes();
 ?>
 
-<h5><?php print_text('Taxonomies'); ?></h5>
+<h5><?php print_text('Types'); ?></h5>
 <div class="row-fluid">
     <?php $i=1; foreach ($types AS $id => $type): ?>
     <div class="span3">

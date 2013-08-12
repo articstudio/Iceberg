@@ -17,17 +17,11 @@ abstract class TaxonomyElementsBase extends ObjectConfig
      */
     public static $CONFIG_DEFAULTS = array(
         'iceberg' => array(
+            'TE_Input',
             'TE_Text',
-            /*
-            'te_input',
-            'te_images',
-            'te_files',
-            'te_links',
-            'te_geolocation',
-            'te_videos',
-            'te_relationship',
-            'te_date'
-            'te_list'*/
+            'TE_Images',
+            'TE_Geolocation',
+            'TE_Relation'
         ),
         'dynamic' => array()
     );

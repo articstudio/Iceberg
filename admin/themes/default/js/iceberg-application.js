@@ -10,11 +10,39 @@ function searchPageImage()
 {
     if ($('#page-image').length > 0)
     {
-        $('#page-image #page-image-button').bind('click', function(){
+        $('#page-image #page-image-button').bind('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
             window.open(elFinderAPI_popup+'&action=pushPageImage','', 'resizable=no,width=950,height=490,status=no,menubar=no,directories=no,location=no');
         });
     }
 }
+function SearchImagesGallery() {
+    $('[data-images]').each(function(){
+        var $button = $(this);
+        var gallery = $button.attr('data-images');
+        $button.bind('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            window.open(elFinderAPI_popup+'&action=pushImagesToGallery&callbackAttr='+gallery,'', 'resizable=no,width=950,height=490,status=no,menubar=no,directories=no,location=no');
+        })
+    });
+}
+function pushImagesToGallery(file, gallery) {
+    var $gallery = $('#'+gallery);
+    if ($gallery.length === 1) {
+        $('<li class="widget">'
+            + '<div class="btn-toolbar header"><a href="#" class="btn btn-danger btn-mini" btn-action="remove"><i class="icon-trash"></i></a></div>'
+            + '<img src="'+file+'" />'
+            + '<input type="hidden" name="'+gallery+'[]" value="'+file+'" />'
+            + '<input type="text" class="input-block-level" name="'+gallery+'-alt[]" value="'+file+'" />'
+            + '</li>').appendTo('#'+gallery);
+        UnWidgets();
+        SearchWidgets();
+    }
+    
+}
+
 
 /* PAGE PERMALINK */
 var defaultDiacriticsRemovalMap = [
@@ -250,7 +278,7 @@ function sortableDrop($item) {
         $(this).attr($(this).attr('drop-attr'), '1')
     });
     UnWidgets();
-    SearchWidgets()
+    SearchWidgets();
 }
 
 /* WIDGETS */
@@ -338,6 +366,12 @@ function SearchFilters() {
     });
 }
 
+/* GMAPS */
+function SearchGMaps()
+{
+    
+}
+
 
 $(document).ready(function(){
     searchPageImage();
@@ -347,4 +381,6 @@ $(document).ready(function(){
     SearchDragableLists();
     SearchWidgets();
     SearchFilters();
+    SearchGMaps();
+    SearchImagesGallery();
 });

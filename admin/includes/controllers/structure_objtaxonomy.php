@@ -32,11 +32,20 @@ else if ($action == 'insert')
     }
     else if ($mode === 'pagetaxonomies')
     {
-        $obj = new PageTaxonomy($args);
-        $args['permalink'] = get_request_p('permalink', true);
-        $args['text'] = get_request_p('text', true);
-        $args['image'] = get_request_p('image', true);
+        $e_names = get_request_p('element_name', array());
+        $e_types = get_request_p('element_type', array());
+        $args['permalink'] = get_request_p('permalink', false);
+        $args['text'] = get_request_p('text', false);
+        $args['image'] = get_request_p('image', false);
         $args['templates'] = get_request_p('templates', array());
+        $args['elements'] = array();
+        foreach ($e_names AS $k => $e_name) {
+            if (!empty($e_name) && isset($e_types[$k])) {
+                $e_type = $e_types[$k];
+                array_push($args['elements'], array('name' => $e_name, 'type' => $e_type));
+            }
+        }
+        $obj = new PageTaxonomy($args);
     }
     if ($obj && ObjectTaxonomy::Insert($obj))
     {
@@ -61,11 +70,21 @@ else if ($action == 'update')
     }
     else if ($mode === 'pagetaxonomies')
     {
-        $obj->UsePermalink(get_request_p('permalink', true));
-        $obj->UseText(get_request_p('text', true));
-        $obj->UseImage(get_request_p('image', true));
+        $obj->UsePermalink(get_request_p('permalink', false));
+        $obj->UseText(get_request_p('text', false));
+        $obj->UseImage(get_request_p('image', false));
         $templates = get_request_p('templates', array());
         $obj->SetTemplates($templates);
+        $e_names = get_request_p('element_name', array());
+        $e_types = get_request_p('element_type', array());
+        $elements = array();
+        foreach ($e_names AS $k => $e_name) {
+            if (!empty($e_name) && isset($e_types[$k])) {
+                $e_type = $e_types[$k];
+                array_push($elements, array('name' => $e_name, 'type' => $e_type));
+            }
+        }
+        $obj->SetElements($elements);
     }
     if (ObjectTaxonomy::Update($id, $obj))
     {
@@ -74,6 +93,19 @@ else if ($action == 'update')
     else
     {
         add_alert('Failed to update taxonomy item', 'error');
+    }
+}
+else if ($action == 'save')
+{
+    $obj = ObjectTaxonomy::Get($id);
+    $obj->Configure();
+    if (ObjectTaxonomy::Update($id, $obj))
+    {
+        add_alert('Taxonomy item configured', 'success');
+    }
+    else
+    {
+        add_alert('Failed to configure taxonomy item', 'error');
     }
 }
 else if ($action == 'order')

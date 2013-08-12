@@ -18,11 +18,11 @@ class PageTaxonomy extends ObjectTaxonomy
     protected $elements;
     
     public function __construct($args=array()) {
-        $this->permalink = isset($args['permalink']) ? $args['permalink'] : true;
-        $this->text = isset($args['text']) ? $args['text'] : true;
-        $this->image = isset($args['image']) ? $args['image'] : true;
-        $this->templates = isset($args['templates']) ? $args['templates'] : array();
-        $this->templates = is_array($this->templates) ? $this->templates : explode(',', $this->templates);
+        $this->UsePermalink(isset($args['permalink']) ? $args['permalink'] : false);
+        $this->UseText(isset($args['text']) ? $args['text'] : false);
+        $this->UseImage(isset($args['image']) ? $args['image'] : false);
+        $this->SetTemplates(isset($args['templates']) ? $args['templates'] : array());
+        $this->SetElements(isset($args['elements']) ? $args['elements'] : array());
         parent::__construct($args);
     }
     
@@ -75,5 +75,46 @@ class PageTaxonomy extends ObjectTaxonomy
     public function AcceptedTemplate($id)
     {
         return in_array($id, $this->templates);
+    }
+    
+    public function GetElements()
+    {
+        return $this->elements;
+    }
+    
+    public function SetElements($elements)
+    {
+        $buffer = array();
+        if (isset($elements) && is_array($elements))
+        {
+            foreach ($elements AS $element)
+            {
+                if (!empty($element['name']) && !empty($element['type']) && class_exists($element['type']))
+                {
+                    if (isset($this->elements[$element['name']]) && is_a($this->elements[$element['name']], $element['type']))
+                    {
+                        $buffer[$element['name']] = $this->elements[$element['name']];
+                    }
+                    else
+                    {
+                        $class = $element['type'];
+                        $args_element = array(
+                            'name' => $element['name']
+                        );
+                        $element = new $class($args_element);
+                        $buffer[$element->GetAttrName()] = $element;
+                    }
+                }
+            }
+        }
+        return $this->elements = $buffer;
+    }
+    
+    public function Configure() {
+        foreach ($this->elements AS $element)
+        {
+            $element->SaveFormConfig();
+        }
+        parent::Configure();
     }
 }

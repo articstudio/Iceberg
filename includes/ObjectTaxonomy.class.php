@@ -63,6 +63,11 @@ class ObjectTaxonomy
         return $this->locked;
     }
     
+    public function Configure()
+    {
+        
+    }
+    
     
     public static function GetList($args=array(), $lang=null)
     {

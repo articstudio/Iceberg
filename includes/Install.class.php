@@ -435,6 +435,9 @@ class Install
             /* EXTENSIONS */
             Extension::SaveConfig(array());
             
+            /* TAXONOMY ELEMENTS */
+            TaxonomyElements::SaveConfig(array());
+            
             /* ROOT USER */
             $userID = self::AddRoot($domainID, $user, $password, $email);
             

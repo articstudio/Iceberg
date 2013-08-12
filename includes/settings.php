@@ -18,7 +18,7 @@ define('ICEBERG_PHP_VERSION_REQUIRED',      '5.3.0');
 define('ICEBERG_DIR_HELPERS',               ICEBERG_DIR_INCLUDES . 'helpers/');
 //define('ICEBERG_DIR_CONTROLLERS',           ICEBERG_DIR_INCLUDES . 'controllers/');
 define('ICEBERG_DIR_INSTALL',               ICEBERG_DIR_INCLUDES . 'install/');
-define('ICEBERG_DIR_TAXONOMY_ELEMENTS',     ICEBERG_DIR_INCLUDES . 'taxonomy_elements/');
+define('ICEBERG_DIR_TAXONOMY_ELEMENTS',     ICEBERG_DIR_INCLUDES . 'taxonomy/');
 define('ICEBERG_DIR_WIDGETS',               ICEBERG_DIR_INCLUDES . 'widgets/');
 
 define('ICEBERG_DIR_THEMES',                ICEBERG_DIR_CONTENT . 'themes/');

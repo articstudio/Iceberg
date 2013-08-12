@@ -42,7 +42,7 @@ class PageGroup extends ObjectTaxonomy
         return PageType::GetList($args);
     }
     
-    public function GetTaxonomy()
+    public function GetTaxonomy($args=array())
     {
         $taxonomy = array();
         $types = $this->GetTypeObject();
@@ -54,11 +54,55 @@ class PageGroup extends ObjectTaxonomy
         return $taxonomy;
     }
     
-    public function GetTaxonomyObjects()
+    public function GetTaxonomyObjects($args=array())
     {
         $args = array(
-            'id' => $this->GetTaxonomy()
+            'id' => $this->GetTaxonomy($args)
         );
-        return PageTaxonomy::GetList($args);
+        $list = PageTaxonomy::GetList($args);
+        
+        return $list;
+    }
+    
+    public function GetTaxonomyUsePermalink()
+    {
+        $found = array();
+        $list = $this->GetTaxonomyObjects();
+        foreach ($list AS $k => $v)
+        {
+            if ($v->UsePermalink())
+            {
+                array_push($found, $k);
+            }
+        }
+        return $found;
+    }
+    
+    public function GetTaxonomyUseText()
+    {
+        $found = array();
+        $list = $this->GetTaxonomyObjects();
+        foreach ($list AS $k => $v)
+        {
+            if ($v->UseText())
+            {
+                array_push($found, $k);
+            }
+        }
+        return $found;
+    }
+    
+    public function GetTaxonomyUseImage()
+    {
+        $found = array();
+        $list = $this->GetTaxonomyObjects();
+        foreach ($list AS $k => $v)
+        {
+            if ($v->UseImage())
+            {
+                array_push($found, $k);
+            }
+        }
+        return $found;
     }
 }

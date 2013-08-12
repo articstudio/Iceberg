@@ -182,8 +182,7 @@ function SearchDynamicSelectors() {
                         $('select[data-list]', $container).each(function(){
                             var $destionation = $(this);
                             var list = $(this).attr('data-list');
-                            list = list.split(',');
-                            if (list.indexOf(value) >= 0) {
+                            if (_.inStringList(list, value)) {
                                 $destionation.append($("<option/>", {
                                     value: value,
                                     text: value
@@ -211,10 +210,141 @@ function dynamicSelectorDestination($obj) {
 }
 
 
+/* DRAGGABLE / SORTABLE */
+function SerachSortableLists() {
+    $('ul[data-sortable]').each(function(){
+        var $obj = $(this);
+        var attributes = $obj.attr('data-sortable')
+        var $sortable = $obj.sortable({
+            revert: _.inStringList(attributes, 'revert')
+        });
+        if (_.inStringList(attributes, 'droppable')) {
+            $sortable.droppable({
+                drop: function(event, ui) {
+                    sortableDrop(ui.draggable);
+                }
+            });
+        }
+    });
+}
+function SearchDragableLists() {
+    $('ul[data-draggable]').each(function(){
+        var $obj = $(this);
+        var to = $obj.attr('data-draggable')
+        $('li', $obj).draggable({
+            connectToSortable: '#'+to,
+            containment: $('#article-content'),
+            helper: "clone",
+            cursorAt: {top:30, left:10},
+            opacity: 0.8,
+            revert: false,
+            start: function(event, ui) {
+                $( ui.helper ).width( $( event.target ). width() );
+            }
+        }).disableSelection();
+    });
+}
+function sortableDrop($item) {
+    $('.well', $item).removeClass('closed');
+    $('[drop-attr]', $item).each(function(){
+        $(this).attr($(this).attr('drop-attr'), '1')
+    });
+    UnWidgets();
+    SearchWidgets()
+}
+
+/* WIDGETS */
+function SearchWidgets()
+{
+    $('.widget').each(function(){console.log('b');
+        var $widget = $(this);
+        $('.btn-toolbar.header .btn[btn-action]', $widget).each(function(){console.log('a');
+            var $btn = $(this);
+            var action = $btn.attr('btn-action');
+            if (action === 'remove') {
+                $btn.bind('click', function(e){console.log('remove');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    RemoveWidget($widget);
+                });
+            }
+        });
+    });
+}
+function UnWidgets() {
+    $('.widget').find('*').andSelf().unbind();
+}
+function RemoveWidget($widget) {
+    $widget.find('*').andSelf().unbind().slideUp(500, function(){
+        $(this).remove();
+    });
+}
+
+/* FILTERS */
+function SearchFilters() {
+    
+    $('[data-filter]').each(function(){
+        var $obj = $(this);
+        var filter = $obj.attr('data-filter');
+        var $filter = $('#'+filter);
+        /* SELECT */
+        if ($filter.is('select')) {
+            $filter.bind('change', function(){
+                /* SELECT => SELECT */
+                if ($obj.is('select')) {
+                    var values = []
+                    $('option:selected', $filter).each(function(){
+                        var fvalues = $(this).attr('data-filter-values');
+                        fvalues = _.StringListToArray(fvalues);
+                        values = _.union(values, fvalues);
+                    });
+                    var found = false;
+                    $('option', $obj).each(function(){
+                        var $option = $(this);
+                        var value = $option.val();
+                        $option.prop('selected', false);
+                        if (_.inArray(values, value)) {
+                            $option.show();
+                            if (!found) {
+                                found = true;
+                                $option.prop('selected', true);
+                            }
+                        } else {
+                            $option.hide();
+                        }
+                    });
+                    $obj.trigger('change');
+                }
+                
+                /* SELECT => DIV / P */
+                if ($obj.is('div') || $obj.is('p')) {
+                    
+                    var values = []
+                    $('option:selected', $filter).each(function(){
+                        values.push($(this).val());
+                    });
+                    var fvalues = $obj.attr('data-filter-values');
+                    fvalues = _.StringListToArray(fvalues)
+                    var found = _.intersection(values, fvalues);
+                    if (found.length > 0) {
+                        $obj.show();
+                    } else {
+                        $obj.hide();
+                    }
+                }
+            });
+            $filter.trigger('change');
+        }
+    });
+}
 
 
 $(document).ready(function(){
     searchPageImage();
     SearchPagePermalink();
     SearchDynamicSelectors();
+    SerachSortableLists();
+    SearchDragableLists();
+    SearchWidgets();
+    SearchFilters();
 });

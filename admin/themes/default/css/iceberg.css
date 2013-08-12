@@ -75,12 +75,44 @@ select[multiple] {
     font-weight:bold;
     background-color:#eaeaea;
 }
+.well.closed {
+    background-color:#eaeaea;
+    padding:0;
+}
+.well.closed * {
+    display:none;
+}
+.well.closed header {
+    display:block;
+    position:relative;
+    border:0;
+    padding:5px 10px;
+}
+.well > .btn-toolbar.header {
+    margin:0;
+    position:absolute;
+    top:5px;
+    right:5px;
+}
+.well > .btn-toolbar.header .btn{
+    margin-top:0px;
+}
 .btn-toolbar {
     margin-top:0px;
 }
 .btn-toolbar .btn {
     margin-top:10px;
 }
+
+/* JQUERY OVERRIDE */
+ul.ui-droppable {
+    min-height:100px;
+}
+.well ul.ui-droppable {
+    background-color:#bfbfbf;
+    padding:10px;
+}
+
 
 
 /* MODERNIZR */

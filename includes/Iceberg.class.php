@@ -223,6 +223,7 @@ class Iceberg {
         Config::AddRow(PageConfig::$CONFIG_KEY);
         Config::AddRow(IcebergCache::$CONFIG_KEY);
         Config::AddRow(Template::$CONFIG_KEY);
+        Config::AddRow(TaxonomyElements::$CONFIG_KEY);
         return Config::LoadConfig();
     }
     

@@ -43,18 +43,29 @@ else if ($action == 'insert')
 }
 else if ($action == 'update')
 {
-    /*$pagegroup = PageGroup::Get($id);
-    $pagegroup->SetName(
-        get_request_gp('name', '', true)
+    $metas = array(
+        PageMeta::META_TITLE => get_request_p('name', '', true),
+        PageMeta::META_PERMALINK => get_request_p('permalink', '', true),
+        PageMeta::META_TEXT => get_request_p('text', '', true),
+        PageMeta::META_IMAGE => get_request_p('image', '', true)
     );
-    if (PageGroup::Update($id, $pagegroup))
+    $args = array(
+        'taxonomy' => get_request_p('taxonomy', get_default_pagetaxnomy()),
+        'type' => get_request_p('type', get_page_pagetype()),
+        'group' => $group,
+        'parent' => get_request_p('parent', null, true),
+        'metas' => $metas
+    );
+    $args['parent'] = $args['parent']==='NULL' ? null : $args['parent'];
+    $lang = null;
+    if (Page::Update($id, $args, $lang))
     {
         add_alert('Page group updated', 'success');
     }
     else
     {
         add_alert('Failed to update page group', 'error');
-    }*/
+    }
 }
 else if ($action == 'unactive')
 {

@@ -34,6 +34,11 @@ $objs = get_objtaxonomy_list($key);
             <?php print $obj->GetName(); ?>
         </td>
         <td class="text-right">
+            
+            <?php if ($mode === 'pagetaxonomies'): ?>
+            <a href="<?php print get_admin_action_link(array('id'=>$id, 'action'=>'config')); ?>" class="btn btn-inverse"><i class="icon-wrench icon-white"></i></a>
+            <?php endif; ?>
+            
             <a href="<?php print get_admin_action_link(array('id'=>$id, 'action'=>'edit')); ?>" class="btn btn-inverse"><i class="icon-pencil icon-white"></i></a>
             <?php if ($obj->IsLocked()): ?>
             <button class="btn btn-danger disabled"><i class="icon-trash icon-white"></i></button>

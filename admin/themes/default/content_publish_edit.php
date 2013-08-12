@@ -10,10 +10,13 @@ else
 {
     $pagegroup = get_pagegroup($pagegroup_id);
 }
-$id = get_request_id();
+$id = (int)get_request_id();
 $is_new = !(bool)$id;
 $submit = $is_new ? array('action'=>'insert', 'group'=>$pagegroup_id) : array('action'=>'update', 'id'=>$id, 'group'=>$pagegroup_id);
 $back = array('group'=>$pagegroup_id);
+
+$page = get_page($id);
+var_dump($page);
 
 $language = get_language_info();
 $languages = get_active_langs();
@@ -22,6 +25,9 @@ $pages = get_pages(array(
 ));
 $types = $pagegroup->GetTypeObject();
 $taxonomies = $pagegroup->GetTaxonomyObjects();
+$taxonomies_permalink = $pagegroup->GetTaxonomyUsePermalink();
+$taxonomies_text = $pagegroup->GetTaxonomyUseText();
+$taxonomies_image = $pagegroup->GetTaxonomyUseImage();
 ?>
 
 <form action="<?php print get_admin_action_link($submit); ?>" method="post" id="publish-edit">
@@ -32,16 +38,30 @@ $taxonomies = $pagegroup->GetTaxonomyObjects();
                 
                 <p>
                     <label for="name"><?php print_text('Name'); ?>:</label>
-                    <input type="text" name="name" id="name" class="input-block-level" value="<?php print_html_attr(''); ?>" permalink="#permalink" required />
+                    <input type="text" name="name" id="name" class="input-block-level" value="<?php print_html_attr($page->GetTitle()); ?>" permalink="#permalink" required />
                 </p>
                 
-                <p>
+                <p id="permalink-container" data-filter="taxonomy" data-filter-values="<?php print implode(',', $taxonomies_permalink); ?>">
                     <label for="permalink"><?php print_text('Permalink'); ?>:</label>
-                    <input type="text" name="permalink" id="permalink" class="input-block-level" value="<?php print_html_attr(''); ?>" required />
+                    <input type="text" name="permalink" id="permalink" class="input-block-level" value="<?php print_html_attr($page->GetPermalink()); ?>" required />
                 </p>
                 
-                <label for="text"><?php print_text('Text'); ?>:</label>
-                <textarea class="ckeditor input-block-level" id="text" name="text" rows="10" cols="10"></textarea>
+                <div id="text-container" data-filter="taxonomy" data-filter-values="<?php print implode(',', $taxonomies_text); ?>">
+                    <label for="text"><?php print_text('Text'); ?>:</label>
+                    <textarea class="ckeditor input-block-level" id="text" name="text" rows="10" cols="10"><?php print $page->GetText(); ?></textarea>
+                </div>
+                
+                <?php foreach ($taxonomies AS $taxonomy): ?>
+                <div id="taxonomy-<?php print $taxonomy->GetID(); ?>" data-filter="taxonomy" data-filter-values="<?php print $taxonomy->GetID(); ?>">
+                    <hr />
+                    <h5><?php print $taxonomy->GetName(); ?></h5>
+                    <?php $elements = $taxonomy->GetElements(); foreach ($elements AS $e_name => $element): ?>
+                    <hr />
+                    <h6><?php print_text('Attribute'); ?>: <?php print $e_name; ?></h6>
+                    <?php $element->FormEdit($page); ?>
+                    <?php endforeach; ?>
+                </div>
+                <?php endforeach; ?>
                 
                 
                 <div class="form-actions text-right">
@@ -76,7 +96,7 @@ $taxonomies = $pagegroup->GetTaxonomyObjects();
                     <select name="parent" id="parent" class="input-block-level">
                         <option value="NULL"></option>
                         <?php foreach ($pages AS $parent_page): ?>
-                        <option value="<?php print $parent_page->id; ?>"><?php print $parent_page->GetTitle(); ?></option>
+                        <option value="<?php print $parent_page->id; ?>" <?php print ($parent_page->id == $page->parent) ? 'selected' : ''; ?>><?php print $parent_page->GetTitle(); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </p>
@@ -84,15 +104,15 @@ $taxonomies = $pagegroup->GetTaxonomyObjects();
                     <label for="type"><?php print_text('Type'); ?>:</label>
                     <select name="type" id="type" class="input-block-level">
                         <?php foreach ($types AS $type): ?>
-                        <option value="<?php print $type->GetID(); ?>" taxonomy="<?php print implode(',', $type->GetTaxonomy()); ?>"><?php print $type->GetName(); ?></option>
+                        <option value="<?php print $type->GetID(); ?>" data-filter-values="<?php print implode(',', $type->GetTaxonomy()); ?>" <?php print ($type->GetID() == $page->type) ? 'selected' : ''; ?>><?php print $type->GetName(); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </p>
                 <p>
                     <label for="taxonomy"><?php print_text('Taxonomy'); ?>:</label>
-                    <select name="taxonomy" id="taxonomy" class="input-block-level">
+                    <select name="taxonomy" id="taxonomy" class="input-block-level" data-filter="type">
                         <?php foreach ($taxonomies AS $taxonomy): ?>
-                        <option value="<?php print $taxonomy->GetID(); ?>"><?php print $taxonomy->GetName(); ?></option>
+                        <option value="<?php print $taxonomy->GetID(); ?>" <?php print ($taxonomy->GetID() == $page->taxonomy) ? 'selected' : ''; ?>><?php print $taxonomy->GetName(); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </p>
@@ -117,12 +137,13 @@ $taxonomies = $pagegroup->GetTaxonomyObjects();
                 </p>
             </div>
             <?php endif; ?>
-            <div class="well">
+            <div class="well" id="image-container" data-filter="taxonomy" data-filter-values="<?php print implode(',', $taxonomies_image); ?>">
                 <header><?php print_text('Principal image'); ?></header>
                 <div id="page-image">
                     <p>
                         <button type="button" id="page-image-button" class="btn btn-inverse"><?php print_text('Browse'); ?></button>
-                        <input type="hidden" name="image" id="image" class="input-block-level" value="" />
+                        <input type="hidden" name="image" id="image" class="input-block-level" value="<?php print_html_attr($page->GetImage()); ?>" />
+                        <span class="thumbnail"><img src="<?php print_html_attr($page->GetImage()); ?>" /></span>
                     </p>
                 </div>
             </div>

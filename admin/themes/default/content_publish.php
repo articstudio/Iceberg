@@ -5,28 +5,38 @@ if (empty($pagegroups))
     //ERROR
 }
 $pagegroup_id = get_request_group();
-$pagegroup = _T('Pages');
+$pagegroup_name = _T('Pages');
 if ($pagegroup_id === null)
 {
-    
     $pagegroup = current($pagegroups);
     $pagegroup_id = $pagegroup->GetID();
-    $pagegroup = $pagegroup->GetName();
+    $pagegroup_name = $pagegroup->GetName();
 }
 else
 {
     $pagegroup_id = (int)$pagegroup_id;
-    $pagegroup = isset($pagegroups[$pagegroup_id]) ? $pagegroups[$pagegroup_id]->GetName() : '';
+    $pagegroup = isset($pagegroups[$pagegroup_id]) ? $pagegroups[$pagegroup_id] : null;
+    if (is_null($pagegroup))
+    {
+        //ERROR
+    }
+    $pagegroup_name = $pagegroup->GetName();
 }
 
+$types = $pagegroup->GetType();
+$taxonomies = $pagegroup->GetTaxonomy();
+
+
 $pages = get_pages(array(
-    'group' => $pagegroup_id
+    'group' => $pagegroup_id,
+    'type' => $types,
+    'taxonomy' => $taxonomies
 ));
 ?>
 
 <div class="DTTT btn-group">
     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-        <i class="icon-list-alt"></i> <?php print $pagegroup; ?>
+        <i class="icon-list-alt"></i> <?php print $pagegroup_name; ?>
         <b class="caret"></b>
     </a>
     <ul class="dropdown-menu" role="menu">

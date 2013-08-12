@@ -3,7 +3,11 @@ $obj_id = get_request_id();
 $obj = get_pagetaxonomy($obj_id);
 $templates = get_templates_content();
 $accepted_templates = $obj->GetTemplates();
+$taxonomy_elements = $obj->GetElements();
+$elements = get_texonomy_elements();
 ?>
+
+<hr />
 
 <h5><?php print_text('Uses'); ?></h5>
 <div class="row-fluid">
@@ -27,6 +31,7 @@ $accepted_templates = $obj->GetTemplates();
     </div>
 </div>
 
+<hr />
 
 <div class="row-fluid" data-select="templates">
     <div class="span6">
@@ -52,5 +57,44 @@ $accepted_templates = $obj->GetTemplates();
         </select>
         <input type="hidden" name="templates" id="templates" value="<?php print implode(',', $accepted_templates); ?>" />
         <a href="#" data-remove="templates-list" title="<?php print_html_attr( _T('REMOVE') ); ?>" class="btn btn-inverse"><i class="icon-minus-sign icon-white"></i> <?php print_text( 'REMOVE' ); ?></a>
+    </div>
+</div>
+
+<hr />
+
+<div class="row-fluid" data-select="templates">
+    <div class="span6">
+        <h5><?php print_text('Elements'); ?></h5>
+        <ul class="unstyled" id="newelements" data-draggable="elements">
+            <?php foreach($elements AS $class): ?>
+            <li>
+                <div class="well widget closed">
+                    <header><?php print $class::Name(); ?></header>
+                    <div class="btn-toolbar header">
+                        <a href="#" class="btn btn-danger btn-mini" btn-action="remove"><i class="icon-trash"></i></a>
+                    </div>
+                    <input type="text" class="input-block-level" name="element_name[]" value="" placeholder="<?php print_text('Name'); ?>" drop-attr="required">
+                    <input type="hidden" class="input-block-level" name="element_type[]" value="<?php print $class; ?>">
+                </div>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <div class="span6">
+        <h5><?php print_text('Taxonomy elements'); ?></h5>
+        <ul class="unstyled" id="elements" data-sortable="revert,droppable">
+            <?php foreach($taxonomy_elements AS $e_name => $element): ?>
+            <li>
+                <div class="well widget">
+                    <header><?php print $element->GetName(); ?></header>
+                    <div class="btn-toolbar header">
+                        <a href="#" class="btn btn-danger btn-mini" btn-action="remove"><i class="icon-trash"></i></a>
+                    </div>
+                    <input type="text" class="input-block-level" name="element_name[]" value="<?php print $e_name; ?>" placeholder="<?php print_text('Name'); ?>" required>
+                    <input type="hidden" class="input-block-level" name="element_type[]" value="<?php print $element->GetType(); ?>">
+                </div>
+            </li>
+            <?php endforeach; ?>
+        </ul>
     </div>
 </div>

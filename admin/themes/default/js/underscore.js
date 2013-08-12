@@ -10,3 +10,13 @@ _.isURL = function (s) {
     }
     return false;
 }
+_.inArray = function(arr, value) {
+    return (_.indexOf(arr, value) >= 0);
+}
+_.inStringList = function(list, value) {
+    var arr = _.StringListToArray(list);
+    return _.inArray(arr, value);
+}
+_.StringListToArray = function(list) {
+    return list.split(',');
+}

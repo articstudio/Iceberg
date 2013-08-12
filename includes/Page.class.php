@@ -60,19 +60,19 @@ abstract class PageBase extends ObjectDBRelations
         ),
         'page-type' => array(
             'object' => 'PageType',
-            'force' => true,
+            'force' => false,
             'function' => 'get_page_pagetype',
             'language' => false
         ),
         'page-taxonomy' => array(
             'object' => 'PageTaxonomy',
-            'force' => true,
+            'force' => false,
             'function' => 'get_default_pagetaxnomy',
             'language' => false
         ),
         'page-group' => array(
             'object' => 'PageGroup',
-            'force' => true,
+            'force' => false,
             'function' => 'get_default_pagegroup',
             'language' => false
         ),
@@ -155,21 +155,8 @@ class Page extends PageBase
     /* METAS */
     public function LoadMetas($lang=null)
     {
-        $metas = static::DB_SelectChild(
-            'PageMeta', 
-            $this->id, 
-            array(
-                'name', 
-                'value', 
-                PageMeta::RELATION_KEY_PAGE => array(
-                    array(DBRelation::GetLanguageField(), 'lang')
-                )
-            ), 
-            array(), 
-            array(), 
-            array(), 
-            $lang
-        );
+        $this->metas = !is_array($this->metas) ? array() : $this->metas;
+        $metas = static::GetMetas($this->id, $lang);
         foreach ($metas AS $meta)
         {
             $this->SetMeta($meta->name, static::DB_DecodeFieldValue($meta->value), $meta->lang);
@@ -182,6 +169,16 @@ class Page extends PageBase
         $this->metas = !is_array($this->metas) ? array() : $this->metas;
         $this->metas[$lang] = (!isset($this->metas[$lang]) || !is_array($this->metas[$lang])) ? array() : $this->metas[$lang];
         $this->metas[$lang][$key] = $value;
+    }
+    
+    public function SaveMeta($key, $value, $lang=null)
+    {
+        $done = $this->SetMeta($key, $value, $lang);
+        if ($done)
+        {
+            return static::IsertUpdateMeta($this->id, $key, $value, $lang);
+        }
+        return $done;
     }
     
     public function GetMeta($key, $default=false, $lang=null)
@@ -278,7 +275,7 @@ class Page extends PageBase
             DBRelation::GetNameField() => static::RELATION_KEY_DOMAIN
         );
         $translations = DBRelation::DB_Select($fields, $where);
-        if (is_array($lang))
+        if (is_array($lang) && is_array($translations))
         {
             $translated = array();
             foreach ($translations AS $translation)
@@ -291,7 +288,7 @@ class Page extends PageBase
             }
             return $translated;
         }
-        return count($translations) > 0;
+        return is_array($translations) ? count($translations) > 0 : false;
     }
     
     public function GetTranslations()
@@ -321,15 +318,40 @@ class Page extends PageBase
         return static::DB_Update($id, $args);
     }
     
+    public static function IsertUpdateMeta($id, $key, $value, $lang=null)
+    {
+        $args_meta = array(
+            'name' => $key,
+            'value' => $value
+        );
+        $where = array(
+            'name' => $key
+        );
+        return static::DB_InsertUpdateChild('PageMeta', $args_meta, $where, $id);
+    }
+    
+    public static function InsertUpdateRelation($id, $rel, $parent)
+    {
+        $args_rel = array(
+            DBRelation::GetParentField() => $parent
+        );
+        $where_rel = array(
+            DBRelation::GetNameField() => $rel,
+            DBRelation::GetChildField() => $id
+        );
+        return DBRelation::DB_InsertUpdate($args_rel, $where_rel);
+    }
+    
     public static function Insert($args=array(), $lang=null)
     {
+        $taxonomy = (isset($args['taxonomy']) && !is_null($args['taxonomy'])) ? $args['taxonomy'] : get_default_pagetaxnomy();
         $args_insert = array(
             'created' => time(),
             'status' => isset($args['status']) ? $args['status'] : static::STATUS_ACTIVE
         );
         $relations = array(
             static::RELATION_KEY_TYPE => (isset($args['type']) && !is_null($args['type'])) ? $args['type'] : get_page_pagetype(),
-            static::RELATION_KEY_TAXONOMY => (isset($args['taxonomy']) && !is_null($args['taxonomy'])) ? $args['taxonomy'] : get_default_pagetaxnomy(),
+            static::RELATION_KEY_TAXONOMY => $taxonomy,
             static::RELATION_KEY_GROUP => (isset($args['group']) && !is_null($args['group'])) ? $args['group'] : get_default_pagegroup(),
             static::RELATION_KEY_PARENT => isset($args['parent']) ? $args['parent'] : null,
             static::RELATION_KEY_USER_CREATE => isset($args['created_uid']) ? $args['created_uid'] : get_user_id()
@@ -340,14 +362,58 @@ class Page extends PageBase
             $metas = PageMeta::Normalize(isset($args['metas']) ? $args['metas'] : array());
             foreach ($metas AS $key => $value)
             {
-                $args_meta = array(
-                    'name' => $key,
-                    'value' => $value
-                );
-                static::DB_InsertChild('PageMeta', $args_meta, $id);
+                static::IsertUpdateMeta($id, $key, $value, $lang);
+            }
+            
+            $taxonomy = PageTaxonomy::Get($taxonomy);
+            $elements = $taxonomy->GetElements();
+            foreach ($elements AS $element)
+            {
+                static::IsertUpdateMeta($id, $element->GetAttrName(), $element->GetFormEdit(), $lang);
             }
         }
         return $id;
+    }
+    
+    public static function Update($id, $args=array(), $lang=null)
+    {
+        $args_update = array(
+            'updated' => time()
+        );
+        $where_update = array(
+            'id' => $id
+        );
+        $relations = array();
+        $done = static::DB_UpdateWhere($args_update, $where_update, $relations, $lang);
+        if ($done)
+        {
+            $taxonomy = (isset($args['taxonomy']) && !is_null($args['taxonomy'])) ? $args['taxonomy'] : get_default_pagetaxnomy();
+            $relations = array(
+                static::RELATION_KEY_TYPE => (isset($args['type']) && !is_null($args['type'])) ? $args['type'] : get_page_pagetype(),
+                static::RELATION_KEY_TAXONOMY => $taxonomy,
+                static::RELATION_KEY_GROUP => (isset($args['group']) && !is_null($args['group'])) ? $args['group'] : get_default_pagegroup(),
+                static::RELATION_KEY_PARENT => isset($args['parent']) ? $args['parent'] : null,
+                static::RELATION_KEY_USER_UPDATE => isset($args['updated_uid']) ? $args['updated_uid'] : get_user_id()
+            );
+            foreach ($relations AS $rel => $parent)
+            {
+                static::InsertUpdateRelation($id, $rel, $parent);
+            }
+            
+            $metas = PageMeta::Normalize(isset($args['metas']) ? $args['metas'] : array());
+            foreach ($metas AS $key => $value)
+            {
+                static::IsertUpdateMeta($id, $key, $value, $lang);
+            }
+            
+            $taxonomy = PageTaxonomy::Get($taxonomy);
+            $elements = $taxonomy->GetElements();
+            foreach ($elements AS $element)
+            {
+                static::IsertUpdateMeta($id, $element->GetAttrName(), $element->GetFormEdit(), $lang);
+            }
+        }
+        return $done;
     }
     
     public static function Remove($id, $lang=null)
@@ -389,7 +455,26 @@ class Page extends PageBase
             return static::GetPageFromObject($page, $lang);
             
         }
-        return false;
+        return new Page();
+    }
+    
+    public static function GetMetas($id, $lang=null)
+    {
+        return static::DB_SelectChild(
+            'PageMeta', 
+            $id, 
+            array(
+                'name', 
+                'value', 
+                PageMeta::RELATION_KEY_PAGE => array(
+                    array(DBRelation::GetLanguageField(), 'lang')
+                )
+            ), 
+            array(), 
+            array(), 
+            array(), 
+            $lang
+        );
     }
     
     

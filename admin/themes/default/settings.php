@@ -103,9 +103,25 @@ function structure_objtaxonomy_edit_by_mode($args)
     }
     return $args;
 }
+function structure_objtaxonomy_config_by_mode($args)
+{
+    $mode = get_mode('mode');
+    if ($mode === 'pagegroups')
+    {
+    }
+    else if ($mode === 'pagetypes')
+    {
+    }
+    else if ($mode === 'pagetaxonomies')
+    {
+        include(DEFAULT_ADMIN_THEME_DIR . 'structure_objtaxonomy_config_pagetaxonomy.php');
+    }
+    return $args;
+}
 
 if (in_admin())
 {
     add_action('structure_objtaxonomy_edit', 'structure_objtaxonomy_edit_by_mode', 1);
+    add_action('structure_objtaxonomy_config', 'structure_objtaxonomy_config_by_mode', 1);
 }
 

@@ -551,7 +551,7 @@ function SearchTreeTables()
         if (typeof DataOrder === 'string' && DataOrder !== '' && _.isURL(DataOrder))
         {
             $('.file, .folder', $obj).draggable({
-                helper: "clone",
+                helper: 'clone',
                 opacity: .75,
                 refreshPositions: true,
                 revert: 'invalid',
@@ -564,7 +564,10 @@ function SearchTreeTables()
                     accept: '.file, .folder',
                     drop: function(e, ui) {
                         var droppedEl = ui.draggable.parents('tr');
-                        $obj.treetable('move', droppedEl.data('ttId'), $(this).data('ttId'));
+                        var oldEl = $(this);
+                        $.get(DataOrder, {parent:oldEl.data('ttId'), id:droppedEl.data('ttId')}, function(data, textStatus, jqXHR){
+                            $obj.treetable('move', droppedEl.data('ttId'), oldEl.data('ttId'));
+                        });
                     },
                     hoverClass: 'accept',
                     over: function(e, ui) {

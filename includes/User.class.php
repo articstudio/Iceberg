@@ -3,18 +3,7 @@
 /** Include helpers request file */
 require_once ICEBERG_DIR_HELPERS . 'user.php';
 
-/**
- * User
- * 
- * User management
- *  
- * @package Iceberg
- * @subpackage User
- * @author Marc Mascort Bou
- * @version 1.0
- * @since 1.0
- */
-class User extends ObjectDBRelations
+class UserBase extends ObjectDBRelations
 {
     /**
      * DB table name
@@ -153,6 +142,8 @@ class User extends ObjectDBRelations
     
     public static function Logout($drop=false)
     {
+        global $__USER, $__USER_LOGGED;
+        $__USER = $__USER_LOGGED = false;
         if ($drop)
         {
             return Session::Stop(true);
@@ -177,10 +168,45 @@ class User extends ObjectDBRelations
         else { return null; }
     }
     
-    public static function GetUser()
+}
+
+/**
+ * User
+ * 
+ * User management
+ *  
+ * @package Iceberg
+ * @subpackage User
+ * @author Marc Mascort Bou
+ * @version 1.0
+ * @since 1.0
+ */
+class User extends UserBase
+{
+    
+    public static function GetUser($id=null)
     {
-        global $__USER;
-        return $__USER;
+        if (is_null($id))
+        {
+            global $__USER;
+            return $__USER;
+        }
+        $users = static::DB_Select(
+            array(
+                'username',
+                'email',
+                'status',
+                'level'
+            ),
+            array(
+                'id' => $id,
+            )
+        );
+        if (count($users) > 0)
+        {
+            return current($users);
+        }
+        return false;
     }
     
     public static function GetID()

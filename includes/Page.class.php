@@ -444,7 +444,7 @@ class Page extends PageBase
         
         if (isset($args['order']) && $args['order'] === 'tree')
         {
-            $pages = order_pages_tree($pages);
+            //$pages = order_pages_tree($pages);
         }
         reset($pages);
         

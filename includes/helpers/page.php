@@ -19,7 +19,6 @@ function order_pages_tree($arr)
         $entry = array(
             'id' => $id,
             'parent' => $v->parent,
-            'obj' => $v,
             'children' => array()
         );
         if ($entry['parent'] === null) {
@@ -46,12 +45,16 @@ function order_pages_tree($arr)
         $buffer = get_node_order_pages_tree($node);
         $result = array_merge($result, $buffer);
     }
+    foreach ($result AS $k => $v)
+    {
+        $result[$k] = $arr[$v];
+    }
     return $result;
 }
 
 function get_node_order_pages_tree($node) {
     $result = array();
-    $result[$node['id']] = $node['obj'];
+    $result[$node['id']] = $node['id'];
     foreach ($node['children'] AS $child)
     {
         $buffer = get_node_order_pages_tree($child);

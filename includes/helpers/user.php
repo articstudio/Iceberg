@@ -1,5 +1,10 @@
 <?php
 
+function get_user($id=null)
+{
+    return User::GetUser($id);
+}
+
 /**
  * Returns user ID
  * @uses User::GetID()

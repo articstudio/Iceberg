@@ -91,26 +91,25 @@ else if ($action == 'active')
 }
 else if ($action == 'order')
 {
-    /*$from = get_request_gp('fromPosition');
-    $to = get_request_gp('toPosition');
+    /*$parent = get_request_gp('parent');
     
     
     if ($from!==false && $to!==false)
     {
         $from = (int)$from ;
         $to = (int)$to;
-        if (PageGroup::ReOrder($from, $to))
+        if (Page::ReOrder($from, $to))
         {
-            add_alert('Page group reordered', 'success');
+            add_alert('Page reordered', 'success');
         }
         else
         {
-            add_alert('Failed to reorder page group', 'error');
+            add_alert('Failed to reorder page', 'error');
         }
     }
     else
     {
-        add_alert('Failed to reorder page group', 'error');
+        add_alert('Failed to reorder page', 'error');
     }*/
 }
 

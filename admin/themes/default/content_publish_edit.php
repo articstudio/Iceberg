@@ -91,6 +91,22 @@ $taxonomies_image = $pagegroup->GetTaxonomyUseImage();
                     <?php print_text('Created by'); ?>: <?php print get_user_name(); ?><br />
                     <?php print_text('Created on'); ?>: <?php print get_datetime(); ?>
                 </p>
+                <?php else: ?>
+                <p>
+                    <?php print_text('Created by'); ?>: <?php print get_user($page->created_uid)->username; ?><br />
+                    <?php print_text('Created on'); ?>: <?php print get_datetime($page->created); ?>
+                </p>
+                <?php if (is_null($page->updated_uid)): ?>
+                <p>
+                    <?php print_text('Edited by'); ?>: <?php print get_user_name(); ?><br />
+                    <?php print_text('Edited on'); ?>: <?php print get_datetime(); ?>
+                </p>
+                <?php else: ?>
+                <p>
+                    <?php print_text('Edited by'); ?>: <?php print get_user($page->updated_uid)->username; ?><br />
+                    <?php print_text('Edited on'); ?>: <?php print get_datetime($page->updated); ?>
+                </p>
+                <?php endif; ?>
                 <?php endif; ?>
                 
                 <div class="form-actions text-right">

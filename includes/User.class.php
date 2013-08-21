@@ -150,6 +150,27 @@ class UserBase extends ObjectDBRelations
         }
         return (Session::SetValue(self::SESSION_USER) && Session::SetValue(self::SESSION_PASSWORD));
     }
+    
+    public static function RegisterLogin($id)
+    {
+        $last = array(
+            'ip' => getIP(),
+            'session' => Session::GetID(),
+            'time' => time()
+        );
+        list($last, $id) = action_event('user_register_login', $last, $id);
+        static::DB_InsertUpdateChild(
+            'UserMeta',
+            array(
+                'name' => UserMeta::META_LAST_VISIT,
+                'value' => $last
+            ),
+            array(
+                'name' => UserMeta::META_LAST_VISIT
+            ),
+            $id
+        );
+    }
 
     /**
      * Returns encrypted password
@@ -168,21 +189,16 @@ class UserBase extends ObjectDBRelations
         else { return null; }
     }
     
-}
-
-/**
- * User
- * 
- * User management
- *  
- * @package Iceberg
- * @subpackage User
- * @author Marc Mascort Bou
- * @version 1.0
- * @since 1.0
- */
-class User extends UserBase
-{
+    
+    public static function GetID()
+    {
+        if (self::IsLogged())
+        {
+            $user = self::GetUser();
+            return $user->id;
+        }
+        return false;
+    }
     
     public static function GetUser($id=null)
     {
@@ -209,16 +225,6 @@ class User extends UserBase
         return false;
     }
     
-    public static function GetID()
-    {
-        if (self::IsLogged())
-        {
-            $user = self::GetUser();
-            return $user->id;
-        }
-        return false;
-    }
-    
     public static function GetUsername()
     {
         if (self::IsLogged())
@@ -239,27 +245,6 @@ class User extends UserBase
         return Session::GetMinimumLevel();
     }
     
-    public static function RegisterLogin($id)
-    {
-        $last = array(
-            'ip' => getIP(),
-            'session' => Session::GetID(),
-            'time' => time()
-        );
-        list($last, $id) = action_event('user_register_login', $last, $id);
-        static::DB_InsertUpdateChild(
-            'UserMeta',
-            array(
-                'name' => UserMeta::META_LAST_VISIT,
-                'value' => $last
-            ),
-            array(
-                'name' => UserMeta::META_LAST_VISIT
-            ),
-            $id
-        );
-    }
-    
     public static function IsLogged()
     {
         global $__USER_LOGGED;
@@ -276,6 +261,22 @@ class User extends UserBase
     {
         return (static::GetLevel() >= Session::GetAdminLevel());
     }
+    
+}
+
+/**
+ * User
+ * 
+ * User management
+ *  
+ * @package Iceberg
+ * @subpackage User
+ * @author Marc Mascort Bou
+ * @version 1.0
+ * @since 1.0
+ */
+class User extends UserBase
+{
     
 }
 

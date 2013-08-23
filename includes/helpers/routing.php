@@ -10,7 +10,8 @@
  */
 function get_link($params=array(), $baseurl=null)
 {
-    return Routing::MakeURL($params, $baseurl);
+    $routing = Routing::GetRouting();
+    return $routing->GenerateURL($params, $baseurl);
 }
 
 /**

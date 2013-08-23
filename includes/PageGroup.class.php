@@ -64,6 +64,18 @@ class PageGroup extends ObjectTaxonomy
         return $list;
     }
     
+    public function GetTemplates($args=array())
+    {
+        $templates = array();
+        $taxonomies = $this->GetTaxonomyObjects($args);
+        foreach ($taxonomies AS $taxonomy)
+        {
+            $buffer = $taxonomy->GetTemplates();
+            $templates = array_merge($templates, $buffer);
+        }
+        return $templates;
+    }
+    
     public function GetTaxonomyUsePermalink()
     {
         $found = array();

@@ -48,6 +48,8 @@ abstract class Routing extends Request
      */
     protected $password = null;
     
+    protected $request = array();
+    
     
     public function GetLanguage()
     {
@@ -77,6 +79,22 @@ abstract class Routing extends Request
     public function SetLogin($user, $password)
     {
         return (($this->user = $user) && ($this->password = $password));
+    }
+    
+    public function GetParsedRequest()
+    {
+        return $this->request;
+    }
+    
+    public function GetParsedRequestValue($key)
+    {
+        $request = $this->GetParsedRequest();
+        return array_key_exists($key, $request) ? $request[$key] : false;
+    }
+    
+    public function GenerateURL($params=array(), $baseurl=null)
+    {
+        return static::MakeURL($params, $baseurl);
     }
     
     

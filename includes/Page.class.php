@@ -96,6 +96,16 @@ abstract class PageBase extends ObjectDBRelations
         )
     );
     
+    /**
+     * Childs relation
+     * @var array 
+     */
+    public static $DB_CHILDS = array(
+        'page-meta' => array(
+            'object' => 'PageMeta'
+        )
+    );
+    
     const RELATION_KEY_DOMAIN = 'page-domain';
     const RELATION_KEY_TYPE = 'page-type';
     const RELATION_KEY_TAXONOMY = 'page-taxonomy';
@@ -103,6 +113,7 @@ abstract class PageBase extends ObjectDBRelations
     const RELATION_KEY_PARENT = 'page-parent';
     const RELATION_KEY_USER_CREATE = 'user-create';
     const RELATION_KEY_USER_UPDATE = 'user-update';
+    const RELATION_KEY_META = 'page-meta';
 }
 
 
@@ -212,9 +223,25 @@ class Page extends PageBase
         return $this->GetMeta(PageMeta::META_TITLE, '', $lang);
     }
     
+    public function GetTemplate($lang=null)
+    {
+        return $this->GetMeta(PageMeta::META_TEMPLATE, '', $lang);
+    }
+    
     public function GetPermalink($lang=null)
     {
         return $this->GetMeta(PageMeta::META_PERMALINK, '', $lang);
+    }
+    
+    public function GetLink($args=array(), $lang=null)
+    {
+        $buffer = array(
+            'page' => $this->id,
+            'lang' => is_null($lang) ? I18N::GetLanguage() : $lang
+        );
+        $args = array_merge($args, $buffer);
+        $routing = Routing::GetRouting();
+        return $routing->GenerateURL($args, get_base_url());
     }
     
     public function GetText($lang=null)
@@ -346,7 +373,7 @@ class Page extends PageBase
     {
         $taxonomy = (isset($args['taxonomy']) && !is_null($args['taxonomy'])) ? $args['taxonomy'] : get_default_pagetaxnomy();
         $args_insert = array(
-            'created' => time(),
+            'created' => date('Y-m-d H:i:s'),
             'status' => isset($args['status']) ? $args['status'] : static::STATUS_ACTIVE
         );
         $relations = array(
@@ -378,7 +405,7 @@ class Page extends PageBase
     public static function Update($id, $args=array(), $lang=null)
     {
         $args_update = array(
-            'updated' => time()
+            'updated' => date('Y-m-d H:i:s')
         );
         $where_update = array(
             'id' => $id
@@ -416,6 +443,25 @@ class Page extends PageBase
         return $done;
     }
     
+    public static function UpdateParent($id, $parent)
+    {
+        return static::InsertUpdateRelation($id, static::RELATION_KEY_PARENT, $parent);
+    }
+    
+    public static function UpdateOrder($id, $order, $lang=null)
+    {
+        $args_rel = array(
+            DBRelation::GetCountField() => $order
+        );
+        $where_rel = array(
+            DBRelation::GetNameField() => static::RELATION_KEY_DOMAIN,
+            DBRelation::GetParentField() => Domain::GetRequestID(),
+            DBRelation::GetChildField() => $id,
+            DBRelation::GetLanguageField() => is_null($lang) ? I18N::GetLanguage() : $lang
+        );
+        return DBRelation::DB_InsertUpdate($args_rel, $where_rel);
+    }
+    
     public static function Remove($id, $lang=null)
     {
         $where = static::GetWhereFields(array(static::DB_GetPrimaryField() => $id));
@@ -436,17 +482,21 @@ class Page extends PageBase
         $limit = static::GetLimitFields($args);
         $relations = static::GetRelationsFields($args);
         $pages = static::DB_Select($fields, $where, $orderby, $limit, $relations, $lang);
+        
         foreach ($pages AS $k => $page)
         {
             $pages[$k] = static::GetPageFromObject($page, $lang);
         }
-        /** @todo CACHE */
         
-        if (isset($args['order']) && $args['order'] === 'tree')
+        if (isset($args['order']))
         {
-            //$pages = order_pages_tree($pages);
+            if ($args['order'] === 'name')
+            {
+                uasort($pages , 'page_sort_by_name');
+            }
         }
         reset($pages);
+        /** @todo CACHE */
         
         return $pages;
     }
@@ -495,8 +545,8 @@ class Page extends PageBase
             'parent' => $obj->pid,
             'status' => $obj->status,
             'order' => $obj->count,
-            'created' => $obj->created,
-            'updated' => $obj->updated,
+            'created' => strtotime($obj->created),
+            'updated' => strtotime($obj->updated),
             'created_uid' => $obj->user_create,
             'updated_uid' => $obj->user_update,
             'metas' => static::METAS_FORCE_LOAD
@@ -568,6 +618,7 @@ class Page extends PageBase
                 
             }
         }
+        $arr[static::RELATION_KEY_DOMAIN] = DBRelation::GetCountField();
         $arr[] = static::DB_GetPrimaryField();
         return $arr;
     }
@@ -575,6 +626,23 @@ class Page extends PageBase
     protected static function GetLimitFields($args)
     {
         $arr = array();
+        if (isset($args['items']))
+        {
+            $items = (int)$args['items'];
+            $arr = array(
+                0,
+                $items
+            );
+        }
+        else if (isset($args['page']))
+        {
+            $page = (int)$args['page'];
+            $page_items = isset($args['page_items']) ? (int)$args['page_items'] : 10;
+            $arr = array(
+                $page * $page_items,
+                $page_items
+            );
+        }
         return $arr;
     }
     
@@ -596,6 +664,15 @@ class Page extends PageBase
         if (isset($args['parent']))
         {
             $arr[static::RELATION_KEY_PARENT] = $args['parent'];
+        }
+        if (isset($args['metas']) && is_array($args['metas']))
+        {
+            $arr[static::RELATION_KEY_META] = array();
+            foreach ($args['metas'] AS $k => $v)
+            {
+                $arr[static::RELATION_KEY_META][$k] = $v;
+            }
+            
         }
         return $arr;
     }

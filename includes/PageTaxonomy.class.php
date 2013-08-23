@@ -14,6 +14,7 @@ class PageTaxonomy extends ObjectTaxonomy
     protected $permalink;
     protected $text;
     protected $image;
+    protected $childs_allowed;
     protected $templates;
     protected $elements;
     
@@ -21,6 +22,7 @@ class PageTaxonomy extends ObjectTaxonomy
         $this->UsePermalink(isset($args['permalink']) ? $args['permalink'] : false);
         $this->UseText(isset($args['text']) ? $args['text'] : false);
         $this->UseImage(isset($args['image']) ? $args['image'] : false);
+        $this->ChildsAllowed(isset($args['childs']) ? $args['childs'] : false);
         $this->SetTemplates(isset($args['templates']) ? $args['templates'] : array());
         $this->SetElements(isset($args['elements']) ? $args['elements'] : array());
         parent::__construct($args);
@@ -59,6 +61,18 @@ class PageTaxonomy extends ObjectTaxonomy
         else
         {
             return $this->image = $use;
+        }
+    }
+    
+    public function ChildsAllowed($allowed=null)
+    {
+        if (is_null($allowed))
+        {
+            return $this->childs_allowed;
+        }
+        else
+        {
+            return $this->childs_allowed = $allowed;
         }
     }
     

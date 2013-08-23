@@ -266,7 +266,11 @@ abstract class Theme extends ThemeBase
      */
     public function ThemeSnippet($file, $print=true, $callback=null)
     {
-        $template = new Template($this->GetDirectory(), $file, $this->GetURL(), $callback);
+        if (realpath($file) !== $file)
+        {
+            $file = $this->GetDirectory() . $file;
+        }
+        $template = new Template(null, $file, $this->GetURL(), $callback); //$this->GetDirectory()
         $done = $template->GenerateTemplateContent();
         if ($done) {
             if ($print) {

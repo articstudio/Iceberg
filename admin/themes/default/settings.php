@@ -16,8 +16,9 @@ function default_admin_theme_head($args)
     else
     {
         theme_enqueue_style('jquery-elfinder');
-        theme_enqueue_style('jquery-treetable');
+        //theme_enqueue_style('jquery-treetable');
         theme_enqueue_style('jquery-datatables');
+        theme_enqueue_style('jquery-nestable');
     }
     theme_enqueue_style('iceberg');
     theme_enqueue_script('modernizr');
@@ -39,8 +40,9 @@ function default_admin_theme_foot($args)
         theme_enqueue_script('bootstrap-datepicker');
         theme_enqueue_script('bootstrap-selectpicker');
         theme_enqueue_script('jquery-elfinder');
-        theme_enqueue_script('jquery-treetable');
+        //theme_enqueue_script('jquery-treetable');
         theme_enqueue_script('jquery-datatables');
+        theme_enqueue_script('jquery-nestable');
         theme_enqueue_script('ckeditor');
         theme_enqueue_script('iceberg-application');
     }
@@ -56,6 +58,7 @@ if (in_admin())
     theme_register_style('jquery-elfinder', DEFAULT_ADMIN_THEME_URL . 'elfinder/jquery-elfinder.css', '2.0');
     theme_register_style('jquery-treetable', DEFAULT_ADMIN_THEME_URL . 'css/jquery-treetable.css', '3.0.2');
     theme_register_style('jquery-datatables', DEFAULT_ADMIN_THEME_URL . 'css/jquery-datatables.css', '3.0.2');
+    theme_register_style('jquery-nestable', DEFAULT_ADMIN_THEME_URL . 'css/jquery-nestable.css', '1.0');
     theme_register_style('iceberg', DEFAULT_ADMIN_THEME_URL . 'css/iceberg.css');
     
     /* SCRIPTS */
@@ -68,6 +71,8 @@ if (in_admin())
     theme_register_script('jquery-validate', DEFAULT_ADMIN_THEME_URL . 'js/jquery-validate.js', '2.3.2', array('jquery'), true);
     theme_register_script('jquery-treetable', DEFAULT_ADMIN_THEME_URL . 'js/jquery-treetable.js', '3.0.2', array('jquery'), true);
     theme_register_script('jquery-datatables', DEFAULT_ADMIN_THEME_URL . 'js/jquery-datatables.js', '1.9.4', array('jquery'), true);
+    theme_register_script('jquery-datatables-treetable', DEFAULT_ADMIN_THEME_URL . 'js/jquery-datatables-treetable.js', '1.9.4', array('jquery'), true);
+    theme_register_script('jquery-nestable', DEFAULT_ADMIN_THEME_URL . 'js/jquery-nestable.js', '1.0', array('jquery'), true);
     theme_register_script('jquery-elfinder', DEFAULT_ADMIN_THEME_URL . 'elfinder/jquery-elfinder.js', '2.0', array('jquery'), true);
     theme_register_script('ckeditor', DEFAULT_ADMIN_THEME_URL . 'ckeditor/ckeditor.js', '4.1.2', array('jquery-elfinder'), true);
     

@@ -26,11 +26,6 @@ class ThemeBackend extends ThemeBackendAPI
     public function Page()
     {
         $template = RoutingBackend::GetMode('template');
-        /*if (realpath($template) !== $template)
-        {
-            $template = $this->GetDirectory() . $template;
-        }
-        var_dump($template);*/
         action_event('theme_print_page');
         return $this->ThemeSnippet($template);
     }

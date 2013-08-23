@@ -1,6 +1,6 @@
 <?php
 
-/** Include helpers files file */
+/** Include helpers maintenance file */
 require_once ICEBERG_DIR_HELPERS . 'maintenance.php';
 
 /**
@@ -63,7 +63,13 @@ class Maintenance extends ObjectConfig
         $ip = getIP();
         $ips = str_replace(',', ' ', static::GetConfigValue('allowed'));
         $ips = explode(' ', $ips);
-        return in_array($ip, $ips);
+        $is = (in_array($ip, $ips) && User::IsAdmin());
+        return $is;
+    }
+    
+    public static function InFrontendMode()
+    {
+        return (Maintenance::InMaintenance() && !Maintenance::IsAllowed());
     }
 }
 

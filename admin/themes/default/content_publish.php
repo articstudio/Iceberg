@@ -32,8 +32,7 @@ $taxonomies = $pagegroup->GetTaxonomy();
 $pages = get_pages(array(
     'group' => $pagegroup_id,
     'type' => $types,
-    'taxonomy' => $taxonomies,
-    'order' => 'tree'
+    'taxonomy' => $taxonomies
 ));
 ?>
 
@@ -59,46 +58,50 @@ $pages = get_pages(array(
     </a>
 </div>
 
-<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered treetable data-expandable data-selectable" data-order="<?php print get_admin_api_action_link(array('group'=>$pagegroup_id, 'action'=>'order')); ?>">
-    <thead>
-        <tr>
-            <td><?php print_text('Name'); ?></td>
-            <td><?php print_text('Type'); ?></td>
-            <td><?php print_text('Taxonomy'); ?></td>
-            <td></td>
-        </tr>
-    </thead>
-    <tbody>
-        
-        <?php
-        function printPagesHTMLTree($pages, $parent = null)
-        {
-            foreach ($pages AS $k => $page)
-            {
-                if ($parent === $page->parent || (is_null($parent) && !isset($pages[$page->parent])))
-                {
+
+<div class="treetable" id="content-publish" data-order="<?php print get_admin_api_action_link(array('group'=>$pagegroup_id, 'action'=>'order')); ?>">
+    <?php
+    function printPagesHTMLTree($pages, $parent = null)
+    {
         ?>
-        <tr data-tt-id="<?php print $page->id; ?>" <?php if (!is_null($page->parent) && isset($pages[$page->parent])): ?>data-tt-parent-id="<?php print $page->parent; ?>"<?php endif; ?>>
-            <td><span class="folder"><?php print $page->GetTitle(); ?></span></td>
-            <td><?php print $page->GetType()->GetName(); ?></td>
-            <td><?php print $page->GetTaxonomy()->GetName(); ?></td>
-            <td class="text-right">
+    <ol class="treetable-list">
+        <?php
+        foreach ($pages AS $k => $page)
+        {
+            if ($parent === $page->parent || (is_null($parent) && !isset($pages[$page->parent])))
+            {
+    ?>
+        <li class="treetable-item treetable-collapsed" data-id="<?php print $page->id; ?>">
+            <div class="treetable-actions">
                 <?php if ($page->status): ?>
+                <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'unactive')); ?>" class="btn btn-success"><i class="icon-ok icon-white"></i></a>
+                <?php else: ?>
+                <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'active')); ?>" class="btn btn-inverse"><i class="icon-ok icon-white"></i></a>
+                <?php endif; ?>
+                <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'edit')); ?>" class="btn btn-inverse"><i class="icon-pencil icon-white"></i></a>
+                <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'remove')); ?>" class="btn btn-danger" confirm="<?php print_html_attr(_T('Are you sure to remove this item?')); ?>"><i class="icon-trash"></i></a>
+            </div>
+            <div class="treetable-handle"><?php print $page->GetTitle(); ?></div>
+            <?php if ($page->GetTaxonomy()->ChildsAllowed()) { printPagesHTMLTree($pages, $page->id); } ?>
+        </li>
+    <?php
+            }
+        }
+        ?>
+    </ol>
+        <?php
+    }
+    printPagesHTMLTree($pages);
+    ?>
+</div>
+
+<?php /*
+ * <?php if ($page->status): ?>
                 <a href="<?php print get_admin_action_link(array('id'=>$page->id, 'action'=>'unactive')); ?>" class="btn btn-success"><i class="icon-ok icon-white"></i></a>
                 <?php else: ?>
                 <a href="<?php print get_admin_action_link(array('id'=>$page->id, 'action'=>'active')); ?>" class="btn btn-inverse"><i class="icon-ok icon-white"></i></a>
                 <?php endif; ?>
                 <a href="<?php print get_admin_action_link(array('id'=>$page->id, 'action'=>'edit')); ?>" class="btn btn-inverse"><i class="icon-pencil icon-white"></i></a>
                 <a href="<?php print get_admin_action_link(array('id'=>$page->id, 'action'=>'remove')); ?>" class="btn btn-danger" confirm="<?php print_html_attr(_T('Are you sure to remove this item?')); ?>"><i class="icon-trash"></i></a>
-            </td>
-        </tr>
-        <?php
-                    printPagesHTMLTree($pages, $page->id);
-                }
-            }
-        }
-        printPagesHTMLTree($pages);
-        ?>
-    </tbody>
-</table>
+ */ ?>
 

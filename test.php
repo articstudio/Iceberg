@@ -44,7 +44,7 @@ array_shift($array); //Remove the root node, which was only added as a helper
 
 print_r($array);
 */
-
+/*
 error_reporting(-1);
 ini_set('display_errors', 1);
 
@@ -136,3 +136,6 @@ function get_node_order_pages_tree($node) {
 $arr = order_pages_tree($arr);
 var_dump($arr);
 
+*/
+
+phpinfo();

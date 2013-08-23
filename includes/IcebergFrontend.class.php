@@ -24,7 +24,7 @@ class IcebergFrontend extends Environment
         'home' => 'index.php',
         'content' => 'content.php',
         '404' => '404.php',
-        'maintenance' => 'maintenance.php.php'
+        'maintenance' => 'maintenance.php'
     );
     
     
@@ -38,6 +38,27 @@ class IcebergFrontend extends Environment
     
     public function Config()
     {
+        if (Maintenance::InFrontendMode())
+        {
+            $this->environment = 'maintenance';
+        }
+        else
+        {
+            $this->environment = '404';
+            $page_id = RoutingFrontend::GetRequestPage();
+            if (is_null($page_id))
+            {
+                $this->environment = 'home';
+            }
+            else
+            {
+                $page = get_page($page_id);
+                if ($page->id != -1)
+                {
+                    $this->environment = 'content';
+                }
+            }
+        }
         //IF NO PAGE => HOME
         //ELSE IF PAGE => CONTENT
         //ELSE => 404

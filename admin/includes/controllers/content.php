@@ -6,6 +6,10 @@ function get_admin_modes_content($args)
         'publish' => array(
             'template' => 'content_publish.php',
             'name' => 'Publish'
+        ),
+        'menubar' => array(
+            'template' => 'content_menubar.php',
+            'name' => 'Menubar'
         )
     );
     $array = array_merge(isset($args[0]) ? $args[0] : array(), $array);

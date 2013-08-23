@@ -204,32 +204,6 @@ function get_theme_list($dir)
     return !is_null($__APP) ? $__APP->GetThemes($dir) : false;
 }
 
-function get_metatag($key)
-{
-    $metatags = Config::GetConfig(Config::$KEY_METATAGS_DEFAULT);
-    return isset($metatags[$key]) ? $metatags[$key] : '';
-}
-
-function get_metatag_title()
-{
-    $metatag = get_metatag('title');
-    list($metatag) = action_event('get_metatag_title',$metatag);
-    return $metatag;
-}
-
-function get_metatag_description()
-{
-    $metatag = get_metatag('description');
-    list($metatag) = action_event('get_metatag_description',$metatag);
-    return $metatag;
-}
-
-function get_metatag_keywords()
-{
-    $metatag = get_metatag('keywords');
-    list($metatag) = action_event('get_metatag_keywords',$metatag);
-    return $metatag;
-}
 
 
 

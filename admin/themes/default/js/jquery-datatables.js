@@ -663,8 +663,8 @@ function addDataTable($obj)
             }
         });
     }
-    /* DATATABLE */
-    var DTTT = $('#'+selector).dataTable({
+    /* ARGS */
+    var DTTT_args = {
         "sDom": "<'row-fluid'<'span6'T><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
         "bSort": DataSorting,
         "bPaginate": DataPaginate,
@@ -673,7 +673,36 @@ function addDataTable($obj)
         "oTableTools": {
             "aButtons": buttons
         }
-	});
+    };
+    /* TREE DATA */
+    /*var DataTree = $obj.hasClass('data-tree');
+    if (DataTree) {
+        DTTT_args = {
+            "sDom": "<'row-fluid'<'span6'T><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+            "oTreeTable": {
+                "fnPreInit": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    // This function will be registerd as "aoRowCallback" of jquery.dataTables,
+                    //  thus it has the same signature as "fnRowCallback".
+                    // Specify "id" & "class" attributes for each row (TR) required by jquery.treeTable:
+                    //   for parent rows, add class 'parent';
+                    //   for children rows, add a class with name of prefix - 'child-of-' and parent id
+                    
+                },
+                "showExpander": true
+                // The other settings to override the default options of jquery.treeTable, e.g. childPrefix, etc.
+            },
+            "bSort": DataSorting,
+            "bPaginate": DataPaginate,
+            "bInfo": DataPaginate,
+            "bFilter": DataFilter,
+            "oTableTools": {
+                "aButtons": buttons
+            }
+        };
+    }*/
+    /* DATATABLE */
+    var DTTT = $('#'+selector).dataTable(DTTT_args);
+    _datatables[selector] = DTTT;
     /* ORDER DATA */
     if (typeof DataOrder === 'string' && DataOrder !== '' && _.isURL(DataOrder))
     {

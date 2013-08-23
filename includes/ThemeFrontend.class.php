@@ -24,13 +24,16 @@ class ThemeFrontend extends Theme
      */
     public function Page()
     {
-        //$template = RoutingBackend::GetMode('template');
-        /*if (realpath($template) !== $template)
+        $page_id = RoutingFrontend::GetRequestPage();
+        $page = get_page($page_id);
+        $template = $page->GetTemplate();
+        if (empty($template))
         {
-            $template = $this->GetDirectory() . $template;
+            $taxonomy = $page->GetTaxonomy();
+            $templates = $taxonomy->GetTemplates();
+            $template = empty($templates) ? '' : current($templates);
         }
-        var_dump($template);*/
-        //action_event('theme_print_page');
-        //return $this->ThemeSnippet($template);
+        action_event('theme_print_page');
+        return $this->ThemeSnippet($template);
     }
 }

@@ -24,6 +24,8 @@ interface ObjectDBInterface
 abstract class ObjectDB extends ObjectDBBase implements ObjectDBInterface
 {
     
+    const FIELD_NOT_EMPTY = '_NOT_EMPTY_';
+    
     protected static $DB_LIMIT_PAGE_DEFAULT = 0;
     protected static $DB_LIMIT_ITEMS_DEFAULT = 30;
     

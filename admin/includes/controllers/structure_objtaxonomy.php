@@ -27,7 +27,7 @@ else if ($action == 'insert')
     }
     else if ($mode === 'pagetypes')
     {
-        $args['taxnomy'] = get_request_p('taxonomy', array());
+        $args['taxonomy'] = get_request_p('taxonomy', array());
         $obj = new PageType($args);
     }
     else if ($mode === 'pagetaxonomies')
@@ -37,6 +37,7 @@ else if ($action == 'insert')
         $args['permalink'] = get_request_p('permalink', false);
         $args['text'] = get_request_p('text', false);
         $args['image'] = get_request_p('image', false);
+        $args['childs'] = get_request_p('childs', false);
         $args['templates'] = get_request_p('templates', array());
         $args['elements'] = array();
         foreach ($e_names AS $k => $e_name) {
@@ -73,6 +74,7 @@ else if ($action == 'update')
         $obj->UsePermalink(get_request_p('permalink', false));
         $obj->UseText(get_request_p('text', false));
         $obj->UseImage(get_request_p('image', false));
+        $obj->ChildsAllowed(get_request_p('childs', false));
         $templates = get_request_p('templates', array());
         $obj->SetTemplates($templates);
         $e_names = get_request_p('element_name', array());

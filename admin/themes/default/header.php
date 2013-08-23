@@ -13,6 +13,5 @@
         <![endif]-->
         
         <?php theme_head(); ?>
-        <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     </head>
     <body class="<?php print in_admin_login() ? 'overflow' : ''; ?>">

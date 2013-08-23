@@ -98,17 +98,6 @@ abstract class RoutingBackendAPI extends Routing
         $this->SetLogin($this->request[static::REQUEST_KEY_USERNAME], $this->request[static::REQUEST_KEY_PASSWORD]);
     }
     
-    public function GetParsedRequest()
-    {
-        return $this->request;
-    }
-    
-    public function GetParsedRequestValue($key)
-    {
-        $request = $this->GetParsedRequest();
-        return array_key_exists($key, $request) ? $request[$key] : false;
-    }
-    
     
     
     

@@ -9,24 +9,30 @@ $elements = get_texonomy_elements();
 
 <hr />
 
-<h5><?php print_text('Uses'); ?></h5>
+<h5><?php print_text('Settings'); ?></h5>
 <div class="row-fluid">
-    <div class="span4">
+    <div class="span3">
         <label class="checkbox" for="permalink">
             <input type="checkbox" value="1" name="permalink" id="permalink" <?php print $obj->UsePermalink() ? 'checked' : ''; ?>>
             <?php print_text('Permalink'); ?>
         </label>
     </div>
-    <div class="span4">
+    <div class="span3">
         <label class="checkbox" for="text">
             <input type="checkbox" value="1" name="text" id="text" <?php print $obj->UseText() ? 'checked' : ''; ?>>
             <?php print_text('Text'); ?>
         </label>
     </div>
-    <div class="span4">
+    <div class="span3">
         <label class="checkbox" for="image">
             <input type="checkbox" value="1" name="image" id="image" <?php print $obj->UseImage() ? 'checked' : ''; ?>>
             <?php print_text('Image'); ?>
+        </label>
+    </div>
+    <div class="span3">
+        <label class="checkbox" for="image">
+            <input type="checkbox" value="1" name="childs" id="childs" <?php print $obj->ChildsAllowed() ? 'checked' : ''; ?>>
+            <?php print_text('Childs allowed'); ?>
         </label>
     </div>
 </div>

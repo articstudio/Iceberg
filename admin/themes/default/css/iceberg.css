@@ -46,6 +46,11 @@ a:hover:not(.btn) {
     margin-bottom:0px;
     padding-bottom:0px;
 }
+.form-actions.form-actions-mini {
+    background:transparent;
+    margin:0px 0px 0px 0px;
+    padding:5px 0px 0px 0px;
+}
 select[multiple] {
     height:200px;
 }
@@ -99,6 +104,12 @@ select[multiple] {
 }
 .widget > .btn-toolbar.header .btn{
     margin-top:0px;
+}
+.widget.collapsed {
+    height:0px;
+    min-height:0px;
+    overflow:hidden;
+    padding-bottom:0px;
 }
 .btn-toolbar {
     margin-top:0px;

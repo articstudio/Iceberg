@@ -21,7 +21,8 @@ else if ($action == 'insert')
         PageMeta::META_TITLE => get_request_p('name', '', true),
         PageMeta::META_PERMALINK => get_request_p('permalink', '', true),
         PageMeta::META_TEXT => get_request_p('text', '', true),
-        PageMeta::META_IMAGE => get_request_p('image', '', true)
+        PageMeta::META_IMAGE => get_request_p('image', '', true),
+        PageMeta::META_TEMPLATE => get_request_p('template', '', true)
     );
     $args = array(
         'taxonomy' => get_request_p('taxonomy', get_default_pagetaxnomy()),
@@ -47,7 +48,8 @@ else if ($action == 'update')
         PageMeta::META_TITLE => get_request_p('name', '', true),
         PageMeta::META_PERMALINK => get_request_p('permalink', '', true),
         PageMeta::META_TEXT => get_request_p('text', '', true),
-        PageMeta::META_IMAGE => get_request_p('image', '', true)
+        PageMeta::META_IMAGE => get_request_p('image', '', true),
+        PageMeta::META_TEMPLATE => get_request_p('template', '', true)
     );
     $args = array(
         'taxonomy' => get_request_p('taxonomy', get_default_pagetaxnomy()),
@@ -91,6 +93,35 @@ else if ($action == 'active')
 }
 else if ($action == 'order')
 {
+    $order = get_request_gp('order');
+    
+    function execReorder($arr, $parent=null)
+    {
+        foreach ($arr AS $k => $page) {
+            $id = $page['id'];
+            $done = Page::UpdateParent($id, $parent);
+            if ($done)
+            {
+                $done = Page::UpdateOrder($id, $k);
+                if ($done && isset($page['children']))
+                {
+                    $done = execReorder($page['children'], $id);
+                }
+            }
+        }
+        return $done;
+    }
+    
+    $done = execReorder($order);
+    if ($done)
+    {
+        add_alert('Page reordered', 'success');
+    }
+    else
+    {
+        add_alert('Failed to reorder page', 'error');
+    }
+    
     /*$parent = get_request_gp('parent');
     
     

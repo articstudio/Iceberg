@@ -34,45 +34,7 @@ class TE_Geolocation extends TaxonomyElements
             <label for="longitude-<?php print $this->GetAttrName(); ?>"><?php print_text( 'Longitude' ); ?></label>
             <input type="text" class="input-block-level" name="longitude-<?php print $this->GetAttrName(); ?>" id="longitude-<?php print $this->GetAttrName(); ?>" value="<?php print_html_attr($longitude); ?>" />
         </p>
-        <script>
-            var markers = [];
-            var map;
-            function initialize() {
-                var mapOptions = {
-                    zoom: 5,
-                    center: new google.maps.LatLng(<?php print($center_lat); ?>,<?php print($center_lng); ?>),
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-                map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
-
-                google.maps.event.addListener(map, 'click', function(e) {
-                    placeMarker(e.latLng, map);
-                });
-                
-                <?php if (!empty($latitude) && !empty($longitude)): ?>
-                placeMarker(new google.maps.LatLng(<?php print($latitude); ?>,<?php print($longitude); ?>), map);
-                <?php endif; ?>
-            }
-            function placeMarker(position, map) {
-                deleteOverlays();
-                document.getElementById('latitude-<?php print $this->GetAttrName(); ?>').value = position.lat();
-                document.getElementById('longitude-<?php print $this->GetAttrName(); ?>').value = position.lng();
-                var marker = new google.maps.Marker({
-                    position: position,
-                    map: map
-                });
-                map.panTo(position);
-                markers.push(marker);
-            }
-            function deleteOverlays() {
-                for (var i = 0; i < markers.length; i++) {
-                    markers[i].setMap(null);
-                }
-                markers = [];
-            }
-            google.maps.event.addDomListener(window, 'load', initialize);
-        </script>
-        <div id="map_canvas" class="gmap"></div>
+        <div id="map_canvas-<?php print $this->GetAttrName(); ?>" data-center="<?php print($center_lat); ?>,<?php print($center_lng); ?>" data-marker="<?php print($latitude); ?>,<?php print($longitude); ?>" data-action="place-marker" class="gmap" data-latitude="latitude-<?php print $this->GetAttrName(); ?>" data-longitude="longitude-<?php print $this->GetAttrName(); ?>"></div>
         <?php
         parent::FormEdit($page);
     }

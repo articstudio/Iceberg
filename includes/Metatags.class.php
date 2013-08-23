@@ -1,5 +1,8 @@
 <?php
 
+/** Include helpers metatag file */
+require_once ICEBERG_DIR_HELPERS . 'metatag.php';
+
 class Metatag extends ObjectConfig
 {
     /**
@@ -22,5 +25,31 @@ class Metatag extends ObjectConfig
     public static function Save($config)
     {
         return static::SaveConfig($config);
+    }
+    
+    public static function GetMetatag($key, $default='')
+    {
+        return static::GetConfigValue($key, $default);
+    }
+    
+    public static function GetTitle()
+    {
+        $metatag = static::GetMetatag('title');
+        list($metatag) = action_event('get_metatag_title',$metatag);
+        return $metatag;
+    }
+    
+    public static function GetDescription()
+    {
+        $metatag = static::GetMetatag('description');
+        list($metatag) = action_event('get_metatag_description',$metatag);
+        return $metatag;
+    }
+    
+    public static function GetKeywords()
+    {
+        $metatag = static::GetMetatag('keywords');
+        list($metatag) = action_event('get_metatag_keywords',$metatag);
+        return $metatag;
     }
 }

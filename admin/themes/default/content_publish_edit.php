@@ -18,14 +18,17 @@ $back = array('group'=>$pagegroup_id);
 $page = get_page($id);
 $p_type = get_pagetype($page->type);
 $p_taxonomy = get_pagetaxonomy($page->taxonomy);
+$p_templates = $p_taxonomy->GetTemplates();
 
 $language = get_language_info();
 $languages = get_active_langs();
 $pages = get_pages(array(
-    'group' => $pagegroup_id
+    'group' => $pagegroup_id,
+    'order' => 'name'
 ));
 $types = $pagegroup->GetTypeObject();
 $taxonomies = $pagegroup->GetTaxonomyObjects();
+$templates = $pagegroup->GetTemplates();
 $taxonomies_permalink = $pagegroup->GetTaxonomyUsePermalink();
 $taxonomies_text = $pagegroup->GetTaxonomyUseText();
 $taxonomies_image = $pagegroup->GetTaxonomyUseImage();
@@ -125,7 +128,7 @@ $taxonomies_image = $pagegroup->GetTaxonomyUseImage();
                     <select name="parent" id="parent" class="input-block-level">
                         <option value="NULL"></option>
                         <?php foreach ($pages AS $parent_page): ?>
-                        <?php if ($parent_page->id != $page->id): ?>
+                        <?php if ($parent_page->id != $page->id && $parent_page->GetTaxonomy()->ChildsAllowed()): ?>
                         <option value="<?php print $parent_page->id; ?>" <?php print ($parent_page->id == $page->parent) ? 'selected' : ''; ?>><?php print $parent_page->GetTitle(); ?></option>
                         <?php endif; ?>
                         <?php endforeach; ?>
@@ -144,17 +147,39 @@ $taxonomies_image = $pagegroup->GetTaxonomyUseImage();
                     <label for="taxonomy"><?php print_text('Taxonomy'); ?>:</label>
                     <select name="taxonomy" id="taxonomy" class="input-block-level" data-filter="type">
                         <?php foreach ($taxonomies AS $taxonomy): ?>
-                        <option value="<?php print $taxonomy->GetID(); ?>" <?php print ($taxonomy->GetID() == $page->taxonomy) ? 'selected' : ''; ?>><?php print $taxonomy->GetName(); ?></option>
+                        <option value="<?php print $taxonomy->GetID(); ?>" data-filter-values="<?php print implode(',', $taxonomy->GetTemplates()); ?>" <?php print ($taxonomy->GetID() == $page->taxonomy) ? 'selected' : ''; ?>><?php print $taxonomy->GetName(); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </p>
+                <?php if (count($templates) > 0): ?>
+                <p>
+                    <label for="template"><?php print_text('Template'); ?>:</label>
+                    <select name="template" id="template" class="input-block-level" data-filter="taxonomy">
+                        <?php foreach ($templates AS $template): ?>
+                        <option value="<?php print $template; ?>" <?php print ($template == $page->GetTemplate()) ? 'selected' : ''; ?>><?php print $template; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </p>
+                <?php endif; ?>
                 <?php else: ?>
                 <p>
                     <label><?php print_text('Type'); ?>: <strong><?php print $p_type->GetName(); ?></strong></label>
+                    <input type="hidden" name="type" value="<?php print $page->type; ?>" />
                 </p>
                 <p>
                     <label><?php print_text('Taxonomy'); ?>: <strong><?php print $p_taxonomy->GetName(); ?></strong></label>
+                    <input type="hidden" name="taxonomy" value="<?php print $page->taxonomy; ?>" />
                 </p>
+                <?php if (count($p_templates) > 0): ?>
+                <p>
+                    <label for="template"><?php print_text('Template'); ?>:</label>
+                    <select name="template" id="template" class="input-block-level" data-filter="taxonomy">
+                        <?php foreach ($p_templates AS $template): ?>
+                        <option value="<?php print $template; ?>" <?php print ($template == $page->GetTemplate()) ? 'selected' : ''; ?>><?php print $template; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </p>
+                <?php endif; ?>
                 <?php endif; ?>
             </div>
             

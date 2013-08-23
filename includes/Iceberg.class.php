@@ -69,6 +69,7 @@ class Iceberg {
         require_once ICEBERG_DIR_INCLUDES .'Request.class.php';
         require_once ICEBERG_DIR_INCLUDES .'I18N.class.php';
         require_once ICEBERG_DIR_INCLUDES .'Extension.class.php';
+        require_once ICEBERG_DIR_INCLUDES .'Menubar.class.php';
         
         
         require_once ICEBERG_DIR_INCLUDES .'Routing.class.php';
@@ -221,9 +222,11 @@ class Iceberg {
         Config::AddRow(Maintenance::$CONFIG_KEY);
         Config::AddRow(Extension::$CONFIG_KEY);
         Config::AddRow(PageConfig::$CONFIG_KEY);
+        Config::AddRow(Metatag::$CONFIG_KEY);
         Config::AddRow(IcebergCache::$CONFIG_KEY);
         Config::AddRow(Template::$CONFIG_KEY);
         Config::AddRow(TaxonomyElements::$CONFIG_KEY);
+        Config::AddRow(Menubar::$CONFIG_KEY);
         return Config::LoadConfig();
     }
     

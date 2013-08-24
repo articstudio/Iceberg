@@ -1,8 +1,4 @@
+# Unactive RewriteEngine for backend environment
 <IfModule mod_rewrite.c>
-    Options +FollowSymlinks
-    RewriteEngine On
-    RewriteRule ^index\.php$ - [L]
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule . index.php [L]
+    RewriteEngine Off
 </IfModule>

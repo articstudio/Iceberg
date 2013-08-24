@@ -30,11 +30,11 @@ function get_admin_modes_configuration($args)
         ),
         'db' => array(
             'template' => 'configuration_db.php',
-            'name' => 'DB'
+            'name' => 'Database'
         ),
         'details' => array(
             'template' => 'configuration_details.php',
-            'name' => 'Details'
+            'name' => 'Configuration'
         )
     );
     $array = array_merge(isset($args[0]) ? $args[0] : array(), $array);

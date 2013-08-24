@@ -1,18 +1,17 @@
 <?php
 
-
 /**
  * First require the Bootstrap library
  */
-require_once dirname( getcwd() ) . '/bootstrap.php' ;
+require_once dirname( getcwd() ) . DIRECTORY_SEPARATOR . 'bootstrap.php' ;
 
 /**
  * Execute Bootstrap
  */
 Bootstrap::Initialize(
     array(
-        'admin'=>true,
-        'root' => dirname( getcwd() )
+        'admin' => true,
+        'root'  => dirname( getcwd() )
     )
 );
 

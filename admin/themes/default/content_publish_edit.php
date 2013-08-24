@@ -32,6 +32,27 @@ $templates = $pagegroup->GetTemplates();
 $taxonomies_permalink = $pagegroup->GetTaxonomyUsePermalink();
 $taxonomies_text = $pagegroup->GetTaxonomyUseText();
 $taxonomies_image = $pagegroup->GetTaxonomyUseImage();
+
+function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = null)
+{
+    foreach ($pages AS $k => $page)
+    {
+        if (($parent === $page->parent || (is_null($parent) && !isset($pages[$page->parent]))) && $page->id != $actual && $page->GetTaxonomy()->ChildsAllowed())
+        {
+            ?>
+            <li>
+                <span class="click <?php print $page->id==$active ? 'active' : ''; ?>" data-click="<?php print $page->id; ?>"><?php print $page->GetTitle(); ?></span>
+                
+                <?php if ($page->GetTaxonomy()->ChildsAllowed()): ?>
+                <ul>
+                    <?php printPagesHTMLTree($pages, $active, $actual, $page->id); ?>
+                </ul>
+                <?php endif; ?>
+            </li>
+            <?php
+        }
+    }
+}
 ?>
 
 <form action="<?php print get_admin_action_link($submit); ?>" method="post" id="publish-edit">
@@ -123,17 +144,17 @@ $taxonomies_image = $pagegroup->GetTaxonomyUseImage();
                 <p>
                     <label><?php print_text('Group'); ?>: <strong><?php print $pagegroup->GetName(); ?></strong></label>
                 </p>
-                <p>
-                    <label for="parent"><?php print_text('Parent'); ?>:</label>
-                    <select name="parent" id="parent" class="input-block-level">
-                        <option value="NULL"></option>
-                        <?php foreach ($pages AS $parent_page): ?>
-                        <?php if ($parent_page->id != $page->id && $parent_page->GetTaxonomy()->ChildsAllowed()): ?>
-                        <option value="<?php print $parent_page->id; ?>" <?php print ($parent_page->id == $page->parent) ? 'selected' : ''; ?>><?php print $parent_page->GetTitle(); ?></option>
-                        <?php endif; ?>
-                        <?php endforeach; ?>
-                    </select>
-                </p>
+                
+                <label for="parent"><?php print_text('Parent'); ?>:</label>
+                <div class="treeview-container mini">
+                    <ul select-treeview="parent">
+                        <?php
+                        printPagesHTMLTree($pages, $page->parent, $id);
+                        ?>
+                    </ul>
+                    <input type="hidden" name="parent" id="parent" value="<?php print is_null($page->parent) ? 'NULL' : $page->parent; ?>" />
+                </div>
+                
                 <?php if ($is_new): ?>
                 <p>
                     <label for="type"><?php print_text('Type'); ?>:</label>

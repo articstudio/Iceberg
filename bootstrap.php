@@ -1,9 +1,10 @@
 <?php
+
 /** Defines the Bootstrap file is included */
 define('ICEBERG_BOOTSTRAP', true );
 
 /** Required configuration file */
-require_once dirname( __FILE__ ) . '/config.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'config.php';
 
 /** Required Database configuration file */
 if (is_file(ICEBERG_DB_FILE))
@@ -12,21 +13,20 @@ if (is_file(ICEBERG_DB_FILE))
 }
 
 /** Required settings file */
-require_once ICEBERG_DIR_INCLUDES . '/settings.php';
+require_once ICEBERG_DIR_INCLUDES . 'settings.php';
 
 /** Required IcebergException file */
-require_once ICEBERG_DIR_INCLUDES . '/Exception.class.php';
+require_once ICEBERG_DIR_INCLUDES . 'Exception.class.php';
 
 /**
  * Iceberg Bootstrap
  * 
  * Boot the system
  *  
- * @package Iceberg
- * @subpackage Bootstrap
+ * @package Bootstrap
  * @author Marc Mascort Bou marc@marcmascort.com
  * @version 1.0
- * @since 0.1
+ * @since 0
  */
 class Bootstrap
 {

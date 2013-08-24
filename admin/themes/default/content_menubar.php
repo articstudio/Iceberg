@@ -1,6 +1,32 @@
 <?php
 $links = get_menubar_links();
-$pages = get_pages(array('order'=>'name'));
+$pagegroups = get_pagegroups();
+
+
+function printPagesHTMLTree($pages, $parent = null)
+{
+    foreach ($pages AS $k => $page)
+    {
+        if ($parent === $page->parent || (is_null($parent) && !isset($pages[$page->parent])))
+        {
+            ?>
+            <li>
+                <?php if ($page->GetTaxonomy()->UsePermalink()): ?>
+                <span class="click" data-click="<?php print $page->id; ?>"><?php print $page->GetTitle(); ?></span>
+                <?php else: ?>
+                <span><?php print $page->GetTitle(); ?></span>
+                <?php endif; ?>
+                
+                <?php if ($page->GetTaxonomy()->ChildsAllowed()): ?>
+                <ul>
+                    <?php printPagesHTMLTree($pages, $page->id); ?>
+                </ul>
+                <?php endif; ?>
+            </li>
+            <?php
+        }
+    }
+}
 ?>
 <form action="<?php print get_admin_action_link(array('action'=>'save')); ?>" method="post" id="content-menubar" validate>
     <div class="well">
@@ -13,15 +39,19 @@ $pages = get_pages(array('order'=>'name'));
                     <header><?php print_text('Page'); ?></header>
                     <input type="hidden" id="typepage" value="page" data-push-value="type" />
                     <input type="hidden" id="urlpage" value="" data-push-value="url" />
-                    <p>
-                        <label for="pages"><?php print_text('Page'); ?>:</label>
-                        <select id="pages" class="input-block-level" data-push-value="page">
-                            <option value="-1"><?php print_text('Home'); ?></option>
-                            <?php foreach($pages AS $id => $page): ?>
-                            <option value="<?php printf($id); ?>"><?php printf($page->GetTitle()); ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </p>
+                    
+                    <div class="treeview-container">
+                        <?php foreach ($pagegroups AS $pagegroup): $pages = get_pages(array('order'=>'name', 'group'=>$pagegroup->GetID()));?>
+                        <p class="treeview-title"><?php print $pagegroup->GetName(); ?></p>
+                        <ul select-treeview="pages">
+                            <?php
+                            printPagesHTMLTree($pages);
+                            ?>
+                        </ul>
+                        <?php endforeach; ?>
+                        <input type="hidden" data-push-value="page" id="pages" value="" />
+                    </div>
+                    
                     <p>
                         <label class="mini" for="titlepage"><?php print_text('Title'); ?></label>
                         <input type="text" class="input-block-level" id="titlepage" value="" data-push-value="title" />

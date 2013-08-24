@@ -8,26 +8,26 @@ require_once ICEBERG_DIR_HELPERS . 'database.php';
  * 
  * Basics for MySQL Object
  *  
- * @package Iceberg
- * @subpackage Database
+ * @package MySQL
  * @author Marc Mascort Bou
  * @version 1.0
- * @since 1.0
+ * @since 0
  */
 class MySQLBase {
 
     /**
      * Constructor
      */
-    public function MySQLBase() {
+    public function __construct() {
         global $__MYSQL_ERROR_DEBUG_SHOW, $__MYSQL_ERROR_DEBUG_LOG, $__MYSQL_ERROR_DEBUG_LOG_FILE;
         ob_start();
     }
 
     /**
      * Get debuf info.
+     * @return String 
      */
-    static private function getDebugInfo() {
+    private static function getDebugInfo() {
         $debugInfoArray = debug_backtrace();
         $i = 0;
         while((isset($debugInfoArray[$i]["file"])) && (realPath($debugInfoArray[$i]["file"]) != realPath($_SERVER["SCRIPT_FILENAME"])) && ($i<sizeOf($debugInfoArray))) $i++;
@@ -36,8 +36,16 @@ class MySQLBase {
     
     /**
      * Report error
+     * @global Boolean $__MYSQL_ERROR_DEBUG_SHOW
+     * @global Boolean $__MYSQL_ERROR_DEBUG_LOG
+     * @global String $__MYSQL_ERROR_DEBUG_LOG_FILE
+     * @param String $msg
+     * @param Int $type
+     * @param Mixed $admin
+     * @param String $headers 
      */
-    static public function reportError($msg='', $type=0, $admin='', $headers='') {
+    public static function reportError ($msg='', $type=0, $admin='', $headers='')
+    {
         global $__MYSQL_ERROR_DEBUG_SHOW, $__MYSQL_ERROR_DEBUG_LOG, $__MYSQL_ERROR_DEBUG_LOG_FILE;
         $errno=-1;
         if(!$msg) {
@@ -78,20 +86,37 @@ class MySQLBase {
         }
     }
 
-    static public function Log($SQL, $numrows, $time)
+    /**
+     * Add new MySQL log
+     * @global array $__MYSQL_QUERY_LIST
+     * @param String $SQL
+     * @param Int $numrows
+     * @param Timestamp $time 
+     * @return Boolean 
+     */
+    public static function Log($SQL, $numrows, $time)
     {
         global $__MYSQL_QUERY_LIST;
         if (!is_array($__MYSQL_QUERY_LIST)) {$__MYSQL_QUERY_LIST = array();}
-        array_push($__MYSQL_QUERY_LIST, array($SQL, $numrows, $time));
+        return array_push($__MYSQL_QUERY_LIST, array($SQL, $numrows, $time));
     }
     
-    static public function GetLog()
+    /**
+     * Get MySQL log
+     * @global Array $__MYSQL_QUERY_LIST
+     * @return Array 
+     */
+    public static function GetLog()
     {
         global $__MYSQL_QUERY_LIST;
         if (!is_array($__MYSQL_QUERY_LIST)) {$__MYSQL_QUERY_LIST = array();}
         return $__MYSQL_QUERY_LIST;
     }
-    static public function PrintLog()
+    
+    /**
+     * Print MySQL log 
+     */
+    public static function PrintLog()
     {
         $log = static::GetLog();
         $time_total = 0;
@@ -115,8 +140,7 @@ class MySQLBase {
  * 
  * MySQL Object
  *  
- * @package Iceberg
- * @subpackage Database
+ * @package MySQL
  * @author Marc Mascort Bou
  * @version 1.0
  * @since 1.0
@@ -208,8 +232,8 @@ class MySQL extends MySQLBase{
      * Contructor
      * 
      * @global object $__MYSQL_LINK
-     * @param bool $new
-     * @param int $id
+     * @param bool $new [Optional]
+     * @param int $id [Optional]
      */
     public function MySQL($new=true, $id=-1) {
         global $__MYSQL_LINK;
@@ -270,7 +294,7 @@ class MySQL extends MySQLBase{
      * @param array $dbs [Optional] List of databases
      * @throws IcebergException If force and list is empty
      */
-    static public function ConnectAll($force=false, $dbs=array()) {
+    public static function ConnectAll($force=false, $dbs=array()) {
         global $__ICEBERG_DB, $__MYSQL_QUERY;
         $__ICEBERG_DB = !empty($dbs) ? $dbs : $__ICEBERG_DB;
         if (isset($__ICEBERG_DB) && is_array($__ICEBERG_DB) && !empty($__ICEBERG_DB)) {
@@ -295,7 +319,7 @@ class MySQL extends MySQLBase{
      * @param int $id [Optional] Connection ID
      * @return array/string Charset of connection or charset list of connections
      */
-    static public function GetCharset($id=null) {
+    public static function GetCharset($id=null) {
         global $__MYSQL_CONFIG;
         $id = MySQL::validIdConnection($id);
         if (is_array($id)) {
@@ -313,7 +337,7 @@ class MySQL extends MySQLBase{
      * @param int $id [Optional] Connection ID
      * @return array/string Collate of connection or collate list of connections
      */
-    static public function GetCollate($id=null) {
+    public static function GetCollate($id=null) {
         global $__MYSQL_CONFIG;
         $id = MySQL::validIdConnection($id);
         if (is_array($id)) {
@@ -331,7 +355,7 @@ class MySQL extends MySQLBase{
      * @param int $id [Optional] Connection ID
      * @return boolean Table exists
      */
-    static public function TableExists($table, $id=null) {
+    public static function TableExists($table, $id=null) {
         $id = MySQL::ValidIdConnection($id);
         $query = new Query("SHOW TABLES LIKE '" . mysql_escape($table) . "'", $id);
         $numrows = $query->numrows($id);
@@ -359,7 +383,7 @@ class MySQL extends MySQLBase{
      * @param int $id [Optional] Connection ID
      * @return int Connection ID
      */
-    static public function ValidIdConnection($id=null) {
+    public static function ValidIdConnection($id=null) {
         global $__MYSQL_LINK;
         if (is_null($id) && count($__MYSQL_LINK)>0) {
             $keys=array_keys($__MYSQL_LINK);
@@ -387,7 +411,7 @@ class MySQL extends MySQLBase{
      * 
      * @return array List of collates
      */
-    static public function GetCollates() {
+    public static function GetCollates() {
         return MySQL::$collates;
     }
 
@@ -396,9 +420,122 @@ class MySQL extends MySQLBase{
      * @global object $__MYSQL_LINK
      * @return bool If is connected
      */
-    static public function Connected() {
+    public static function Connected() {
         global $__MYSQL_LINK;
         return count($__MYSQL_LINK)>0 ? true : false;
+    }
+    
+    public static function Dump($args = array())
+    {
+        $defaults = array(
+            'drop_table' => true,
+            'create_table' => true,
+            'table_data' => true
+        );
+        $args = array_merge($defaults, $args);
+        ob_start();
+        echo '/* ICEBERG ' . ICEBERG_VERSION . ' */' . "\n";
+        echo '/* Domain: ' . get_domain_canonical() . ' */' . "\n";
+        echo '/* Time: ' . time() . ' */' . "\n";
+        echo "\n\n";
+        
+        $query = new Query();
+        $query->show_tables();
+        while ($row = $query->next(MYSQL_ROW_AS_ARRAY))
+        {
+            $table = current($row);
+            static::DumpTableStructure($table, $args);
+            static::DumpTableData($table, $args);
+        }
+        $buffer = ob_get_flush();
+        ob_end_clean();
+        return $buffer;
+    }
+    
+    public static function DumpTableStructure($table, $args = array())
+    {
+        echo '/* Table structure for table: ' . $table . ' */' . "\n";
+        if (isset($args['drop_table']) && $args['drop_table'])
+        {
+            echo "DROP TABLE IF EXISTS `$table`;\n\n";
+        }
+        if (isset($args['create_table']) && $args['create_table'])
+        {
+            $query = new Query();
+            $query->show_create_tables($table);
+            if ($query->numrows())
+            {
+                $row = $query->next(MYSQL_ROW_AS_ARRAY);
+                $create = $row['Create Table'];
+                echo $create . ";\n\n";
+            }
+        } 
+    }
+    
+    public static function DumpTableData($table, $args = array())
+    {
+        echo '/* Table data for table: ' . $table . ' */' . "\n";
+        if (isset($args['table_data']) && $args['table_data'])
+        {
+            $query = new Query();
+            $query->select($table);
+            $num_rows = $query->numrows();
+            $num_fields = $query->numfields();
+            
+            if ($num_rows > 0)
+            {
+                $field_type = array();
+                for ($i=0; $i < $num_fields; $i++)
+                {
+                    $meta = $query->field($i);
+                    array_push($field_type, $meta->type);
+                }
+                echo "INSERT INTO `$table` VALUES\n";
+                $index = 0;
+                while($row = $query->next(MYSQL_ROW_AS_ARRAY))
+                {
+                    echo "(";
+                    for ($i=0; $i < $num_fields; $i++)
+                    {
+                        if(is_null( $row[$i]))
+                        {
+                            echo "null";
+                        }
+                        else
+                        {
+                            switch( $field_type[$i])
+                            {
+                                case 'int':
+                                    echo $row[$i];
+                                    break;
+                                case 'string':
+                                case 'blob' :
+                                default:
+                                    echo "'".mysql_escape($row[$i])."'";
+                                    break;
+                            }
+                        }
+                        if($i < $num_fields-1)
+                        {
+                            echo ",";
+                        }
+                    }
+                    echo ")";
+                    if( $index < $num_rows-1)
+                    {
+                        echo ",";
+                    }
+                    else
+                    {
+                        echo ";";
+                    }
+                    echo "\n";
+                    $index++;
+                }
+                
+            }
+        }
+        echo "\n\n";
     }
 }
 
@@ -407,11 +544,11 @@ class MySQL extends MySQLBase{
  * 
  * MySQL query object
  *  
- * @package Iceberg
- * @subpackage MySQL
+ * @package MySQL
+ * @subpackage Query
  * @author Marc Mascort Bou
  * @version 1.0
- * @since 1.0
+ * @since 0
  */
 class Query extends MySQLBase {
     
@@ -516,6 +653,20 @@ class Query extends MySQLBase {
         }
         return $done;
     }
+    
+    public function show_tables($id=null)
+    {
+        $this->validIdConnection($id);
+        $sql = 'SHOW TABLES';
+        return $this->doQuery($sql, $this->id);
+    }
+    
+    public function show_create_tables($table, $id=null)
+    {
+        $this->validIdConnection($id);
+        $sql = 'SHOW CREATE TABLE ' . $table;
+        return $this->doQuery($sql, $this->id);
+    }
 
     public function getInsertId($id=null) {
         $this->validIdConnection($id);
@@ -546,6 +697,24 @@ class Query extends MySQLBase {
             //return $this->numrows[$this->id];
         }
     }
+
+    public function numfields($id=null) {
+        $this->validIdConnection($id);
+        if (is_array($this->id)) {
+            $return=array();
+            foreach($this->id AS $key=>$value) {
+                if(!($num = @mysql_num_fields($this->result[$this->id]))) { $return[$value]=0; }
+                else { $return[$value]=$num; }
+                //$return[$value]=$this->numrows[$value];
+            }
+            return $return;
+        }
+        else {
+            if(!($num = @mysql_num_fields($this->result[$this->id]))) { return 0; }
+            else { return $num; }
+            //return $this->numrows[$this->id];
+        }
+    }
     
     public function done($id=null) {
         $this->validIdConnection($id);
@@ -564,6 +733,23 @@ class Query extends MySQLBase {
         if(is_null($method)) { $method = $__MYSQL_ROW_METHOD; }
         if($method == MYSQL_ROW_AS_OBJECT) { return $this->fetchObjectRow($id); }
         elseif($method == MYSQL_ROW_AS_ARRAY) { return $this->fetchArrayRow($id); }
+    }
+    
+    public function field($n=0, $id=null)
+    {
+        $this->validIdConnection($id);
+        if (is_array($this->id)) {
+            $return=array();
+            foreach($this->id AS $key=>$value) {
+                if(!($row = @mysql_fetch_field($this->result[$value], $n))) { $return[$value]=false; }
+                else { $return[$value]=$row; }
+            }
+            return $return;
+        }
+        else {
+            if(!($row = @mysql_fetch_field($this->result[$this->id], $n))) { return false; }
+            else { return $row; }
+        }
     }
 
     public function free() {

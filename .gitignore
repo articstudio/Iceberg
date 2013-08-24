@@ -208,7 +208,7 @@ pip-log.txt
 .coverage
 .tox
 
-#Translations
+# Translations
 *.mo
 
 
@@ -217,16 +217,21 @@ pip-log.txt
 ## Netbeans
 #############
 
-#Netbeans directories
+# Netbeans directories
 nbproject/
 
 
 #############
 ## Iceberg
 #############
-#Mr Developer
+# Mr Developer
 .mr.developer.cfg
+
 /db.php
-/content/uploads/*
+/content/uploads/
 /content/themes/*
 !/content/themes/default/
+
+# Documentation
+/documentation/
+/phpdoc/

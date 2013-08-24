@@ -12,7 +12,7 @@ function get_elfinder_api_link($params=array())
 
 
 /* ADMIN */
-function elFinderAdminFoot()
+function theme_print_foot_elfinder()
 {
     if (!in_admin_login())
     {
@@ -29,7 +29,7 @@ function elFinderAdminFoot()
 
 if (in_admin())
 {
-    add_action('theme_print_foot', 'elFinderAdminFoot');
+    add_action('theme_print_foot', 'theme_print_foot_elfinder');
 }
 
 /* API */

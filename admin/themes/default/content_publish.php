@@ -81,7 +81,8 @@ $pages = get_pages(array(
                 <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'edit')); ?>" class="btn btn-inverse"><i class="icon-pencil icon-white"></i></a>
                 <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'remove')); ?>" class="btn btn-danger" confirm="<?php print_html_attr(_T('Are you sure to remove this item?')); ?>"><i class="icon-trash"></i></a>
             </div>
-            <div class="treetable-handle"><?php print $page->GetTitle(); ?></div>
+            <div class="treetable-handle">Drag</div>
+            <div class="treetable-content"><?php print $page->GetTitle(); ?></div>
             <?php if ($page->GetTaxonomy()->ChildsAllowed()) { printPagesHTMLTree($pages, $page->id); } ?>
         </li>
     <?php

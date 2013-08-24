@@ -32,7 +32,7 @@ abstract class TaxonomyElementsBase extends ObjectConfig
         $elements = array();
         foreach ($config['iceberg'] AS $element)
         {
-            $elements[ICEBERG_DIR_TAXONOMY_ELEMENTS . $element . '.class.php'] = $element;
+            $elements[ICEBERG_DIR_TAXONOMY . $element . '.class.php'] = $element;
         }
         foreach ($config['dynamic'] AS $k => $element)
         {

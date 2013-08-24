@@ -1,5 +1,5 @@
+# Active RewriteEngine for API environment
 <IfModule mod_rewrite.c>
-    Options +FollowSymlinks
     RewriteEngine On
     RewriteRule ^index\.php$ - [L]
     RewriteCond %{REQUEST_FILENAME} !-f

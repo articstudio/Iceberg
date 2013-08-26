@@ -146,6 +146,11 @@ class Session extends ObjectConfig
         return session_name();
     }
     
+    public static function GetLevels()
+    {
+        return static::GetConfigValue('levels', array());
+    }
+    
     public static function GetMinimumLevel()
     {
         return static::GetConfigValue('minimum-level', 0);

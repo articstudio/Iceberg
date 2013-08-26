@@ -311,6 +311,7 @@ class Iceberg {
             {
                 print "\n\n" . '<!-- Page generated in ' . $time . ' seconds -->';
                 MySQL::PrintLog();
+                IcebergCache::PrintLog();
             }
         }
         else {

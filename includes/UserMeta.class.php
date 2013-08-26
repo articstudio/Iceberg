@@ -50,9 +50,12 @@ class UserMeta extends ObjectDBRelations
         'user-meta' => array(
             'object' => 'User',
             'force' => true,
-            'function' => 'get_user_id'
+            'function' => 'get_user_id',
+            'language' => true
         )
     );
+    
+    const RELATION_KEY_USER = 'user-meta';
     
     /**
      * Last visit META

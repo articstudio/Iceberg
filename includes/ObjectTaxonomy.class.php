@@ -69,8 +69,77 @@ class ObjectTaxonomy
     }
     
     
+    
+    
+    public static function GetCacheListKey($class, $lang=null)
+    {
+        $class = is_object($class) ? get_class($class) : $class;
+        $key = $class . 'List';
+        return $key;
+    }
+    
+    public static function GetCacheListID($args, $lang=null)
+    {
+        $key = md5(json_encode($args));
+        return $key;
+    }
+    
+    public static function GetCacheList($args, $lang=null)
+    {
+        $found = false;
+        $list = array();
+        $id = static::GetCacheListID($args, $lang);
+        $class = get_called_class();
+        $rel = static::GetCacheListKey($class, $lang);
+        $ids = IcebergCache::GetObject($id, $rel);
+        if (is_array($ids))
+        {
+            $found = true;
+            foreach ($ids AS $id)
+            {
+                $cache = IcebergCache::GetObject($id, $class);
+                if ($cache === false)
+                {
+                    $found = false;
+                    break;
+                }
+                else
+                {
+                    $list[$id] = $cache;
+                }
+            }
+        }
+        return $found ? $list : false;
+    }
+    
+    public static function AddCacheList($args, $list, $lang=null)
+    {
+        $done = true;
+        $class = null;
+        foreach ($list AS $id => $object)
+        {
+            $done = IcebergCache::AddObject($id, $object);
+            $class = get_class($object);
+            if (!$done) { break; }
+        }
+        if ($done)
+        {
+            $id = static::GetCacheListID($args, $lang);
+            $rel = static::GetCacheListKey($class, $lang);
+            $ids = array_keys($list);
+            return IcebergCache::AddObject($id, $ids, $rel);
+        }
+        return false;
+    }
+    
+    
     public static function GetList($args=array(), $lang=null)
     {
+        $obj = static::GetCacheList($args, $lang);
+        if ($obj !== false)
+        {
+            return $obj;
+        }
         $fields = static::GetSelectFields();
         $where = static::GetWhereFields($args);
         $orderby = static::GetOrderFields($args);
@@ -88,9 +157,9 @@ class ObjectTaxonomy
         {
             $arr[$k] = Taxonomy::DB_DecodeFieldValue($v->value);
             $arr[$k]->SetID($k);
-            IcebergCache::AddObject($k, $arr[$k]);
         }
         reset($arr);
+        static::AddCacheList($args, $arr, $lang);
         return $arr;
     }
     

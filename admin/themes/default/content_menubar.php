@@ -231,4 +231,4 @@ function printPagesHTMLTree($pages, $parent = null)
             </p>
         </div>
     </li>
-</script
+</script>

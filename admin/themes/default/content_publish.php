@@ -63,6 +63,8 @@ $pages = get_pages(array(
     <?php
     function printPagesHTMLTree($pages, $parent = null)
     {
+        $languages = get_active_langs();
+        $language = get_language_info();
         ?>
     <ol class="treetable-list">
         <?php
@@ -71,8 +73,54 @@ $pages = get_pages(array(
             if ($parent === $page->parent || (is_null($parent) && !isset($pages[$page->parent])))
             {
     ?>
-        <li class="treetable-item treetable-collapsed" data-id="<?php print $page->id; ?>">
+        <li class="treetable-item" data-id="<?php print $page->id; ?>">
             <div class="treetable-actions">
+                
+                
+                <?php if (count($languages) > 1): ?>
+                <?php foreach ($languages AS $locale => $lang): ?>
+                <?php if ($locale !== $language['locale']): ?>
+                <?php if ($page->IsTranslated($locale)): ?>
+                <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'edit', 'tlang'=>$locale)); ?>" class="btn">
+                    <img src="<?php print get_base_url() . $lang['flag']; ?>" alt="<?php print_html_attr($lang['name']); ?>" />
+                    <i class="icon-pencil"></i>
+                </a>
+                <?php else: ?>
+                <div class="btn-group">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        <img src="<?php print get_base_url() . $lang['flag']; ?>" alt="<?php print_html_attr($lang['name']); ?>" />
+                        <i class="icon-plus"></i>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'new', 'tlang'=>$locale, 'duplicate'=>1)); ?>">
+                                <i class="icon-retweet"></i>
+                                <?php print_text('Duplicate'); ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'new', 'tlang'=>$locale)); ?>">
+                                <i class="icon-globe"></i>
+                                <?php print_text('Translate'); ?>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <?php endif; ?>
+                <?php endif; ?>
+                <?php endforeach; ?>
+                <?php endif; ?>
+                
+                
+                
+                <?php /* foreach ($languages AS $locale => $lang): ?>
+                <?php if ($locale !== $language['locale']): ?>
+                <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'translate', 'tlang'=>$locale)); ?>" class="btn">
+                    <img src="<?php print get_base_url() . $lang['flag']; ?>" alt="<?php print_html_attr($lang['name']); ?>" />
+                </a>
+                <?php endif; ?>
+                <?php endforeach; */ ?>
+                
                 <?php if ($page->status): ?>
                 <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'unactive')); ?>" class="btn btn-success"><i class="icon-ok icon-white"></i></a>
                 <?php else: ?>

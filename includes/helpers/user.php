@@ -1,8 +1,13 @@
 <?php
 
-function get_user($id=null)
+function get_user($id=null, $lang=null)
 {
-    return User::GetUser($id);
+    return User::GetUser($id, $lang);
+}
+
+function get_user_list($args=array(), $lang=null)
+{
+    return User::GetList($args, $lang);
 }
 
 /**

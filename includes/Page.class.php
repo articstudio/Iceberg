@@ -80,7 +80,7 @@ abstract class PageBase extends ObjectDBRelations
             'object' => 'Page',
             'force' => false,
             'function' => '',
-            'language' => false
+            'language' => true
         ),
         'user-create' => array(
             'object' => 'User',
@@ -176,7 +176,7 @@ class Page extends PageBase
     
     public function SetMeta($key, $value, $lang=null)
     {
-        $lang = is_null($lang) ? get_lang() : $lang;
+        $lang = is_null($lang) ? $this->lang : $lang;
         $this->metas = !is_array($this->metas) ? array() : $this->metas;
         $this->metas[$lang] = (!isset($this->metas[$lang]) || !is_array($this->metas[$lang])) ? array() : $this->metas[$lang];
         $this->metas[$lang][$key] = $value;
@@ -184,17 +184,18 @@ class Page extends PageBase
     
     public function SaveMeta($key, $value, $lang=null)
     {
+        $lang = is_null($lang) ? $this->lang : $lang;
         $done = $this->SetMeta($key, $value, $lang);
         if ($done)
         {
-            return static::IsertUpdateMeta($this->id, $key, $value, $lang);
+            return static::InsertUpdateMeta($this->id, $key, $value, $lang);
         }
         return $done;
     }
     
     public function GetMeta($key, $default=false, $lang=null)
     {
-        $lang = is_null($lang) ? get_lang() : $lang;
+        $lang = is_null($lang) ? $this->lang : $lang;
         if (is_array($this->metas) && isset($this->metas[$lang]))
         {
             if (is_array($this->metas[$lang]) && isset($this->metas[$lang][$key]))
@@ -345,7 +346,7 @@ class Page extends PageBase
         return static::DB_Update($id, $args);
     }
     
-    public static function IsertUpdateMeta($id, $key, $value, $lang=null)
+    public static function InsertUpdateMeta($id, $key, $value, $lang=null)
     {
         $args_meta = array(
             'name' => $key,
@@ -354,18 +355,28 @@ class Page extends PageBase
         $where = array(
             'name' => $key
         );
-        return static::DB_InsertUpdateChild('PageMeta', $args_meta, $where, $id);
+        return static::DB_InsertUpdateChild('PageMeta', $args_meta, $where, $id, $lang);
     }
     
-    public static function InsertUpdateRelation($id, $rel, $parent)
+    public static function InsertUpdateRelation($id, $rel, $parent, $lang=null, $count=null)
     {
         $args_rel = array(
             DBRelation::GetParentField() => $parent
         );
+        if (!is_null($count))
+        {
+            $args_rel[DBRelation::GetCountField()] = $count;
+        }
         $where_rel = array(
             DBRelation::GetNameField() => $rel,
             DBRelation::GetChildField() => $id
         );
+        $parent = static::GetParent($rel);
+        if ($parent['language'])
+        {
+            $lang = is_null($lang) ? I18N::GetLanguage() : $lang;
+            $where_rel[DBRelation::GetLanguageField()] = $lang;
+        }
         return DBRelation::DB_InsertUpdate($args_rel, $where_rel);
     }
     
@@ -389,14 +400,14 @@ class Page extends PageBase
             $metas = PageMeta::Normalize(isset($args['metas']) ? $args['metas'] : array());
             foreach ($metas AS $key => $value)
             {
-                static::IsertUpdateMeta($id, $key, $value, $lang);
+                static::InsertUpdateMeta($id, $key, $value, $lang);
             }
             
             $taxonomy = PageTaxonomy::Get($taxonomy);
             $elements = $taxonomy->GetElements();
             foreach ($elements AS $element)
             {
-                static::IsertUpdateMeta($id, $element->GetAttrName(), $element->GetFormEdit(), $lang);
+                static::InsertUpdateMeta($id, $element->GetAttrName(), $element->GetFormEdit(), $lang);
             }
         }
         return $id;
@@ -424,20 +435,20 @@ class Page extends PageBase
             );
             foreach ($relations AS $rel => $parent)
             {
-                static::InsertUpdateRelation($id, $rel, $parent);
+                static::InsertUpdateRelation($id, $rel, $parent, $lang);
             }
             
             $metas = PageMeta::Normalize(isset($args['metas']) ? $args['metas'] : array());
             foreach ($metas AS $key => $value)
             {
-                static::IsertUpdateMeta($id, $key, $value, $lang);
+                static::InsertUpdateMeta($id, $key, $value, $lang);
             }
             
             $taxonomy = PageTaxonomy::Get($taxonomy);
             $elements = $taxonomy->GetElements();
             foreach ($elements AS $element)
             {
-                static::IsertUpdateMeta($id, $element->GetAttrName(), $element->GetFormEdit(), $lang);
+                static::InsertUpdateMeta($id, $element->GetAttrName(), $element->GetFormEdit(), $lang);
             }
         }
         return $done;
@@ -473,9 +484,154 @@ class Page extends PageBase
         return $done;
     }
     
+    public static function Translate($id, $lang, $args=array())
+    {
+        $done = static::InsertUpdateRelation($id, static::RELATION_KEY_DOMAIN, get_domain_request_id(), $lang);
+        if ($done)
+        {
+            $done = static::Update($id, $args, $lang);
+        }
+        return $done;
+    }
+    
+    public static function Duplicate($id, $fromLang, $toLang)
+    {
+        $page = static::GetPage($id, $fromLang);
+        $done = static::InsertUpdateRelation($id, static::RELATION_KEY_DOMAIN, get_domain_request_id(), $toLang, $page->order);
+        if ($done)
+        {
+            $args_update = array(
+                'updated' => date('Y-m-d H:i:s')
+            );
+            $where_update = array(
+                'id' => $id
+            );
+            $relations = array();
+            $done = static::DB_UpdateWhere($args_update, $where_update, $relations, $toLang);
+            if ($done)
+            {
+                $relations = array(
+                    static::RELATION_KEY_TYPE => $page->type,
+                    static::RELATION_KEY_TAXONOMY => $page->taxonomy,
+                    static::RELATION_KEY_GROUP => $page->group,
+                    static::RELATION_KEY_PARENT => $page->parent,
+                    static::RELATION_KEY_USER_UPDATE => get_user_id()
+                );
+                foreach ($relations AS $rel => $parent)
+                {
+                    static::InsertUpdateRelation($id, $rel, $parent, $toLang);
+                }
+                $metas = array(
+                    PageMeta::META_TITLE => $page->GetTitle(),
+                    PageMeta::META_PERMALINK => $page->GetPermalink(),
+                    PageMeta::META_TEXT => $page->GetText(),
+                    PageMeta::META_IMAGE => $page->GetImage(),
+                    PageMeta::META_TEMPLATE => $page->GetTemplate()
+                );
+                $metas = PageMeta::Normalize($metas);
+                foreach ($metas AS $key => $value)
+                {
+                    static::InsertUpdateMeta($id, $key, $value, $toLang);
+                }
+
+                $taxonomy = PageTaxonomy::Get($page->taxonomy);
+                $elements = $taxonomy->GetElements();
+                foreach ($elements AS $e_name => $element)
+                {
+                    static::InsertUpdateMeta($id, $e_name, $page->GetMeta($e_name, ''), $toLang);
+                }
+            }
+        }
+        return $done;
+    }
+    
+    /* CACHE */
+    public static function GetCacheKey($id, $lang=null)
+    {
+        $lang = is_null($lang) ? I18N::GetLanguage() : $lang;
+        $key = 'Page_' . $lang;
+        return $key;
+    }
+    
+    public static function GetCache($id, $lang=null)
+    {
+        $rel = static::GetCacheKey($id, $lang);
+        return IcebergCache::GetObject($id, $rel);
+        
+    }
+    
+    public static function AddCache($id, $object, $lang=null)
+    {
+        $rel = static::GetCacheKey($id, $lang);
+        return IcebergCache::AddObject($id, $object, $rel);
+    }
+    
+    public static function GetCacheListKey($args, $lang=null)
+    {
+        $lang = is_null($lang) ? I18N::GetLanguage() : $lang;
+        $key = 'PageList_' . $lang;
+        return $key;
+    }
+    
+    public static function GetCacheListID($args, $lang=null)
+    {
+        $key = md5(json_encode($args));
+        return $key;
+    }
+    
+    public static function GetCacheList($args, $lang=null)
+    {
+        $found = false;
+        $list = array();
+        $id = static::GetCacheListID($args, $lang);
+        $rel = static::GetCacheListKey($args, $lang);
+        $ids = IcebergCache::GetObject($id, $rel);
+        if (is_array($ids))
+        {
+            $found = true;
+            foreach ($ids AS $id)
+            {
+                $cache = static::GetCache($id, $lang);
+                if ($cache === false)
+                {
+                    $found = false;
+                    break;
+                }
+                else
+                {
+                    $list[$id] = $cache;
+                }
+            }
+        }
+        return $found ? $list : false;
+    }
+    
+    public static function AddCacheList($args, $list, $lang=null)
+    {
+        $done = true;
+        foreach ($list AS $id => $object)
+        {
+            $done = static::AddCache($id, $object, $lang);
+            if (!$done) { break; }
+        }
+        if ($done)
+        {
+            $id = static::GetCacheListID($args, $lang);
+            $rel = static::GetCacheListKey($args, $lang);
+            $ids = array_keys($list);
+            return IcebergCache::AddObject($id, $ids, $rel);
+        }
+        return false;
+    }
+    
     /* GET */
     public static function GetList($args=array(), $lang=null)
     {
+        $obj = static::GetCacheList($args, $lang);
+        if ($obj !== false)
+        {
+            return $obj;
+        }
         $fields = static::GetSelectFields();
         $where = static::GetWhereFields($args);
         $orderby = static::GetOrderFields($args);
@@ -496,20 +652,28 @@ class Page extends PageBase
             }
         }
         reset($pages);
-        /** @todo CACHE */
+        
+        static::AddCacheList($args, $pages, $lang);
         
         return $pages;
     }
     
     public static function GetPage($id, $lang=null)
     {
+        $obj = static::GetCache($id, $lang);
+        if ($obj !== false)
+        {
+            return $obj;
+        }
         $fields = static::GetSelectFields();
         $where = static::GetWhereFields(array('id' => $id));
         $pages = static::DB_Select($fields, $where, array(), array(0, 1), array(), $lang);
         if (is_array($pages) && !empty($pages))
         {
             $page = current($pages);
-            return static::GetPageFromObject($page, $lang);
+            $page = static::GetPageFromObject($page, $lang);
+            static::AddCache($id, $page, $lang);
+            return $page;
             
         }
         return new Page();

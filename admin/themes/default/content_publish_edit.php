@@ -10,25 +10,41 @@ else
 {
     $pagegroup = get_pagegroup($pagegroup_id);
 }
+
+$language = get_language_info();
+$languages = get_active_langs();
+
 $id = (int)get_request_id();
-$is_new = !(bool)$id;
-$submit = $is_new ? array('action'=>'insert', 'group'=>$pagegroup_id) : array('action'=>'update', 'id'=>$id, 'group'=>$pagegroup_id);
+$action = get_request_action();
+
+$tlang = get_request_gp('tlang');
+$tlanguage = get_language_info($tlang);
+
+$is_duplicate = (bool)get_request_g('duplicate');
+$is_translate = $tlang===false ? $tlang : is_active_language($tlang);
+
+$plang = $is_translate && !$is_duplicate ? $tlang : $language['locale'];
+$page = get_page($id, $plang);
+$tpage = $is_translate ? get_page($id) : $page;
+
+$is_new = !(bool)$id || $action === 'new' || $page->id === -1;
+
+$submit = $is_new ? ($is_translate ? array('action'=>'translate', 'id'=>$id, 'group'=>$pagegroup_id, 'tlang'=>$tlang) : array('action'=>'insert', 'group'=>$pagegroup_id)) : ($is_translate ? array('action'=>'translate', 'id'=>$id, 'group'=>$pagegroup_id, 'tlang'=>$tlang) : array('action'=>'update', 'id'=>$id, 'group'=>$pagegroup_id));
 $back = array('group'=>$pagegroup_id);
 
-$page = get_page($id);
 $p_type = get_pagetype($page->type);
 $p_taxonomy = get_pagetaxonomy($page->taxonomy);
 $p_templates = $p_taxonomy->GetTemplates();
 
-$language = get_language_info();
-$languages = get_active_langs();
 $pages = get_pages(array(
     'group' => $pagegroup_id,
     'order' => 'name'
-));
+), $plang);
+
 $types = $pagegroup->GetTypeObject();
 $taxonomies = $pagegroup->GetTaxonomyObjects();
 $templates = $pagegroup->GetTemplates();
+
 $taxonomies_permalink = $pagegroup->GetTaxonomyUsePermalink();
 $taxonomies_text = $pagegroup->GetTaxonomyUseText();
 $taxonomies_image = $pagegroup->GetTaxonomyUseImage();
@@ -54,6 +70,13 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
     }
 }
 ?>
+
+<?php if ($is_translate): ?>
+<div class="alert alert-info">
+    <img src="<?php print get_base_url() . $tlanguage['flag']; ?>" alt="<?php print_html_attr($tlanguage['name']); ?>" />
+    <strong><?php print_text('Content is showing and editing in'); ?> <?php print $tlanguage['name']; ?></strong>
+</div>
+<?php endif; ?>
 
 <form action="<?php print get_admin_action_link($submit); ?>" method="post" id="publish-edit">
     <div class="row-fluid">
@@ -103,14 +126,100 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                 
                 <div class="form-actions text-right">
                     <a href="<?php print get_admin_action_link($back); ?>" class="btn btn-large btn-inverse"><?php print_text('Cancel'); ?> <i class="icon-remove-circle icon-white"></i></a>
+                    <?php if ($is_translate): ?>
+                    <button type="submit" class="btn btn-large btn-success"><img src="<?php print get_base_url() . $tlanguage['flag']; ?>" alt="<?php print_html_attr($tlanguage['name']); ?>" /> <?php print_text('Save'); ?></button>
+                    <?php else: ?>
                     <button type="submit" class="btn btn-large btn-success"><?php print_text('Save'); ?> <i class="icon-ok-circle icon-white"></i></button>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
         <div class="span3">
-            <div class="well">
+            
+            <?php if (count($languages) > 1): ?>
+            <?php if ($is_translate): ?>
+            
+            <div class="well widget">
+                <header><?php print_text('Translation'); ?></header>
+                <div class="btn-toolbar header">
+                    <a href="#" class="btn btn-inverse btn-mini" btn-action="collapse"><i class="icon-chevron-up icon-white"></i></a>
+                    <a href="#" class="btn btn-inverse btn-mini" btn-action="expand"><i class="icon-chevron-down icon-white"></i></a>
+                </div>
+                
+                <p>
+                    <img src="<?php print get_base_url() . $tlanguage['flag']; ?>" alt="<?php print_html_attr($tlanguage['name']); ?>" /> <?php print $tlanguage['name']; ?>
+                </p>
+                <p>
+                    <i><?php print $tpage->GetTitle(); ?></i>
+                </p>
+                
+                <?php if (count($languages) > 2): ?>
+                <p>
+                    <strong><?php print_text('Duplicate'); ?>:</strong>
+                </p>
+                <?php foreach ($languages AS $locale => $lang): ?>
+                <?php if ($language['locale'] !== $locale && $tlang !== $locale): ?>
+                <p>
+                    
+                    <label class="checkbox" for="duplicate_<?php print_html_attr($locale); ?>">
+                        <input type="checkbox" name="duplicate[]" id="duplicate_<?php print_html_attr($lang['locale']); ?>" value="<?php print_html_attr($locale); ?>" <?php print !$page->IsTranslated($locale) ? 'checked' : ''; ?> />
+                        <img src="<?php print get_base_url() . $lang['flag']; ?>" alt="<?php print_html_attr($lang['name']); ?>" />
+                        <?php print $lang['name']; ?>
+                        <?php if ($page->IsTranslated($locale)): ?>
+                        <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'edit', 'tlang'=>$locale)); ?>" class="">
+                            <i class="icon-pencil"></i>
+                        </a>
+                        <?php endif; ?>
+                    </label>
+                </p>
+                <?php endif; ?>
+                <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+            
+            <?php else: ?>
+            
+            <div class="well widget">
+                <header><?php print_text('Translations'); ?></header>
+                <div class="btn-toolbar header">
+                    <a href="#" class="btn btn-inverse btn-mini" btn-action="collapse"><i class="icon-chevron-up icon-white"></i></a>
+                    <a href="#" class="btn btn-inverse btn-mini" btn-action="expand"><i class="icon-chevron-down icon-white"></i></a>
+                </div>
+                
+                <p>
+                    <strong><?php print_text('Duplicate'); ?>:</strong>
+                </p>
+                <?php foreach ($languages AS $locale => $lang): ?>
+                <?php if ($language['locale'] !== $locale): ?>
+                <p>
+                    
+                    <label class="checkbox" for="duplicate_<?php print_html_attr($locale); ?>">
+                        <input type="checkbox" name="duplicate[]" id="duplicate_<?php print_html_attr($lang['locale']); ?>" value="<?php print_html_attr($locale); ?>" <?php print !$page->IsTranslated($locale) ? 'checked' : ''; ?> />
+                        <img src="<?php print get_base_url() . $lang['flag']; ?>" alt="<?php print_html_attr($lang['name']); ?>" />
+                        <?php print $lang['name']; ?>
+                        <?php if ($page->IsTranslated($locale)): ?>
+                        <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'edit', 'tlang'=>$locale)); ?>" class="">
+                            <i class="icon-pencil"></i>
+                        </a>
+                        <?php endif; ?>
+                    </label>
+                </p>
+                <?php endif; ?>
+                <?php endforeach; ?>
+                
+            </div>
+            
+            <?php endif; ?>
+            <?php endif; ?>
+            
+            <div class="well widget">
                 <header><?php print_text('Publish'); ?></header>
-                <?php if ($is_new): ?>
+                <div class="btn-toolbar header">
+                    <a href="#" class="btn btn-inverse btn-mini" btn-action="collapse"><i class="icon-chevron-up icon-white"></i></a>
+                    <a href="#" class="btn btn-inverse btn-mini" btn-action="expand"><i class="icon-chevron-down icon-white"></i></a>
+                </div>
+                
+                <?php /* if ($is_new): ?>
                 <p>
                     <?php print_text('Created by'); ?>: <?php print get_user_name(); ?><br />
                     <?php print_text('Created on'); ?>: <?php print get_datetime(); ?>
@@ -131,16 +240,25 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                     <?php print_text('Edited on'); ?>: <?php print get_datetime($page->updated); ?>
                 </p>
                 <?php endif; ?>
-                <?php endif; ?>
+                <?php endif; */ ?>
                 
                 <div class="form-actions text-right">
                     <a href="<?php print get_admin_action_link($back); ?>" class="btn btn-inverse"><?php print_text('Cancel'); ?> <i class="icon-remove-circle icon-white"></i></a>
+                    <?php if ($is_translate): ?>
+                    <button type="submit" class="btn btn-success"><img src="<?php print get_base_url() . $tlanguage['flag']; ?>" alt="<?php print_html_attr($tlanguage['name']); ?>" /> <?php print_text('Save'); ?></button>
+                    <?php else: ?>
                     <button type="submit" class="btn btn-success"><?php print_text('Save'); ?> <i class="icon-ok-circle icon-white"></i></button>
+                    <?php endif; ?>
                 </div>
             </div>
             
-            <div class="well">
+            <div class="well widget">
                 <header><?php print_text('Settings'); ?></header>
+                <div class="btn-toolbar header">
+                    <a href="#" class="btn btn-inverse btn-mini" btn-action="collapse"><i class="icon-chevron-up icon-white"></i></a>
+                    <a href="#" class="btn btn-inverse btn-mini" btn-action="expand"><i class="icon-chevron-down icon-white"></i></a>
+                </div>
+                
                 <p>
                     <label><?php print_text('Group'); ?>: <strong><?php print $pagegroup->GetName(); ?></strong></label>
                 </p>
@@ -204,27 +322,13 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                 <?php endif; ?>
             </div>
             
-            <?php if (count($languages) > 1 && false): ?>
-            <div class="well">
-                <header><?php print_text('Translations'); ?></header>
-                <?php foreach ($languages AS $locale => $lang): ?>
-                <?php if ($locale !== $language['locale']): ?>
-                <p>
-                    <label class="checkbox" for="duplicate_<?php print_html_attr($lang['locale']); ?>">
-                        <input type="checkbox" id="duplicate_<?php print_html_attr($lang['locale']); ?>" />
-                        <img src="<?php print get_base_url() . $lang['flag']; ?>" alt="<?php print_html_attr($lang['name']); ?>" />
-                        <?php print $lang['name']; ?>
-                    </label>
-                </p>
-                <?php endif; ?>
-                <?php endforeach; ?>
-                <p class="text-right">
-                    <a href="#" class="btn btn-inverse"><i class="icon-globe icon-white"></i> <?php print_text('Duplicate'); ?></a>
-                </p>
-            </div>
-            <?php endif; ?>
-            <div class="well" id="image-container" data-filter="taxonomy" data-filter-values="<?php print implode(',', $taxonomies_image); ?>">
+            <div class="well widget" id="image-container" data-filter="taxonomy" data-filter-values="<?php print implode(',', $taxonomies_image); ?>">
                 <header><?php print_text('Principal image'); ?></header>
+                <div class="btn-toolbar header">
+                    <a href="#" class="btn btn-inverse btn-mini" btn-action="collapse"><i class="icon-chevron-up icon-white"></i></a>
+                    <a href="#" class="btn btn-inverse btn-mini" btn-action="expand"><i class="icon-chevron-down icon-white"></i></a>
+                </div>
+                
                 <div id="page-image">
                     <p>
                         <button type="button" id="page-image-button" class="btn btn-inverse"><?php print_text('Browse'); ?></button>

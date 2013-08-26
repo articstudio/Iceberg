@@ -54,6 +54,16 @@ function get_active_locales()
     return I18N::GetActiveLocales();
 }
 
+function is_active_language($lang)
+{
+    return I18N::IsActiveLanguage($lang);
+}
+
+function is_visible_language($lang)
+{
+    return I18N::IsVisibleLanguage($lang);
+}
+
 /**
  * Get language
  * 

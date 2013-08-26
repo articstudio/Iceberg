@@ -33,7 +33,8 @@ else if ($action == 'insert')
     );
     $args['parent'] = $args['parent']==='NULL' ? null : $args['parent'];
     $lang = null;
-    if (Page::Insert($args, $lang))
+    $id = Page::Insert($args, $lang);
+    if ($id)
     {
         add_alert('Page inserted', 'success');
     }
@@ -42,7 +43,7 @@ else if ($action == 'insert')
         add_alert('Failed to inesrt page', 'error');
     }
 }
-else if ($action == 'update')
+else if ($action == 'update' || $action == 'translate')
 {
     $metas = array(
         PageMeta::META_TITLE => get_request_p('name', '', true),
@@ -59,14 +60,28 @@ else if ($action == 'update')
         'metas' => $metas
     );
     $args['parent'] = $args['parent']==='NULL' ? null : $args['parent'];
-    $lang = null;
-    if (Page::Update($id, $args, $lang))
+    if ($action == 'translate')
     {
-        add_alert('Page updated', 'success');
+        $tlang = get_request_gp('tlang');
+        if ($tlang && Page::Translate($id, $tlang, $args))
+        {
+            add_alert('Page translated', 'success');
+        }
+        else
+        {
+            add_alert('Failed to translate page', 'error');
+        }
     }
     else
     {
-        add_alert('Failed to update page', 'error');
+        if (Page::Update($id, $args))
+        {
+            add_alert('Page updated', 'success');
+        }
+        else
+        {
+            add_alert('Failed to update page', 'error');
+        }
     }
 }
 else if ($action == 'unactive')
@@ -145,6 +160,29 @@ else if ($action == 'order')
 }
 
 
-
+if ($action == 'insert' || $action == 'update' || $action == 'translate')
+{
+    $fromLang = get_lang();
+    if ($action == 'translate')
+    {
+        $fromLang = get_request_gp('tlang');
+    }
+    $duplicate = get_request_gp('duplicate', array());
+    if ($id && $fromLang && is_array($duplicate) && !empty($duplicate))
+    {
+        foreach ($duplicate AS $toLang)
+        {
+            $lang = get_language_info($toLang);
+            if (is_active_language($toLang) && Page::Duplicate($id, $fromLang, $toLang))
+            {
+                add_alert('Page duplicated to ' . $lang['name'], 'success');
+            }
+            else
+            {
+                add_alert('Failed to duplicate page to ' . $lang['name'], 'error');
+            }
+        }
+    }
+}
 
 

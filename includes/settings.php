@@ -145,7 +145,7 @@ $__MYSQL_ROW_METHOD             = MYSQL_ROW_AS_OBJECT;
 $__MYSQL_ERROR_DEBUG_LOG        = true;
 $__MYSQL_ERROR_DEBUG_LOG_FILE   = '';
 $__MYSQL_ERROR_DEBUG_SHOW       = true;
-$__MYSQL_QUERY_LIST             = array();
+$__MYSQL_QUERY_DEBUG             = array();
 /**#@-*/
 
 /**#@+
@@ -172,6 +172,7 @@ $__CONFIG_ROWS                  = array();
  * CACHE
  */
 $__CACHE_OBJECTS                = array();
+$__CACHE_DEBUG                  = array();
 /**#@-*/
 
 /**#@+

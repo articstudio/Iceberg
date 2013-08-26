@@ -130,9 +130,11 @@
     display: block; 
     position: relative; 
     float: right; 
-    height: 33px;
+    height: 35px;
     padding: 0px 10px 0px 20px; 
 }
-
+.treetable-actions .btn-group + .btn-group {
+    margin-left:0px;
+}
 
 

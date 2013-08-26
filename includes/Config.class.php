@@ -224,37 +224,12 @@ class Config extends ConfigBase
                 );
             }
         }
-        /*$done = (is_null($lang) || I18N::GetLanguage() == $lang) ? self::SetConfig($keyname, $value) : true;
-        if ($done) {
-            if ($lang === static::REPLICATE_CONFIG_ALL_LANGUAGES)
-            {
-                $languages = I18N::GetLanguages();
-                foreach ($languages AS $language)
-                {
-                    static::SaveConfig($keyname, $value, $language['locale']);
-                }
-                $done = true;
-            }
-            else
-            {
-                if (is_null($value)) {
-                    $done = self::DB_Delete(array('name' => $keyname), array(), $lang);
-                }
-                else {
-                    static::DB_InsertUpdate(
-                        array(
-                            'value' => $value,
-                        ),
-                        array(
-                            'name' => $keyname,
-                        ),
-                        array(),
-                        $lang
-                    );
-                }
-            }
-        }*/
         return $done;
+    }
+    
+    public static function InsertConfig($keyname, $value, $lang=null)
+    {
+        
     }
     
     /**

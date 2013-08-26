@@ -90,7 +90,8 @@ class TE_Relation extends TaxonomyElements
         $pages = get_pages(array(
             'group' => $this->group,
             'type' => $this->type,
-            'taxonomy' => $this->taxonomy
+            'taxonomy' => $this->taxonomy,
+            'order' => 'name'
         ));
         $page_id = $page->GetMeta($this->GetAttrName());
         ?>

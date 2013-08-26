@@ -494,8 +494,6 @@ function SearchTreeTable() {
         if (typeof DataOrder === 'string' && DataOrder !== '' && _.isURL(DataOrder)) {
             $obj.on('change', function() {
                 var data = $obj.nestable('serialize');
-                console.log(DataOrder);
-                console.log(data);
                 $.post(DataOrder, {order:data}, function(json){
                     var objs =jQuery.parseJSON(json);
                     _.each(objs, function(obj){

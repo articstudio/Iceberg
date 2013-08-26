@@ -28,6 +28,7 @@ function showAlert(message, type)
     
     if (html !== '')
     {
+        $('#alerts .alert').alert('close');
         $('#alerts').append(html);
     }             
 }

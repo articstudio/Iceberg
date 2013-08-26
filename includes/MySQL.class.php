@@ -88,7 +88,7 @@ class MySQLBase {
 
     /**
      * Add new MySQL log
-     * @global array $__MYSQL_QUERY_LIST
+     * @global array $__MYSQL_QUERY_DEBUG
      * @param String $SQL
      * @param Int $numrows
      * @param Timestamp $time 
@@ -96,21 +96,21 @@ class MySQLBase {
      */
     public static function Log($SQL, $numrows, $time)
     {
-        global $__MYSQL_QUERY_LIST;
-        if (!is_array($__MYSQL_QUERY_LIST)) {$__MYSQL_QUERY_LIST = array();}
-        return array_push($__MYSQL_QUERY_LIST, array($SQL, $numrows, $time));
+        global $__MYSQL_QUERY_DEBUG;
+        if (!is_array($__MYSQL_QUERY_DEBUG)) {$__MYSQL_QUERY_DEBUG = array();}
+        return array_push($__MYSQL_QUERY_DEBUG, array($SQL, $numrows, $time));
     }
     
     /**
      * Get MySQL log
-     * @global Array $__MYSQL_QUERY_LIST
+     * @global Array $__MYSQL_QUERY_DEBUG
      * @return Array 
      */
     public static function GetLog()
     {
-        global $__MYSQL_QUERY_LIST;
-        if (!is_array($__MYSQL_QUERY_LIST)) {$__MYSQL_QUERY_LIST = array();}
-        return $__MYSQL_QUERY_LIST;
+        global $__MYSQL_QUERY_DEBUG;
+        if (!is_array($__MYSQL_QUERY_DEBUG)) {$__MYSQL_QUERY_DEBUG = array();}
+        return $__MYSQL_QUERY_DEBUG;
     }
     
     /**

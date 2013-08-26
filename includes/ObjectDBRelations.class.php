@@ -77,6 +77,12 @@ abstract class ObjectDBRelations extends ObjectDB
         return static::NormalizeParents(static::$DB_PARENTS);
     }
     
+    public static function GetParent($key)
+    {
+        $parents = static::GetParents();
+        return static::DB_NormalizeParent(isset($parents[$key]) ? $parents[$key] : array());
+    }
+    
     public static function IsParentObject($parentObj)
     {
         $parents = static::GetParents();
@@ -180,7 +186,7 @@ abstract class ObjectDBRelations extends ObjectDB
             
             $t = $tables['self']['table'] . ' AS ' . $tables['self']['alias'];
             $t_field = static::DB_GetPrimaryField();
-            $sql = "SELECT " . static::DB_GenereateSelect($fields, $tables);
+            $sql = "SELECT " . static::DB_GenereateSelect($fields, $tables, $lang);
             $sql .= " FROM " . $t;
             $sql .= " " . static::DB_GenereateJoins($relations, $fields, $tables, $lang);
             $sql .= " " . static::DB_GenerateWhere($where, $tables, $relations);
@@ -378,14 +384,14 @@ abstract class ObjectDBRelations extends ObjectDB
         return false;
     }
     
-    public static function DB_InsertUpdateChild($childObj, $args, $where=array(), $id=null)
+    public static function DB_InsertUpdateChild($childObj, $args, $where=array(), $id=null, $lang=null)
     {
         $parentObj = get_called_class();
         $rel = $childObj::IsParentObject($parentObj);
         if ($rel)
         {
             $relations = is_null($id) ? array() : array($rel => $id);
-            return $childObj::DB_InsertUpdate($args, $where, $relations);
+            return $childObj::DB_InsertUpdate($args, $where, $relations, $lang);
         }
         return false;
     }
@@ -528,22 +534,28 @@ abstract class ObjectDBRelations extends ObjectDB
                 
             }
         }
+        $tables['fields'] = array(
+            'table' => DBRelation::DB_GetTableName(),
+            'alias' => 't' . $n
+        );
+        $n++;
         foreach ($fields AS $rel => $field)
         {
             if (is_array($field) && !isset($tables[$rel]))
             {
-                $tables[$rel] = array(
+                $tables['fields'] = array(
                     'table' => DBRelation::DB_GetTableName(),
                     'alias' => 't' . $n
                 );
-                $n++;
+                //$n++;
+                break;
             }
         }
         return $tables;
     }
     
     
-    protected static function DB_GenereateSelect($fields, $tables)
+    protected static function DB_GenereateSelect($fields, $tables, $lang=null)
     {
         $t_field = static::DB_GetPrimaryField();
         if (!in_array($t_field, $fields))
@@ -553,29 +565,37 @@ abstract class ObjectDBRelations extends ObjectDB
         $t = $tables['self']['alias'];
         $fieldsTable = static::DB_FilterFieldsOnValues($fields);
         $sql_fields = array();
+        $parents = static::GetParents();
+        $lang = is_null($lang) ? call_user_func(static::DB_LANGUAGE_FUNCTION) : $lang;
         foreach ($fields AS $k => $v)
         {
             if (is_string($v) && in_array($v, $fieldsTable))
             {
                 array_push($sql_fields, $t . '.' . $v);
             }
-            else if (is_array($v) && isset($tables[$k]))
+            else if (is_array($v) && isset($tables['fields']))
             {
-                $t_relation = $tables[$k]['alias'];
+                
+                //max(case when t2.name='page-parent' AND t2.language='en_US'  then t2.pid end) AS pid
+                
+                $t_relation = $tables['fields']['alias'];
                 foreach ($v AS $field)
                 {
+                    $useLang = isset($parents[$k]) && $parents[$k]['language'];
                     if (is_string($field))
                     {
                         if (DBRelation::DB_IsField($field))
                         {
-                            array_push($sql_fields, $t_relation . '.' . $field);
+                            $sql_field = "MAX(CASE WHEN " . $t_relation . "." . DBRelation::GetNameField() . "='" . mysql_escape($k) . "' " . ($useLang ? " AND " . $t_relation . "." . DBRelation::GetLanguageField() . "='" . mysql_escape($lang) . "'" : "") . " THEN " . $t_relation . "." . $field . " END) AS " . $field;
+                            array_push($sql_fields, $sql_field);
                         }
                     }
                     else if (is_array($field) && count($field)>1)
                     {
                         if (DBRelation::DB_IsField($field[0]))
                         {
-                            array_push($sql_fields, $t_relation . '.' . $field[0] . ' AS ' . $field[1]);
+                            $sql_field = "MAX(CASE WHEN " . $t_relation . "." . DBRelation::GetNameField() . "='" . mysql_escape($k) . "' " . ($useLang ? " AND " . $t_relation . "." . DBRelation::GetLanguageField() . "='" . mysql_escape($lang) . "'" : "") . " THEN " . $t_relation . "." . $field[0] . " END) AS " . $field[1];
+                            array_push($sql_fields, $sql_field);
                         }
                     }
                 }
@@ -601,7 +621,12 @@ abstract class ObjectDBRelations extends ObjectDB
         
         foreach ($tables AS $rel => $table)
         {
-            if ($rel !== 'self')
+            if ($rel === 'fields')
+            {
+                $t_relation = $tables['fields']['alias'];
+                $sql .= ' LEFT JOIN ' . $tables['fields']['table'] . ' AS ' . $t_relation . ' ON ' . $t_relation . "." . $t_relation_child_field . "=" . $t . "." . $t_field . ' ';
+            }
+            else if ($rel !== 'self')
             {
                 if (isset($relations[$rel])) // $pid !== false && is_null($relations[$obj])
                 {
@@ -620,6 +645,7 @@ abstract class ObjectDBRelations extends ObjectDB
                         }
                         else if (is_array($relations[$rel]))
                         {
+                            $relations[$rel] = empty($relations[$rel]) ? array(-1) : $relations[$rel];
                             $buffer .= ' INNER JOIN ' . $tables[$rel]['table'] . ' AS ' . $t_relation . ' ON ' . $t_relation . "." . $t_relation_name_field . "='" . $rel . "' AND " . $t_relation . "." . $t_relation_parent_field . " IN (" . implode(',', $relations[$rel]) . ") AND " . $t_relation . "." . $t_relation_child_field . "=" . $t . "." . $t_field . ' ';
                         }
 
@@ -656,11 +682,16 @@ abstract class ObjectDBRelations extends ObjectDB
                     }
                     $sql .= $buffer;
                 }
-                else if (isset($fields[$rel]))
+                /*else if (isset($fields[$rel]))
                 {
                     $t_relation = $tables[$rel]['alias'];
                     $sql .= ' LEFT JOIN ' . $tables[$rel]['table'] . ' AS ' . $t_relation . ' ON ' . $t_relation . "." . $t_relation_name_field . "='" . $rel . "' AND " . $t_relation . "." . $t_relation_child_field . "=" . $t . "." . $t_field . ' ';
-                }
+                    if (isset($parents[$rel]) && $parents[$rel]['language'])
+                    {
+                        $lang = is_null($lang) ? call_user_func(static::DB_LANGUAGE_FUNCTION) : $lang;
+                        $sql .= ' AND ' . $t_relation . "." . $t_relation_language_field . "='" . $lang . "' ";
+                    }
+                }*/
             }
         }
         return $sql;
@@ -772,3 +803,56 @@ abstract class ObjectDBRelations extends ObjectDB
     }
     
 }
+
+
+/*
+ * 
+SELECT  t0.id, t0.created, t0.updated, t0.status, t1.count AS count, t2.pid AS type, t3.pid AS taxonomy, t4.pid AS gid, t5.pid AS pid, t6.pid AS user_create, t7.pid AS user_update  
+
+FROM iceberg_pages AS t0  
+
+INNER JOIN iceberg_relations AS t1 ON t1.name='page-domain' AND t1.pid=1 AND t1.cid=t0.id  AND t1.language='en_US'  
+
+LEFT JOIN iceberg_relations AS t2 ON t2.name='page-type' AND t2.cid=t0.id  
+
+LEFT JOIN iceberg_relations AS t3 ON t3.name='page-taxonomy' AND t3.cid=t0.id  
+
+LEFT JOIN iceberg_relations AS t4 ON t4.name='page-group' AND t4.cid=t0.id  
+
+LEFT JOIN iceberg_relations AS t5 ON t5.name='page-parent' AND t5.cid=t0.id  
+
+LEFT JOIN iceberg_relations AS t6 ON t6.name='user-create' AND t6.cid=t0.id  
+
+LEFT JOIN iceberg_relations AS t7 ON t7.name='user-update' AND t7.cid=t0.id   
+
+WHERE 1  AND t0.id='24'  
+
+GROUP BY t0.id LIMIT  0, 1 
+
+**********************************************************************
+
+SELECT
+  t0.id,
+  t0.created,
+  t0.updated,
+  t0.status,
+  t1.count AS count,
+
+  max(case when t2.name='page-type' then t2.pid end) AS type,
+  max(case when t2.name='page-taxonomy' then t2.pid end) AS taxonomy,
+  max(case when t2.name='page-group' then t2.pid end) AS gid,
+  max(case when t2.name='page-parent' AND t2.language='en_US'  then t2.pid end) AS pid,
+  max(case when t2.name='user-create' then t2.pid end) AS user_create,
+  max(case when t2.name='user-update' then t2.pid end) AS user_update
+
+FROM iceberg_pages AS t0  
+
+INNER JOIN iceberg_relations AS t1 ON t1.name='page-domain' AND t1.pid=1 AND t1.cid=t0.id  AND t1.language='en_US' 
+
+LEFT JOIN iceberg_relations AS t2 ON t2.cid=t0.id  
+
+WHERE 1  AND t0.id='24'  
+
+GROUP BY t0.id LIMIT  0, 1 
+ * 
+ */

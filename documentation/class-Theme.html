@@ -7,7 +7,7 @@
 	<title>Class Theme | Iceberg</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?1342617136"></script>
+	<script type="text/javascript" src="elementlist.js?791472392"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -21,10 +21,12 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
+				<li><a href="package-Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-elfinder.html">elfinder</a>
+						</li>
 				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
-						</li>
 				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
 						</li>
 				<li><a href="package-Iceberg.Database.html">Database</a>
@@ -43,7 +45,7 @@
 						</li>
 				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
 						</li>
-				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
 						</li>
@@ -54,11 +56,23 @@
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
+				<li><a href="package-MySQL.html">MySQL<span></span></a>
+						<ul>
+				<li><a href="package-MySQL.Query.html">Query</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
+				<li><a href="package-Page.html">Page<span></span></a>
+						<ul>
+				<li><a href="package-Page.Config.html">Config</a>
+						</li>
+							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -73,12 +87,18 @@
 				<li><a href="class-Number.html">Number</a></li>
 				<li><a href="class-Taxonomy.html">Taxonomy</a></li>
 				<li><a href="class-TaxonomyElements.html">TaxonomyElements</a></li>
-				<li><a href="class-TaxonomyElementsExtension.html">TaxonomyElementsExtension</a></li>
-				<li><a href="class-TaxonomyRelationship.html">TaxonomyRelationship</a></li>
+				<li><a href="class-TE_Geolocation.html">TE_Geolocation</a></li>
+				<li><a href="class-TE_Images.html">TE_Images</a></li>
+				<li><a href="class-TE_Input.html">TE_Input</a></li>
+				<li><a href="class-TE_Relation.html">TE_Relation</a></li>
+				<li><a href="class-TE_Text.html">TE_Text</a></li>
 				<li><a href="class-Template.html">Template</a></li>
 				<li class="active"><a href="class-Theme.html">Theme</a></li>
+				<li><a href="class-ThemeAPI.html">ThemeAPI</a></li>
 				<li><a href="class-ThemeBackend.html">ThemeBackend</a></li>
+				<li><a href="class-ThemeBackendAPI.html">ThemeBackendAPI</a></li>
 				<li><a href="class-ThemeBase.html">ThemeBase</a></li>
+				<li><a href="class-ThemeFrontend.html">ThemeFrontend</a></li>
 				<li><a href="class-Time.html">Time</a></li>
 			</ul>
 
@@ -167,9 +187,15 @@
 
 	<div>
 		<h4>Direct known subclasses</h4>
-			<a href="class-ThemeBackend.html">ThemeBackend</a>
+			<a href="class-ThemeBackendAPI.html">ThemeBackendAPI</a>, 
+			<a href="class-ThemeFrontend.html">ThemeFrontend</a>
 	</div>
 
+	<div>
+		<h4>Indirect known subclasses</h4>
+			<a href="class-ThemeAPI.html">ThemeAPI</a>, 
+			<a href="class-ThemeBackend.html">ThemeBackend</a>
+	</div>
 
 
 
@@ -185,7 +211,7 @@
 				Marc Mascort Bou<br />
 				<b>Version:</b>
 				1.0<br />
-		<b>Located at</b> <a href="source-class-Theme.html#76-579" title="Go to source code">includes/Theme.class.php</a><br />
+		<b>Located at</b> <a href="source-class-Theme.html#194-562" title="Go to source code">includes/Theme.class.php</a><br />
 	</div>
 
 
@@ -203,7 +229,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_SetDirectory">#</a>
-		<code><a href="source-class-Theme.html#88-94" title="Go to source code">SetDirectory</a>( <span>mixed <var>$basedir</var></span> )</code>
+		<code><a href="source-class-Theme.html#206-212" title="Go to source code">SetDirectory</a>( <span>mixed <var>$basedir</var></span> )</code>
 
 		<div class="description short">
 			
@@ -232,7 +258,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetURL">#</a>
-		<code><a href="source-class-Theme.html#96-99" title="Go to source code">GetURL</a>( )</code>
+		<code><a href="source-class-Theme.html#214-217" title="Go to source code">GetURL</a>( )</code>
 
 		<div class="description short">
 			
@@ -261,7 +287,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetDirectory">#</a>
-		<code><a href="source-class-Theme.html#101-104" title="Go to source code">GetDirectory</a>( )</code>
+		<code><a href="source-class-Theme.html#219-222" title="Go to source code">GetDirectory</a>( )</code>
 
 		<div class="description short">
 			
@@ -290,7 +316,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Load">#</a>
-		<code><a href="source-class-Theme.html#106-114" title="Go to source code">Load</a>( )</code>
+		<code><a href="source-class-Theme.html#224-232" title="Go to source code">Load</a>( )</code>
 
 		<div class="description short">
 			
@@ -319,7 +345,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_SetTemplate">#</a>
-		<code><a href="source-class-Theme.html#116-119" title="Go to source code">SetTemplate</a>( <span>mixed <var>$template</var></span> )</code>
+		<code><a href="source-class-Theme.html#234-237" title="Go to source code">SetTemplate</a>( <span>mixed <var>$template</var></span> )</code>
 
 		<div class="description short">
 			
@@ -348,7 +374,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetTemplate">#</a>
-		<code><a href="source-class-Theme.html#121-124" title="Go to source code">GetTemplate</a>( )</code>
+		<code><a href="source-class-Theme.html#239-242" title="Go to source code">GetTemplate</a>( )</code>
 
 		<div class="description short">
 			
@@ -377,7 +403,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Generate">#</a>
-		<code><a href="source-class-Theme.html#126-130" title="Go to source code">Generate</a>( )</code>
+		<code><a href="source-class-Theme.html#244-248" title="Go to source code">Generate</a>( )</code>
 
 		<div class="description short">
 			
@@ -406,7 +432,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_PrintTheme">#</a>
-		<code><a href="source-class-Theme.html#132-135" title="Go to source code">PrintTheme</a>( )</code>
+		<code><a href="source-class-Theme.html#250-253" title="Go to source code">PrintTheme</a>( )</code>
 
 		<div class="description short">
 			
@@ -435,7 +461,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetTheme">#</a>
-		<code><a href="source-class-Theme.html#137-140" title="Go to source code">GetTheme</a>( )</code>
+		<code><a href="source-class-Theme.html#255-258" title="Go to source code">GetTheme</a>( )</code>
 
 		<div class="description short">
 			
@@ -464,7 +490,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ThemeSnippet">#</a>
-		<code><a href="source-class-Theme.html#142-162" title="Go to source code">ThemeSnippet</a>( <span>string <var>$file</var></span>, <span>boolean <var>$print</var> = <span class="php-keyword1">true</span></span>, <span>string <var>$callback</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-Theme.html#260-284" title="Go to source code">ThemeSnippet</a>( <span>string <var>$file</var></span>, <span>boolean <var>$print</var> = <span class="php-keyword1">true</span></span>, <span>string <var>$callback</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -510,7 +536,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Header">#</a>
-		<code><a href="source-class-Theme.html#164-172" title="Go to source code">Header</a>( )</code>
+		<code><a href="source-class-Theme.html#286-294" title="Go to source code">Header</a>( )</code>
 
 		<div class="description short">
 			
@@ -547,7 +573,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Footer">#</a>
-		<code><a href="source-class-Theme.html#174-182" title="Go to source code">Footer</a>( )</code>
+		<code><a href="source-class-Theme.html#296-304" title="Go to source code">Footer</a>( )</code>
 
 		<div class="description short">
 			
@@ -584,7 +610,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Page">#</a>
-		<code><a href="source-class-Theme.html#184-192" title="Go to source code">Page</a>( )</code>
+		<code><a href="source-class-Theme.html#306-314" title="Go to source code">Page</a>( )</code>
 
 		<div class="description short">
 			
@@ -621,7 +647,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_RegisterScript">#</a>
-		<code><a href="source-class-Theme.html#195-213" title="Go to source code">RegisterScript</a>( <span>mixed <var>$name</var></span>, <span>mixed <var>$url</var></span>, <span>mixed <var>$version</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$dependency</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$in_footer</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-Theme.html#317-335" title="Go to source code">RegisterScript</a>( <span>mixed <var>$name</var></span>, <span>mixed <var>$url</var></span>, <span>mixed <var>$version</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$dependency</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$in_footer</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
@@ -650,7 +676,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_EnqueueScript">#</a>
-		<code><a href="source-class-Theme.html#215-233" title="Go to source code">EnqueueScript</a>( <span>mixed <var>$name</var></span>, <span>mixed <var>$url</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$version</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$dependency</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$in_footer</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-Theme.html#337-355" title="Go to source code">EnqueueScript</a>( <span>mixed <var>$name</var></span>, <span>mixed <var>$url</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$version</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$dependency</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$in_footer</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
@@ -679,7 +705,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_RegisterStyle">#</a>
-		<code><a href="source-class-Theme.html#235-254" title="Go to source code">RegisterStyle</a>( <span>mixed <var>$name</var></span>, <span>mixed <var>$url</var></span>, <span>mixed <var>$version</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$dependency</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$media</var> = <span class="php-quote">'all'</span></span> )</code>
+		<code><a href="source-class-Theme.html#357-376" title="Go to source code">RegisterStyle</a>( <span>mixed <var>$name</var></span>, <span>mixed <var>$url</var></span>, <span>mixed <var>$version</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$dependency</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$media</var> = <span class="php-quote">'all'</span></span> )</code>
 
 		<div class="description short">
 			
@@ -708,7 +734,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_EnqueueStyle">#</a>
-		<code><a href="source-class-Theme.html#256-275" title="Go to source code">EnqueueStyle</a>( <span>mixed <var>$name</var></span>, <span>mixed <var>$url</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$version</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$dependency</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$media</var> = <span class="php-quote">'all'</span></span> )</code>
+		<code><a href="source-class-Theme.html#378-397" title="Go to source code">EnqueueStyle</a>( <span>mixed <var>$name</var></span>, <span>mixed <var>$url</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$version</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$dependency</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$media</var> = <span class="php-quote">'all'</span></span> )</code>
 
 		<div class="description short">
 			
@@ -737,7 +763,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Head">#</a>
-		<code><a href="source-class-Theme.html#277-338" title="Go to source code">Head</a>( )</code>
+		<code><a href="source-class-Theme.html#399-460" title="Go to source code">Head</a>( )</code>
 
 		<div class="description short">
 			
@@ -774,92 +800,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Foot">#</a>
-		<code><a href="source-class-Theme.html#340-376" title="Go to source code">Foot</a>( )</code>
-
-		<div class="description short">
-			
-<p>Print CMS head</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Print CMS head</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>boolean</code><br />
-				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="AddHelper" id="_AddHelper">
-
-		<td class="attributes"><code>
-			 public 
-			boolean
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_AddHelper">#</a>
-		<code><a href="source-class-Theme.html#399-414" title="Go to source code">AddHelper</a>( <span>string <var>$helper</var></span>, <span>string <var>$type</var> = <span class="php-quote">'js'</span></span> )</code>
-
-		<div class="description short">
-			
-<p>Add helper</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Add helper</p>
-
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$helper</var></dt>
-					<dd><code>string</code><br>$helper</dd>
-					<dt><var>$type</var></dt>
-					<dd><code>string</code><br>$type</dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>boolean</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'theme_add_helper'<br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="CMSHead" id="_CMSHead">
-
-		<td class="attributes"><code>
-			 public 
-			boolean
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_CMSHead">#</a>
-		<code><a href="source-class-Theme.html#416-438" title="Go to source code">CMSHead</a>( )</code>
+		<code><a href="source-class-Theme.html#462-498" title="Go to source code">Foot</a>( )</code>
 
 		<div class="description short">
 			
@@ -896,7 +837,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_CMSSidebar">#</a>
-		<code><a href="source-class-Theme.html#440-447" title="Go to source code">CMSSidebar</a>( )</code>
+		<code><a href="source-class-Theme.html#506-513" title="Go to source code">CMSSidebar</a>( )</code>
 
 		<div class="description short">
 			
@@ -915,72 +856,6 @@
 				<div class="list">
 					<code>boolean</code><br />
 				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="CMSPage" id="_CMSPage">
-
-		<td class="attributes"><code>
-			 public 
-			boolean
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_CMSPage">#</a>
-		<code><a href="source-class-Theme.html#449-456" title="Go to source code">CMSPage</a>( )</code>
-
-		<div class="description short">
-			
-<p>Print footer template</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Print footer template</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>boolean</code><br />
-				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="LoadSettings" id="_LoadSettings">
-
-		<td class="attributes"><code>
-			 public 
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_LoadSettings">#</a>
-		<code><a href="source-class-Theme.html#458-468" title="Go to source code">LoadSettings</a>( )</code>
-
-		<div class="description short">
-			
-		</div>
-
-		<div class="description detailed hidden">
-			
-
-
-
 
 
 
@@ -999,7 +874,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_SetThemeInfo">#</a>
-		<code><a href="source-class-Theme.html#470-473" title="Go to source code">SetThemeInfo</a>( <span>mixed <var>$info</var></span> )</code>
+		<code><a href="source-class-Theme.html#516-519" title="Go to source code">SetThemeInfo</a>( <span>mixed <var>$info</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1028,36 +903,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetThemeInfo">#</a>
-		<code><a href="source-class-Theme.html#475-482" title="Go to source code">GetThemeInfo</a>( <span>mixed <var>$key</var> = <span class="php-keyword1">null</span></span> )</code>
-
-		<div class="description short">
-			
-		</div>
-
-		<div class="description detailed hidden">
-			
-
-
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetThemes" id="_GetThemes">
-
-		<td class="attributes"><code>
-			 public 
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetThemes">#</a>
-		<code><a href="source-class-Theme.html#484-505" title="Go to source code">GetThemes</a>( <span>mixed <var>$dir</var></span> )</code>
+		<code><a href="source-class-Theme.html#521-528" title="Go to source code">GetThemeInfo</a>( <span>mixed <var>$key</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1086,7 +932,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_CMSGetTemplateFileBasic">#</a>
-		<code><a href="source-class-Theme.html#509-520" title="Go to source code">CMSGetTemplateFileBasic</a>( <span>string <var>$key</var></span> )</code>
+		<code><a href="source-class-Theme.html#532-543" title="Go to source code">CMSGetTemplateFileBasic</a>( <span>string <var>$key</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1121,42 +967,29 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="Active" id="_Active">
-
-		<td class="attributes"><code>
-			 public static
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_Active">#</a>
-		<code><a href="source-class-Theme.html#540-578" title="Go to source code">Active</a>( <span>mixed <var>$type</var></span>, <span>mixed <var>$dir</var></span> )</code>
-
-		<div class="description short">
-			
-		</div>
-
-		<div class="description detailed hidden">
-			
-
-
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
 	</table>
 
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-ThemeBase.html#methods">ThemeBase</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-ThemeBase.html#_Active">Active()</a>, 
+			<a href="class-ThemeBase.html#_GetAPITheme">GetAPITheme()</a>, 
+			<a href="class-ThemeBase.html#_GetBackendTheme">GetBackendTheme()</a>, 
+			<a href="class-ThemeBase.html#_GetBackendhemes">GetBackendhemes()</a>, 
+			<a href="class-ThemeBase.html#_GetFrontendTheme">GetFrontendTheme()</a>, 
+			<a href="class-ThemeBase.html#_GetFrontendThemes">GetFrontendThemes()</a>, 
+			<a href="class-ThemeBase.html#_GetThemeFileInfo">GetThemeFileInfo()</a>, 
+			<a href="class-ThemeBase.html#_GetThemes">GetThemes()</a>
+		</code></td>
+	</tr>
+	</table>
 	<table class="summary inherited">
 	<caption>Methods inherited from <a href="class-ObjectConfig.html#methods">ObjectConfig</a></caption>
 	<tr>
 		<td><code>
 			<a href="class-ObjectConfig.html#_GetConfigValue">GetConfigValue()</a>, 
+			<a href="class-ObjectConfig.html#_SaveConfigValue">SaveConfigValue()</a>, 
 			<a href="class-ObjectConfig.html#_SetConfigValue">SetConfigValue()</a>
 		</code></td>
 	</tr>
@@ -1186,62 +1019,6 @@
 
 
 
-	<table class="summary" id="properties">
-	<caption>Properties summary</caption>
-	<tr data-order="theme_helpers_extended" id="$theme_helpers_extended">
-		<td class="attributes"><code>
-			protected  
-			array
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-Theme.html#388-395" title="Go to source code"><var>$theme_helpers_extended</var></a>
-		</td>
-		<td class="value"><code><span class="php-keyword1">array</span>(
-    <span class="php-quote">'js'</span> =&gt; <span class="php-keyword1">array</span>(),
-    <span class="php-quote">'css'</span> =&gt; <span class="php-keyword1">array</span>()
-)</code></td>
-		<td class="description"><div>
-			<a href="#$theme_helpers_extended" class="anchor">#</a>
-
-			<div class="description short">
-				
-<p>Theme file helpers</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>Theme file helpers</p>
-
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="theme_information" id="$theme_information">
-		<td class="attributes"><code>
-			protected  
-			array
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-Theme.html#397" title="Go to source code"><var>$theme_information</var></a>
-		</td>
-		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
-		<td class="description"><div>
-			<a href="#$theme_information" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	</table>
 
 	<table class="summary inherited">
 	<caption>Properties inherited from <a href="class-ThemeBase.html#properties">ThemeBase</a></caption>
@@ -1256,7 +1033,10 @@
 			<a href="class-ThemeBase.html#$INSTALL_FILE"><var>$INSTALL_FILE</var></a>, 
 			<a href="class-ThemeBase.html#$PAGE_FILE"><var>$PAGE_FILE</var></a>, 
 			<a href="class-ThemeBase.html#$SETTINGS_FILE"><var>$SETTINGS_FILE</var></a>, 
+			<a href="class-ThemeBase.html#$THEME_API_CONFIG_KEY"><var>$THEME_API_CONFIG_KEY</var></a>, 
+			<a href="class-ThemeBase.html#$THEME_BACKEND_CONFIG_KEY"><var>$THEME_BACKEND_CONFIG_KEY</var></a>, 
 			<a href="class-ThemeBase.html#$THEME_CONFIG_KEY"><var>$THEME_CONFIG_KEY</var></a>, 
+			<a href="class-ThemeBase.html#$THEME_FRONTEND_CONFIG_KEY"><var>$THEME_FRONTEND_CONFIG_KEY</var></a>, 
 			<a href="class-ThemeBase.html#$UNINSTALL_FILE"><var>$UNINSTALL_FILE</var></a>
 		</code></td>
 	</tr>
@@ -1266,6 +1046,7 @@
 	<tr>
 		<td><code>
 			<a href="class-ObjectConfig.html#$CONFIG_EVENT_GET_VALUE"><var>$CONFIG_EVENT_GET_VALUE</var></a>, 
+			<a href="class-ObjectConfig.html#$CONFIG_EVENT_SAVE_VALUE"><var>$CONFIG_EVENT_SAVE_VALUE</var></a>, 
 			<a href="class-ObjectConfig.html#$CONFIG_EVENT_SET_VALUE"><var>$CONFIG_EVENT_SET_VALUE</var></a>
 		</code></td>
 	</tr>

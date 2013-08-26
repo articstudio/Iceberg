@@ -7,7 +7,7 @@
 	<title>Class ObjectDBRelations | Iceberg</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?1342617136"></script>
+	<script type="text/javascript" src="elementlist.js?791472392"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -21,10 +21,12 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
+				<li><a href="package-Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-elfinder.html">elfinder</a>
+						</li>
 				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
-						</li>
 				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
 						</li>
 				<li class="active"><a href="package-Iceberg.Database.html">Database</a>
@@ -43,7 +45,7 @@
 						</li>
 				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
 						</li>
-				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
 						</li>
@@ -54,11 +56,23 @@
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
+				<li><a href="package-MySQL.html">MySQL<span></span></a>
+						<ul>
+				<li><a href="package-MySQL.Query.html">Query</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
+				<li><a href="package-Page.html">Page<span></span></a>
+						<ul>
+				<li><a href="package-Page.Config.html">Config</a>
+						</li>
+							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -69,12 +83,16 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
+				<li><a href="class-ConfigBase.html">ConfigBase</a></li>
 				<li><a href="class-DBRelation.html">DBRelation</a></li>
-				<li><a href="class-MySQL.html">MySQL</a></li>
-				<li><a href="class-MySQLBase.html">MySQLBase</a></li>
+				<li><a href="class-DomainBase.html">DomainBase</a></li>
 				<li><a href="class-ObjectDB.html">ObjectDB</a></li>
 				<li><a href="class-ObjectDBBase.html">ObjectDBBase</a></li>
 				<li class="active"><a href="class-ObjectDBRelations.html">ObjectDBRelations</a></li>
+				<li><a href="class-Page.html">Page</a></li>
+				<li><a href="class-PageBase.html">PageBase</a></li>
+				<li><a href="class-PageMeta.html">PageMeta</a></li>
+				<li><a href="class-UserBase.html">UserBase</a></li>
 			</ul>
 
 
@@ -157,12 +175,22 @@
 
 	<div>
 		<h4>Direct known subclasses</h4>
-			<a href="class-Config.html">Config</a>, 
-			<a href="class-Domains.html">Domains</a>, 
-			<a href="class-User.html">User</a>, 
+			<a href="class-ConfigBase.html">ConfigBase</a>, 
+			<a href="class-DomainBase.html">DomainBase</a>, 
+			<a href="class-PageBase.html">PageBase</a>, 
+			<a href="class-PageMeta.html">PageMeta</a>, 
+			<a href="class-Taxonomy.html">Taxonomy</a>, 
+			<a href="class-UserBase.html">UserBase</a>, 
 			<a href="class-UserMeta.html">UserMeta</a>
 	</div>
 
+	<div>
+		<h4>Indirect known subclasses</h4>
+			<a href="class-Config.html">Config</a>, 
+			<a href="class-Domain.html">Domain</a>, 
+			<a href="class-Page.html">Page</a>, 
+			<a href="class-User.html">User</a>
+	</div>
 
 
 
@@ -180,7 +208,7 @@
 				1.0<br />
 				<b>Since:</b>
 				1.0<br />
-		<b>Located at</b> <a href="source-class-ObjectDBRelations.html#3-355" title="Go to source code">includes/ObjectDBRelations.class.php</a><br />
+		<b>Located at</b> <a href="source-class-ObjectDBRelations.html#3-805" title="Go to source code">includes/ObjectDBRelations.class.php</a><br />
 	</div>
 
 
@@ -198,7 +226,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_DB_NormalizeParent">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#33-38" title="Go to source code">DB_NormalizeParent</a>( <span>mixed <var>$parent</var></span> )</code>
+		<code><a href="source-class-ObjectDBRelations.html#60-63" title="Go to source code">DB_NormalizeParent</a>( <span>mixed <var>$parent</var></span> )</code>
 
 		<div class="description short">
 			
@@ -227,7 +255,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_NormalizeParents">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#40-48" title="Go to source code">NormalizeParents</a>( <span>mixed <var>$parents</var></span> )</code>
+		<code><a href="source-class-ObjectDBRelations.html#65-73" title="Go to source code">NormalizeParents</a>( <span>mixed <var>$parents</var></span> )</code>
 
 		<div class="description short">
 			
@@ -256,7 +284,36 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetParents">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#50-55" title="Go to source code">GetParents</a>( )</code>
+		<code><a href="source-class-ObjectDBRelations.html#75-78" title="Go to source code">GetParents</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetParent" id="_GetParent">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetParent">#</a>
+		<code><a href="source-class-ObjectDBRelations.html#80-84" title="Go to source code">GetParent</a>( <span>mixed <var>$key</var></span> )</code>
 
 		<div class="description short">
 			
@@ -285,7 +342,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_IsParentObject">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#57-61" title="Go to source code">IsParentObject</a>( <span>mixed <var>$parentObj</var></span> )</code>
+		<code><a href="source-class-ObjectDBRelations.html#86-97" title="Go to source code">IsParentObject</a>( <span>mixed <var>$parentObj</var></span> )</code>
 
 		<div class="description short">
 			
@@ -303,7 +360,7 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="GetParentObjectsID" id="_GetParentObjectsID">
+	<tr data-order="IsParentRelation" id="_IsParentRelation">
 
 		<td class="attributes"><code>
 			 public static
@@ -313,8 +370,153 @@
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_GetParentObjectsID">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#63-90" title="Go to source code">GetParentObjectsID</a>( <span>mixed <var>$id</var></span>, <span>mixed <var>$parentObj</var></span> )</code>
+		<a class="anchor" href="#_IsParentRelation">#</a>
+		<code><a href="source-class-ObjectDBRelations.html#99-103" title="Go to source code">IsParentRelation</a>( <span>mixed <var>$parentRel</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="DB_NormalizeChild" id="_DB_NormalizeChild">
+
+		<td class="attributes"><code>
+			 protected static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_DB_NormalizeChild">#</a>
+		<code><a href="source-class-ObjectDBRelations.html#106-109" title="Go to source code">DB_NormalizeChild</a>( <span>mixed <var>$child</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="NormalizeChilds" id="_NormalizeChilds">
+
+		<td class="attributes"><code>
+			 protected static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_NormalizeChilds">#</a>
+		<code><a href="source-class-ObjectDBRelations.html#111-119" title="Go to source code">NormalizeChilds</a>( <span>mixed <var>$childs</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetChilds" id="_GetChilds">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetChilds">#</a>
+		<code><a href="source-class-ObjectDBRelations.html#121-124" title="Go to source code">GetChilds</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="IsChildObject" id="_IsChildObject">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_IsChildObject">#</a>
+		<code><a href="source-class-ObjectDBRelations.html#126-137" title="Go to source code">IsChildObject</a>( <span>mixed <var>$childObj</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="IsChildRelation" id="_IsChildRelation">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_IsChildRelation">#</a>
+		<code><a href="source-class-ObjectDBRelations.html#139-143" title="Go to source code">IsChildRelation</a>( <span>mixed <var>$childRel</var></span> )</code>
 
 		<div class="description short">
 			
@@ -343,7 +545,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_DB_Select">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#92-122" title="Go to source code">DB_Select</a>( <span>mixed <var>$fields</var></span>, <span>mixed <var>$where</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$orderby</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$limit</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$relations</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-ObjectDBRelations.html#174-209" title="Go to source code">DB_Select</a>( <span>mixed <var>$fields</var></span>, <span>mixed <var>$where</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$orderby</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$limit</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$relations</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -374,7 +576,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_DB_Insert">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#124-161" title="Go to source code">DB_Insert</a>( <span>mixed <var>$args</var></span>, <span>mixed <var>$relations</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-ObjectDBRelations.html#211-256" title="Go to source code">DB_Insert</a>( <span>mixed <var>$args</var></span>, <span>mixed <var>$relations</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -405,7 +607,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_DB_UpdateWhere">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#163-173" title="Go to source code">DB_UpdateWhere</a>( <span>mixed <var>$args</var></span>, <span>mixed <var>$where</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$relations</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-ObjectDBRelations.html#258-268" title="Go to source code">DB_UpdateWhere</a>( <span>mixed <var>$args</var></span>, <span>mixed <var>$where</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$relations</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -436,7 +638,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_DB_InsertUpdate">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#175-189" title="Go to source code">DB_InsertUpdate</a>( <span>mixed <var>$args</var></span>, <span>mixed <var>$where</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$relations</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-ObjectDBRelations.html#270-295" title="Go to source code">DB_InsertUpdate</a>( <span>mixed <var>$args</var></span>, <span>mixed <var>$where</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$relations</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -456,6 +658,37 @@
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="DB_Delete" id="_DB_Delete">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_DB_Delete">#</a>
+		<code><a href="source-class-ObjectDBRelations.html#297-349" title="Go to source code">DB_Delete</a>( <span>mixed <var>$where</var></span>, <span>mixed <var>$relations</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-ObjectDB.html#_DB_Delete">ObjectDB::DB_Delete()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="DB_InsertChild" id="_DB_InsertChild">
 
 		<td class="attributes"><code>
@@ -467,7 +700,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_DB_InsertChild">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#193-203" title="Go to source code">DB_InsertChild</a>( <span>mixed <var>$childObj</var></span>, <span>mixed <var>$args</var></span>, <span>mixed <var>$id</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-ObjectDBRelations.html#351-361" title="Go to source code">DB_InsertChild</a>( <span>mixed <var>$childObj</var></span>, <span>mixed <var>$args</var></span>, <span>mixed <var>$id</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -485,6 +718,182 @@
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="DB_SelectChild" id="_DB_SelectChild">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_DB_SelectChild">#</a>
+		<code><a href="source-class-ObjectDBRelations.html#363-373" title="Go to source code">DB_SelectChild</a>( <span>mixed <var>$childObj</var></span>, <span>mixed <var>$id</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$fields</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$where</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$orderby</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$limit</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="DB_DeleteChild" id="_DB_DeleteChild">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_DB_DeleteChild">#</a>
+		<code><a href="source-class-ObjectDBRelations.html#375-385" title="Go to source code">DB_DeleteChild</a>( <span>mixed <var>$childObj</var></span>, <span>mixed <var>$where</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$id</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="DB_InsertUpdateChild" id="_DB_InsertUpdateChild">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_DB_InsertUpdateChild">#</a>
+		<code><a href="source-class-ObjectDBRelations.html#387-397" title="Go to source code">DB_InsertUpdateChild</a>( <span>mixed <var>$childObj</var></span>, <span>mixed <var>$args</var></span>, <span>mixed <var>$where</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$id</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="DB_ReOrder" id="_DB_ReOrder">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_DB_ReOrder">#</a>
+		<code><a href="source-class-ObjectDBRelations.html#399-446" title="Go to source code">DB_ReOrder</a>( <span>mixed <var>$order</var></span>, <span>mixed <var>$relations</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="DB_FilterParentsRelations" id="_DB_FilterParentsRelations">
+
+		<td class="attributes"><code>
+			 protected static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_DB_FilterParentsRelations">#</a>
+		<code><a href="source-class-ObjectDBRelations.html#451-481" title="Go to source code">DB_FilterParentsRelations</a>( <span>mixed <var>$relations</var></span>, <span>mixed <var>$fields</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="DB_GetRelatedTables" id="_DB_GetRelatedTables">
+
+		<td class="attributes"><code>
+			 protected static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_DB_GetRelatedTables">#</a>
+		<code><a href="source-class-ObjectDBRelations.html#483-555" title="Go to source code">DB_GetRelatedTables</a>( <span>mixed <var>$relations</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$fields</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-ObjectDB.html#_DB_GetRelatedTables">ObjectDB::DB_GetRelatedTables()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="DB_GenereateSelect" id="_DB_GenereateSelect">
 
 		<td class="attributes"><code>
@@ -496,7 +905,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_DB_GenereateSelect">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#208-222" title="Go to source code">DB_GenereateSelect</a>( <span>mixed <var>$fields</var></span> )</code>
+		<code><a href="source-class-ObjectDBRelations.html#558-605" title="Go to source code">DB_GenereateSelect</a>( <span>mixed <var>$fields</var></span>, <span>mixed <var>$tables</var></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -516,35 +925,6 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="DB_FilterParentsRelations" id="_DB_FilterParentsRelations">
-
-		<td class="attributes"><code>
-			 protected static
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_DB_FilterParentsRelations">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#224-236" title="Go to source code">DB_FilterParentsRelations</a>( <span>mixed <var>$relations</var></span> )</code>
-
-		<div class="description short">
-			
-		</div>
-
-		<div class="description detailed hidden">
-			
-
-
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
 	<tr data-order="DB_GenereateJoins" id="_DB_GenereateJoins">
 
 		<td class="attributes"><code>
@@ -556,7 +936,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_DB_GenereateJoins">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#238-278" title="Go to source code">DB_GenereateJoins</a>( <span>mixed <var>$relations</var></span> )</code>
+		<code><a href="source-class-ObjectDBRelations.html#607-698" title="Go to source code">DB_GenereateJoins</a>( <span>mixed <var>$relations</var></span>, <span>mixed <var>$fields</var></span>, <span>mixed <var>$tables</var></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -585,7 +965,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_DB_GenerateWhere">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#280-315" title="Go to source code">DB_GenerateWhere</a>( <span>mixed <var>$where</var></span> )</code>
+		<code><a href="source-class-ObjectDBRelations.html#700-759" title="Go to source code">DB_GenerateWhere</a>( <span>mixed <var>$where</var></span>, <span>mixed <var>$tables</var></span>, <span>mixed <var>$relations</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -616,7 +996,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_DB_GenereateOrderBy">#</a>
-		<code><a href="source-class-ObjectDBRelations.html#317-353" title="Go to source code">DB_GenereateOrderBy</a>( <span>mixed <var>$fields</var></span> )</code>
+		<code><a href="source-class-ObjectDBRelations.html#761-803" title="Go to source code">DB_GenereateOrderBy</a>( <span>mixed <var>$fields</var></span>, <span>mixed <var>$tables</var></span> )</code>
 
 		<div class="description short">
 			
@@ -642,7 +1022,6 @@
 	<caption>Methods inherited from <a href="class-ObjectDB.html#methods">ObjectDB</a></caption>
 	<tr>
 		<td><code>
-			<a href="class-ObjectDB.html#_DB_Delete">DB_Delete()</a>, 
 			<a href="class-ObjectDB.html#_DB_GenerateLimit">DB_GenerateLimit()</a>, 
 			<a href="class-ObjectDB.html#_DB_Update">DB_Update()</a>
 		</code></td>
@@ -662,6 +1041,7 @@
 			<a href="class-ObjectDBBase.html#_DB_GetIndexFields">DB_GetIndexFields()</a>, 
 			<a href="class-ObjectDBBase.html#_DB_GetPrimaryField">DB_GetPrimaryField()</a>, 
 			<a href="class-ObjectDBBase.html#_DB_GetTableName">DB_GetTableName()</a>, 
+			<a href="class-ObjectDBBase.html#_DB_IsField">DB_IsField()</a>, 
 			<a href="class-ObjectDBBase.html#_DB_NormalizeField">DB_NormalizeField()</a>, 
 			<a href="class-ObjectDBBase.html#_DB_NormalizeFields">DB_NormalizeFields()</a>
 		</code></td>
@@ -674,7 +1054,82 @@
 
 
 
+	<table class="summary" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="REPLICATE_ALL_LANGUAGES" id="REPLICATE_ALL_LANGUAGES">
 
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-ObjectDBRelations.html#17-20" title="Go to source code"><b>REPLICATE_ALL_LANGUAGES</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">'_ALL_LLANGUAGES_'</span></code></td>
+		<td class="description"><div>
+			<a href="#REPLICATE_ALL_LANGUAGES" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Replicate content in all languages</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Replicate content in all languages</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="DB_ALL_LANGUAGE_FUNCTION" id="DB_ALL_LANGUAGE_FUNCTION">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-ObjectDBRelations.html#22" title="Go to source code"><b>DB_ALL_LANGUAGE_FUNCTION</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">'get_active_locales'</span></code></td>
+		<td class="description"><div>
+			<a href="#DB_ALL_LANGUAGE_FUNCTION" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="DB_LANGUAGE_FUNCTION" id="DB_LANGUAGE_FUNCTION">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-ObjectDBRelations.html#24" title="Go to source code"><b>DB_LANGUAGE_FUNCTION</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">'get_lang'</span></code></td>
+		<td class="description"><div>
+			<a href="#DB_LANGUAGE_FUNCTION" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Constants inherited from <a href="class-ObjectDB.html#constants">ObjectDB</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-ObjectDB.html#FIELD_NOT_EMPTY"><b>FIELD_NOT_EMPTY</b></a>
+		</code></td>
+	</tr>
+	</table>
 
 
 
@@ -687,16 +1142,47 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-ObjectDBRelations.html#16-25" title="Go to source code"><var>$DB_PARENT_DEFAULT</var></a>
+				<a href="source-class-ObjectDBRelations.html#26-35" title="Go to source code"><var>$DB_PARENT_DEFAULT</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">array</span>(
-    <span class="php-quote">'name'</span> =&gt; <span class="php-quote">'relation'</span>,
+    <span class="php-quote">'object'</span> =&gt; <span class="php-quote">'ObjectName'</span>,
     <span class="php-quote">'force'</span> =&gt; <span class="php-keyword1">false</span>,
     <span class="php-quote">'function'</span> =&gt; <span class="php-quote">''</span>,
     <span class="php-quote">'language'</span> =&gt; <span class="php-keyword1">false</span>
 )</code></td>
 		<td class="description"><div>
 			<a href="#$DB_PARENT_DEFAULT" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Parent relation default struct</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Parent relation default struct</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="DB_CHILD_DEFAULT" id="$DB_CHILD_DEFAULT">
+		<td class="attributes"><code>
+			protected static 
+			type
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-ObjectDBRelations.html#37-45" title="Go to source code"><var>$DB_CHILD_DEFAULT</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(
+    <span class="php-quote">'object'</span> =&gt; <span class="php-quote">'ObjectName'</span>,
+    <span class="php-quote">'nameField'</span> =&gt; <span class="php-quote">'name'</span>,
+    <span class="php-quote">'valueField'</span> =&gt; <span class="php-quote">'value'</span>
+)</code></td>
+		<td class="description"><div>
+			<a href="#$DB_CHILD_DEFAULT" class="anchor">#</a>
 
 			<div class="description short">
 				
@@ -719,7 +1205,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-ObjectDBRelations.html#27-31" title="Go to source code"><var>$DB_PARENTS</var></a>
+				<a href="source-class-ObjectDBRelations.html#47-51" title="Go to source code"><var>$DB_PARENTS</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
 		<td class="description"><div>
@@ -734,6 +1220,33 @@
 			<div class="description detailed hidden">
 				
 <p>Parents relation</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="DB_CHILDS" id="$DB_CHILDS">
+		<td class="attributes"><code>
+			protected static 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-ObjectDBRelations.html#53-57" title="Go to source code"><var>$DB_CHILDS</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$DB_CHILDS" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Childs relation</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Childs relation</p>
 
 
 			</div>

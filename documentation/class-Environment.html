@@ -7,7 +7,7 @@
 	<title>Class Environment | Iceberg</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?1342617136"></script>
+	<script type="text/javascript" src="elementlist.js?791472392"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -21,10 +21,12 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
+				<li><a href="package-Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-elfinder.html">elfinder</a>
+						</li>
 				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
-						</li>
 				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
 						</li>
 				<li><a href="package-Iceberg.Database.html">Database</a>
@@ -43,7 +45,7 @@
 						</li>
 				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
 						</li>
-				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
 						</li>
@@ -54,11 +56,23 @@
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
+				<li><a href="package-MySQL.html">MySQL<span></span></a>
+						<ul>
+				<li><a href="package-MySQL.Query.html">Query</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
+				<li><a href="package-Page.html">Page<span></span></a>
+						<ul>
+				<li><a href="package-Page.Config.html">Config</a>
+						</li>
+							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -70,7 +84,7 @@
 			<h3>Classes</h3>
 			<ul>
 				<li class="active"><a href="class-Environment.html">Environment</a></li>
-				<li><a href="class-IcebergApi.html">IcebergApi</a></li>
+				<li><a href="class-IcebergAPI.html">IcebergAPI</a></li>
 				<li><a href="class-IcebergBackend.html">IcebergBackend</a></li>
 				<li><a href="class-IcebergFrontend.html">IcebergFrontend</a></li>
 			</ul>
@@ -126,11 +140,20 @@
 
 	</div>
 
+	<dl class="tree">
+		<dd style="padding-left:0px">
+<b><span>Environment</span></b>			
+			 implements 
+				<a href="class-EnvironmentInterface.html"><span>EnvironmentInterface</span></a>
+			
+			
+		</dd>
+	</dl>
 
 
 	<div>
 		<h4>Direct known subclasses</h4>
-			<a href="class-IcebergApi.html">IcebergApi</a>, 
+			<a href="class-IcebergAPI.html">IcebergAPI</a>, 
 			<a href="class-IcebergBackend.html">IcebergBackend</a>, 
 			<a href="class-IcebergFrontend.html">IcebergFrontend</a>
 	</div>
@@ -152,7 +175,7 @@
 				1.0<br />
 				<b>Since:</b>
 				1.0<br />
-		<b>Located at</b> <a href="source-class-Environment.html#15-158" title="Go to source code">includes/Environment.class.php</a><br />
+		<b>Located at</b> <a href="source-class-Environment.html#14-185" title="Go to source code">includes/Environment.class.php</a><br />
 	</div>
 
 
@@ -170,7 +193,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Load">#</a>
-		<code><a href="source-class-Environment.html#65-95" title="Go to source code">Load</a>( )</code>
+		<code><a href="source-class-Environment.html#70-100" title="Go to source code">Load</a>( )</code>
 
 		<div class="description short">
 			
@@ -185,6 +208,8 @@
 
 
 
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-EnvironmentInterface.html#_Load">EnvironmentInterface::Load()</a></code></div>
 		</div>
 		</div></td>
 	</tr>
@@ -199,7 +224,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Config">#</a>
-		<code><a href="source-class-Environment.html#97-106" title="Go to source code">Config</a>( )</code>
+		<code><a href="source-class-Environment.html#102-111" title="Go to source code">Config</a>( )</code>
 
 		<div class="description short">
 			
@@ -214,6 +239,8 @@
 
 
 
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-EnvironmentInterface.html#_Config">EnvironmentInterface::Config()</a></code></div>
 		</div>
 		</div></td>
 	</tr>
@@ -228,7 +255,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Generate">#</a>
-		<code><a href="source-class-Environment.html#108-113" title="Go to source code">Generate</a>( )</code>
+		<code><a href="source-class-Environment.html#113-118" title="Go to source code">Generate</a>( )</code>
 
 		<div class="description short">
 			
@@ -243,6 +270,8 @@
 
 
 
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-EnvironmentInterface.html#_Generate">EnvironmentInterface::Generate()</a></code></div>
 		</div>
 		</div></td>
 	</tr>
@@ -257,7 +286,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Show">#</a>
-		<code><a href="source-class-Environment.html#115-123" title="Go to source code">Show</a>( )</code>
+		<code><a href="source-class-Environment.html#120-128" title="Go to source code">Show</a>( )</code>
 
 		<div class="description short">
 			
@@ -272,6 +301,8 @@
 
 
 
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-EnvironmentInterface.html#_Show">EnvironmentInterface::Show()</a></code></div>
 		</div>
 		</div></td>
 	</tr>
@@ -286,7 +317,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetRouting">#</a>
-		<code><a href="source-class-Environment.html#126-129" title="Go to source code">GetRouting</a>( )</code>
+		<code><a href="source-class-Environment.html#131-134" title="Go to source code">GetRouting</a>( )</code>
 
 		<div class="description short">
 			
@@ -315,7 +346,65 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetTheme">#</a>
-		<code><a href="source-class-Environment.html#131-134" title="Go to source code">GetTheme</a>( )</code>
+		<code><a href="source-class-Environment.html#136-139" title="Go to source code">GetTheme</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="AddAlert" id="_AddAlert">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_AddAlert">#</a>
+		<code><a href="source-class-Environment.html#142-145" title="Go to source code">AddAlert</a>( <span>mixed <var>$txt</var></span>, <span>mixed <var>$type</var> = <span class="php-quote">'info'</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetAlerts" id="_GetAlerts">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetAlerts">#</a>
+		<code><a href="source-class-Environment.html#147-150" title="Go to source code">GetAlerts</a>( )</code>
 
 		<div class="description short">
 			
@@ -344,7 +433,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetEnvironment">#</a>
-		<code><a href="source-class-Environment.html#136-139" title="Go to source code">GetEnvironment</a>( )</code>
+		<code><a href="source-class-Environment.html#153-156" title="Go to source code">GetEnvironment</a>( )</code>
 
 		<div class="description short">
 			
@@ -373,7 +462,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetEnvironmentRouting">#</a>
-		<code><a href="source-class-Environment.html#141-145" title="Go to source code">GetEnvironmentRouting</a>( )</code>
+		<code><a href="source-class-Environment.html#158-162" title="Go to source code">GetEnvironmentRouting</a>( )</code>
 
 		<div class="description short">
 			
@@ -402,7 +491,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetEnvironmentTheme">#</a>
-		<code><a href="source-class-Environment.html#147-151" title="Go to source code">GetEnvironmentTheme</a>( )</code>
+		<code><a href="source-class-Environment.html#164-168" title="Go to source code">GetEnvironmentTheme</a>( )</code>
 
 		<div class="description short">
 			
@@ -431,7 +520,36 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetController">#</a>
-		<code><a href="source-class-Environment.html#153-157" title="Go to source code">GetController</a>( )</code>
+		<code><a href="source-class-Environment.html#170-174" title="Go to source code">GetController</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ExecController" id="_ExecController">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ExecController">#</a>
+		<code><a href="source-class-Environment.html#176-184" title="Go to source code">ExecController</a>( <span>mixed <var>$template</var></span> )</code>
 
 		<div class="description short">
 			
@@ -471,7 +589,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Environment.html#28-32" title="Go to source code"><var>$ROUTING_CLASS</var></a>
+				<a href="source-class-Environment.html#27-31" title="Go to source code"><var>$ROUTING_CLASS</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">'Routing'</span></code></td>
 		<td class="description"><div>
@@ -498,7 +616,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Environment.html#34-38" title="Go to source code"><var>$THEME_CLASS</var></a>
+				<a href="source-class-Environment.html#33-37" title="Go to source code"><var>$THEME_CLASS</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">'Theme'</span></code></td>
 		<td class="description"><div>
@@ -525,7 +643,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Environment.html#40-44" title="Go to source code"><var>$routing</var></a>
+				<a href="source-class-Environment.html#39-43" title="Go to source code"><var>$routing</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">null</span></code></td>
 		<td class="description"><div>
@@ -552,7 +670,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Environment.html#46-50" title="Go to source code"><var>$theme</var></a>
+				<a href="source-class-Environment.html#45-49" title="Go to source code"><var>$theme</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">null</span></code></td>
 		<td class="description"><div>
@@ -579,7 +697,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Environment.html#52-56" title="Go to source code"><var>$environments</var></a>
+				<a href="source-class-Environment.html#51-55" title="Go to source code"><var>$environments</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
 		<td class="description"><div>
@@ -606,7 +724,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Environment.html#58-62" title="Go to source code"><var>$environment</var></a>
+				<a href="source-class-Environment.html#57-61" title="Go to source code"><var>$environment</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">null</span></code></td>
 		<td class="description"><div>
@@ -621,6 +739,33 @@
 			<div class="description detailed hidden">
 				
 <p>Environment</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="alerts" id="$alerts">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Environment.html#63-67" title="Go to source code"><var>$alerts</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$alerts" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Alerts</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Alerts</p>
 
 
 			</div>

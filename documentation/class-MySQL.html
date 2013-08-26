@@ -4,10 +4,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="generator" content="ApiGen 2.8.0" />
 
-	<title>Class MySQL | Iceberg 1.0</title>
+	<title>Class MySQL | Iceberg</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?3811943975"></script>
+	<script type="text/javascript" src="elementlist.js?791472392"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -21,30 +21,58 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
-				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
+				<li><a href="package-Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-elfinder.html">elfinder</a>
+						</li>
+				<li><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.API.html">API</a>
+				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
 						</li>
-				<li><a href="package-Iceberg.Application.html">Application</a>
+				<li><a href="package-Iceberg.Database.html">Database</a>
 						</li>
-				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
+				<li><a href="package-Iceberg.Environment.html">Environment</a>
 						</li>
 				<li><a href="package-Iceberg.Exception.html">Exception</a>
 						</li>
+				<li><a href="package-Iceberg.Extension.html">Extension</a>
+						</li>
+				<li><a href="package-Iceberg.Files.html">Files</a>
+						</li>
 				<li><a href="package-Iceberg.I18N.html">I18N</a>
 						</li>
-				<li class="active"><a href="package-Iceberg.MySQL.html">MySQL</a>
+				<li><a href="package-Iceberg.Install.html">Install</a>
+						</li>
+				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
+						</li>
+				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
+						</li>
+				<li><a href="package-Iceberg.Session.html">Session</a>
+						</li>
+				<li><a href="package-Iceberg.User.html">User</a>
 						</li>
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
+				<li class="active"><a href="package-MySQL.html">MySQL<span></span></a>
+						<ul>
+				<li><a href="package-MySQL.Query.html">Query</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
+				<li><a href="package-Page.html">Page<span></span></a>
+						<ul>
+				<li><a href="package-Page.Config.html">Config</a>
+						</li>
+							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -57,7 +85,6 @@
 			<ul>
 				<li class="active"><a href="class-MySQL.html">MySQL</a></li>
 				<li><a href="class-MySQLBase.html">MySQLBase</a></li>
-				<li><a href="class-Query.html">Query</a></li>
 			</ul>
 
 
@@ -85,7 +112,7 @@
 				<a href="index.html" title="Overview"><span>Overview</span></a>
 			</li>
 			<li>
-				<a href="package-Iceberg.MySQL.html" title="Summary of Iceberg\MySQL"><span>Package</span></a>
+				<a href="package-MySQL.html" title="Summary of MySQL"><span>Package</span></a>
 			</li>
 			<li class="active">
 <span>Class</span>			</li>
@@ -94,17 +121,8 @@
 			<li>
 				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
 			</li>
-			<li>
-				<a href="deprecated.html" title="List of deprecated elements"><span>Deprecated</span></a>
-			</li>
-			<li>
-				<a href="todo.html" title="Todo list"><span>Todo</span></a>
-			</li>
 		</ul>
 		<ul>
-			<li>
-				<a href="iceberg-1-0-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
-			</li>
 		</ul>
 	</div>
 
@@ -146,7 +164,7 @@
 		
 		
 		
-		<b>Package:</b> <a href="package-Iceberg.html">Iceberg</a>\<a href="package-Iceberg.MySQL.html">MySQL</a><br />
+		<b>Package:</b> <a href="package-MySQL.html">MySQL</a><br />
 
 				<b>Author:</b>
 				Marc Mascort Bou<br />
@@ -154,7 +172,7 @@
 				1.0<br />
 				<b>Since:</b>
 				1.0<br />
-		<b>Located at</b> <a href="source-class-MySQL.html#73-256" title="Go to source code">includes/MySQL.class.php</a><br />
+		<b>Located at</b> <a href="source-class-MySQL.html#138-540" title="Go to source code">includes/MySQL.class.php</a><br />
 	</div>
 
 
@@ -172,16 +190,27 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_MySQL">#</a>
-		<code><a href="source-class-MySQL.html#132-150" title="Go to source code">MySQL</a>( <span>mixed <var>$new</var> = <span class="php-keyword1">true</span></span>, <span>mixed <var>$id</var> = -<span class="php-num">1</span></span> )</code>
+		<code><a href="source-class-MySQL.html#231-256" title="Go to source code">MySQL</a>( <span>boolean <var>$new</var> = <span class="php-keyword1">true</span></span>, <span>integer <var>$id</var> = -<span class="php-num">1</span></span> )</code>
 
 		<div class="description short">
 			
+<p>Contructor</p>
+
 		</div>
 
 		<div class="description detailed hidden">
 			
+<p>Contructor</p>
 
 
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$new</var></dt>
+					<dd><code>boolean</code><br>$new [Optional]</dd>
+					<dt><var>$id</var></dt>
+					<dd><code>integer</code><br>$id [Optional]</dd>
+				</dl></div>
 
 
 
@@ -194,24 +223,47 @@
 
 		<td class="attributes"><code>
 			 public 
-			
+			integer
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Connect">#</a>
-		<code><a href="source-class-MySQL.html#152-162" title="Go to source code">Connect</a>( <span>mixed <var>$db</var></span>, <span>mixed <var>$host</var></span>, <span>mixed <var>$user</var></span>, <span>mixed <var>$pass</var></span>, <span>mixed <var>$charset</var> = <span class="php-quote">'utf8'</span></span>, <span>mixed <var>$collate</var> = <span class="php-quote">'utf8_general_ci'</span></span> )</code>
+		<code><a href="source-class-MySQL.html#258-281" title="Go to source code">Connect</a>( <span>string <var>$db</var></span>, <span>string <var>$host</var></span>, <span>string <var>$user</var></span>, <span>string <var>$pass</var></span>, <span>string <var>$charset</var> = <span class="php-quote">'utf8'</span></span>, <span>string <var>$collate</var> = <span class="php-quote">'utf8_general_ci'</span></span> )</code>
 
 		<div class="description short">
 			
+<p>Connect to database</p>
+
 		</div>
 
 		<div class="description detailed hidden">
 			
+<p>Connect to database</p>
 
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$db</var></dt>
+					<dd><code>string</code><br>$db Database name</dd>
+					<dt><var>$host</var></dt>
+					<dd><code>string</code><br>$host Host name</dd>
+					<dt><var>$user</var></dt>
+					<dd><code>string</code><br>$user User</dd>
+					<dt><var>$pass</var></dt>
+					<dd><code>string</code><br>$pass Password</dd>
+					<dt><var>$charset</var></dt>
+					<dd><code>string</code><br>$charset [Optional] Charset</dd>
+					<dt><var>$collate</var></dt>
+					<dd><code>string</code><br>$collate [Optional] Collate</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br>Connection ID<br />
+				</div>
 
 
 
@@ -230,18 +282,33 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ConnectAll">#</a>
-		<code><a href="source-class-MySQL.html#168-180" title="Go to source code">ConnectAll</a>( <span>mixed <var>$force</var> = <span class="php-keyword1">false</span></span>, <span>mixed <var>$dbs</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-MySQL.html#288-313" title="Go to source code">ConnectAll</a>( <span>boolean <var>$force</var> = <span class="php-keyword1">false</span></span>, <span>array <var>$dbs</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
+<p>Connect to all databases</p>
+
 		</div>
 
 		<div class="description detailed hidden">
 			
+<p>Connect to all databases</p>
 
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$force</var></dt>
+					<dd><code>boolean</code><br>$force [Optional] Force connection. If isn't possible throws an error</dd>
+					<dt><var>$dbs</var></dt>
+					<dd><code>array</code><br>$dbs [Optional] List of databases</dd>
+				</dl></div>
 
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-IcebergException.html">IcebergException</a></code></code><br>If force and list is empty<br />
+				</div>
 
 
 
@@ -252,24 +319,37 @@
 
 		<td class="attributes"><code>
 			 public static
-			
+			array/string
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetCharset">#</a>
-		<code><a href="source-class-MySQL.html#182-191" title="Go to source code">GetCharset</a>( <span>mixed <var>$id</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-MySQL.html#315-331" title="Go to source code">GetCharset</a>( <span>integer <var>$id</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
+<p>Get charset of connection or list of connections</p>
+
 		</div>
 
 		<div class="description detailed hidden">
 			
+<p>Get charset of connection or list of connections</p>
 
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd><code>integer</code><br>$id [Optional] Connection ID</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array/string</code><br>Charset of connection or charset list of connections<br />
+				</div>
 
 
 
@@ -281,24 +361,37 @@
 
 		<td class="attributes"><code>
 			 public static
-			
+			array/string
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetCollate">#</a>
-		<code><a href="source-class-MySQL.html#193-202" title="Go to source code">GetCollate</a>( <span>mixed <var>$id</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-MySQL.html#333-349" title="Go to source code">GetCollate</a>( <span>integer <var>$id</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
+<p>Get collate of connection or list of connections</p>
+
 		</div>
 
 		<div class="description detailed hidden">
 			
+<p>Get collate of connection or list of connections</p>
 
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd><code>integer</code><br>$id [Optional] Connection ID</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array/string</code><br>Collate of connection or collate list of connections<br />
+				</div>
 
 
 
@@ -310,24 +403,39 @@
 
 		<td class="attributes"><code>
 			 public static
-			
+			boolean
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_TableExists">#</a>
-		<code><a href="source-class-MySQL.html#204-223" title="Go to source code">TableExists</a>( <span>mixed <var>$table</var></span>, <span>mixed <var>$id</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-MySQL.html#351-377" title="Go to source code">TableExists</a>( <span>string <var>$table</var></span>, <span>integer <var>$id</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
+<p>Checks if table exists on database</p>
+
 		</div>
 
 		<div class="description detailed hidden">
 			
+<p>Checks if table exists on database</p>
 
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$table</var></dt>
+					<dd><code>string</code><br>$table Table name</dd>
+					<dt><var>$id</var></dt>
+					<dd><code>integer</code><br>$id [Optional] Connection ID</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>Table exists<br />
+				</div>
 
 
 
@@ -339,24 +447,37 @@
 
 		<td class="attributes"><code>
 			 public static
-			
+			integer
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ValidIdConnection">#</a>
-		<code><a href="source-class-MySQL.html#225-246" title="Go to source code">ValidIdConnection</a>( <span>mixed <var>$id</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-MySQL.html#379-407" title="Go to source code">ValidIdConnection</a>( <span>integer <var>$id</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
+<p>Returns valid connections to database</p>
+
 		</div>
 
 		<div class="description detailed hidden">
 			
+<p>Returns valid connections to database</p>
 
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd><code>integer</code><br>$id [Optional] Connection ID</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br>Connection ID<br />
+				</div>
 
 
 
@@ -368,14 +489,88 @@
 
 		<td class="attributes"><code>
 			 public static
-			
+			array
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetCollates">#</a>
-		<code><a href="source-class-MySQL.html#248-250" title="Go to source code">GetCollates</a>( )</code>
+		<code><a href="source-class-MySQL.html#409-416" title="Go to source code">GetCollates</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get list of collates</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get list of collates</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>List of collates<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="Connected" id="_Connected">
+
+		<td class="attributes"><code>
+			 public static
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_Connected">#</a>
+		<code><a href="source-class-MySQL.html#418-426" title="Go to source code">Connected</a>( )</code>
+
+		<div class="description short">
+			
+<p>Check if is connected to database</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Check if is connected to database</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>If is connected<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="Dump" id="_Dump">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_Dump">#</a>
+		<code><a href="source-class-MySQL.html#428-453" title="Go to source code">Dump</a>( <span>mixed <var>$args</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -393,7 +588,7 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="Connected" id="_Connected">
+	<tr data-order="DumpTableStructure" id="_DumpTableStructure">
 
 		<td class="attributes"><code>
 			 public static
@@ -403,8 +598,37 @@
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_Connected">#</a>
-		<code><a href="source-class-MySQL.html#252-255" title="Go to source code">Connected</a>( )</code>
+		<a class="anchor" href="#_DumpTableStructure">#</a>
+		<code><a href="source-class-MySQL.html#455-473" title="Go to source code">DumpTableStructure</a>( <span>mixed <var>$table</var></span>, <span>mixed <var>$args</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="DumpTableData" id="_DumpTableData">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_DumpTableData">#</a>
+		<code><a href="source-class-MySQL.html#475-539" title="Go to source code">DumpTableData</a>( <span>mixed <var>$table</var></span>, <span>mixed <var>$args</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -428,7 +652,10 @@
 	<caption>Methods inherited from <a href="class-MySQLBase.html#methods">MySQLBase</a></caption>
 	<tr>
 		<td><code>
-			<a href="class-MySQLBase.html#_MySQLBase">MySQLBase()</a>, 
+			<a href="class-MySQLBase.html#_GetLog">GetLog()</a>, 
+			<a href="class-MySQLBase.html#_Log">Log()</a>, 
+			<a href="class-MySQLBase.html#_PrintLog">PrintLog()</a>, 
+			<a href="class-MySQLBase.html#___construct">__construct()</a>, 
 			<a href="class-MySQLBase.html#_reportError">reportError()</a>
 		</code></td>
 	</tr>
@@ -444,209 +671,6 @@
 
 
 
-	<table class="summary" id="properties">
-	<caption>Properties summary</caption>
-	<tr data-order="id" id="$id">
-		<td class="attributes"><code>
-			private  
-			integer
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-MySQL.html#85" title="Go to source code"><var>$id</var></a>
-		</td>
-		<td class="value"><code>-<span class="php-num">1</span></code></td>
-		<td class="description"><div>
-			<a href="#$id" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="link" id="$link">
-		<td class="attributes"><code>
-			private  
-			mixed
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-MySQL.html#86" title="Go to source code"><var>$link</var></a>
-		</td>
-		<td class="value"><code><span class="php-keyword1">null</span></code></td>
-		<td class="description"><div>
-			<a href="#$link" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="db" id="$db">
-		<td class="attributes"><code>
-			private  
-			mixed
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-MySQL.html#87" title="Go to source code"><var>$db</var></a>
-		</td>
-		<td class="value"><code><span class="php-keyword1">null</span></code></td>
-		<td class="description"><div>
-			<a href="#$db" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="error_type" id="$error_type">
-		<td class="attributes"><code>
-			private  
-			integer
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-MySQL.html#88" title="Go to source code"><var>$error_type</var></a>
-		</td>
-		<td class="value"><code><span class="php-num">0</span></code></td>
-		<td class="description"><div>
-			<a href="#$error_type" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="admin" id="$admin">
-		<td class="attributes"><code>
-			private  
-			string
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-MySQL.html#89" title="Go to source code"><var>$admin</var></a>
-		</td>
-		<td class="value"><code><span class="php-quote">''</span></code></td>
-		<td class="description"><div>
-			<a href="#$admin" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="error_headers" id="$error_headers">
-		<td class="attributes"><code>
-			private  
-			string
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-MySQL.html#90" title="Go to source code"><var>$error_headers</var></a>
-		</td>
-		<td class="value"><code><span class="php-quote">''</span></code></td>
-		<td class="description"><div>
-			<a href="#$error_headers" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="collates" id="$collates">
-		<td class="attributes"><code>
-			private static 
-			array
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-MySQL.html#91-130" title="Go to source code"><var>$collates</var></a>
-		</td>
-		<td class="value"><code><span class="php-keyword1">array</span>(
-    <span class="php-quote">'utf8_general_ci'</span> =&gt; <span class="php-quote">'UTF-8 Unicode'</span>,
-    <span class="php-quote">'latin2_general_ci'</span> =&gt; <span class="php-quote">'ISO 8859-2 Central European'</span>,
-    <span class="php-quote">'big5_chinese_ci'</span> =&gt; <span class="php-quote">'Big5 Traditional Chinese'</span>,
-    <span class="php-quote">'dec8_swedish_ci'</span> =&gt; <span class="php-quote">'DEC West European'</span>,
-    <span class="php-quote">'cp850_general_ci'</span> =&gt; <span class="php-quote">'DOS West European'</span>,
-    <span class="php-quote">'hp8_english_ci'</span> =&gt; <span class="php-quote">'HP West European'</span>,
-    <span class="php-quote">'koi8r_general_ci'</span> =&gt; <span class="php-quote">'KOI8-R Relcom Russian'</span>,
-    <span class="php-quote">'latin1_swedish_ci'</span> =&gt; <span class="php-quote">'cp1252 West European'</span>,
-    <span class="php-quote">'swe7_swedish_ci'</span> =&gt; <span class="php-quote">'7bit Swedish'</span>,
-    <span class="php-quote">'ascii_general_ci'</span> =&gt; <span class="php-quote">'US ASCII'</span>,
-    <span class="php-quote">'ujis_japanese_ci'</span> =&gt; <span class="php-quote">'EUC-JP Japanese'</span>,
-    <span class="php-quote">'sjis_japanese_ci'</span> =&gt; <span class="php-quote">'Shift-JIS Japanese'</span>,
-    <span class="php-quote">'hebrew_general_ci'</span> =&gt; <span class="php-quote">'ISO 8859-8 Hebrew'</span>,
-    <span class="php-quote">'tis620_thai_ci'</span> =&gt; <span class="php-quote">'TIS620 Thai'</span>,
-    <span class="php-quote">'euckr_korean_ci'</span> =&gt; <span class="php-quote">'EUC-KR Korean'</span>,
-    <span class="php-quote">'koi8u_general_ci'</span> =&gt; <span class="php-quote">'KOI8-U Ukrainian'</span>,
-    <span class="php-quote">'gb2312_chinese_ci'</span> =&gt; <span class="php-quote">'GB2312 Simplified Chinese'</span>,
-    <span class="php-quote">'greek_general_ci'</span> =&gt; <span class="php-quote">'ISO 8859-7 Greek'</span>,
-    <span class="php-quote">'cp1250_general_ci'</span> =&gt; <span class="php-quote">'Windows Central European'</span>,
-    <span class="php-quote">'gbk_chinese_ci'</span> =&gt; <span class="php-quote">'GBK Simplified Chinese'</span>,
-    <span class="php-quote">'latin5_turkish_ci'</span> =&gt; <span class="php-quote">'ISO 8859-9 Turkish'</span>,
-    <span class="php-quote">'armscii8_general_ci'</span> =&gt; <span class="php-quote">'ARMSCII-8 Armenian'</span>,
-    <span class="php-quote">'ucs2_general_ci'</span> =&gt; <span class="php-quote">'UCS-2 Unicode'</span>,
-    <span class="php-quote">'cp866_general_ci'</span> =&gt; <span class="php-quote">'DOS Russian'</span>,
-    <span class="php-quote">'keybcs2_general_ci'</span> =&gt; <span class="php-quote">'DOS Kamenicky Czech-Slovak'</span>,
-    <span class="php-quote">'macce_general_ci'</span> =&gt; <span class="php-quote">'Mac Central European'</span>,
-    <span class="php-quote">'macroman_general_ci'</span> =&gt; <span class="php-quote">'Mac West European'</span>,
-    <span class="php-quote">'cp852_general_ci'</span> =&gt; <span class="php-quote">'DOS Central European'</span>,
-    <span class="php-quote">'latin7_general_ci'</span> =&gt; <span class="php-quote">'ISO 8859-13 Baltic'</span>,
-    <span class="php-quote">'cp1251_general_ci'</span> =&gt; <span class="php-quote">'Windows Cyrillic'</span>,
-    <span class="php-quote">'utf16_general_ci'</span> =&gt; <span class="php-quote">'UTF-16 Unicode'</span>,
-    <span class="php-quote">'cp1256_general_ci'</span> =&gt; <span class="php-quote">'Windows Arabic'</span>,
-    <span class="php-quote">'cp1257_general_ci'</span> =&gt; <span class="php-quote">'Windows Baltic'</span>,
-    <span class="php-quote">'utf32_general_ci'</span> =&gt; <span class="php-quote">'UTF-32 Unicode'</span>,
-    <span class="php-quote">'binary'</span> =&gt; <span class="php-quote">'Binary pseudo charset'</span>,
-    <span class="php-quote">'geostd8_general_ci'</span> =&gt; <span class="php-quote">'GEOSTD8 Georgian'</span>,
-    <span class="php-quote">'cp932_japanese_ci'</span> =&gt; <span class="php-quote">'SJIS for Windows Japanese'</span>,
-    <span class="php-quote">'eucjpms_japanese_ci'</span> =&gt; <span class="php-quote">'UJIS for Windows Japanese'</span>,
-)</code></td>
-		<td class="description"><div>
-			<a href="#$collates" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	</table>
 
 
 
@@ -656,7 +680,7 @@
 </div>
 
 	<div id="footer">
-		Iceberg 1.0 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+		Iceberg API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
 	</div>
 </div>
 </div>

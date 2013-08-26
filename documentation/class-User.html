@@ -4,10 +4,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="generator" content="ApiGen 2.8.0" />
 
-	<title>Class User | Iceberg 1.0</title>
+	<title>Class User | Iceberg</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?3811943975"></script>
+	<script type="text/javascript" src="elementlist.js?791472392"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -21,30 +21,58 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
+				<li><a href="package-Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-elfinder.html">elfinder</a>
+						</li>
 				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.API.html">API</a>
+				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
 						</li>
-				<li><a href="package-Iceberg.Application.html">Application</a>
+				<li><a href="package-Iceberg.Database.html">Database</a>
 						</li>
-				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
+				<li><a href="package-Iceberg.Environment.html">Environment</a>
 						</li>
 				<li><a href="package-Iceberg.Exception.html">Exception</a>
 						</li>
+				<li><a href="package-Iceberg.Extension.html">Extension</a>
+						</li>
+				<li><a href="package-Iceberg.Files.html">Files</a>
+						</li>
 				<li><a href="package-Iceberg.I18N.html">I18N</a>
 						</li>
-				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+				<li><a href="package-Iceberg.Install.html">Install</a>
+						</li>
+				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
+						</li>
+				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
+						</li>
+				<li><a href="package-Iceberg.Session.html">Session</a>
+						</li>
+				<li class="active"><a href="package-Iceberg.User.html">User</a>
 						</li>
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
+				<li><a href="package-MySQL.html">MySQL<span></span></a>
+						<ul>
+				<li><a href="package-MySQL.Query.html">Query</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
+				<li><a href="package-Page.html">Page<span></span></a>
+						<ul>
+				<li><a href="package-Page.Config.html">Config</a>
+						</li>
+							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -55,19 +83,8 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-CMS.html">CMS</a></li>
-				<li><a href="class-CMSTemplate.html">CMSTemplate</a></li>
-				<li><a href="class-CMSTheme.html">CMSTheme</a></li>
-				<li><a href="class-Config.html">Config</a></li>
-				<li><a href="class-Extension.html">Extension</a></li>
-				<li><a href="class-Iceberg.html">Iceberg</a></li>
-				<li><a href="class-Session.html">Session</a></li>
-				<li><a href="class-Taxonomy.html">Taxonomy</a></li>
-				<li><a href="class-TaxonomyElements.html">TaxonomyElements</a></li>
-				<li><a href="class-TaxonomyElementsExtension.html">TaxonomyElementsExtension</a></li>
-				<li><a href="class-TaxonomyRelationship.html">TaxonomyRelationship</a></li>
-				<li><a href="class-TimeZones.html">TimeZones</a></li>
 				<li class="active"><a href="class-User.html">User</a></li>
+				<li><a href="class-UserMeta.html">UserMeta</a></li>
 			</ul>
 
 
@@ -95,7 +112,7 @@
 				<a href="index.html" title="Overview"><span>Overview</span></a>
 			</li>
 			<li>
-				<a href="package-Iceberg.html" title="Summary of Iceberg"><span>Package</span></a>
+				<a href="package-Iceberg.User.html" title="Summary of Iceberg\User"><span>Package</span></a>
 			</li>
 			<li class="active">
 <span>Class</span>			</li>
@@ -104,17 +121,8 @@
 			<li>
 				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
 			</li>
-			<li>
-				<a href="deprecated.html" title="List of deprecated elements"><span>Deprecated</span></a>
-			</li>
-			<li>
-				<a href="todo.html" title="Todo list"><span>Todo</span></a>
-			</li>
 		</ul>
 		<ul>
-			<li>
-				<a href="iceberg-1-0-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
-			</li>
 		</ul>
 	</div>
 
@@ -130,6 +138,45 @@
 
 	</div>
 
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-ObjectDBBase.html"><span>ObjectDBBase</span></a>
+			
+			 implements 
+				<a href="class-ObjectDBBaseInterface.html"><span>ObjectDBBaseInterface</span></a>
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by" />
+			<a href="class-ObjectDB.html"><span>ObjectDB</span></a>
+			
+			 implements 
+				<a href="class-ObjectDBInterface.html"><span>ObjectDBInterface</span></a>
+			
+			
+		</dd>
+		<dd style="padding-left:60px">
+			<img src="resources/inherit.png" alt="Extended by" />
+			<a href="class-ObjectDBRelations.html"><span>ObjectDBRelations</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:90px">
+			<img src="resources/inherit.png" alt="Extended by" />
+			<a href="class-UserBase.html"><span>UserBase</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:120px">
+			<img src="resources/inherit.png" alt="Extended by" />
+<b><span>User</span></b>			
+			
+			
+		</dd>
+	</dl>
 
 
 
@@ -142,13 +189,15 @@
 		
 		
 		
-		<b>Package:</b> <a href="package-Iceberg.html">Iceberg</a><br />
+		<b>Package:</b> <a href="package-Iceberg.html">Iceberg</a>\<a href="package-Iceberg.User.html">User</a><br />
 
 				<b>Author:</b>
 				Marc Mascort Bou<br />
 				<b>Version:</b>
 				1.0<br />
-		<b>Located at</b> <a href="source-class-User.html#6-577" title="Go to source code">includes/User.class.php</a><br />
+				<b>Since:</b>
+				1.0<br />
+		<b>Located at</b> <a href="source-class-User.html#125-598" title="Go to source code">includes/User.class.php</a><br />
 	</div>
 
 
@@ -166,18 +215,577 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-User.html#43-49" title="Go to source code">__construct</a>( )</code>
+		<code><a href="source-class-User.html#148-162" title="Go to source code">__construct</a>( <span>mixed <var>$args</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
-<p>Constructor</p>
-
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Constructor</p>
 
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetLevelName" id="_GetLevelName">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetLevelName">#</a>
+		<code><a href="source-class-User.html#164-178" title="Go to source code">GetLevelName</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="LoadMetas" id="_LoadMetas">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_LoadMetas">#</a>
+		<code><a href="source-class-User.html#180-188" title="Go to source code">LoadMetas</a>( <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="SetMeta" id="_SetMeta">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_SetMeta">#</a>
+		<code><a href="source-class-User.html#190-196" title="Go to source code">SetMeta</a>( <span>mixed <var>$key</var></span>, <span>mixed <var>$value</var></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="SaveMeta" id="_SaveMeta">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_SaveMeta">#</a>
+		<code><a href="source-class-User.html#198-207" title="Go to source code">SaveMeta</a>( <span>mixed <var>$key</var></span>, <span>mixed <var>$value</var></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetMeta" id="_GetMeta">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetMeta">#</a>
+		<code><a href="source-class-User.html#209-220" title="Go to source code">GetMeta</a>( <span>mixed <var>$key</var></span>, <span>mixed <var>$default</var> = <span class="php-keyword1">false</span></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="HasMeta" id="_HasMeta">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_HasMeta">#</a>
+		<code><a href="source-class-User.html#222-233" title="Go to source code">HasMeta</a>( <span>mixed <var>$key</var></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetList" id="_GetList">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetList">#</a>
+		<code><a href="source-class-User.html#235-258" title="Go to source code">GetList</a>( <span>mixed <var>$args</var> = <span class="php-keyword1">array</span>()</span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetUser" id="_GetUser">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetUser">#</a>
+		<code><a href="source-class-User.html#260-284" title="Go to source code">GetUser</a>( <span>mixed <var>$id</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetMetas" id="_GetMetas">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetMetas">#</a>
+		<code><a href="source-class-User.html#286-303" title="Go to source code">GetMetas</a>( <span>mixed <var>$id</var></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetID" id="_GetID">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetID">#</a>
+		<code><a href="source-class-User.html#305-313" title="Go to source code">GetID</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+				<h4>Used by</h4>
+				<div class="list">
+						<code><code><a href="function-get_user_id.html">get_user_id()</a></code></code> <br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetUsername" id="_GetUsername">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetUsername">#</a>
+		<code><a href="source-class-User.html#315-323" title="Go to source code">GetUsername</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+				<h4>Used by</h4>
+				<div class="list">
+						<code><code><a href="function-get_user_name.html">get_user_name()</a></code></code> <br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetLevel" id="_GetLevel">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetLevel">#</a>
+		<code><a href="source-class-User.html#325-333" title="Go to source code">GetLevel</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+				<h4>Used by</h4>
+				<div class="list">
+						<code><code><a href="function-get_user_level.html">get_user_level()</a></code></code> <br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="IsAdmin" id="_IsAdmin">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_IsAdmin">#</a>
+		<code><a href="source-class-User.html#335-338" title="Go to source code">IsAdmin</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetUserFromObject" id="_GetUserFromObject">
+
+		<td class="attributes"><code>
+			 protected static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetUserFromObject">#</a>
+		<code><a href="source-class-User.html#340-352" title="Go to source code">GetUserFromObject</a>( <span>mixed <var>$obj</var></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetSelectFields" id="_GetSelectFields">
+
+		<td class="attributes"><code>
+			 protected static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetSelectFields">#</a>
+		<code><a href="source-class-User.html#354-364" title="Go to source code">GetSelectFields</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetWhereFields" id="_GetWhereFields">
+
+		<td class="attributes"><code>
+			 protected static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetWhereFields">#</a>
+		<code><a href="source-class-User.html#366-394" title="Go to source code">GetWhereFields</a>( <span>mixed <var>$args</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetOrderFields" id="_GetOrderFields">
+
+		<td class="attributes"><code>
+			 protected static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetOrderFields">#</a>
+		<code><a href="source-class-User.html#396-402" title="Go to source code">GetOrderFields</a>( <span>mixed <var>$args</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetLimitFields" id="_GetLimitFields">
+
+		<td class="attributes"><code>
+			 protected static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetLimitFields">#</a>
+		<code><a href="source-class-User.html#404-425" title="Go to source code">GetLimitFields</a>( <span>mixed <var>$args</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetRelationsFields" id="_GetRelationsFields">
+
+		<td class="attributes"><code>
+			 protected static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetRelationsFields">#</a>
+		<code><a href="source-class-User.html#427-435" title="Go to source code">GetRelationsFields</a>( <span>mixed <var>$args</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
 
 
 
@@ -199,7 +807,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Login">#</a>
-		<code><a href="source-class-User.html#51-118" title="Go to source code">Login</a>( <span>string <var>$user</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$pass</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-User.html#439-486" title="Go to source code">Login</a>( <span>string <var>$user</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$pass</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -239,603 +847,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Logout">#</a>
-		<code><a href="source-class-User.html#120-134" title="Go to source code">Logout</a>( )</code>
-
-		<div class="description short">
-			
-<p>User logout</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>User logout</p>
-
-
-
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetConfig" id="_GetConfig">
-
-		<td class="attributes"><code>
-			 public static
-			mixed
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetConfig">#</a>
-		<code><a href="source-class-User.html#136-150" title="Go to source code">GetConfig</a>( <span>strinf <var>$key</var></span>, <span>mixed <var>$default</var> = <span class="php-keyword1">false</span></span> )</code>
-
-		<div class="description short">
-			
-<p>Returns a configuration user value for a key</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns a configuration user value for a key</p>
-
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$key</var></dt>
-					<dd><code>strinf</code><br>$key</dd>
-					<dt><var>$default</var></dt>
-					<dd><code>mixed</code><br>$default</dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>mixed</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_get_config'<br />
-				</div>
-				<h4>Used by</h4>
-				<div class="list">
-						<code><code><a href="function-get_user_config.html">get_user_config()</a></code></code> <br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetID" id="_GetID">
-
-		<td class="attributes"><code>
-			 public static
-			integer
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetID">#</a>
-		<code><a href="source-class-User.html#152-165" title="Go to source code">GetID</a>( )</code>
-
-		<div class="description short">
-			
-<p>Returns user ID</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns user ID</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>integer</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_get_id'<br />
-				</div>
-				<h4>Used by</h4>
-				<div class="list">
-						<code><code><a href="function-get_user_id.html">get_user_id()</a></code></code> <br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetName" id="_GetName">
-
-		<td class="attributes"><code>
-			 public static
-			string
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetName">#</a>
-		<code><a href="source-class-User.html#167-180" title="Go to source code">GetName</a>( )</code>
-
-		<div class="description short">
-			
-<p>Returns user name</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns user name</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>string</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_get_name'<br />
-				</div>
-				<h4>Used by</h4>
-				<div class="list">
-						<code><code><a href="function-get_user_name.html">get_user_name()</a></code></code> <br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetSurname" id="_GetSurname">
-
-		<td class="attributes"><code>
-			 public static
-			string
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetSurname">#</a>
-		<code><a href="source-class-User.html#182-195" title="Go to source code">GetSurname</a>( )</code>
-
-		<div class="description short">
-			
-<p>Returns user surname</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns user surname</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>string</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_get_surname'<br />
-				</div>
-				<h4>Used by</h4>
-				<div class="list">
-						<code><code><a href="function-get_user_surname.html">get_user_surname()</a></code></code> <br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetFullname" id="_GetFullname">
-
-		<td class="attributes"><code>
-			 public static
-			string
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetFullname">#</a>
-		<code><a href="source-class-User.html#197-210" title="Go to source code">GetFullname</a>( )</code>
-
-		<div class="description short">
-			
-<p>Returns user fullname</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns user fullname</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>string</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_get_fullname'<br />
-				</div>
-				<h4>Used by</h4>
-				<div class="list">
-						<code><code><a href="function-get_user_fullname.html">get_user_fullname()</a></code></code> <br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetEmail" id="_GetEmail">
-
-		<td class="attributes"><code>
-			 public static
-			string
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetEmail">#</a>
-		<code><a href="source-class-User.html#212-225" title="Go to source code">GetEmail</a>( )</code>
-
-		<div class="description short">
-			
-<p>Returns user email</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns user email</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>string</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_get_email'<br />
-				</div>
-				<h4>Used by</h4>
-				<div class="list">
-						<code><code><a href="function-get_user_email.html">get_user_email()</a></code></code> <br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetLevel" id="_GetLevel">
-
-		<td class="attributes"><code>
-			 public static
-			integer
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetLevel">#</a>
-		<code><a href="source-class-User.html#227-240" title="Go to source code">GetLevel</a>( )</code>
-
-		<div class="description short">
-			
-<p>Returns user level</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns user level</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>integer</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_get_level'<br />
-				</div>
-				<h4>Used by</h4>
-				<div class="list">
-						<code><code><a href="function-get_user_level.html">get_user_level()</a></code></code> <br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetLevelName" id="_GetLevelName">
-
-		<td class="attributes"><code>
-			 public static
-			string
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetLevelName">#</a>
-		<code><a href="source-class-User.html#242-262" title="Go to source code">GetLevelName</a>( <span>integer <var>$level</var> = <span class="php-keyword1">null</span></span> )</code>
-
-		<div class="description short">
-			
-<p>Returns level name</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns level name</p>
-
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$level</var></dt>
-					<dd><code>integer</code><br>$level</dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>string</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_get_level_name'<br />
-				</div>
-				<h4>Used by</h4>
-				<div class="list">
-						<code><code><a href="function-get_user_level_name.html">get_user_level_name()</a></code></code> <br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetRegisterDate" id="_GetRegisterDate">
-
-		<td class="attributes"><code>
-			 public static
-			string
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetRegisterDate">#</a>
-		<code><a href="source-class-User.html#264-277" title="Go to source code">GetRegisterDate</a>( )</code>
-
-		<div class="description short">
-			
-<p>Returns user register date</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns user register date</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>string</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_get_registerdate'<br />
-				</div>
-				<h4>Used by</h4>
-				<div class="list">
-						<code><code><a href="function-get_user_register_date.html">get_user_register_date()</a></code></code> <br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetUsersList" id="_GetUsersList">
-
-		<td class="attributes"><code>
-			 public static
-			array
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetUsersList">#</a>
-		<code><a href="source-class-User.html#279-315" title="Go to source code">GetUsersList</a>( <span>integer <var>$status</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$level</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$pid</var> = <span class="php-keyword1">null</span></span> )</code>
-
-		<div class="description short">
-			
-<p>Returns list of users</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns list of users</p>
-
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$status</var></dt>
-					<dd><code>integer</code><br>$status</dd>
-					<dt><var>$level</var></dt>
-					<dd><code>integer</code><br>$level</dd>
-					<dt><var>$pid</var></dt>
-					<dd><code>integer</code><br>$pid</dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>array</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_get_list'<br />
-				</div>
-				<h4>Used by</h4>
-				<div class="list">
-						<code><code><a href="function-get_users_list.html">get_users_list()</a></code></code> <br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetUserByEmail" id="_GetUserByEmail">
-
-		<td class="attributes"><code>
-			 public static
-			null|object
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetUserByEmail">#</a>
-		<code><a href="source-class-User.html#317-338" title="Go to source code">GetUserByEmail</a>( <span>string <var>$email</var></span> )</code>
-
-		<div class="description short">
-			
-<p>Returns user by email</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns user by email</p>
-
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$email</var></dt>
-					<dd><code>string</code><br>$email</dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>null|object</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_get_by_email'<br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetUserInfo" id="_GetUserInfo">
-
-		<td class="attributes"><code>
-			 public static
-			null|object
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetUserInfo">#</a>
-		<code><a href="source-class-User.html#340-365" title="Go to source code">GetUserInfo</a>( <span>string <var>$id</var></span> )</code>
-
-		<div class="description short">
-			
-<p>Get an user information</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Get an user information</p>
-
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$id</var></dt>
-					<dd><code>string</code><br>$id</dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>null|object</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_get_info'<br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetUserVoid" id="_GetUserVoid">
-
-		<td class="attributes"><code>
-			 public static
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetUserVoid">#</a>
-		<code><a href="source-class-User.html#367-381" title="Go to source code">GetUserVoid</a>( )</code>
+		<code><a href="source-class-User.html#488-497" title="Go to source code">Logout</a>( <span>mixed <var>$drop</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
@@ -853,269 +865,7 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="IsLogged" id="_IsLogged">
-
-		<td class="attributes"><code>
-			 public static
-			boolean
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_IsLogged">#</a>
-		<code><a href="source-class-User.html#383-396" title="Go to source code">IsLogged</a>( )</code>
-
-		<div class="description short">
-			
-<p>Returns if user is logged</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns if user is logged</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>boolean</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_islogged'<br />
-				</div>
-				<h4>Used by</h4>
-				<div class="list">
-						<code><code><a href="function-is_logged.html">is_logged()</a></code></code> <br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="IsLogin" id="_IsLogin">
-
-		<td class="attributes"><code>
-			 public static
-			boolean
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_IsLogin">#</a>
-		<code><a href="source-class-User.html#398-411" title="Go to source code">IsLogin</a>( )</code>
-
-		<div class="description short">
-			
-<p>Returns if is login</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns if is login</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>boolean</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_islogin'<br />
-				</div>
-				<h4>Used by</h4>
-				<div class="list">
-						<code><code><a href="function-is_login.html">is_login()</a></code></code> <br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="IsLogout" id="_IsLogout">
-
-		<td class="attributes"><code>
-			 public static
-			boolean
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_IsLogout">#</a>
-		<code><a href="source-class-User.html#413-424" title="Go to source code">IsLogout</a>( )</code>
-
-		<div class="description short">
-			
-<p>Returns if is logout</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns if is logout</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>boolean</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_islogout'<br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="IsAdmin" id="_IsAdmin">
-
-		<td class="attributes"><code>
-			 public static
-			boolean
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_IsAdmin">#</a>
-		<code><a href="source-class-User.html#426-439" title="Go to source code">IsAdmin</a>( )</code>
-
-		<div class="description short">
-			
-<p>Returns if user is admin</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Returns if user is admin</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>boolean</code><br />
-				</div>
-
-
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_isadmin'<br />
-				</div>
-				<h4>Used by</h4>
-				<div class="list">
-						<code><code><a href="function-is_admin.html">is_admin()</a></code></code> <br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="SetStatus" id="_SetStatus">
-
-		<td class="attributes"><code>
-			 public static
-			boolean
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_SetStatus">#</a>
-		<code><a href="source-class-User.html#441-456" title="Go to source code">SetStatus</a>( <span>string <var>$id</var></span>, <span>string <var>$newStatus</var></span> )</code>
-
-		<div class="description short">
-			
-<p>Change status of an user</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Change status of an user</p>
-
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$id</var></dt>
-					<dd><code>string</code><br>$id</dd>
-					<dt><var>$newStatus</var></dt>
-					<dd><code>string</code><br>$newStatus</dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>boolean</code><br />
-				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="Delete" id="_Delete">
-
-		<td class="attributes"><code>
-			 public static
-			boolean
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_Delete">#</a>
-		<code><a href="source-class-User.html#458-478" title="Go to source code">Delete</a>( <span>string <var>$id</var></span> )</code>
-
-		<div class="description short">
-			
-<p>Delete an user</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Delete an user</p>
-
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$id</var></dt>
-					<dd><code>string</code><br>$id</dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>boolean</code><br />
-				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="Update" id="_Update">
+	<tr data-order="RegisterLogin" id="_RegisterLogin">
 
 		<td class="attributes"><code>
 			 public static
@@ -1125,8 +875,8 @@
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_Update">#</a>
-		<code><a href="source-class-User.html#481-508" title="Go to source code">Update</a>( <span>mixed <var>$id</var></span> )</code>
+		<a class="anchor" href="#_RegisterLogin">#</a>
+		<code><a href="source-class-User.html#499-518" title="Go to source code">RegisterLogin</a>( <span>mixed <var>$id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1144,7 +894,7 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="Insert" id="_Insert">
+	<tr data-order="GetCacheKey" id="_GetCacheKey">
 
 		<td class="attributes"><code>
 			 public static
@@ -1154,8 +904,8 @@
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_Insert">#</a>
-		<code><a href="source-class-User.html#510-559" title="Go to source code">Insert</a>( )</code>
+		<a class="anchor" href="#_GetCacheKey">#</a>
+		<code><a href="source-class-User.html#521-526" title="Go to source code">GetCacheKey</a>( <span>mixed <var>$id</var></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1173,51 +923,253 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="EnctryptPassword" id="_EnctryptPassword">
+	<tr data-order="GetCache" id="_GetCache">
 
 		<td class="attributes"><code>
 			 public static
-			string|null
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_EnctryptPassword">#</a>
-		<code><a href="source-class-User.html#561-576" title="Go to source code">EnctryptPassword</a>( <span>string <var>$pass</var></span> )</code>
+		<a class="anchor" href="#_GetCache">#</a>
+		<code><a href="source-class-User.html#528-533" title="Go to source code">GetCache</a>( <span>mixed <var>$id</var></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
-<p>Returns encrypted password</p>
-
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Returns encrypted password</p>
 
 
 
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$pass</var></dt>
-					<dd><code>string</code><br>$pass</dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>string|null</code><br />
-				</div>
 
 
-				<h4>Uses</h4>
-				<div class="list">
-						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'user_enctryptpass'<br />
-				</div>
 
 
 		</div>
 		</div></td>
+	</tr>
+	<tr data-order="AddCache" id="_AddCache">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_AddCache">#</a>
+		<code><a href="source-class-User.html#535-539" title="Go to source code">AddCache</a>( <span>mixed <var>$id</var></span>, <span>mixed <var>$object</var></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetCacheListKey" id="_GetCacheListKey">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetCacheListKey">#</a>
+		<code><a href="source-class-User.html#541-546" title="Go to source code">GetCacheListKey</a>( <span>mixed <var>$args</var></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetCacheListID" id="_GetCacheListID">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetCacheListID">#</a>
+		<code><a href="source-class-User.html#548-552" title="Go to source code">GetCacheListID</a>( <span>mixed <var>$args</var></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetCacheList" id="_GetCacheList">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetCacheList">#</a>
+		<code><a href="source-class-User.html#554-579" title="Go to source code">GetCacheList</a>( <span>mixed <var>$args</var></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="AddCacheList" id="_AddCacheList">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_AddCacheList">#</a>
+		<code><a href="source-class-User.html#581-597" title="Go to source code">AddCacheList</a>( <span>mixed <var>$args</var></span>, <span>mixed <var>$list</var></span>, <span>mixed <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-UserBase.html#methods">UserBase</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-UserBase.html#_EnctryptPassword">EnctryptPassword()</a>, 
+			<a href="class-UserBase.html#_IsLogged">IsLogged()</a>, 
+			<a href="class-UserBase.html#_IsLogin">IsLogin()</a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-ObjectDBRelations.html#methods">ObjectDBRelations</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-ObjectDBRelations.html#_DB_Delete">DB_Delete()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_DeleteChild">DB_DeleteChild()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_FilterParentsRelations">DB_FilterParentsRelations()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_GenerateWhere">DB_GenerateWhere()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_GenereateJoins">DB_GenereateJoins()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_GenereateOrderBy">DB_GenereateOrderBy()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_GenereateSelect">DB_GenereateSelect()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_GetRelatedTables">DB_GetRelatedTables()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_Insert">DB_Insert()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_InsertChild">DB_InsertChild()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_InsertUpdate">DB_InsertUpdate()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_InsertUpdateChild">DB_InsertUpdateChild()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_NormalizeChild">DB_NormalizeChild()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_NormalizeParent">DB_NormalizeParent()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_ReOrder">DB_ReOrder()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_Select">DB_Select()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_SelectChild">DB_SelectChild()</a>, 
+			<a href="class-ObjectDBRelations.html#_DB_UpdateWhere">DB_UpdateWhere()</a>, 
+			<a href="class-ObjectDBRelations.html#_GetChilds">GetChilds()</a>, 
+			<a href="class-ObjectDBRelations.html#_GetParent">GetParent()</a>, 
+			<a href="class-ObjectDBRelations.html#_GetParents">GetParents()</a>, 
+			<a href="class-ObjectDBRelations.html#_IsChildObject">IsChildObject()</a>, 
+			<a href="class-ObjectDBRelations.html#_IsChildRelation">IsChildRelation()</a>, 
+			<a href="class-ObjectDBRelations.html#_IsParentObject">IsParentObject()</a>, 
+			<a href="class-ObjectDBRelations.html#_IsParentRelation">IsParentRelation()</a>, 
+			<a href="class-ObjectDBRelations.html#_NormalizeChilds">NormalizeChilds()</a>, 
+			<a href="class-ObjectDBRelations.html#_NormalizeParents">NormalizeParents()</a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-ObjectDB.html#methods">ObjectDB</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-ObjectDB.html#_DB_GenerateLimit">DB_GenerateLimit()</a>, 
+			<a href="class-ObjectDB.html#_DB_Update">DB_Update()</a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-ObjectDBBase.html#methods">ObjectDBBase</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-ObjectDBBase.html#_DB_CreateTable">DB_CreateTable()</a>, 
+			<a href="class-ObjectDBBase.html#_DB_DecodeFieldValue">DB_DecodeFieldValue()</a>, 
+			<a href="class-ObjectDBBase.html#_DB_DropTable">DB_DropTable()</a>, 
+			<a href="class-ObjectDBBase.html#_DB_EncodeFieldValue">DB_EncodeFieldValue()</a>, 
+			<a href="class-ObjectDBBase.html#_DB_FilterFields">DB_FilterFields()</a>, 
+			<a href="class-ObjectDBBase.html#_DB_FilterFieldsOnValues">DB_FilterFieldsOnValues()</a>, 
+			<a href="class-ObjectDBBase.html#_DB_GetFields">DB_GetFields()</a>, 
+			<a href="class-ObjectDBBase.html#_DB_GetIndexFields">DB_GetIndexFields()</a>, 
+			<a href="class-ObjectDBBase.html#_DB_GetPrimaryField">DB_GetPrimaryField()</a>, 
+			<a href="class-ObjectDBBase.html#_DB_GetTableName">DB_GetTableName()</a>, 
+			<a href="class-ObjectDBBase.html#_DB_IsField">DB_IsField()</a>, 
+			<a href="class-ObjectDBBase.html#_DB_NormalizeField">DB_NormalizeField()</a>, 
+			<a href="class-ObjectDBBase.html#_DB_NormalizeFields">DB_NormalizeFields()</a>
+		</code></td>
 	</tr>
 	</table>
 
@@ -1227,52 +1179,79 @@
 
 
 
+	<table class="summary" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="METAS_FORCE_LOAD" id="METAS_FORCE_LOAD">
 
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-User.html#146" title="Go to source code"><b>METAS_FORCE_LOAD</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">'METAS_FORCE_LOAD'</span></code></td>
+		<td class="description"><div>
+			<a href="#METAS_FORCE_LOAD" class="anchor">#</a>
 
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Constants inherited from <a href="class-UserBase.html#constants">UserBase</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-UserBase.html#GP_SESSION_ID"><b>GP_SESSION_ID</b></a>, 
+			<a href="class-UserBase.html#RELATION_KEY_DOMAIN"><b>RELATION_KEY_DOMAIN</b></a>, 
+			<a href="class-UserBase.html#RELATION_KEY_USER"><b>RELATION_KEY_USER</b></a>, 
+			<a href="class-UserBase.html#SESSION_PASSWORD"><b>SESSION_PASSWORD</b></a>, 
+			<a href="class-UserBase.html#SESSION_USER"><b>SESSION_USER</b></a>, 
+			<a href="class-UserBase.html#STATUS_ACTIVE"><b>STATUS_ACTIVE</b></a>, 
+			<a href="class-UserBase.html#STATUS_UNACTIVE"><b>STATUS_UNACTIVE</b></a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Constants inherited from <a href="class-ObjectDBRelations.html#constants">ObjectDBRelations</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-ObjectDBRelations.html#DB_ALL_LANGUAGE_FUNCTION"><b>DB_ALL_LANGUAGE_FUNCTION</b></a>, 
+			<a href="class-ObjectDBRelations.html#DB_LANGUAGE_FUNCTION"><b>DB_LANGUAGE_FUNCTION</b></a>, 
+			<a href="class-ObjectDBRelations.html#REPLICATE_ALL_LANGUAGES"><b>REPLICATE_ALL_LANGUAGES</b></a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Constants inherited from <a href="class-ObjectDB.html#constants">ObjectDB</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-ObjectDB.html#FIELD_NOT_EMPTY"><b>FIELD_NOT_EMPTY</b></a>
+		</code></td>
+	</tr>
+	</table>
 
 
 
 	<table class="summary" id="properties">
 	<caption>Properties summary</caption>
-	<tr data-order="KEY_REQUEST_LOGOUT" id="$KEY_REQUEST_LOGOUT">
+	<tr data-order="id" id="$id">
 		<td class="attributes"><code>
-			public static 
-			string
+			public  
+			mixed
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-User.html#17-20" title="Go to source code"><var>$KEY_REQUEST_LOGOUT</var></a>
+				<a href="source-class-User.html#138" title="Go to source code"><var>$id</var></a>
 		</td>
-		<td class="value"><code><span class="php-quote">'logout'</span></code></td>
+		<td class="value"><code></code></td>
 		<td class="description"><div>
-			<a href="#$KEY_REQUEST_LOGOUT" class="anchor">#</a>
-
-			<div class="description short">
-				
-<p>Login fields names</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>Login fields names</p>
-
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="KEY_REQUEST_USER" id="$KEY_REQUEST_USER">
-		<td class="attributes"><code>
-			public static 
-			string
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-User.html#21" title="Go to source code"><var>$KEY_REQUEST_USER</var></a>
-		</td>
-		<td class="value"><code><span class="php-quote">'user'</span></code></td>
-		<td class="description"><div>
-			<a href="#$KEY_REQUEST_USER" class="anchor">#</a>
+			<a href="#$id" class="anchor">#</a>
 
 			<div class="description short">
 				
@@ -1284,18 +1263,18 @@
 			</div>
 		</div></td>
 	</tr>
-	<tr data-order="KEY_REQUEST_PASSWORD" id="$KEY_REQUEST_PASSWORD">
+	<tr data-order="email" id="$email">
 		<td class="attributes"><code>
-			public static 
-			string
+			public  
+			mixed
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-User.html#22" title="Go to source code"><var>$KEY_REQUEST_PASSWORD</var></a>
+				<a href="source-class-User.html#139" title="Go to source code"><var>$email</var></a>
 		</td>
-		<td class="value"><code><span class="php-quote">'password'</span></code></td>
+		<td class="value"><code></code></td>
 		<td class="description"><div>
-			<a href="#$KEY_REQUEST_PASSWORD" class="anchor">#</a>
+			<a href="#$email" class="anchor">#</a>
 
 			<div class="description short">
 				
@@ -1307,18 +1286,18 @@
 			</div>
 		</div></td>
 	</tr>
-	<tr data-order="KEY_REQUEST_SESSION" id="$KEY_REQUEST_SESSION">
+	<tr data-order="username" id="$username">
 		<td class="attributes"><code>
-			public static 
-			string
+			public  
+			mixed
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-User.html#23" title="Go to source code"><var>$KEY_REQUEST_SESSION</var></a>
+				<a href="source-class-User.html#140" title="Go to source code"><var>$username</var></a>
 		</td>
-		<td class="value"><code><span class="php-quote">'session'</span></code></td>
+		<td class="value"><code></code></td>
 		<td class="description"><div>
-			<a href="#$KEY_REQUEST_SESSION" class="anchor">#</a>
+			<a href="#$username" class="anchor">#</a>
 
 			<div class="description short">
 				
@@ -1330,45 +1309,18 @@
 			</div>
 		</div></td>
 	</tr>
-	<tr data-order="CONFIG_KEY_AMDIN_LEVEL" id="$CONFIG_KEY_AMDIN_LEVEL">
+	<tr data-order="password" id="$password">
 		<td class="attributes"><code>
-			public static 
-			string
+			public  
+			mixed
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-User.html#26-29" title="Go to source code"><var>$CONFIG_KEY_AMDIN_LEVEL</var></a>
+				<a href="source-class-User.html#141" title="Go to source code"><var>$password</var></a>
 		</td>
-		<td class="value"><code><span class="php-quote">'adminlevel'</span></code></td>
+		<td class="value"><code></code></td>
 		<td class="description"><div>
-			<a href="#$CONFIG_KEY_AMDIN_LEVEL" class="anchor">#</a>
-
-			<div class="description short">
-				
-<p>Configuration keys names</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>Configuration keys names</p>
-
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="CONFIG_KEY_SESSION_NAME" id="$CONFIG_KEY_SESSION_NAME">
-		<td class="attributes"><code>
-			public static 
-			string
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-User.html#30" title="Go to source code"><var>$CONFIG_KEY_SESSION_NAME</var></a>
-		</td>
-		<td class="value"><code><span class="php-quote">'sessionname'</span></code></td>
-		<td class="description"><div>
-			<a href="#$CONFIG_KEY_SESSION_NAME" class="anchor">#</a>
+			<a href="#$password" class="anchor">#</a>
 
 			<div class="description short">
 				
@@ -1380,18 +1332,18 @@
 			</div>
 		</div></td>
 	</tr>
-	<tr data-order="CONFIG_KEY_SESSION_TIME" id="$CONFIG_KEY_SESSION_TIME">
+	<tr data-order="status" id="$status">
 		<td class="attributes"><code>
-			public static 
-			string
+			public  
+			mixed
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-User.html#31" title="Go to source code"><var>$CONFIG_KEY_SESSION_TIME</var></a>
+				<a href="source-class-User.html#142" title="Go to source code"><var>$status</var></a>
 		</td>
-		<td class="value"><code><span class="php-quote">'sessiontime'</span></code></td>
+		<td class="value"><code></code></td>
 		<td class="description"><div>
-			<a href="#$CONFIG_KEY_SESSION_TIME" class="anchor">#</a>
+			<a href="#$status" class="anchor">#</a>
 
 			<div class="description short">
 				
@@ -1403,18 +1355,18 @@
 			</div>
 		</div></td>
 	</tr>
-	<tr data-order="CONFIG_KEY_MULTISESSION" id="$CONFIG_KEY_MULTISESSION">
+	<tr data-order="level" id="$level">
 		<td class="attributes"><code>
-			public static 
-			string
+			public  
+			mixed
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-User.html#32" title="Go to source code"><var>$CONFIG_KEY_MULTISESSION</var></a>
+				<a href="source-class-User.html#143" title="Go to source code"><var>$level</var></a>
 		</td>
-		<td class="value"><code><span class="php-quote">'multisession'</span></code></td>
+		<td class="value"><code></code></td>
 		<td class="description"><div>
-			<a href="#$CONFIG_KEY_MULTISESSION" class="anchor">#</a>
+			<a href="#$level" class="anchor">#</a>
 
 			<div class="description short">
 				
@@ -1426,179 +1378,18 @@
 			</div>
 		</div></td>
 	</tr>
-	<tr data-order="CONFIG_KEY_MIN_ADMIN_LEVEL" id="$CONFIG_KEY_MIN_ADMIN_LEVEL">
+	<tr data-order="metas" id="$metas">
 		<td class="attributes"><code>
-			public static 
-			string
+			public  
+			mixed
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-User.html#33" title="Go to source code"><var>$CONFIG_KEY_MIN_ADMIN_LEVEL</var></a>
+				<a href="source-class-User.html#144" title="Go to source code"><var>$metas</var></a>
 		</td>
-		<td class="value"><code><span class="php-quote">'min-admin-level'</span></code></td>
+		<td class="value"><code></code></td>
 		<td class="description"><div>
-			<a href="#$CONFIG_KEY_MIN_ADMIN_LEVEL" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="CONFIG_KEY_LEVELS" id="$CONFIG_KEY_LEVELS">
-		<td class="attributes"><code>
-			public static 
-			string
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-User.html#34" title="Go to source code"><var>$CONFIG_KEY_LEVELS</var></a>
-		</td>
-		<td class="value"><code><span class="php-quote">'levels'</span></code></td>
-		<td class="description"><div>
-			<a href="#$CONFIG_KEY_LEVELS" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="USR_KEY_ID" id="$USR_KEY_ID">
-		<td class="attributes"><code>
-			public static 
-			string
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-User.html#35" title="Go to source code"><var>$USR_KEY_ID</var></a>
-		</td>
-		<td class="value"><code><span class="php-quote">'id'</span></code></td>
-		<td class="description"><div>
-			<a href="#$USR_KEY_ID" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="USR_KEY_NAME" id="$USR_KEY_NAME">
-		<td class="attributes"><code>
-			public static 
-			string
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-User.html#36" title="Go to source code"><var>$USR_KEY_NAME</var></a>
-		</td>
-		<td class="value"><code><span class="php-quote">'name'</span></code></td>
-		<td class="description"><div>
-			<a href="#$USR_KEY_NAME" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="USR_KEY_SURNAME" id="$USR_KEY_SURNAME">
-		<td class="attributes"><code>
-			public static 
-			string
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-User.html#37" title="Go to source code"><var>$USR_KEY_SURNAME</var></a>
-		</td>
-		<td class="value"><code><span class="php-quote">'surname'</span></code></td>
-		<td class="description"><div>
-			<a href="#$USR_KEY_SURNAME" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="USR_KEY_EMAIL" id="$USR_KEY_EMAIL">
-		<td class="attributes"><code>
-			public static 
-			string
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-User.html#38" title="Go to source code"><var>$USR_KEY_EMAIL</var></a>
-		</td>
-		<td class="value"><code><span class="php-quote">'email'</span></code></td>
-		<td class="description"><div>
-			<a href="#$USR_KEY_EMAIL" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="USR_KEY_LEVEL" id="$USR_KEY_LEVEL">
-		<td class="attributes"><code>
-			public static 
-			string
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-User.html#39" title="Go to source code"><var>$USR_KEY_LEVEL</var></a>
-		</td>
-		<td class="value"><code><span class="php-quote">'level'</span></code></td>
-		<td class="description"><div>
-			<a href="#$USR_KEY_LEVEL" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="USR_KEY_REGISTER_DATE" id="$USR_KEY_REGISTER_DATE">
-		<td class="attributes"><code>
-			public static 
-			string
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-User.html#40" title="Go to source code"><var>$USR_KEY_REGISTER_DATE</var></a>
-		</td>
-		<td class="value"><code><span class="php-quote">'registerDate'</span></code></td>
-		<td class="description"><div>
-			<a href="#$USR_KEY_REGISTER_DATE" class="anchor">#</a>
+			<a href="#$metas" class="anchor">#</a>
 
 			<div class="description short">
 				
@@ -1612,6 +1403,45 @@
 	</tr>
 	</table>
 
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-UserBase.html#properties">UserBase</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-UserBase.html#$DB_FIELDS"><var>$DB_FIELDS</var></a>, 
+			<a href="class-UserBase.html#$DB_PARENTS"><var>$DB_PARENTS</var></a>, 
+			<a href="class-UserBase.html#$DB_TABLE"><var>$DB_TABLE</var></a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-ObjectDBRelations.html#properties">ObjectDBRelations</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-ObjectDBRelations.html#$DB_CHILDS"><var>$DB_CHILDS</var></a>, 
+			<a href="class-ObjectDBRelations.html#$DB_CHILD_DEFAULT"><var>$DB_CHILD_DEFAULT</var></a>, 
+			<a href="class-ObjectDBRelations.html#$DB_PARENT_DEFAULT"><var>$DB_PARENT_DEFAULT</var></a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-ObjectDB.html#properties">ObjectDB</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-ObjectDB.html#$DB_LIMIT_ITEMS_DEFAULT"><var>$DB_LIMIT_ITEMS_DEFAULT</var></a>, 
+			<a href="class-ObjectDB.html#$DB_LIMIT_PAGE_DEFAULT"><var>$DB_LIMIT_PAGE_DEFAULT</var></a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-ObjectDBBase.html#properties">ObjectDBBase</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-ObjectDBBase.html#$DB_BASIC_FIELDS"><var>$DB_BASIC_FIELDS</var></a>, 
+			<a href="class-ObjectDBBase.html#$DB_FIELD_DEFAULT"><var>$DB_FIELD_DEFAULT</var></a>, 
+			<a href="class-ObjectDBBase.html#$DB_PRIMARY_FIELD"><var>$DB_PRIMARY_FIELD</var></a>
+		</code></td>
+	</tr>
+	</table>
 
 
 
@@ -1620,7 +1450,7 @@
 </div>
 
 	<div id="footer">
-		Iceberg 1.0 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+		Iceberg API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
 	</div>
 </div>
 </div>

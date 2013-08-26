@@ -8,7 +8,7 @@
 	<title>File includes/UserMeta.class.php | Iceberg</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?1342617136"></script>
+	<script type="text/javascript" src="elementlist.js?791472392"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -22,10 +22,12 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
+				<li><a href="package-Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-elfinder.html">elfinder</a>
+						</li>
 				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
-						</li>
 				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
 						</li>
 				<li><a href="package-Iceberg.Database.html">Database</a>
@@ -44,7 +46,7 @@
 						</li>
 				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
 						</li>
-				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
 						</li>
@@ -55,11 +57,23 @@
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
+				<li><a href="package-MySQL.html">MySQL<span></span></a>
+						<ul>
+				<li><a href="package-MySQL.Query.html">Query</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
+				<li><a href="package-Page.html">Page<span></span></a>
+						<ul>
+				<li><a href="package-Page.Config.html">Config</a>
+						</li>
+							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -163,19 +177,22 @@
 </span></span><span id="47" class="l"><a class="l" href="#47">47: </a><span class="php-comment">     * @var array 
 </span></span><span id="48" class="l"><a class="l" href="#48">48: </a><span class="php-comment">     */</span>
 </span><span id="49" class="l"><a class="l" href="#49">49: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-var"><a id="$DB_PARENTS" href="#$DB_PARENTS">$DB_PARENTS</a></span> = <span class="php-keyword1">array</span>(
-</span><span id="50" class="l"><a class="l" href="#50">50: </a>        <span class="php-quote">'User'</span> =&gt; <span class="php-keyword1">array</span>(
-</span><span id="51" class="l"><a class="l" href="#51">51: </a>            <span class="php-quote">'name'</span> =&gt; <span class="php-quote">'user-meta'</span>,
+</span><span id="50" class="l"><a class="l" href="#50">50: </a>        <span class="php-quote">'user-meta'</span> =&gt; <span class="php-keyword1">array</span>(
+</span><span id="51" class="l"><a class="l" href="#51">51: </a>            <span class="php-quote">'object'</span> =&gt; <span class="php-quote">'User'</span>,
 </span><span id="52" class="l"><a class="l" href="#52">52: </a>            <span class="php-quote">'force'</span> =&gt; <span class="php-keyword1">true</span>,
-</span><span id="53" class="l"><a class="l" href="#53">53: </a>            <span class="php-quote">'function'</span> =&gt; <span class="php-quote">'get_user_id'</span>
-</span><span id="54" class="l"><a class="l" href="#54">54: </a>        )
-</span><span id="55" class="l"><a class="l" href="#55">55: </a>    );
-</span><span id="56" class="l"><a class="l" href="#56">56: </a>    
-</span><span id="57" class="l"><a class="l" href="#57">57: </a>    <span class="php-comment">/**
-</span></span><span id="58" class="l"><a class="l" href="#58">58: </a><span class="php-comment">     * Last visit META
-</span></span><span id="59" class="l"><a class="l" href="#59">59: </a><span class="php-comment">     */</span>
-</span><span id="60" class="l"><a class="l" href="#60">60: </a>    <span class="php-keyword1">const</span> <a id="META_LAST_VISIT" href="#META_LAST_VISIT">META_LAST_VISIT</a> = <span class="php-quote">'last_visit'</span>;
-</span><span id="61" class="l"><a class="l" href="#61">61: </a>    
-</span><span id="62" class="l"><a class="l" href="#62">62: </a></span>}</code></pre>
+</span><span id="53" class="l"><a class="l" href="#53">53: </a>            <span class="php-quote">'function'</span> =&gt; <span class="php-quote">'get_user_id'</span>,
+</span><span id="54" class="l"><a class="l" href="#54">54: </a>            <span class="php-quote">'language'</span> =&gt; <span class="php-keyword1">true</span>
+</span><span id="55" class="l"><a class="l" href="#55">55: </a>        )
+</span><span id="56" class="l"><a class="l" href="#56">56: </a>    );
+</span><span id="57" class="l"><a class="l" href="#57">57: </a>    
+</span><span id="58" class="l"><a class="l" href="#58">58: </a>    <span class="php-keyword1">const</span> <a id="RELATION_KEY_USER" href="#RELATION_KEY_USER">RELATION_KEY_USER</a> = <span class="php-quote">'user-meta'</span>;
+</span><span id="59" class="l"><a class="l" href="#59">59: </a>    
+</span><span id="60" class="l"><a class="l" href="#60">60: </a>    <span class="php-comment">/**
+</span></span><span id="61" class="l"><a class="l" href="#61">61: </a><span class="php-comment">     * Last visit META
+</span></span><span id="62" class="l"><a class="l" href="#62">62: </a><span class="php-comment">     */</span>
+</span><span id="63" class="l"><a class="l" href="#63">63: </a>    <span class="php-keyword1">const</span> <a id="META_LAST_VISIT" href="#META_LAST_VISIT">META_LAST_VISIT</a> = <span class="php-quote">'last_visit'</span>;
+</span><span id="64" class="l"><a class="l" href="#64">64: </a>    
+</span><span id="65" class="l"><a class="l" href="#65">65: </a></span>}</code></pre>
 
 	<div id="footer">
 		Iceberg API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>

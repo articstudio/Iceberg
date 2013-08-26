@@ -8,7 +8,7 @@
 	<title>File includes/helpers/themes.php | Iceberg</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?1342617136"></script>
+	<script type="text/javascript" src="elementlist.js?791472392"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -22,10 +22,12 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
+				<li><a href="package-Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-elfinder.html">elfinder</a>
+						</li>
 				<li><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
-						</li>
 				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
 						</li>
 				<li><a href="package-Iceberg.Database.html">Database</a>
@@ -44,7 +46,7 @@
 						</li>
 				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
 						</li>
-				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
 						</li>
@@ -55,11 +57,23 @@
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
+				<li><a href="package-MySQL.html">MySQL<span></span></a>
+						<ul>
+				<li><a href="package-MySQL.Query.html">Query</a>
+						</li>
+							</ul></li>
 				<li class="active"><a href="package-None.html">None</a>
 						</li>
+				<li><a href="package-Page.html">Page<span></span></a>
+						<ul>
+				<li><a href="package-Page.Config.html">Config</a>
+						</li>
+							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -70,22 +84,25 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-CMSWidget.html">CMSWidget</a></li>
-				<li><a href="class-CMSWidgetExtension.html">CMSWidgetExtension</a></li>
+				<li><a href="class-elFinderConnector.html">elFinderConnector</a></li>
+				<li><a href="class-elFinderVolumeDriver.html">elFinderVolumeDriver</a></li>
+				<li><a href="class-elFinderVolumeLocalFileSystem.html">elFinderVolumeLocalFileSystem</a></li>
 				<li><a href="class-LinksListWidget.html">LinksListWidget</a></li>
-				<li><a href="class-Page.html">Page</a></li>
+				<li><a href="class-ObjectTaxonomy.html">ObjectTaxonomy</a></li>
+				<li><a href="class-PageGroup.html">PageGroup</a></li>
+				<li><a href="class-PageTaxonomy.html">PageTaxonomy</a></li>
+				<li><a href="class-PageType.html">PageType</a></li>
 				<li><a href="class-RandomTextWidget.html">RandomTextWidget</a></li>
 			</ul>
 
 			<h3>Interfaces</h3>
 			<ul>
-				<li><a href="class-CMSWidget_interface.html">CMSWidget_interface</a></li>
 				<li><a href="class-EnvironmentInterface.html">EnvironmentInterface</a></li>
 				<li><a href="class-ObjectConfigInterface.html">ObjectConfigInterface</a></li>
 				<li><a href="class-ObjectDBBaseInterface.html">ObjectDBBaseInterface</a></li>
 				<li><a href="class-ObjectDBInterface.html">ObjectDBInterface</a></li>
 				<li><a href="class-RoutingInterface.html">RoutingInterface</a></li>
-				<li><a href="class-TaxonomyElements_interface.html">TaxonomyElements_interface</a></li>
+				<li><a href="class-TaxonomyElementsInterface.html">TaxonomyElementsInterface</a></li>
 				<li><a href="class-ThemeInterface.html">ThemeInterface</a></li>
 			</ul>
 
@@ -98,19 +115,18 @@
 				<li><a href="function-action_event.html">action_event</a></li>
 				<li><a href="function-active_extension.html">active_extension</a></li>
 				<li><a href="function-add_action.html">add_action</a></li>
-				<li><a href="function-add_admin_alert.html">add_admin_alert</a></li>
+				<li><a href="function-add_alert.html">add_alert</a></li>
+				<li><a href="function-add_cache_object.html">add_cache_object</a></li>
 				<li><a href="function-add_hook.html">add_hook</a></li>
 				<li><a href="function-add_install_alert.html">add_install_alert</a></li>
 				<li><a href="function-add_install_error.html">add_install_error</a></li>
-				<li><a href="function-add_theme_file.html">add_theme_file</a></li>
+				<li><a href="function-add_template.html">add_template</a></li>
 				<li><a href="function-add_theme_helper.html">add_theme_helper</a></li>
-				<li><a href="function-add_widget.html">add_widget</a></li>
 				<li><a href="function-cms_menubar.html">cms_menubar</a></li>
 				<li><a href="function-cms_menubar_defaults.html">cms_menubar_defaults</a></li>
 				<li><a href="function-cms_menubar_items.html">cms_menubar_items</a></li>
 				<li><a href="function-cms_menubar_save.html">cms_menubar_save</a></li>
 				<li><a href="function-cms_page.html">cms_page</a></li>
-				<li><a href="function-cms_pages_count_usort.html">cms_pages_count_usort</a></li>
 				<li><a href="function-cms_sidebar.html">cms_sidebar</a></li>
 				<li><a href="function-count_install_errors.html">count_install_errors</a></li>
 				<li><a href="function-cut_text.html">cut_text</a></li>
@@ -131,46 +147,72 @@
 				<li><a href="function-db_select.html">db_select</a></li>
 				<li><a href="function-db_update.html">db_update</a></li>
 				<li><a href="function-default_admin_theme_foot.html">default_admin_theme_foot</a></li>
+				<li><a href="function-default_admin_theme_head.html">default_admin_theme_head</a></li>
 				<li><a href="function-do_action.html">do_action</a></li>
 				<li><a href="function-do_session_restart.html">do_session_restart</a></li>
 				<li><a href="function-do_session_start.html">do_session_start</a></li>
 				<li><a href="function-do_session_stop.html">do_session_stop</a></li>
+				<li><a href="function-elFinderFileAccessControl.html">elFinderFileAccessControl</a></li>
 				<li><a href="function-exec_admin_controller.html">exec_admin_controller</a></li>
+				<li><a href="function-exec_api_controller.html">exec_api_controller</a></li>
+				<li><a href="function-execReorder.html">execReorder</a></li>
 				<li><a href="function-file_upload.html">file_upload</a></li>
 				<li><a href="function-file_write.html">file_write</a></li>
-				<li><a href="function-filter_admin_array_by_level.html">filter_admin_array_by_level</a></li>
+				<li><a href="function-filter_array_by_level.html">filter_array_by_level</a></li>
 				<li><a href="function-get_active_langs.html">get_active_langs</a></li>
 				<li><a href="function-get_active_locales.html">get_active_locales</a></li>
 				<li><a href="function-get_admin_action_link.html">get_admin_action_link</a></li>
-				<li><a href="function-get_admin_alerts.html">get_admin_alerts</a></li>
+				<li><a href="function-get_admin_api_action_link.html">get_admin_api_action_link</a></li>
 				<li><a href="function-get_admin_breadcrumb.html">get_admin_breadcrumb</a></li>
+				<li><a href="function-get_admin_breadcrumb_configuration.html">get_admin_breadcrumb_configuration</a></li>
+				<li><a href="function-get_admin_breadcrumb_content.html">get_admin_breadcrumb_content</a></li>
+				<li><a href="function-get_admin_breadcrumb_structure.html">get_admin_breadcrumb_structure</a></li>
 				<li><a href="function-get_admin_dashboard.html">get_admin_dashboard</a></li>
-				<li><a href="function-get_admin_logout.html">get_admin_logout</a></li>
-				<li><a href="function-get_admin_mode.html">get_admin_mode</a></li>
 				<li><a href="function-get_admin_mode_configuration.html">get_admin_mode_configuration</a></li>
-				<li><a href="function-get_admin_modes.html">get_admin_modes</a></li>
+				<li><a href="function-get_admin_mode_content.html">get_admin_mode_content</a></li>
+				<li><a href="function-get_admin_mode_structure.html">get_admin_mode_structure</a></li>
 				<li><a href="function-get_admin_modes_configuration.html">get_admin_modes_configuration</a></li>
+				<li><a href="function-get_admin_modes_content.html">get_admin_modes_content</a></li>
+				<li><a href="function-get_admin_modes_content_theme.html">get_admin_modes_content_theme</a></li>
 				<li><a href="function-get_admin_modes_dashboard.html">get_admin_modes_dashboard</a></li>
-				<li><a href="function-get_admin_module.html">get_admin_module</a></li>
-				<li><a href="function-get_admin_modules.html">get_admin_modules</a></li>
+				<li><a href="function-get_admin_modes_extensions.html">get_admin_modes_extensions</a></li>
+				<li><a href="function-get_admin_modes_media.html">get_admin_modes_media</a></li>
+				<li><a href="function-get_admin_modes_structure.html">get_admin_modes_structure</a></li>
 				<li><a href="function-get_admin_reverse.html">get_admin_reverse</a></li>
+				<li><a href="function-get_alerts.html">get_alerts</a></li>
+				<li><a href="function-get_api_environment.html">get_api_environment</a></li>
 				<li><a href="function-get_backend_theme_dir.html">get_backend_theme_dir</a></li>
 				<li><a href="function-get_backend_theme_url.html">get_backend_theme_url</a></li>
+				<li><a href="function-get_backend_themes.html">get_backend_themes</a></li>
 				<li><a href="function-get_base_url.html">get_base_url</a></li>
 				<li><a href="function-get_base_url_admin.html">get_base_url_admin</a></li>
 				<li><a href="function-get_base_url_api.html">get_base_url_api</a></li>
+				<li><a href="function-get_breadcrumb.html">get_breadcrumb</a></li>
+				<li><a href="function-get_cache_object.html">get_cache_object</a></li>
+				<li><a href="function-get_ckeditor_api_link.html">get_ckeditor_api_link</a></li>
 				<li><a href="function-get_config.html">get_config</a></li>
+				<li><a href="function-get_date.html">get_date</a></li>
+				<li><a href="function-get_date_format.html">get_date_format</a></li>
+				<li><a href="function-get_datetime.html">get_datetime</a></li>
+				<li><a href="function-get_datetime_format.html">get_datetime_format</a></li>
+				<li><a href="function-get_default_pagegroup.html">get_default_pagegroup</a></li>
+				<li><a href="function-get_default_pagetaxnomy.html">get_default_pagetaxnomy</a></li>
 				<li><a href="function-get_domain.html">get_domain</a></li>
 				<li><a href="function-get_domain_canonical.html">get_domain_canonical</a></li>
 				<li><a href="function-get_domain_id.html">get_domain_id</a></li>
 				<li><a href="function-get_domain_name.html">get_domain_name</a></li>
 				<li><a href="function-get_domain_request_id.html">get_domain_request_id</a></li>
+				<li><a href="function-get_domains_alias.html">get_domains_alias</a></li>
+				<li><a href="function-get_domains_canonicals.html">get_domains_canonicals</a></li>
+				<li><a href="function-get_domains_tree.html">get_domains_tree</a></li>
+				<li><a href="function-get_elfinder_api_link.html">get_elfinder_api_link</a></li>
 				<li><a href="function-get_extensions_list.html">get_extensions_list</a></li>
 				<li><a href="function-get_file_extension.html">get_file_extension</a></li>
 				<li><a href="function-get_file_name.html">get_file_name</a></li>
 				<li><a href="function-get_file_url.html">get_file_url</a></li>
 				<li><a href="function-get_flag_url.html">get_flag_url</a></li>
 				<li><a href="function-get_frontend_theme_dir.html">get_frontend_theme_dir</a></li>
+				<li><a href="function-get_frontend_themes.html">get_frontend_themes</a></li>
 				<li><a href="function-get_hooks.html">get_hooks</a></li>
 				<li><a href="function-get_html_attr.html">get_html_attr</a></li>
 				<li><a href="function-get_install_alerts.html">get_install_alerts</a></li>
@@ -181,6 +223,7 @@
 				<li><a href="function-get_install_step_link.html">get_install_step_link</a></li>
 				<li><a href="function-get_install_steps.html">get_install_steps</a></li>
 				<li><a href="function-get_install_url.html">get_install_url</a></li>
+				<li><a href="function-get_json_alerts.html">get_json_alerts</a></li>
 				<li><a href="function-get_lang.html">get_lang</a></li>
 				<li><a href="function-get_lang_flags.html">get_lang_flags</a></li>
 				<li><a href="function-get_lang_iso.html">get_lang_iso</a></li>
@@ -189,70 +232,102 @@
 				<li><a href="function-get_language_info.html">get_language_info</a></li>
 				<li><a href="function-get_link.html">get_link</a></li>
 				<li><a href="function-get_link_dir.html">get_link_dir</a></li>
+				<li><a href="function-get_locales.html">get_locales</a></li>
+				<li><a href="function-get_logout.html">get_logout</a></li>
+				<li><a href="function-get_menubar_links.html">get_menubar_links</a></li>
 				<li><a href="function-get_metatag.html">get_metatag</a></li>
 				<li><a href="function-get_metatag_description.html">get_metatag_description</a></li>
 				<li><a href="function-get_metatag_keywords.html">get_metatag_keywords</a></li>
 				<li><a href="function-get_metatag_title.html">get_metatag_title</a></li>
+				<li><a href="function-get_mode.html">get_mode</a></li>
+				<li><a href="function-get_modes.html">get_modes</a></li>
+				<li><a href="function-get_module.html">get_module</a></li>
+				<li><a href="function-get_modules.html">get_modules</a></li>
 				<li><a href="function-get_mysql_collates.html">get_mysql_collates</a></li>
+				<li><a href="function-get_objtaxonomy.html">get_objtaxonomy</a></li>
+				<li><a href="function-get_objtaxonomy_list.html">get_objtaxonomy_list</a></li>
 				<li><a href="function-get_page.html">get_page</a></li>
-				<li><a href="function-get_page_breadcrumb.html">get_page_breadcrumb</a></li>
-				<li><a href="function-get_page_id.html">get_page_id</a></li>
-				<li><a href="function-get_page_parent.html">get_page_parent</a></li>
-				<li><a href="function-get_page_publish_list.html">get_page_publish_list</a></li>
-				<li><a href="function-get_page_types.html">get_page_types</a></li>
+				<li><a href="function-get_page_pagetype.html">get_page_pagetype</a></li>
+				<li><a href="function-get_pagegroup.html">get_pagegroup</a></li>
+				<li><a href="function-get_pagegroups.html">get_pagegroups</a></li>
 				<li><a href="function-get_pages.html">get_pages</a></li>
+				<li><a href="function-get_pagetaxonomies.html">get_pagetaxonomies</a></li>
+				<li><a href="function-get_pagetaxonomy.html">get_pagetaxonomy</a></li>
+				<li><a href="function-get_pagetype.html">get_pagetype</a></li>
+				<li><a href="function-get_pagetypes.html">get_pagetypes</a></li>
 				<li><a href="function-get_protocol.html">get_protocol</a></li>
 				<li><a href="function-get_registered_hook.html">get_registered_hook</a></li>
 				<li><a href="function-get_registered_hooks.html">get_registered_hooks</a></li>
-				<li><a href="function-get_relationship.html">get_relationship</a></li>
-				<li><a href="function-get_relationship_element.html">get_relationship_element</a></li>
-				<li><a href="function-get_relationship_elements.html">get_relationship_elements</a></li>
-				<li><a href="function-get_relationship_list.html">get_relationship_list</a></li>
 				<li><a href="function-get_request_action.html">get_request_action</a></li>
+				<li><a href="function-get_request_filter.html">get_request_filter</a></li>
 				<li><a href="function-get_request_g.html">get_request_g</a></li>
 				<li><a href="function-get_request_gp.html">get_request_gp</a></li>
+				<li><a href="function-get_request_group.html">get_request_group</a></li>
 				<li><a href="function-get_request_id.html">get_request_id</a></li>
 				<li><a href="function-get_request_mode.html">get_request_mode</a></li>
 				<li><a href="function-get_request_module.html">get_request_module</a></li>
 				<li><a href="function-get_request_p.html">get_request_p</a></li>
+				<li><a href="function-get_request_page.html">get_request_page</a></li>
+				<li><a href="function-get_request_parent.html">get_request_parent</a></li>
 				<li><a href="function-get_request_sgp.html">get_request_sgp</a></li>
 				<li><a href="function-get_session_id.html">get_session_id</a></li>
 				<li><a href="function-get_session_name.html">get_session_name</a></li>
 				<li><a href="function-get_session_value.html">get_session_value</a></li>
-				<li><a href="function-get_taxonomy_elements.html">get_taxonomy_elements</a></li>
-				<li><a href="function-get_taxonomy_info.html">get_taxonomy_info</a></li>
-				<li><a href="function-get_taxonomy_info_elements.html">get_taxonomy_info_elements</a></li>
-				<li><a href="function-get_taxonomy_list.html">get_taxonomy_list</a></li>
 				<li><a href="function-get_template.html">get_template</a></li>
+				<li><a href="function-get_templates.html">get_templates</a></li>
+				<li><a href="function-get_templates_content.html">get_templates_content</a></li>
+				<li><a href="function-get_texonomy_elements.html">get_texonomy_elements</a></li>
+				<li><a href="function-get_theme_config.html">get_theme_config</a></li>
 				<li><a href="function-get_theme_dir.html">get_theme_dir</a></li>
+				<li><a href="function-get_theme_group.html">get_theme_group</a></li>
+				<li><a href="function-get_theme_groups.html">get_theme_groups</a></li>
+				<li><a href="function-get_theme_homepage.html">get_theme_homepage</a></li>
+				<li><a href="function-get_theme_homepage_id.html">get_theme_homepage_id</a></li>
 				<li><a href="function-get_theme_info.html">get_theme_info</a></li>
 				<li><a href="function-get_theme_list.html">get_theme_list</a></li>
+				<li><a href="function-get_theme_taxonomies.html">get_theme_taxonomies</a></li>
+				<li><a href="function-get_theme_taxonomy.html">get_theme_taxonomy</a></li>
+				<li><a href="function-get_theme_type.html">get_theme_type</a></li>
+				<li><a href="function-get_theme_types.html">get_theme_types</a></li>
 				<li><a href="function-get_theme_url.html">get_theme_url</a></li>
+				<li><a href="function-get_themes.html">get_themes</a></li>
+				<li><a href="function-get_time.html">get_time</a></li>
+				<li><a href="function-get_time_format.html">get_time_format</a></li>
 				<li><a href="function-get_timezones.html">get_timezones</a></li>
 				<li><a href="function-get_url.html">get_url</a></li>
+				<li><a href="function-get_user.html">get_user</a></li>
 				<li><a href="function-get_user_id.html">get_user_id</a></li>
 				<li><a href="function-get_user_level.html">get_user_level</a></li>
+				<li><a href="function-get_user_list.html">get_user_list</a></li>
 				<li><a href="function-get_user_name.html">get_user_name</a></li>
-				<li><a href="function-get_widgets.html">get_widgets</a></li>
 				<li><a href="function-getIP.html">getIP</a></li>
-				<li><a href="function-have_page_directory.html">have_page_directory</a></li>
 				<li><a href="function-hook.html">hook</a></li>
+				<li><a href="function-iceberg_api_generate_admin.html">iceberg_api_generate_admin</a></li>
+				<li><a href="function-iceberg_api_generate_ckeditor.html">iceberg_api_generate_ckeditor</a></li>
+				<li><a href="function-iceberg_api_generate_elfinder.html">iceberg_api_generate_elfinder</a></li>
 				<li><a href="function-in_admin.html">in_admin</a></li>
 				<li><a href="function-in_admin_dashboard.html">in_admin_dashboard</a></li>
+				<li><a href="function-in_admin_login.html">in_admin_login</a></li>
 				<li><a href="function-in_api.html">in_api</a></li>
+				<li><a href="function-in_maintenance.html">in_maintenance</a></li>
 				<li><a href="function-in_web.html">in_web</a></li>
 				<li><a href="function-install_check_requeriments.html">install_check_requeriments</a></li>
 				<li><a href="function-install_compatible_version.html">install_compatible_version</a></li>
 				<li><a href="function-install_db_file_writable.html">install_db_file_writable</a></li>
 				<li><a href="function-install_temp_dir_writable.html">install_temp_dir_writable</a></li>
 				<li><a href="function-install_uploads_dir_writable.html">install_uploads_dir_writable</a></li>
+				<li><a href="function-is_active_language.html">is_active_language</a></li>
+				<li><a href="function-is_admin.html">is_admin</a></li>
+				<li><a href="function-is_api_admin.html">is_api_admin</a></li>
+				<li><a href="function-is_logged.html">is_logged</a></li>
 				<li><a href="function-is_login.html">is_login</a></li>
-				<li><a href="function-is_maintenance.html">is_maintenance</a></li>
-				<li><a href="function-is_relationship_directory.html">is_relationship_directory</a></li>
+				<li><a href="function-is_maintenance_allowed.html">is_maintenance_allowed</a></li>
+				<li><a href="function-is_visible_language.html">is_visible_language</a></li>
 				<li><a href="function-isset_session_value.html">isset_session_value</a></li>
 				<li><a href="function-language_navbar_defaults.html">language_navbar_defaults</a></li>
 				<li><a href="function-language_navbar_show.html">language_navbar_show</a></li>
 				<li><a href="function-load_language_extension.html">load_language_extension</a></li>
+				<li><a href="function-load_theme_config.html">load_theme_config</a></li>
 				<li><a href="function-locate.html">locate</a></li>
 				<li><a href="function-maintenance.html">maintenance</a></li>
 				<li><a href="function-mysql_escape.html">mysql_escape</a></li>
@@ -265,12 +340,20 @@
 				<li><a href="function-print_template.html">print_template</a></li>
 				<li><a href="function-print_text.html">print_text</a></li>
 				<li><a href="function-print_theme_url.html">print_theme_url</a></li>
+				<li><a href="function-printPagesHTMLTree.html" class="invalid">printPagesHTMLTree</a></li>
 				<li><a href="function-register_hook.html">register_hook</a></li>
-				<li><a href="function-register_widget.html">register_widget</a></li>
 				<li><a href="function-remove_action.html">remove_action</a></li>
+				<li><a href="function-remove_cache_object.html">remove_cache_object</a></li>
 				<li><a href="function-remove_hook.html">remove_hook</a></li>
+				<li><a href="function-remove_template.html">remove_template</a></li>
+				<li><a href="function-reOrderArray.html">reOrderArray</a></li>
 				<li><a href="function-save_config.html">save_config</a></li>
+				<li><a href="function-save_theme_config.html">save_theme_config</a></li>
+				<li><a href="function-select_all_config.html">select_all_config</a></li>
+				<li><a href="function-select_all_config_objects.html">select_all_config_objects</a></li>
 				<li><a href="function-select_config.html">select_config</a></li>
+				<li><a href="function-select_config_object.html">select_config_object</a></li>
+				<li><a href="function-select_config_object_by_id.html">select_config_object_by_id</a></li>
 				<li><a href="function-set_config.html">set_config</a></li>
 				<li><a href="function-set_domain_id.html">set_domain_id</a></li>
 				<li><a href="function-set_domain_request_id.html">set_domain_request_id</a></li>
@@ -278,8 +361,8 @@
 				<li><a href="function-set_request_g.html">set_request_g</a></li>
 				<li><a href="function-set_request_p.html">set_request_p</a></li>
 				<li><a href="function-set_session_value.html">set_session_value</a></li>
-				<li><a href="function-taxonomy_delete.html">taxonomy_delete</a></li>
-				<li><a href="function-taxonomy_generate.html">taxonomy_generate</a></li>
+				<li><a href="function-structure_objtaxonomy_config_by_mode.html">structure_objtaxonomy_config_by_mode</a></li>
+				<li><a href="function-structure_objtaxonomy_edit_by_mode.html">structure_objtaxonomy_edit_by_mode</a></li>
 				<li class="active"><a href="function-theme_enqueue_script.html">theme_enqueue_script</a></li>
 				<li><a href="function-theme_enqueue_style.html">theme_enqueue_style</a></li>
 				<li><a href="function-theme_foot.html">theme_foot</a></li>
@@ -287,11 +370,12 @@
 				<li><a href="function-theme_head.html">theme_head</a></li>
 				<li><a href="function-theme_header.html">theme_header</a></li>
 				<li><a href="function-theme_page.html">theme_page</a></li>
+				<li><a href="function-theme_print_foot_ckeditor.html">theme_print_foot_ckeditor</a></li>
+				<li><a href="function-theme_print_foot_elfinder.html">theme_print_foot_elfinder</a></li>
 				<li><a href="function-theme_register_script.html">theme_register_script</a></li>
 				<li><a href="function-theme_register_style.html">theme_register_style</a></li>
 				<li><a href="function-unactive_extension.html">unactive_extension</a></li>
 				<li><a href="function-unregister_hook.html">unregister_hook</a></li>
-				<li><a href="function-unregister_widget.html">unregister_widget</a></li>
 				<li><a href="function-unsave_config.html">unsave_config</a></li>
 				<li><a href="function-unset_config.html">unset_config</a></li>
 				<li><a href="function-unset_session_value.html">unset_session_value</a></li>
@@ -437,242 +521,229 @@
 </span><span id="102" class="l"><a class="l" href="#102">102: </a>    <span class="php-keyword1">return</span> !<span class="php-keyword2">is_null</span>(<span class="php-var">$theme</span>) ? <span class="php-var">$theme</span>-&gt;Page() : <span class="php-keyword1">false</span>;
 </span><span id="103" class="l"><a class="l" href="#103">103: </a>}
 </span><span id="104" class="l"><a class="l" href="#104">104: </a>
-</span><span id="105" class="l"><a class="l" href="#105">105: </a>
-</span><span id="106" class="l"><a class="l" href="#106">106: </a>
-</span><span id="107" class="l"><a class="l" href="#107">107: </a>
-</span><span id="108" class="l"><a class="l" href="#108">108: </a>
+</span><span id="105" class="l"><a class="l" href="#105">105: </a><span class="php-keyword1">function</span> <a id="_get_themes" href="#_get_themes">get_themes</a>(<span class="php-var">$dir</span>)
+</span><span id="106" class="l"><a class="l" href="#106">106: </a>{
+</span><span id="107" class="l"><a class="l" href="#107">107: </a>    <span class="php-keyword1">return</span> Theme::GetThemes(<span class="php-var">$dir</span>);
+</span><span id="108" class="l"><a class="l" href="#108">108: </a>}
 </span><span id="109" class="l"><a class="l" href="#109">109: </a>
-</span><span id="110" class="l"><a class="l" href="#110">110: </a>
-</span><span id="111" class="l"><a class="l" href="#111">111: </a>
-</span><span id="112" class="l"><a class="l" href="#112">112: </a>
-</span><span id="113" class="l"><a class="l" href="#113">113: </a>
+</span><span id="110" class="l"><a class="l" href="#110">110: </a><span class="php-keyword1">function</span> <a id="_get_frontend_themes" href="#_get_frontend_themes">get_frontend_themes</a>()
+</span><span id="111" class="l"><a class="l" href="#111">111: </a>{
+</span><span id="112" class="l"><a class="l" href="#112">112: </a>    <span class="php-keyword1">return</span> Theme::GetFrontendThemes();
+</span><span id="113" class="l"><a class="l" href="#113">113: </a>}
 </span><span id="114" class="l"><a class="l" href="#114">114: </a>
-</span><span id="115" class="l"><a class="l" href="#115">115: </a>
-</span><span id="116" class="l"><a class="l" href="#116">116: </a>
-</span><span id="117" class="l"><a class="l" href="#117">117: </a>
-</span><span id="118" class="l"><a class="l" href="#118">118: </a>
+</span><span id="115" class="l"><a class="l" href="#115">115: </a><span class="php-keyword1">function</span> <a id="_get_backend_themes" href="#_get_backend_themes">get_backend_themes</a>()
+</span><span id="116" class="l"><a class="l" href="#116">116: </a>{
+</span><span id="117" class="l"><a class="l" href="#117">117: </a>    <span class="php-keyword1">return</span> Theme::GetBackendhemes();
+</span><span id="118" class="l"><a class="l" href="#118">118: </a>}
 </span><span id="119" class="l"><a class="l" href="#119">119: </a>
 </span><span id="120" class="l"><a class="l" href="#120">120: </a>
 </span><span id="121" class="l"><a class="l" href="#121">121: </a>
-</span><span id="122" class="l"><a class="l" href="#122">122: </a><span class="php-keyword1">function</span> <a id="_get_backend_theme_dir" href="#_get_backend_theme_dir">get_backend_theme_dir</a>()
-</span><span id="123" class="l"><a class="l" href="#123">123: </a>{
-</span><span id="124" class="l"><a class="l" href="#124">124: </a>    <span class="php-var">$themes_config</span> = Config::GetConfig(Config::<span class="php-var">$KEY_THEME</span>);
-</span><span id="125" class="l"><a class="l" href="#125">125: </a>    <span class="php-var">$theme_config</span> = <span class="php-var">$themes_config</span>[<span class="php-quote">'backend'</span>];
-</span><span id="126" class="l"><a class="l" href="#126">126: </a>    <span class="php-var">$theme_dir</span> = CMS_DIR_ADMIN_THEMES . <span class="php-var">$theme_config</span>[<span class="php-quote">'dirname'</span>] . <span class="php-quote">'/'</span>;
-</span><span id="127" class="l"><a class="l" href="#127">127: </a>    <span class="php-keyword1">return</span> <span class="php-var">$theme_dir</span>;
-</span><span id="128" class="l"><a class="l" href="#128">128: </a>}
+</span><span id="122" class="l"><a class="l" href="#122">122: </a>
+</span><span id="123" class="l"><a class="l" href="#123">123: </a>
+</span><span id="124" class="l"><a class="l" href="#124">124: </a>
+</span><span id="125" class="l"><a class="l" href="#125">125: </a>
+</span><span id="126" class="l"><a class="l" href="#126">126: </a>
+</span><span id="127" class="l"><a class="l" href="#127">127: </a>
+</span><span id="128" class="l"><a class="l" href="#128">128: </a>
 </span><span id="129" class="l"><a class="l" href="#129">129: </a>
-</span><span id="130" class="l"><a class="l" href="#130">130: </a><span class="php-keyword1">function</span> <a id="_get_backend_theme_url" href="#_get_backend_theme_url">get_backend_theme_url</a>()
-</span><span id="131" class="l"><a class="l" href="#131">131: </a>{
-</span><span id="132" class="l"><a class="l" href="#132">132: </a>    <span class="php-var">$themes_config</span> = Config::GetConfig(Config::<span class="php-var">$KEY_THEME</span>);
-</span><span id="133" class="l"><a class="l" href="#133">133: </a>    <span class="php-var">$theme_config</span> = <span class="php-var">$themes_config</span>[<span class="php-quote">'backend'</span>];
-</span><span id="134" class="l"><a class="l" href="#134">134: </a>    <span class="php-var">$theme_dir</span> = CMS_DIR_ADMIN_THEMES . <span class="php-var">$theme_config</span>[<span class="php-quote">'dirname'</span>] . <span class="php-quote">'/'</span>;
-</span><span id="135" class="l"><a class="l" href="#135">135: </a>    <span class="php-var">$theme_url</span> = get_file_url(<span class="php-var">$theme_dir</span>, CMS_DIR, get_base_url()) . <span class="php-quote">'/'</span>;
-</span><span id="136" class="l"><a class="l" href="#136">136: </a>    <span class="php-keyword1">return</span> <span class="php-var">$theme_url</span>;
-</span><span id="137" class="l"><a class="l" href="#137">137: </a>}
-</span><span id="138" class="l"><a class="l" href="#138">138: </a>
-</span><span id="139" class="l"><a class="l" href="#139">139: </a><span class="php-keyword1">function</span> <a id="_get_frontend_theme_dir" href="#_get_frontend_theme_dir">get_frontend_theme_dir</a>()
-</span><span id="140" class="l"><a class="l" href="#140">140: </a>{
-</span><span id="141" class="l"><a class="l" href="#141">141: </a>    <span class="php-var">$themes_config</span> = Config::GetConfig(Config::<span class="php-var">$KEY_THEME</span>);
-</span><span id="142" class="l"><a class="l" href="#142">142: </a>    <span class="php-var">$theme_config</span> = <span class="php-var">$themes_config</span>[<span class="php-quote">'frontend'</span>];
-</span><span id="143" class="l"><a class="l" href="#143">143: </a>    <span class="php-var">$theme_dir</span> = CMS_DIR_THEMES . <span class="php-var">$theme_config</span>[<span class="php-quote">'dirname'</span>] . <span class="php-quote">'/'</span>;
-</span><span id="144" class="l"><a class="l" href="#144">144: </a>    <span class="php-keyword1">return</span> <span class="php-var">$theme_dir</span>;
-</span><span id="145" class="l"><a class="l" href="#145">145: </a>}
-</span><span id="146" class="l"><a class="l" href="#146">146: </a>
-</span><span id="147" class="l"><a class="l" href="#147">147: </a><span class="php-comment">/**
-</span></span><span id="148" class="l"><a class="l" href="#148">148: </a><span class="php-comment"> * Add helper to theme
-</span></span><span id="149" class="l"><a class="l" href="#149">149: </a><span class="php-comment"> * @global object $__APP
-</span></span><span id="150" class="l"><a class="l" href="#150">150: </a><span class="php-comment"> * @param string $helper
-</span></span><span id="151" class="l"><a class="l" href="#151">151: </a><span class="php-comment"> * @param string $type
-</span></span><span id="152" class="l"><a class="l" href="#152">152: </a><span class="php-comment"> * @return boolean 
-</span></span><span id="153" class="l"><a class="l" href="#153">153: </a><span class="php-comment"> */</span>
-</span><span id="154" class="l"><a class="l" href="#154">154: </a><span class="php-keyword1">function</span> <a id="_add_theme_helper" href="#_add_theme_helper">add_theme_helper</a>(<span class="php-var">$helper</span>, <span class="php-var">$type</span>=<span class="php-quote">'js'</span>)
-</span><span id="155" class="l"><a class="l" href="#155">155: </a>{
-</span><span id="156" class="l"><a class="l" href="#156">156: </a>    <span class="php-keyword1">global</span> <span class="php-var">$__APP</span>;
-</span><span id="157" class="l"><a class="l" href="#157">157: </a>    <span class="php-keyword1">return</span> !<span class="php-keyword2">is_null</span>(<span class="php-var">$__APP</span>) ? <span class="php-var">$__APP</span>-&gt;AddHelper(<span class="php-var">$helper</span>, <span class="php-var">$type</span>) : <span class="php-keyword1">false</span>;
+</span><span id="130" class="l"><a class="l" href="#130">130: </a>
+</span><span id="131" class="l"><a class="l" href="#131">131: </a>
+</span><span id="132" class="l"><a class="l" href="#132">132: </a>
+</span><span id="133" class="l"><a class="l" href="#133">133: </a>
+</span><span id="134" class="l"><a class="l" href="#134">134: </a>
+</span><span id="135" class="l"><a class="l" href="#135">135: </a><span class="php-keyword1">function</span> <a id="_get_backend_theme_dir" href="#_get_backend_theme_dir">get_backend_theme_dir</a>()
+</span><span id="136" class="l"><a class="l" href="#136">136: </a>{
+</span><span id="137" class="l"><a class="l" href="#137">137: </a>    <span class="php-var">$themes_config</span> = Config::GetConfig(Config::<span class="php-var">$KEY_THEME</span>);
+</span><span id="138" class="l"><a class="l" href="#138">138: </a>    <span class="php-var">$theme_config</span> = <span class="php-var">$themes_config</span>[<span class="php-quote">'backend'</span>];
+</span><span id="139" class="l"><a class="l" href="#139">139: </a>    <span class="php-var">$theme_dir</span> = CMS_DIR_ADMIN_THEMES . <span class="php-var">$theme_config</span>[<span class="php-quote">'dirname'</span>] . <span class="php-quote">'/'</span>;
+</span><span id="140" class="l"><a class="l" href="#140">140: </a>    <span class="php-keyword1">return</span> <span class="php-var">$theme_dir</span>;
+</span><span id="141" class="l"><a class="l" href="#141">141: </a>}
+</span><span id="142" class="l"><a class="l" href="#142">142: </a>
+</span><span id="143" class="l"><a class="l" href="#143">143: </a><span class="php-keyword1">function</span> <a id="_get_backend_theme_url" href="#_get_backend_theme_url">get_backend_theme_url</a>()
+</span><span id="144" class="l"><a class="l" href="#144">144: </a>{
+</span><span id="145" class="l"><a class="l" href="#145">145: </a>    <span class="php-var">$themes_config</span> = Config::GetConfig(Config::<span class="php-var">$KEY_THEME</span>);
+</span><span id="146" class="l"><a class="l" href="#146">146: </a>    <span class="php-var">$theme_config</span> = <span class="php-var">$themes_config</span>[<span class="php-quote">'backend'</span>];
+</span><span id="147" class="l"><a class="l" href="#147">147: </a>    <span class="php-var">$theme_dir</span> = CMS_DIR_ADMIN_THEMES . <span class="php-var">$theme_config</span>[<span class="php-quote">'dirname'</span>] . <span class="php-quote">'/'</span>;
+</span><span id="148" class="l"><a class="l" href="#148">148: </a>    <span class="php-var">$theme_url</span> = get_file_url(<span class="php-var">$theme_dir</span>, CMS_DIR, get_base_url()) . <span class="php-quote">'/'</span>;
+</span><span id="149" class="l"><a class="l" href="#149">149: </a>    <span class="php-keyword1">return</span> <span class="php-var">$theme_url</span>;
+</span><span id="150" class="l"><a class="l" href="#150">150: </a>}
+</span><span id="151" class="l"><a class="l" href="#151">151: </a>
+</span><span id="152" class="l"><a class="l" href="#152">152: </a><span class="php-keyword1">function</span> <a id="_get_frontend_theme_dir" href="#_get_frontend_theme_dir">get_frontend_theme_dir</a>()
+</span><span id="153" class="l"><a class="l" href="#153">153: </a>{
+</span><span id="154" class="l"><a class="l" href="#154">154: </a>    <span class="php-var">$themes_config</span> = Config::GetConfig(Config::<span class="php-var">$KEY_THEME</span>);
+</span><span id="155" class="l"><a class="l" href="#155">155: </a>    <span class="php-var">$theme_config</span> = <span class="php-var">$themes_config</span>[<span class="php-quote">'frontend'</span>];
+</span><span id="156" class="l"><a class="l" href="#156">156: </a>    <span class="php-var">$theme_dir</span> = CMS_DIR_THEMES . <span class="php-var">$theme_config</span>[<span class="php-quote">'dirname'</span>] . <span class="php-quote">'/'</span>;
+</span><span id="157" class="l"><a class="l" href="#157">157: </a>    <span class="php-keyword1">return</span> <span class="php-var">$theme_dir</span>;
 </span><span id="158" class="l"><a class="l" href="#158">158: </a>}
 </span><span id="159" class="l"><a class="l" href="#159">159: </a>
 </span><span id="160" class="l"><a class="l" href="#160">160: </a><span class="php-comment">/**
-</span></span><span id="161" class="l"><a class="l" href="#161">161: </a><span class="php-comment"> * Print sidebar template
+</span></span><span id="161" class="l"><a class="l" href="#161">161: </a><span class="php-comment"> * Add helper to theme
 </span></span><span id="162" class="l"><a class="l" href="#162">162: </a><span class="php-comment"> * @global object $__APP
-</span></span><span id="163" class="l"><a class="l" href="#163">163: </a><span class="php-comment"> * @return boolean 
-</span></span><span id="164" class="l"><a class="l" href="#164">164: </a><span class="php-comment"> */</span>
-</span><span id="165" class="l"><a class="l" href="#165">165: </a><span class="php-keyword1">function</span> <a id="_cms_sidebar" href="#_cms_sidebar">cms_sidebar</a>()
-</span><span id="166" class="l"><a class="l" href="#166">166: </a>{
-</span><span id="167" class="l"><a class="l" href="#167">167: </a>    <span class="php-keyword1">global</span> <span class="php-var">$__APP</span>;
-</span><span id="168" class="l"><a class="l" href="#168">168: </a>    <span class="php-keyword1">return</span> !<span class="php-keyword2">is_null</span>(<span class="php-var">$__APP</span>) ? <span class="php-var">$__APP</span>-&gt;CMSSidebar() : <span class="php-keyword1">false</span>;
-</span><span id="169" class="l"><a class="l" href="#169">169: </a>}
-</span><span id="170" class="l"><a class="l" href="#170">170: </a>
-</span><span id="171" class="l"><a class="l" href="#171">171: </a><span class="php-comment">/**
-</span></span><span id="172" class="l"><a class="l" href="#172">172: </a><span class="php-comment"> * Print page template
-</span></span><span id="173" class="l"><a class="l" href="#173">173: </a><span class="php-comment"> * @global object $__APP
-</span></span><span id="174" class="l"><a class="l" href="#174">174: </a><span class="php-comment"> * @return boolean 
-</span></span><span id="175" class="l"><a class="l" href="#175">175: </a><span class="php-comment"> */</span>
-</span><span id="176" class="l"><a class="l" href="#176">176: </a><span class="php-keyword1">function</span> <a id="_cms_page" href="#_cms_page">cms_page</a>()
-</span><span id="177" class="l"><a class="l" href="#177">177: </a>{
-</span><span id="178" class="l"><a class="l" href="#178">178: </a>    <span class="php-keyword1">global</span> <span class="php-var">$__APP</span>;
-</span><span id="179" class="l"><a class="l" href="#179">179: </a>    <span class="php-keyword1">return</span> !<span class="php-keyword2">is_null</span>(<span class="php-var">$__APP</span>) ? <span class="php-var">$__APP</span>-&gt;CMSPage() : <span class="php-keyword1">false</span>;
-</span><span id="180" class="l"><a class="l" href="#180">180: </a>}
-</span><span id="181" class="l"><a class="l" href="#181">181: </a>
-</span><span id="182" class="l"><a class="l" href="#182">182: </a><span class="php-keyword1">function</span> <a id="_get_theme_info" href="#_get_theme_info">get_theme_info</a>(<span class="php-var">$key</span>=<span class="php-keyword1">null</span>)
-</span><span id="183" class="l"><a class="l" href="#183">183: </a>{
-</span><span id="184" class="l"><a class="l" href="#184">184: </a>    <span class="php-keyword1">global</span> <span class="php-var">$__APP</span>;
-</span><span id="185" class="l"><a class="l" href="#185">185: </a>    <span class="php-keyword1">return</span> !<span class="php-keyword2">is_null</span>(<span class="php-var">$__APP</span>) ? <span class="php-var">$__APP</span>-&gt;GetThemeInfo(<span class="php-var">$key</span>) : <span class="php-keyword1">false</span>;
-</span><span id="186" class="l"><a class="l" href="#186">186: </a>}
-</span><span id="187" class="l"><a class="l" href="#187">187: </a>
-</span><span id="188" class="l"><a class="l" href="#188">188: </a><span class="php-keyword1">function</span> <a id="_get_theme_list" href="#_get_theme_list">get_theme_list</a>(<span class="php-var">$dir</span>)
-</span><span id="189" class="l"><a class="l" href="#189">189: </a>{
-</span><span id="190" class="l"><a class="l" href="#190">190: </a>    <span class="php-keyword1">global</span> <span class="php-var">$__APP</span>;
-</span><span id="191" class="l"><a class="l" href="#191">191: </a>    <span class="php-keyword1">return</span> !<span class="php-keyword2">is_null</span>(<span class="php-var">$__APP</span>) ? <span class="php-var">$__APP</span>-&gt;GetThemes(<span class="php-var">$dir</span>) : <span class="php-keyword1">false</span>;
-</span><span id="192" class="l"><a class="l" href="#192">192: </a>}
-</span><span id="193" class="l"><a class="l" href="#193">193: </a>
-</span><span id="194" class="l"><a class="l" href="#194">194: </a><span class="php-keyword1">function</span> <a id="_get_metatag" href="#_get_metatag">get_metatag</a>(<span class="php-var">$key</span>)
-</span><span id="195" class="l"><a class="l" href="#195">195: </a>{
-</span><span id="196" class="l"><a class="l" href="#196">196: </a>    <span class="php-var">$metatags</span> = Config::GetConfig(Config::<span class="php-var">$KEY_METATAGS_DEFAULT</span>);
-</span><span id="197" class="l"><a class="l" href="#197">197: </a>    <span class="php-keyword1">return</span> <span class="php-keyword1">isset</span>(<span class="php-var">$metatags</span>[<span class="php-var">$key</span>]) ? <span class="php-var">$metatags</span>[<span class="php-var">$key</span>] : <span class="php-quote">''</span>;
-</span><span id="198" class="l"><a class="l" href="#198">198: </a>}
-</span><span id="199" class="l"><a class="l" href="#199">199: </a>
-</span><span id="200" class="l"><a class="l" href="#200">200: </a><span class="php-keyword1">function</span> <a id="_get_metatag_title" href="#_get_metatag_title">get_metatag_title</a>()
-</span><span id="201" class="l"><a class="l" href="#201">201: </a>{
-</span><span id="202" class="l"><a class="l" href="#202">202: </a>    <span class="php-var">$metatag</span> = get_metatag(<span class="php-quote">'title'</span>);
-</span><span id="203" class="l"><a class="l" href="#203">203: </a>    <span class="php-keyword1">list</span>(<span class="php-var">$metatag</span>) = action_event(<span class="php-quote">'get_metatag_title'</span>,<span class="php-var">$metatag</span>);
-</span><span id="204" class="l"><a class="l" href="#204">204: </a>    <span class="php-keyword1">return</span> <span class="php-var">$metatag</span>;
+</span></span><span id="163" class="l"><a class="l" href="#163">163: </a><span class="php-comment"> * @param string $helper
+</span></span><span id="164" class="l"><a class="l" href="#164">164: </a><span class="php-comment"> * @param string $type
+</span></span><span id="165" class="l"><a class="l" href="#165">165: </a><span class="php-comment"> * @return boolean 
+</span></span><span id="166" class="l"><a class="l" href="#166">166: </a><span class="php-comment"> */</span>
+</span><span id="167" class="l"><a class="l" href="#167">167: </a><span class="php-keyword1">function</span> <a id="_add_theme_helper" href="#_add_theme_helper">add_theme_helper</a>(<span class="php-var">$helper</span>, <span class="php-var">$type</span>=<span class="php-quote">'js'</span>)
+</span><span id="168" class="l"><a class="l" href="#168">168: </a>{
+</span><span id="169" class="l"><a class="l" href="#169">169: </a>    <span class="php-keyword1">global</span> <span class="php-var">$__APP</span>;
+</span><span id="170" class="l"><a class="l" href="#170">170: </a>    <span class="php-keyword1">return</span> !<span class="php-keyword2">is_null</span>(<span class="php-var">$__APP</span>) ? <span class="php-var">$__APP</span>-&gt;AddHelper(<span class="php-var">$helper</span>, <span class="php-var">$type</span>) : <span class="php-keyword1">false</span>;
+</span><span id="171" class="l"><a class="l" href="#171">171: </a>}
+</span><span id="172" class="l"><a class="l" href="#172">172: </a>
+</span><span id="173" class="l"><a class="l" href="#173">173: </a><span class="php-comment">/**
+</span></span><span id="174" class="l"><a class="l" href="#174">174: </a><span class="php-comment"> * Print sidebar template
+</span></span><span id="175" class="l"><a class="l" href="#175">175: </a><span class="php-comment"> * @global object $__APP
+</span></span><span id="176" class="l"><a class="l" href="#176">176: </a><span class="php-comment"> * @return boolean 
+</span></span><span id="177" class="l"><a class="l" href="#177">177: </a><span class="php-comment"> */</span>
+</span><span id="178" class="l"><a class="l" href="#178">178: </a><span class="php-keyword1">function</span> <a id="_cms_sidebar" href="#_cms_sidebar">cms_sidebar</a>()
+</span><span id="179" class="l"><a class="l" href="#179">179: </a>{
+</span><span id="180" class="l"><a class="l" href="#180">180: </a>    <span class="php-keyword1">global</span> <span class="php-var">$__APP</span>;
+</span><span id="181" class="l"><a class="l" href="#181">181: </a>    <span class="php-keyword1">return</span> !<span class="php-keyword2">is_null</span>(<span class="php-var">$__APP</span>) ? <span class="php-var">$__APP</span>-&gt;CMSSidebar() : <span class="php-keyword1">false</span>;
+</span><span id="182" class="l"><a class="l" href="#182">182: </a>}
+</span><span id="183" class="l"><a class="l" href="#183">183: </a>
+</span><span id="184" class="l"><a class="l" href="#184">184: </a><span class="php-comment">/**
+</span></span><span id="185" class="l"><a class="l" href="#185">185: </a><span class="php-comment"> * Print page template
+</span></span><span id="186" class="l"><a class="l" href="#186">186: </a><span class="php-comment"> * @global object $__APP
+</span></span><span id="187" class="l"><a class="l" href="#187">187: </a><span class="php-comment"> * @return boolean 
+</span></span><span id="188" class="l"><a class="l" href="#188">188: </a><span class="php-comment"> */</span>
+</span><span id="189" class="l"><a class="l" href="#189">189: </a><span class="php-keyword1">function</span> <a id="_cms_page" href="#_cms_page">cms_page</a>()
+</span><span id="190" class="l"><a class="l" href="#190">190: </a>{
+</span><span id="191" class="l"><a class="l" href="#191">191: </a>    <span class="php-keyword1">global</span> <span class="php-var">$__APP</span>;
+</span><span id="192" class="l"><a class="l" href="#192">192: </a>    <span class="php-keyword1">return</span> !<span class="php-keyword2">is_null</span>(<span class="php-var">$__APP</span>) ? <span class="php-var">$__APP</span>-&gt;CMSPage() : <span class="php-keyword1">false</span>;
+</span><span id="193" class="l"><a class="l" href="#193">193: </a>}
+</span><span id="194" class="l"><a class="l" href="#194">194: </a>
+</span><span id="195" class="l"><a class="l" href="#195">195: </a><span class="php-keyword1">function</span> <a id="_get_theme_info" href="#_get_theme_info">get_theme_info</a>(<span class="php-var">$key</span>=<span class="php-keyword1">null</span>)
+</span><span id="196" class="l"><a class="l" href="#196">196: </a>{
+</span><span id="197" class="l"><a class="l" href="#197">197: </a>    <span class="php-keyword1">global</span> <span class="php-var">$__APP</span>;
+</span><span id="198" class="l"><a class="l" href="#198">198: </a>    <span class="php-keyword1">return</span> !<span class="php-keyword2">is_null</span>(<span class="php-var">$__APP</span>) ? <span class="php-var">$__APP</span>-&gt;GetThemeInfo(<span class="php-var">$key</span>) : <span class="php-keyword1">false</span>;
+</span><span id="199" class="l"><a class="l" href="#199">199: </a>}
+</span><span id="200" class="l"><a class="l" href="#200">200: </a>
+</span><span id="201" class="l"><a class="l" href="#201">201: </a><span class="php-keyword1">function</span> <a id="_get_theme_list" href="#_get_theme_list">get_theme_list</a>(<span class="php-var">$dir</span>)
+</span><span id="202" class="l"><a class="l" href="#202">202: </a>{
+</span><span id="203" class="l"><a class="l" href="#203">203: </a>    <span class="php-keyword1">global</span> <span class="php-var">$__APP</span>;
+</span><span id="204" class="l"><a class="l" href="#204">204: </a>    <span class="php-keyword1">return</span> !<span class="php-keyword2">is_null</span>(<span class="php-var">$__APP</span>) ? <span class="php-var">$__APP</span>-&gt;GetThemes(<span class="php-var">$dir</span>) : <span class="php-keyword1">false</span>;
 </span><span id="205" class="l"><a class="l" href="#205">205: </a>}
 </span><span id="206" class="l"><a class="l" href="#206">206: </a>
-</span><span id="207" class="l"><a class="l" href="#207">207: </a><span class="php-keyword1">function</span> <a id="_get_metatag_description" href="#_get_metatag_description">get_metatag_description</a>()
-</span><span id="208" class="l"><a class="l" href="#208">208: </a>{
-</span><span id="209" class="l"><a class="l" href="#209">209: </a>    <span class="php-var">$metatag</span> = get_metatag(<span class="php-quote">'description'</span>);
-</span><span id="210" class="l"><a class="l" href="#210">210: </a>    <span class="php-keyword1">list</span>(<span class="php-var">$metatag</span>) = action_event(<span class="php-quote">'get_metatag_description'</span>,<span class="php-var">$metatag</span>);
-</span><span id="211" class="l"><a class="l" href="#211">211: </a>    <span class="php-keyword1">return</span> <span class="php-var">$metatag</span>;
-</span><span id="212" class="l"><a class="l" href="#212">212: </a>}
-</span><span id="213" class="l"><a class="l" href="#213">213: </a>
-</span><span id="214" class="l"><a class="l" href="#214">214: </a><span class="php-keyword1">function</span> <a id="_get_metatag_keywords" href="#_get_metatag_keywords">get_metatag_keywords</a>()
-</span><span id="215" class="l"><a class="l" href="#215">215: </a>{
-</span><span id="216" class="l"><a class="l" href="#216">216: </a>    <span class="php-var">$metatag</span> = get_metatag(<span class="php-quote">'keywords'</span>);
-</span><span id="217" class="l"><a class="l" href="#217">217: </a>    <span class="php-keyword1">list</span>(<span class="php-var">$metatag</span>) = action_event(<span class="php-quote">'get_metatag_keywords'</span>,<span class="php-var">$metatag</span>);
-</span><span id="218" class="l"><a class="l" href="#218">218: </a>    <span class="php-keyword1">return</span> <span class="php-var">$metatag</span>;
-</span><span id="219" class="l"><a class="l" href="#219">219: </a>}
-</span><span id="220" class="l"><a class="l" href="#220">220: </a>
-</span><span id="221" class="l"><a class="l" href="#221">221: </a>
+</span><span id="207" class="l"><a class="l" href="#207">207: </a>
+</span><span id="208" class="l"><a class="l" href="#208">208: </a>
+</span><span id="209" class="l"><a class="l" href="#209">209: </a>
+</span><span id="210" class="l"><a class="l" href="#210">210: </a>
+</span><span id="211" class="l"><a class="l" href="#211">211: </a><span class="php-keyword1">function</span> <a id="_cms_menubar_defaults" href="#_cms_menubar_defaults">cms_menubar_defaults</a>()
+</span><span id="212" class="l"><a class="l" href="#212">212: </a>{
+</span><span id="213" class="l"><a class="l" href="#213">213: </a>    <span class="php-var">$defaults</span> = <span class="php-keyword1">array</span>(
+</span><span id="214" class="l"><a class="l" href="#214">214: </a>        <span class="php-quote">'separator'</span> =&gt; <span class="php-quote">'&amp;middot;'</span>,
+</span><span id="215" class="l"><a class="l" href="#215">215: </a>        <span class="php-quote">'show_separator'</span> =&gt; <span class="php-keyword1">false</span>,
+</span><span id="216" class="l"><a class="l" href="#216">216: </a>        <span class="php-quote">'id'</span> =&gt; <span class="php-quote">'menubar-nav'</span>,
+</span><span id="217" class="l"><a class="l" href="#217">217: </a>        <span class="php-quote">'css_item_active'</span> =&gt; <span class="php-quote">'active'</span>,
+</span><span id="218" class="l"><a class="l" href="#218">218: </a>        <span class="php-quote">'css_nav_class'</span> =&gt; <span class="php-quote">''</span>
+</span><span id="219" class="l"><a class="l" href="#219">219: </a>    );
+</span><span id="220" class="l"><a class="l" href="#220">220: </a>    <span class="php-keyword1">return</span> <span class="php-var">$defaults</span>;
+</span><span id="221" class="l"><a class="l" href="#221">221: </a>}
 </span><span id="222" class="l"><a class="l" href="#222">222: </a>
-</span><span id="223" class="l"><a class="l" href="#223">223: </a>
-</span><span id="224" class="l"><a class="l" href="#224">224: </a><span class="php-keyword1">function</span> <a id="_cms_menubar_defaults" href="#_cms_menubar_defaults">cms_menubar_defaults</a>()
-</span><span id="225" class="l"><a class="l" href="#225">225: </a>{
-</span><span id="226" class="l"><a class="l" href="#226">226: </a>    <span class="php-var">$defaults</span> = <span class="php-keyword1">array</span>(
-</span><span id="227" class="l"><a class="l" href="#227">227: </a>        <span class="php-quote">'separator'</span> =&gt; <span class="php-quote">'&amp;middot;'</span>,
-</span><span id="228" class="l"><a class="l" href="#228">228: </a>        <span class="php-quote">'show_separator'</span> =&gt; <span class="php-keyword1">false</span>,
-</span><span id="229" class="l"><a class="l" href="#229">229: </a>        <span class="php-quote">'id'</span> =&gt; <span class="php-quote">'menubar-nav'</span>,
-</span><span id="230" class="l"><a class="l" href="#230">230: </a>        <span class="php-quote">'css_item_active'</span> =&gt; <span class="php-quote">'active'</span>,
-</span><span id="231" class="l"><a class="l" href="#231">231: </a>        <span class="php-quote">'css_nav_class'</span> =&gt; <span class="php-quote">''</span>
-</span><span id="232" class="l"><a class="l" href="#232">232: </a>    );
-</span><span id="233" class="l"><a class="l" href="#233">233: </a>    <span class="php-keyword1">return</span> <span class="php-var">$defaults</span>;
-</span><span id="234" class="l"><a class="l" href="#234">234: </a>}
-</span><span id="235" class="l"><a class="l" href="#235">235: </a>
-</span><span id="236" class="l"><a class="l" href="#236">236: </a><span class="php-keyword1">function</span> <a id="_cms_menubar" href="#_cms_menubar">cms_menubar</a>(<span class="php-var">$config</span>=<span class="php-keyword1">array</span>())
-</span><span id="237" class="l"><a class="l" href="#237">237: </a>{
-</span><span id="238" class="l"><a class="l" href="#238">238: </a>    <span class="php-var">$config</span> = <span class="php-keyword2">array_merge</span>(cms_menubar_defaults(), <span class="php-var">$config</span>);
-</span><span id="239" class="l"><a class="l" href="#239">239: </a>    <span class="php-var">$items</span> = cms_menubar_items();
-</span><span id="240" class="l"><a class="l" href="#240">240: </a>    <span class="php-var">$page_id</span> = get_page_id();
-</span><span id="241" class="l"><a class="l" href="#241">241: </a>    <span class="php-var">$locale</span> = get_lang();
-</span><span id="242" class="l"><a class="l" href="#242">242: </a>    <span class="php-keyword1">if</span> (<span class="php-keyword2">count</span>(<span class="php-var">$items</span>)&gt;<span class="php-num">0</span>)
-</span><span id="243" class="l"><a class="l" href="#243">243: </a>    {
-</span><span id="244" class="l"><a class="l" href="#244">244: </a>        <span class="xlang">?&gt;</span>
-</span><span id="245" class="l"><a class="l" href="#245">245: </a>        &lt;ul id=<span class="php-quote">&quot;&lt;?php print_html_attr(</span><span class="php-var">$config</span><span class="php-quote">['id']); ?&gt;&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;&lt;?php print_html_attr(</span><span class="php-var">$config</span><span class="php-quote">['css_nav_class']); ?&gt;&quot;</span>&gt;
-</span><span id="246" class="l"><a class="l" href="#246">246: </a>            <span class="xlang">&lt;?php</span> <span class="php-var">$n</span>=<span class="php-num">0</span>; <span class="php-keyword1">foreach</span>(<span class="php-var">$items</span> <span class="php-keyword1">AS</span> <span class="php-var">$link</span>): <span class="xlang">?&gt;</span>
-</span><span id="247" class="l"><a class="l" href="#247">247: </a>            <span class="xlang">&lt;?php</span> <span class="php-keyword1">if</span> (<span class="php-var">$n</span>&gt;<span class="php-num">0</span> &amp;&amp; <span class="php-var">$config</span>[<span class="php-quote">'show_separator'</span>]): <span class="xlang">?&gt;</span>&lt;li&gt;<span class="xlang">&lt;?php</span> <span class="php-keyword1">print</span>(<span class="php-var">$config</span>[<span class="php-quote">'separator'</span>]); <span class="xlang">?&gt;</span>&lt;/li&gt;<span class="xlang">&lt;?php</span> <span class="php-keyword1">endif</span>; <span class="xlang">?&gt;</span>
-</span><span id="248" class="l"><a class="l" href="#248">248: </a>            <span class="xlang">&lt;?php</span>
-</span><span id="249" class="l"><a class="l" href="#249">249: </a>            <span class="php-var">$title</span> = <span class="php-quote">''</span>;
-</span><span id="250" class="l"><a class="l" href="#250">250: </a>            <span class="php-var">$url</span> = <span class="php-quote">''</span>;
-</span><span id="251" class="l"><a class="l" href="#251">251: </a>            <span class="php-var">$page</span> = <span class="php-keyword1">null</span>;
-</span><span id="252" class="l"><a class="l" href="#252">252: </a>            <span class="php-keyword1">if</span> (<span class="php-var">$link</span>[<span class="php-quote">'type'</span>]==<span class="php-quote">'page'</span>) {
-</span><span id="253" class="l"><a class="l" href="#253">253: </a>                <span class="php-keyword1">if</span> (<span class="php-var">$link</span>[<span class="php-quote">'page'</span>]==-<span class="php-num">1</span>) {
-</span><span id="254" class="l"><a class="l" href="#254">254: </a>                    <span class="php-var">$title</span>=_T(<span class="php-quote">'Inicio'</span>);
-</span><span id="255" class="l"><a class="l" href="#255">255: </a>                    <span class="php-var">$url</span> = page_link(<span class="php-keyword1">array</span>(), <span class="php-keyword1">false</span>);
-</span><span id="256" class="l"><a class="l" href="#256">256: </a>                }
-</span><span id="257" class="l"><a class="l" href="#257">257: </a>                <span class="php-keyword1">else</span> {
-</span><span id="258" class="l"><a class="l" href="#258">258: </a>                    <span class="php-var">$page</span>=get_page(<span class="php-var">$link</span>[<span class="php-quote">'page'</span>]);
-</span><span id="259" class="l"><a class="l" href="#259">259: </a>                    <span class="php-var">$title</span>=<span class="php-var">$page</span>-&gt;GetName();
-</span><span id="260" class="l"><a class="l" href="#260">260: </a>                    <span class="php-var">$url</span> = page_link(<span class="php-keyword1">array</span>(REQUEST_VAR_PAGE=&gt;<span class="php-var">$link</span>[<span class="php-quote">'page'</span>]), <span class="php-keyword1">false</span>);
-</span><span id="261" class="l"><a class="l" href="#261">261: </a>                    <span class="php-keyword1">if</span> (<span class="php-var">$link</span>[<span class="php-quote">'submenu'</span>]==<span class="php-num">1</span>) {
-</span><span id="262" class="l"><a class="l" href="#262">262: </a>                        <span class="php-var">$url</span> = <span class="php-quote">'#'</span>;
-</span><span id="263" class="l"><a class="l" href="#263">263: </a>                    }
-</span><span id="264" class="l"><a class="l" href="#264">264: </a>                }
-</span><span id="265" class="l"><a class="l" href="#265">265: </a>            }
-</span><span id="266" class="l"><a class="l" href="#266">266: </a>            <span class="php-keyword1">else</span> {
-</span><span id="267" class="l"><a class="l" href="#267">267: </a>                <span class="php-var">$title</span> = <span class="php-keyword1">isset</span>(<span class="php-var">$link</span>[<span class="php-quote">'title'</span>][<span class="php-var">$locale</span>]) ? <span class="php-var">$link</span>[<span class="php-quote">'title'</span>][<span class="php-var">$locale</span>] : <span class="php-quote">''</span>;
-</span><span id="268" class="l"><a class="l" href="#268">268: </a>                <span class="php-var">$title</span> = <span class="php-keyword1">empty</span>(<span class="php-var">$title</span>) &amp;&amp; !<span class="php-keyword1">empty</span>(<span class="php-var">$link</span>[<span class="php-quote">'title'</span>]) ? <span class="php-keyword2">current</span>(<span class="php-var">$link</span>[<span class="php-quote">'title'</span>]) : <span class="php-var">$title</span>;
-</span><span id="269" class="l"><a class="l" href="#269">269: </a>                <span class="php-var">$url</span> = <span class="php-keyword1">isset</span>(<span class="php-var">$link</span>[<span class="php-quote">'url'</span>][<span class="php-var">$locale</span>]) ? <span class="php-var">$link</span>[<span class="php-quote">'url'</span>][<span class="php-var">$locale</span>] : <span class="php-quote">''</span>;
-</span><span id="270" class="l"><a class="l" href="#270">270: </a>                <span class="php-var">$url</span> = <span class="php-keyword1">empty</span>(<span class="php-var">$url</span>) &amp;&amp; !<span class="php-keyword1">empty</span>(<span class="php-var">$link</span>[<span class="php-quote">'url'</span>]) ? <span class="php-keyword2">current</span>(<span class="php-var">$link</span>[<span class="php-quote">'url'</span>]) : <span class="php-var">$url</span>;
-</span><span id="271" class="l"><a class="l" href="#271">271: </a>            }
-</span><span id="272" class="l"><a class="l" href="#272">272: </a>            <span class="xlang">?&gt;</span>
-</span><span id="273" class="l"><a class="l" href="#273">273: </a>            &lt;li&gt;
-</span><span id="274" class="l"><a class="l" href="#274">274: </a>                &lt;a href=<span class="php-quote">&quot;&lt;?php print_html_attr(</span><span class="php-var">$url</span><span class="php-quote">); ?&gt;&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;&lt;?php print_html_attr(</span><span class="php-var">$page_id</span><span class="php-quote">==</span><span class="php-var">$link</span><span class="php-quote">['page']?</span><span class="php-var">$config</span><span class="php-quote">['css_item_active']:''); ?&gt; &lt;?php print_html_attr(</span><span class="php-var">$link</span><span class="php-quote">['cssclasses']); ?&gt;&quot;</span> <span class="xlang">&lt;?php</span> <span class="php-keyword1">print</span>(<span class="php-var">$link</span>[<span class="php-quote">'external'</span>]==<span class="php-num">1</span>?<span class="php-quote">'target=&quot;_blank&quot;'</span>:<span class="php-quote">''</span>);<span class="xlang">?&gt;</span>&gt;<span class="xlang">&lt;?</span> <span class="php-keyword1">print</span>(<span class="php-var">$title</span>); <span class="xlang">?&gt;</span>&lt;/a&gt;
-</span><span id="275" class="l"><a class="l" href="#275">275: </a>                <span class="xlang">&lt;?php</span> <span class="php-keyword1">if</span> (<span class="php-var">$link</span>[<span class="php-quote">'submenu'</span>]==<span class="php-num">1</span> &amp;&amp; <span class="php-var">$page</span>!=<span class="php-keyword1">null</span>): <span class="xlang">?&gt;</span>
-</span><span id="276" class="l"><a class="l" href="#276">276: </a>                &lt;ul&gt;
-</span><span id="277" class="l"><a class="l" href="#277">277: </a>                    <span class="xlang">&lt;?php</span> <span class="php-var">$childs</span> = <span class="php-var">$page</span>-&gt;GetChilds(); <span class="xlang">?&gt;</span>
-</span><span id="278" class="l"><a class="l" href="#278">278: </a>                    <span class="xlang">&lt;?php</span> <span class="php-keyword1">foreach</span> (<span class="php-var">$childs</span> <span class="php-keyword1">AS</span> <span class="php-var">$kc</span>=&gt;<span class="php-var">$child</span>): <span class="xlang">?&gt;</span>
-</span><span id="279" class="l"><a class="l" href="#279">279: </a>                    &lt;li&gt;&lt;a href=<span class="php-quote">&quot;&lt;?php page_link(array(REQUEST_VAR_PAGE=&gt;</span><span class="php-var">$kc</span><span class="php-quote">)); ?&gt;&quot;</span>&gt;<span class="xlang">&lt;?php</span> <span class="php-keyword1">print</span> <span class="php-var">$child</span>-&gt;GetName(); <span class="xlang">?&gt;</span>&lt;/a&gt;&lt;/li&gt;
-</span><span id="280" class="l"><a class="l" href="#280">280: </a>                    <span class="xlang">&lt;?php</span> <span class="php-keyword1">endforeach</span>; <span class="xlang">?&gt;</span>
-</span><span id="281" class="l"><a class="l" href="#281">281: </a>                &lt;/ul&gt;
-</span><span id="282" class="l"><a class="l" href="#282">282: </a>                <span class="xlang">&lt;?php</span> <span class="php-keyword1">endif</span>; <span class="xlang">?&gt;</span>
-</span><span id="283" class="l"><a class="l" href="#283">283: </a>            &lt;/li&gt;
-</span><span id="284" class="l"><a class="l" href="#284">284: </a>            <span class="xlang">&lt;?php</span> <span class="php-var">$n</span>++; <span class="php-keyword1">endforeach</span>; <span class="xlang">?&gt;</span>
-</span><span id="285" class="l"><a class="l" href="#285">285: </a>        &lt;/ul&gt;
-</span><span id="286" class="l"><a class="l" href="#286">286: </a>        <span class="xlang">&lt;?php</span>
-</span><span id="287" class="l"><a class="l" href="#287">287: </a>    }
-</span><span id="288" class="l"><a class="l" href="#288">288: </a>}
-</span><span id="289" class="l"><a class="l" href="#289">289: </a><span class="php-keyword1">function</span> <a id="_cms_menubar_save" href="#_cms_menubar_save">cms_menubar_save</a>()
-</span><span id="290" class="l"><a class="l" href="#290">290: </a>{
-</span><span id="291" class="l"><a class="l" href="#291">291: </a>    <span class="php-var">$titles</span> = get_request_p(<span class="php-quote">'title'</span>, <span class="php-keyword1">array</span>(), <span class="php-keyword1">true</span>);
-</span><span id="292" class="l"><a class="l" href="#292">292: </a>    <span class="php-var">$types</span> = get_request_p(<span class="php-quote">'type'</span>, <span class="php-keyword1">array</span>());
-</span><span id="293" class="l"><a class="l" href="#293">293: </a>    <span class="php-var">$pages</span> = get_request_p(<span class="php-quote">'page'</span>, <span class="php-keyword1">array</span>());
-</span><span id="294" class="l"><a class="l" href="#294">294: </a>    <span class="php-var">$urls</span> = get_request_p(<span class="php-quote">'url'</span>, <span class="php-keyword1">array</span>());
-</span><span id="295" class="l"><a class="l" href="#295">295: </a>    <span class="php-var">$externals</span> = get_request_p(<span class="php-quote">'external'</span>, <span class="php-keyword1">array</span>());
-</span><span id="296" class="l"><a class="l" href="#296">296: </a>    <span class="php-var">$submenu</span> = get_request_p(<span class="php-quote">'submenu'</span>, <span class="php-keyword1">array</span>());
-</span><span id="297" class="l"><a class="l" href="#297">297: </a>    <span class="php-var">$cssclasses</span> = get_request_p(<span class="php-quote">'cssclasses'</span>, <span class="php-keyword1">array</span>());
-</span><span id="298" class="l"><a class="l" href="#298">298: </a>    <span class="php-var">$_links</span> = <span class="php-keyword1">array</span>();
-</span><span id="299" class="l"><a class="l" href="#299">299: </a>    <span class="php-keyword1">foreach</span> (<span class="php-var">$types</span> <span class="php-keyword1">AS</span> <span class="php-var">$n</span> =&gt; <span class="php-var">$type</span>) {
-</span><span id="300" class="l"><a class="l" href="#300">300: </a>        <span class="php-var">$_links</span>[<span class="php-var">$n</span>] = <span class="php-keyword1">array</span>(
-</span><span id="301" class="l"><a class="l" href="#301">301: </a>            <span class="php-quote">'title'</span> =&gt; <span class="php-var">$titles</span>[<span class="php-var">$n</span>],
-</span><span id="302" class="l"><a class="l" href="#302">302: </a>            <span class="php-quote">'type'</span> =&gt; <span class="php-var">$type</span>,
-</span><span id="303" class="l"><a class="l" href="#303">303: </a>            <span class="php-quote">'page'</span> =&gt; <span class="php-var">$pages</span>[<span class="php-var">$n</span>],
-</span><span id="304" class="l"><a class="l" href="#304">304: </a>            <span class="php-quote">'url'</span> =&gt; <span class="php-var">$urls</span>[<span class="php-var">$n</span>],
-</span><span id="305" class="l"><a class="l" href="#305">305: </a>            <span class="php-quote">'external'</span> =&gt; <span class="php-var">$externals</span>[<span class="php-var">$n</span>],
-</span><span id="306" class="l"><a class="l" href="#306">306: </a>            <span class="php-quote">'submenu'</span> =&gt; <span class="php-var">$submenu</span>[<span class="php-var">$n</span>],
-</span><span id="307" class="l"><a class="l" href="#307">307: </a>            <span class="php-quote">'cssclasses'</span> =&gt; <span class="php-var">$cssclasses</span>[<span class="php-var">$n</span>]
-</span><span id="308" class="l"><a class="l" href="#308">308: </a>        );
-</span><span id="309" class="l"><a class="l" href="#309">309: </a>    }
-</span><span id="310" class="l"><a class="l" href="#310">310: </a>    <span class="php-keyword1">return</span> Config::SaveConfig(Config::<span class="php-var">$KEY_MENUBAR</span>, <span class="php-var">$_links</span>, <span class="php-keyword1">true</span>);
-</span><span id="311" class="l"><a class="l" href="#311">311: </a>}
-</span><span id="312" class="l"><a class="l" href="#312">312: </a>
-</span><span id="313" class="l"><a class="l" href="#313">313: </a><span class="php-keyword1">function</span> <a id="_cms_menubar_items" href="#_cms_menubar_items">cms_menubar_items</a>()
-</span><span id="314" class="l"><a class="l" href="#314">314: </a>{
-</span><span id="315" class="l"><a class="l" href="#315">315: </a>    <span class="php-keyword1">return</span> Config::GetConfig(Config::<span class="php-var">$KEY_MENUBAR</span>, <span class="php-keyword1">array</span>());
-</span><span id="316" class="l"><a class="l" href="#316">316: </a>}
-</span><span id="317" class="l"><a class="l" href="#317">317: </a>
-</span><span id="318" class="l"><a class="l" href="#318">318: </a>
-</span><span id="319" class="l"><a class="l" href="#319">319: </a><span class="php-comment">/*
-</span></span><span id="320" class="l"><a class="l" href="#320">320: </a><span class="php-comment">function theme_config() {
-</span></span><span id="321" class="l"><a class="l" href="#321">321: </a><span class="php-comment">    global $__THEME_URL, $__THEME_PATH;
-</span></span><span id="322" class="l"><a class="l" href="#322">322: </a><span class="php-comment">    action_event('theme_preconfig');
-</span></span><span id="323" class="l"><a class="l" href="#323">323: </a><span class="php-comment">    $dir=theme_get_config('dir');
-</span></span><span id="324" class="l"><a class="l" href="#324">324: </a><span class="php-comment">    Config::setConfig('theme_url', Request::getUrl() . CMS_DIR_THEMES . $dir . '/');
-</span></span><span id="325" class="l"><a class="l" href="#325">325: </a><span class="php-comment">    Config::setConfig('theme_path', CMS_DIR . CMS_DIR_THEMES . $dir . '/');
-</span></span><span id="326" class="l"><a class="l" href="#326">326: </a><span class="php-comment">    action_event('theme_postconfig');
-</span></span><span id="327" class="l"><a class="l" href="#327">327: </a><span class="php-comment">}
-</span></span><span id="328" class="l"><a class="l" href="#328">328: </a><span class="php-comment">
-</span></span><span id="329" class="l"><a class="l" href="#329">329: </a><span class="php-comment">function theme_get_config($keyname) {
-</span></span><span id="330" class="l"><a class="l" href="#330">330: </a><span class="php-comment">    global $__CONFIG;
-</span></span><span id="331" class="l"><a class="l" href="#331">331: </a><span class="php-comment">    $config=Config::getConfig(Config::$KEY_THEME);
-</span></span><span id="332" class="l"><a class="l" href="#332">332: </a><span class="php-comment">    if (array_key_exists($keyname, $config)) {  return $config[$keyname]; }
-</span></span><span id="333" class="l"><a class="l" href="#333">333: </a><span class="php-comment">    else {return false; }
-</span></span><span id="334" class="l"><a class="l" href="#334">334: </a><span class="php-comment">}
-</span></span><span id="335" class="l"><a class="l" href="#335">335: </a><span class="php-comment">
-</span></span><span id="336" class="l"><a class="l" href="#336">336: </a><span class="php-comment">function theme_load($file) {
-</span></span><span id="337" class="l"><a class="l" href="#337">337: </a><span class="php-comment">    include($file);
-</span></span><span id="338" class="l"><a class="l" href="#338">338: </a><span class="php-comment">}
-</span></span><span id="339" class="l"><a class="l" href="#339">339: </a><span class="php-comment">*/</span>
-</span><span id="340" class="l"><a class="l" href="#340">340: </a></span></code></pre>
+</span><span id="223" class="l"><a class="l" href="#223">223: </a><span class="php-keyword1">function</span> <a id="_cms_menubar" href="#_cms_menubar">cms_menubar</a>(<span class="php-var">$config</span>=<span class="php-keyword1">array</span>())
+</span><span id="224" class="l"><a class="l" href="#224">224: </a>{
+</span><span id="225" class="l"><a class="l" href="#225">225: </a>    <span class="php-var">$config</span> = <span class="php-keyword2">array_merge</span>(cms_menubar_defaults(), <span class="php-var">$config</span>);
+</span><span id="226" class="l"><a class="l" href="#226">226: </a>    <span class="php-var">$items</span> = cms_menubar_items();
+</span><span id="227" class="l"><a class="l" href="#227">227: </a>    <span class="php-var">$page_id</span> = get_page_id();
+</span><span id="228" class="l"><a class="l" href="#228">228: </a>    <span class="php-var">$locale</span> = get_lang();
+</span><span id="229" class="l"><a class="l" href="#229">229: </a>    <span class="php-keyword1">if</span> (<span class="php-keyword2">count</span>(<span class="php-var">$items</span>)&gt;<span class="php-num">0</span>)
+</span><span id="230" class="l"><a class="l" href="#230">230: </a>    {
+</span><span id="231" class="l"><a class="l" href="#231">231: </a>        <span class="xlang">?&gt;</span>
+</span><span id="232" class="l"><a class="l" href="#232">232: </a>        &lt;ul id=<span class="php-quote">&quot;&lt;?php print_html_attr(</span><span class="php-var">$config</span><span class="php-quote">['id']); ?&gt;&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;&lt;?php print_html_attr(</span><span class="php-var">$config</span><span class="php-quote">['css_nav_class']); ?&gt;&quot;</span>&gt;
+</span><span id="233" class="l"><a class="l" href="#233">233: </a>            <span class="xlang">&lt;?php</span> <span class="php-var">$n</span>=<span class="php-num">0</span>; <span class="php-keyword1">foreach</span>(<span class="php-var">$items</span> <span class="php-keyword1">AS</span> <span class="php-var">$link</span>): <span class="xlang">?&gt;</span>
+</span><span id="234" class="l"><a class="l" href="#234">234: </a>            <span class="xlang">&lt;?php</span> <span class="php-keyword1">if</span> (<span class="php-var">$n</span>&gt;<span class="php-num">0</span> &amp;&amp; <span class="php-var">$config</span>[<span class="php-quote">'show_separator'</span>]): <span class="xlang">?&gt;</span>&lt;li&gt;<span class="xlang">&lt;?php</span> <span class="php-keyword1">print</span>(<span class="php-var">$config</span>[<span class="php-quote">'separator'</span>]); <span class="xlang">?&gt;</span>&lt;/li&gt;<span class="xlang">&lt;?php</span> <span class="php-keyword1">endif</span>; <span class="xlang">?&gt;</span>
+</span><span id="235" class="l"><a class="l" href="#235">235: </a>            <span class="xlang">&lt;?php</span>
+</span><span id="236" class="l"><a class="l" href="#236">236: </a>            <span class="php-var">$title</span> = <span class="php-quote">''</span>;
+</span><span id="237" class="l"><a class="l" href="#237">237: </a>            <span class="php-var">$url</span> = <span class="php-quote">''</span>;
+</span><span id="238" class="l"><a class="l" href="#238">238: </a>            <span class="php-var">$page</span> = <span class="php-keyword1">null</span>;
+</span><span id="239" class="l"><a class="l" href="#239">239: </a>            <span class="php-keyword1">if</span> (<span class="php-var">$link</span>[<span class="php-quote">'type'</span>]==<span class="php-quote">'page'</span>) {
+</span><span id="240" class="l"><a class="l" href="#240">240: </a>                <span class="php-keyword1">if</span> (<span class="php-var">$link</span>[<span class="php-quote">'page'</span>]==-<span class="php-num">1</span>) {
+</span><span id="241" class="l"><a class="l" href="#241">241: </a>                    <span class="php-var">$title</span>=_T(<span class="php-quote">'Inicio'</span>);
+</span><span id="242" class="l"><a class="l" href="#242">242: </a>                    <span class="php-var">$url</span> = page_link(<span class="php-keyword1">array</span>(), <span class="php-keyword1">false</span>);
+</span><span id="243" class="l"><a class="l" href="#243">243: </a>                }
+</span><span id="244" class="l"><a class="l" href="#244">244: </a>                <span class="php-keyword1">else</span> {
+</span><span id="245" class="l"><a class="l" href="#245">245: </a>                    <span class="php-var">$page</span>=get_page(<span class="php-var">$link</span>[<span class="php-quote">'page'</span>]);
+</span><span id="246" class="l"><a class="l" href="#246">246: </a>                    <span class="php-var">$title</span>=<span class="php-var">$page</span>-&gt;GetName();
+</span><span id="247" class="l"><a class="l" href="#247">247: </a>                    <span class="php-var">$url</span> = page_link(<span class="php-keyword1">array</span>(REQUEST_VAR_PAGE=&gt;<span class="php-var">$link</span>[<span class="php-quote">'page'</span>]), <span class="php-keyword1">false</span>);
+</span><span id="248" class="l"><a class="l" href="#248">248: </a>                    <span class="php-keyword1">if</span> (<span class="php-var">$link</span>[<span class="php-quote">'submenu'</span>]==<span class="php-num">1</span>) {
+</span><span id="249" class="l"><a class="l" href="#249">249: </a>                        <span class="php-var">$url</span> = <span class="php-quote">'#'</span>;
+</span><span id="250" class="l"><a class="l" href="#250">250: </a>                    }
+</span><span id="251" class="l"><a class="l" href="#251">251: </a>                }
+</span><span id="252" class="l"><a class="l" href="#252">252: </a>            }
+</span><span id="253" class="l"><a class="l" href="#253">253: </a>            <span class="php-keyword1">else</span> {
+</span><span id="254" class="l"><a class="l" href="#254">254: </a>                <span class="php-var">$title</span> = <span class="php-keyword1">isset</span>(<span class="php-var">$link</span>[<span class="php-quote">'title'</span>][<span class="php-var">$locale</span>]) ? <span class="php-var">$link</span>[<span class="php-quote">'title'</span>][<span class="php-var">$locale</span>] : <span class="php-quote">''</span>;
+</span><span id="255" class="l"><a class="l" href="#255">255: </a>                <span class="php-var">$title</span> = <span class="php-keyword1">empty</span>(<span class="php-var">$title</span>) &amp;&amp; !<span class="php-keyword1">empty</span>(<span class="php-var">$link</span>[<span class="php-quote">'title'</span>]) ? <span class="php-keyword2">current</span>(<span class="php-var">$link</span>[<span class="php-quote">'title'</span>]) : <span class="php-var">$title</span>;
+</span><span id="256" class="l"><a class="l" href="#256">256: </a>                <span class="php-var">$url</span> = <span class="php-keyword1">isset</span>(<span class="php-var">$link</span>[<span class="php-quote">'url'</span>][<span class="php-var">$locale</span>]) ? <span class="php-var">$link</span>[<span class="php-quote">'url'</span>][<span class="php-var">$locale</span>] : <span class="php-quote">''</span>;
+</span><span id="257" class="l"><a class="l" href="#257">257: </a>                <span class="php-var">$url</span> = <span class="php-keyword1">empty</span>(<span class="php-var">$url</span>) &amp;&amp; !<span class="php-keyword1">empty</span>(<span class="php-var">$link</span>[<span class="php-quote">'url'</span>]) ? <span class="php-keyword2">current</span>(<span class="php-var">$link</span>[<span class="php-quote">'url'</span>]) : <span class="php-var">$url</span>;
+</span><span id="258" class="l"><a class="l" href="#258">258: </a>            }
+</span><span id="259" class="l"><a class="l" href="#259">259: </a>            <span class="xlang">?&gt;</span>
+</span><span id="260" class="l"><a class="l" href="#260">260: </a>            &lt;li&gt;
+</span><span id="261" class="l"><a class="l" href="#261">261: </a>                &lt;a href=<span class="php-quote">&quot;&lt;?php print_html_attr(</span><span class="php-var">$url</span><span class="php-quote">); ?&gt;&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;&lt;?php print_html_attr(</span><span class="php-var">$page_id</span><span class="php-quote">==</span><span class="php-var">$link</span><span class="php-quote">['page']?</span><span class="php-var">$config</span><span class="php-quote">['css_item_active']:''); ?&gt; &lt;?php print_html_attr(</span><span class="php-var">$link</span><span class="php-quote">['cssclasses']); ?&gt;&quot;</span> <span class="xlang">&lt;?php</span> <span class="php-keyword1">print</span>(<span class="php-var">$link</span>[<span class="php-quote">'external'</span>]==<span class="php-num">1</span>?<span class="php-quote">'target=&quot;_blank&quot;'</span>:<span class="php-quote">''</span>);<span class="xlang">?&gt;</span>&gt;<span class="xlang">&lt;?</span> <span class="php-keyword1">print</span>(<span class="php-var">$title</span>); <span class="xlang">?&gt;</span>&lt;/a&gt;
+</span><span id="262" class="l"><a class="l" href="#262">262: </a>                <span class="xlang">&lt;?php</span> <span class="php-keyword1">if</span> (<span class="php-var">$link</span>[<span class="php-quote">'submenu'</span>]==<span class="php-num">1</span> &amp;&amp; <span class="php-var">$page</span>!=<span class="php-keyword1">null</span>): <span class="xlang">?&gt;</span>
+</span><span id="263" class="l"><a class="l" href="#263">263: </a>                &lt;ul&gt;
+</span><span id="264" class="l"><a class="l" href="#264">264: </a>                    <span class="xlang">&lt;?php</span> <span class="php-var">$childs</span> = <span class="php-var">$page</span>-&gt;GetChilds(); <span class="xlang">?&gt;</span>
+</span><span id="265" class="l"><a class="l" href="#265">265: </a>                    <span class="xlang">&lt;?php</span> <span class="php-keyword1">foreach</span> (<span class="php-var">$childs</span> <span class="php-keyword1">AS</span> <span class="php-var">$kc</span>=&gt;<span class="php-var">$child</span>): <span class="xlang">?&gt;</span>
+</span><span id="266" class="l"><a class="l" href="#266">266: </a>                    &lt;li&gt;&lt;a href=<span class="php-quote">&quot;&lt;?php page_link(array(REQUEST_VAR_PAGE=&gt;</span><span class="php-var">$kc</span><span class="php-quote">)); ?&gt;&quot;</span>&gt;<span class="xlang">&lt;?php</span> <span class="php-keyword1">print</span> <span class="php-var">$child</span>-&gt;GetName(); <span class="xlang">?&gt;</span>&lt;/a&gt;&lt;/li&gt;
+</span><span id="267" class="l"><a class="l" href="#267">267: </a>                    <span class="xlang">&lt;?php</span> <span class="php-keyword1">endforeach</span>; <span class="xlang">?&gt;</span>
+</span><span id="268" class="l"><a class="l" href="#268">268: </a>                &lt;/ul&gt;
+</span><span id="269" class="l"><a class="l" href="#269">269: </a>                <span class="xlang">&lt;?php</span> <span class="php-keyword1">endif</span>; <span class="xlang">?&gt;</span>
+</span><span id="270" class="l"><a class="l" href="#270">270: </a>            &lt;/li&gt;
+</span><span id="271" class="l"><a class="l" href="#271">271: </a>            <span class="xlang">&lt;?php</span> <span class="php-var">$n</span>++; <span class="php-keyword1">endforeach</span>; <span class="xlang">?&gt;</span>
+</span><span id="272" class="l"><a class="l" href="#272">272: </a>        &lt;/ul&gt;
+</span><span id="273" class="l"><a class="l" href="#273">273: </a>        <span class="xlang">&lt;?php</span>
+</span><span id="274" class="l"><a class="l" href="#274">274: </a>    }
+</span><span id="275" class="l"><a class="l" href="#275">275: </a>}
+</span><span id="276" class="l"><a class="l" href="#276">276: </a><span class="php-keyword1">function</span> <a id="_cms_menubar_save" href="#_cms_menubar_save">cms_menubar_save</a>()
+</span><span id="277" class="l"><a class="l" href="#277">277: </a>{
+</span><span id="278" class="l"><a class="l" href="#278">278: </a>    <span class="php-var">$titles</span> = get_request_p(<span class="php-quote">'title'</span>, <span class="php-keyword1">array</span>(), <span class="php-keyword1">true</span>);
+</span><span id="279" class="l"><a class="l" href="#279">279: </a>    <span class="php-var">$types</span> = get_request_p(<span class="php-quote">'type'</span>, <span class="php-keyword1">array</span>());
+</span><span id="280" class="l"><a class="l" href="#280">280: </a>    <span class="php-var">$pages</span> = get_request_p(<span class="php-quote">'page'</span>, <span class="php-keyword1">array</span>());
+</span><span id="281" class="l"><a class="l" href="#281">281: </a>    <span class="php-var">$urls</span> = get_request_p(<span class="php-quote">'url'</span>, <span class="php-keyword1">array</span>());
+</span><span id="282" class="l"><a class="l" href="#282">282: </a>    <span class="php-var">$externals</span> = get_request_p(<span class="php-quote">'external'</span>, <span class="php-keyword1">array</span>());
+</span><span id="283" class="l"><a class="l" href="#283">283: </a>    <span class="php-var">$submenu</span> = get_request_p(<span class="php-quote">'submenu'</span>, <span class="php-keyword1">array</span>());
+</span><span id="284" class="l"><a class="l" href="#284">284: </a>    <span class="php-var">$cssclasses</span> = get_request_p(<span class="php-quote">'cssclasses'</span>, <span class="php-keyword1">array</span>());
+</span><span id="285" class="l"><a class="l" href="#285">285: </a>    <span class="php-var">$_links</span> = <span class="php-keyword1">array</span>();
+</span><span id="286" class="l"><a class="l" href="#286">286: </a>    <span class="php-keyword1">foreach</span> (<span class="php-var">$types</span> <span class="php-keyword1">AS</span> <span class="php-var">$n</span> =&gt; <span class="php-var">$type</span>) {
+</span><span id="287" class="l"><a class="l" href="#287">287: </a>        <span class="php-var">$_links</span>[<span class="php-var">$n</span>] = <span class="php-keyword1">array</span>(
+</span><span id="288" class="l"><a class="l" href="#288">288: </a>            <span class="php-quote">'title'</span> =&gt; <span class="php-var">$titles</span>[<span class="php-var">$n</span>],
+</span><span id="289" class="l"><a class="l" href="#289">289: </a>            <span class="php-quote">'type'</span> =&gt; <span class="php-var">$type</span>,
+</span><span id="290" class="l"><a class="l" href="#290">290: </a>            <span class="php-quote">'page'</span> =&gt; <span class="php-var">$pages</span>[<span class="php-var">$n</span>],
+</span><span id="291" class="l"><a class="l" href="#291">291: </a>            <span class="php-quote">'url'</span> =&gt; <span class="php-var">$urls</span>[<span class="php-var">$n</span>],
+</span><span id="292" class="l"><a class="l" href="#292">292: </a>            <span class="php-quote">'external'</span> =&gt; <span class="php-var">$externals</span>[<span class="php-var">$n</span>],
+</span><span id="293" class="l"><a class="l" href="#293">293: </a>            <span class="php-quote">'submenu'</span> =&gt; <span class="php-var">$submenu</span>[<span class="php-var">$n</span>],
+</span><span id="294" class="l"><a class="l" href="#294">294: </a>            <span class="php-quote">'cssclasses'</span> =&gt; <span class="php-var">$cssclasses</span>[<span class="php-var">$n</span>]
+</span><span id="295" class="l"><a class="l" href="#295">295: </a>        );
+</span><span id="296" class="l"><a class="l" href="#296">296: </a>    }
+</span><span id="297" class="l"><a class="l" href="#297">297: </a>    <span class="php-keyword1">return</span> Config::SaveConfig(Config::<span class="php-var">$KEY_MENUBAR</span>, <span class="php-var">$_links</span>, <span class="php-keyword1">true</span>);
+</span><span id="298" class="l"><a class="l" href="#298">298: </a>}
+</span><span id="299" class="l"><a class="l" href="#299">299: </a>
+</span><span id="300" class="l"><a class="l" href="#300">300: </a><span class="php-keyword1">function</span> <a id="_cms_menubar_items" href="#_cms_menubar_items">cms_menubar_items</a>()
+</span><span id="301" class="l"><a class="l" href="#301">301: </a>{
+</span><span id="302" class="l"><a class="l" href="#302">302: </a>    <span class="php-keyword1">return</span> Config::GetConfig(Config::<span class="php-var">$KEY_MENUBAR</span>, <span class="php-keyword1">array</span>());
+</span><span id="303" class="l"><a class="l" href="#303">303: </a>}
+</span><span id="304" class="l"><a class="l" href="#304">304: </a>
+</span><span id="305" class="l"><a class="l" href="#305">305: </a>
+</span><span id="306" class="l"><a class="l" href="#306">306: </a><span class="php-comment">/*
+</span></span><span id="307" class="l"><a class="l" href="#307">307: </a><span class="php-comment">function theme_config() {
+</span></span><span id="308" class="l"><a class="l" href="#308">308: </a><span class="php-comment">    global $__THEME_URL, $__THEME_PATH;
+</span></span><span id="309" class="l"><a class="l" href="#309">309: </a><span class="php-comment">    action_event('theme_preconfig');
+</span></span><span id="310" class="l"><a class="l" href="#310">310: </a><span class="php-comment">    $dir=theme_get_config('dir');
+</span></span><span id="311" class="l"><a class="l" href="#311">311: </a><span class="php-comment">    Config::setConfig('theme_url', Request::getUrl() . CMS_DIR_THEMES . $dir . '/');
+</span></span><span id="312" class="l"><a class="l" href="#312">312: </a><span class="php-comment">    Config::setConfig('theme_path', CMS_DIR . CMS_DIR_THEMES . $dir . '/');
+</span></span><span id="313" class="l"><a class="l" href="#313">313: </a><span class="php-comment">    action_event('theme_postconfig');
+</span></span><span id="314" class="l"><a class="l" href="#314">314: </a><span class="php-comment">}
+</span></span><span id="315" class="l"><a class="l" href="#315">315: </a><span class="php-comment">
+</span></span><span id="316" class="l"><a class="l" href="#316">316: </a><span class="php-comment">function theme_get_config($keyname) {
+</span></span><span id="317" class="l"><a class="l" href="#317">317: </a><span class="php-comment">    global $__CONFIG;
+</span></span><span id="318" class="l"><a class="l" href="#318">318: </a><span class="php-comment">    $config=Config::getConfig(Config::$KEY_THEME);
+</span></span><span id="319" class="l"><a class="l" href="#319">319: </a><span class="php-comment">    if (array_key_exists($keyname, $config)) {  return $config[$keyname]; }
+</span></span><span id="320" class="l"><a class="l" href="#320">320: </a><span class="php-comment">    else {return false; }
+</span></span><span id="321" class="l"><a class="l" href="#321">321: </a><span class="php-comment">}
+</span></span><span id="322" class="l"><a class="l" href="#322">322: </a><span class="php-comment">
+</span></span><span id="323" class="l"><a class="l" href="#323">323: </a><span class="php-comment">function theme_load($file) {
+</span></span><span id="324" class="l"><a class="l" href="#324">324: </a><span class="php-comment">    include($file);
+</span></span><span id="325" class="l"><a class="l" href="#325">325: </a><span class="php-comment">}
+</span></span><span id="326" class="l"><a class="l" href="#326">326: </a><span class="php-comment">*/</span>
+</span><span id="327" class="l"><a class="l" href="#327">327: </a></span></code></pre>
 
 	<div id="footer">
 		Iceberg API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>

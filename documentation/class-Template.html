@@ -7,7 +7,7 @@
 	<title>Class Template | Iceberg</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?1342617136"></script>
+	<script type="text/javascript" src="elementlist.js?791472392"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -21,10 +21,12 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
+				<li><a href="package-Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-elfinder.html">elfinder</a>
+						</li>
 				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
-						</li>
 				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
 						</li>
 				<li><a href="package-Iceberg.Database.html">Database</a>
@@ -43,7 +45,7 @@
 						</li>
 				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
 						</li>
-				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
 						</li>
@@ -54,11 +56,23 @@
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
+				<li><a href="package-MySQL.html">MySQL<span></span></a>
+						<ul>
+				<li><a href="package-MySQL.Query.html">Query</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
+				<li><a href="package-Page.html">Page<span></span></a>
+						<ul>
+				<li><a href="package-Page.Config.html">Config</a>
+						</li>
+							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -73,12 +87,18 @@
 				<li><a href="class-Number.html">Number</a></li>
 				<li><a href="class-Taxonomy.html">Taxonomy</a></li>
 				<li><a href="class-TaxonomyElements.html">TaxonomyElements</a></li>
-				<li><a href="class-TaxonomyElementsExtension.html">TaxonomyElementsExtension</a></li>
-				<li><a href="class-TaxonomyRelationship.html">TaxonomyRelationship</a></li>
+				<li><a href="class-TE_Geolocation.html">TE_Geolocation</a></li>
+				<li><a href="class-TE_Images.html">TE_Images</a></li>
+				<li><a href="class-TE_Input.html">TE_Input</a></li>
+				<li><a href="class-TE_Relation.html">TE_Relation</a></li>
+				<li><a href="class-TE_Text.html">TE_Text</a></li>
 				<li class="active"><a href="class-Template.html">Template</a></li>
 				<li><a href="class-Theme.html">Theme</a></li>
+				<li><a href="class-ThemeAPI.html">ThemeAPI</a></li>
 				<li><a href="class-ThemeBackend.html">ThemeBackend</a></li>
+				<li><a href="class-ThemeBackendAPI.html">ThemeBackendAPI</a></li>
 				<li><a href="class-ThemeBase.html">ThemeBase</a></li>
+				<li><a href="class-ThemeFrontend.html">ThemeFrontend</a></li>
 				<li><a href="class-Time.html">Time</a></li>
 			</ul>
 
@@ -151,6 +171,13 @@
 		</dd>
 		<dd style="padding-left:60px">
 			<img src="resources/inherit.png" alt="Extended by" />
+			<a href="class-TemplateBase.html"><span>TemplateBase</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:90px">
+			<img src="resources/inherit.png" alt="Extended by" />
 <b><span>Template</span></b>			
 			
 			
@@ -174,7 +201,7 @@
 				Marc Mascort Bou<br />
 				<b>Version:</b>
 				1.0<br />
-		<b>Located at</b> <a href="source-class-Template.html#6-196" title="Go to source code">includes/Template.class.php</a><br />
+		<b>Located at</b> <a href="source-class-Template.html#80-270" title="Go to source code">includes/Template.class.php</a><br />
 	</div>
 
 
@@ -192,7 +219,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-Template.html#29-42" title="Go to source code">__construct</a>( <span>string <var>$dir</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$template</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$url</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$callback</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-Template.html#103-116" title="Go to source code">__construct</a>( <span>string <var>$dir</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$template</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$url</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$callback</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -236,7 +263,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GenerateTemplateContent">#</a>
-		<code><a href="source-class-Template.html#44-61" title="Go to source code">GenerateTemplateContent</a>( )</code>
+		<code><a href="source-class-Template.html#118-135" title="Go to source code">GenerateTemplateContent</a>( )</code>
 
 		<div class="description short">
 			
@@ -277,7 +304,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_SetTemplateDir">#</a>
-		<code><a href="source-class-Template.html#63-72" title="Go to source code">SetTemplateDir</a>( <span>string <var>$dir</var></span> )</code>
+		<code><a href="source-class-Template.html#137-146" title="Go to source code">SetTemplateDir</a>( <span>string <var>$dir</var></span> )</code>
 
 		<div class="description short">
 			
@@ -319,7 +346,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_SetTemplateUrl">#</a>
-		<code><a href="source-class-Template.html#74-82" title="Go to source code">SetTemplateUrl</a>( <span>string <var>$url</var></span> )</code>
+		<code><a href="source-class-Template.html#148-156" title="Go to source code">SetTemplateUrl</a>( <span>string <var>$url</var></span> )</code>
 
 		<div class="description short">
 			
@@ -361,7 +388,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_SetTemplate">#</a>
-		<code><a href="source-class-Template.html#84-93" title="Go to source code">SetTemplate</a>( <span>string <var>$template</var></span> )</code>
+		<code><a href="source-class-Template.html#158-167" title="Go to source code">SetTemplate</a>( <span>string <var>$template</var></span> )</code>
 
 		<div class="description short">
 			
@@ -403,7 +430,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_SetTemplateFile">#</a>
-		<code><a href="source-class-Template.html#95-104" title="Go to source code">SetTemplateFile</a>( <span>type <var>$file</var></span> )</code>
+		<code><a href="source-class-Template.html#169-178" title="Go to source code">SetTemplateFile</a>( <span>type <var>$file</var></span> )</code>
 
 		<div class="description short">
 			
@@ -445,7 +472,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_SetTemplateName">#</a>
-		<code><a href="source-class-Template.html#106-114" title="Go to source code">SetTemplateName</a>( <span>string <var>$name</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-Template.html#180-188" title="Go to source code">SetTemplateName</a>( <span>string <var>$name</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -487,7 +514,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_SetTemplateCallback">#</a>
-		<code><a href="source-class-Template.html#116-124" title="Go to source code">SetTemplateCallback</a>( <span>string <var>$callback</var></span> )</code>
+		<code><a href="source-class-Template.html#190-198" title="Go to source code">SetTemplateCallback</a>( <span>string <var>$callback</var></span> )</code>
 
 		<div class="description short">
 			
@@ -529,7 +556,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_SetTemplateContent">#</a>
-		<code><a href="source-class-Template.html#126-134" title="Go to source code">SetTemplateContent</a>( <span>string <var>$content</var></span> )</code>
+		<code><a href="source-class-Template.html#200-208" title="Go to source code">SetTemplateContent</a>( <span>string <var>$content</var></span> )</code>
 
 		<div class="description short">
 			
@@ -571,7 +598,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetTemplateDir">#</a>
-		<code><a href="source-class-Template.html#136-143" title="Go to source code">GetTemplateDir</a>( )</code>
+		<code><a href="source-class-Template.html#210-217" title="Go to source code">GetTemplateDir</a>( )</code>
 
 		<div class="description short">
 			
@@ -608,7 +635,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetTemplateUrl">#</a>
-		<code><a href="source-class-Template.html#145-150" title="Go to source code">GetTemplateUrl</a>( )</code>
+		<code><a href="source-class-Template.html#219-224" title="Go to source code">GetTemplateUrl</a>( )</code>
 
 		<div class="description short">
 			
@@ -645,7 +672,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetTemplate">#</a>
-		<code><a href="source-class-Template.html#152-157" title="Go to source code">GetTemplate</a>( )</code>
+		<code><a href="source-class-Template.html#226-231" title="Go to source code">GetTemplate</a>( )</code>
 
 		<div class="description short">
 			
@@ -682,7 +709,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetTemplateName">#</a>
-		<code><a href="source-class-Template.html#159-164" title="Go to source code">GetTemplateName</a>( )</code>
+		<code><a href="source-class-Template.html#233-238" title="Go to source code">GetTemplateName</a>( )</code>
 
 		<div class="description short">
 			
@@ -719,7 +746,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetTemplateFile">#</a>
-		<code><a href="source-class-Template.html#166-171" title="Go to source code">GetTemplateFile</a>( )</code>
+		<code><a href="source-class-Template.html#240-245" title="Go to source code">GetTemplateFile</a>( )</code>
 
 		<div class="description short">
 			
@@ -756,7 +783,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetTemplateCallback">#</a>
-		<code><a href="source-class-Template.html#173-178" title="Go to source code">GetTemplateCallback</a>( )</code>
+		<code><a href="source-class-Template.html#247-252" title="Go to source code">GetTemplateCallback</a>( )</code>
 
 		<div class="description short">
 			
@@ -793,7 +820,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetTemplateContent">#</a>
-		<code><a href="source-class-Template.html#180-187" title="Go to source code">GetTemplateContent</a>( )</code>
+		<code><a href="source-class-Template.html#254-261" title="Go to source code">GetTemplateContent</a>( )</code>
 
 		<div class="description short">
 			
@@ -830,7 +857,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_PrintTemplateContent">#</a>
-		<code><a href="source-class-Template.html#189-195" title="Go to source code">PrintTemplateContent</a>( )</code>
+		<code><a href="source-class-Template.html#263-269" title="Go to source code">PrintTemplateContent</a>( )</code>
 
 		<div class="description short">
 			
@@ -855,10 +882,22 @@
 	</table>
 
 	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-TemplateBase.html#methods">TemplateBase</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-TemplateBase.html#_AddTemplate">AddTemplate()</a>, 
+			<a href="class-TemplateBase.html#_GetTemplates">GetTemplates()</a>, 
+			<a href="class-TemplateBase.html#_GetTemplatesContent">GetTemplatesContent()</a>, 
+			<a href="class-TemplateBase.html#_RemoveTemplate">RemoveTemplate()</a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
 	<caption>Methods inherited from <a href="class-ObjectConfig.html#methods">ObjectConfig</a></caption>
 	<tr>
 		<td><code>
 			<a href="class-ObjectConfig.html#_GetConfigValue">GetConfigValue()</a>, 
+			<a href="class-ObjectConfig.html#_SaveConfigValue">SaveConfigValue()</a>, 
 			<a href="class-ObjectConfig.html#_SetConfigValue">SetConfigValue()</a>
 		</code></td>
 	</tr>
@@ -890,10 +929,20 @@
 
 
 	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-TemplateBase.html#properties">TemplateBase</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-TemplateBase.html#$CONFIG_DEFAULTS"><var>$CONFIG_DEFAULTS</var></a>, 
+			<a href="class-TemplateBase.html#$CONFIG_KEY"><var>$CONFIG_KEY</var></a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
 	<caption>Properties inherited from <a href="class-ObjectConfig.html#properties">ObjectConfig</a></caption>
 	<tr>
 		<td><code>
 			<a href="class-ObjectConfig.html#$CONFIG_EVENT_GET_VALUE"><var>$CONFIG_EVENT_GET_VALUE</var></a>, 
+			<a href="class-ObjectConfig.html#$CONFIG_EVENT_SAVE_VALUE"><var>$CONFIG_EVENT_SAVE_VALUE</var></a>, 
 			<a href="class-ObjectConfig.html#$CONFIG_EVENT_SET_VALUE"><var>$CONFIG_EVENT_SET_VALUE</var></a>
 		</code></td>
 	</tr>
@@ -902,12 +951,10 @@
 	<caption>Properties inherited from <a href="class-ObjectConfigBase.html#properties">ObjectConfigBase</a></caption>
 	<tr>
 		<td><code>
-			<a href="class-ObjectConfigBase.html#$CONFIG_DEFAULTS"><var>$CONFIG_DEFAULTS</var></a>, 
 			<a href="class-ObjectConfigBase.html#$CONFIG_EVENT_GET"><var>$CONFIG_EVENT_GET</var></a>, 
 			<a href="class-ObjectConfigBase.html#$CONFIG_EVENT_SAVE"><var>$CONFIG_EVENT_SAVE</var></a>, 
 			<a href="class-ObjectConfigBase.html#$CONFIG_EVENT_SELECT"><var>$CONFIG_EVENT_SELECT</var></a>, 
-			<a href="class-ObjectConfigBase.html#$CONFIG_EVENT_SET"><var>$CONFIG_EVENT_SET</var></a>, 
-			<a href="class-ObjectConfigBase.html#$CONFIG_KEY"><var>$CONFIG_KEY</var></a>
+			<a href="class-ObjectConfigBase.html#$CONFIG_EVENT_SET"><var>$CONFIG_EVENT_SET</var></a>
 		</code></td>
 	</tr>
 	</table>

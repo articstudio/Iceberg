@@ -7,7 +7,7 @@
 	<title>Class Maintenance | Iceberg</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?1342617136"></script>
+	<script type="text/javascript" src="elementlist.js?791472392"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -21,10 +21,12 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
+				<li><a href="package-Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-elfinder.html">elfinder</a>
+						</li>
 				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
-						</li>
 				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
 						</li>
 				<li><a href="package-Iceberg.Database.html">Database</a>
@@ -43,7 +45,7 @@
 						</li>
 				<li class="active"><a href="package-Iceberg.Maintenance.html">Maintenance</a>
 						</li>
-				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
 						</li>
@@ -54,11 +56,23 @@
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
+				<li><a href="package-MySQL.html">MySQL<span></span></a>
+						<ul>
+				<li><a href="package-MySQL.Query.html">Query</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
+				<li><a href="package-Page.html">Page<span></span></a>
+						<ul>
+				<li><a href="package-Page.Config.html">Config</a>
+						</li>
+							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -166,17 +180,137 @@
 				1.0<br />
 				<b>Since:</b>
 				1.0<br />
-		<b>Located at</b> <a href="source-class-Maintenance.html#59-90" title="Go to source code">includes/Maintenance.class.php</a><br />
+		<b>Located at</b> <a href="source-class-Maintenance.html#6-74" title="Go to source code">includes/Maintenance.class.php</a><br />
 	</div>
 
 
 
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="Save" id="_Save">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_Save">#</a>
+		<code><a href="source-class-Maintenance.html#37-40" title="Go to source code">Save</a>( <span>mixed <var>$config</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="InMaintenance" id="_InMaintenance">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_InMaintenance">#</a>
+		<code><a href="source-class-Maintenance.html#43-59" title="Go to source code">InMaintenance</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="IsAllowed" id="_IsAllowed">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_IsAllowed">#</a>
+		<code><a href="source-class-Maintenance.html#61-68" title="Go to source code">IsAllowed</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="InFrontendMode" id="_InFrontendMode">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_InFrontendMode">#</a>
+		<code><a href="source-class-Maintenance.html#70-73" title="Go to source code">InFrontendMode</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
 
 	<table class="summary inherited">
 	<caption>Methods inherited from <a href="class-ObjectConfig.html#methods">ObjectConfig</a></caption>
 	<tr>
 		<td><code>
 			<a href="class-ObjectConfig.html#_GetConfigValue">GetConfigValue()</a>, 
+			<a href="class-ObjectConfig.html#_SaveConfigValue">SaveConfigValue()</a>, 
 			<a href="class-ObjectConfig.html#_SetConfigValue">SetConfigValue()</a>
 		</code></td>
 	</tr>
@@ -215,7 +349,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Maintenance.html#72-76" title="Go to source code"><var>$CONFIG_KEY</var></a>
+				<a href="source-class-Maintenance.html#19-23" title="Go to source code"><var>$CONFIG_KEY</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">'maintenance_config'</span></code></td>
 		<td class="description"><div>
@@ -242,14 +376,14 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Maintenance.html#78-88" title="Go to source code"><var>$CONFIG_DEFAULTS</var></a>
+				<a href="source-class-Maintenance.html#25-35" title="Go to source code"><var>$CONFIG_DEFAULTS</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">array</span>(
     <span class="php-quote">'active'</span> =&gt; <span class="php-keyword1">false</span>,
     <span class="php-quote">'permanent'</span> =&gt; <span class="php-keyword1">true</span>,
     <span class="php-quote">'start'</span> =&gt; <span class="php-num">0</span>,
     <span class="php-quote">'stop'</span> =&gt; <span class="php-num">0</span>,
-    <span class="php-quote">'ips'</span> =&gt; <span class="php-quote">''</span>
+    <span class="php-quote">'allowed'</span> =&gt; <span class="php-quote">''</span>
 )</code></td>
 		<td class="description"><div>
 			<a href="#$CONFIG_DEFAULTS" class="anchor">#</a>
@@ -275,6 +409,7 @@
 	<tr>
 		<td><code>
 			<a href="class-ObjectConfig.html#$CONFIG_EVENT_GET_VALUE"><var>$CONFIG_EVENT_GET_VALUE</var></a>, 
+			<a href="class-ObjectConfig.html#$CONFIG_EVENT_SAVE_VALUE"><var>$CONFIG_EVENT_SAVE_VALUE</var></a>, 
 			<a href="class-ObjectConfig.html#$CONFIG_EVENT_SET_VALUE"><var>$CONFIG_EVENT_SET_VALUE</var></a>
 		</code></td>
 	</tr>

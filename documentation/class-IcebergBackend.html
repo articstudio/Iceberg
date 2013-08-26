@@ -7,7 +7,7 @@
 	<title>Class IcebergBackend | Iceberg</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?1342617136"></script>
+	<script type="text/javascript" src="elementlist.js?791472392"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -21,10 +21,12 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
+				<li><a href="package-Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-elfinder.html">elfinder</a>
+						</li>
 				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
-						</li>
 				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
 						</li>
 				<li><a href="package-Iceberg.Database.html">Database</a>
@@ -43,7 +45,7 @@
 						</li>
 				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
 						</li>
-				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
 						</li>
@@ -54,11 +56,23 @@
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
+				<li><a href="package-MySQL.html">MySQL<span></span></a>
+						<ul>
+				<li><a href="package-MySQL.Query.html">Query</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
+				<li><a href="package-Page.html">Page<span></span></a>
+						<ul>
+				<li><a href="package-Page.Config.html">Config</a>
+						</li>
+							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -70,7 +84,7 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-Environment.html">Environment</a></li>
-				<li><a href="class-IcebergApi.html">IcebergApi</a></li>
+				<li><a href="class-IcebergAPI.html">IcebergAPI</a></li>
 				<li class="active"><a href="class-IcebergBackend.html">IcebergBackend</a></li>
 				<li><a href="class-IcebergFrontend.html">IcebergFrontend</a></li>
 			</ul>
@@ -130,6 +144,8 @@
 		<dd style="padding-left:0px">
 			<a href="class-Environment.html"><span>Environment</span></a>
 			
+			 implements 
+				<a href="class-EnvironmentInterface.html"><span>EnvironmentInterface</span></a>
 			
 			
 		</dd>
@@ -160,7 +176,7 @@
 				1.0<br />
 				<b>Since:</b>
 				1.0<br />
-		<b>Located at</b> <a href="source-class-IcebergBackend.html#3-117" title="Go to source code">includes/IcebergBackend.class.php</a><br />
+		<b>Located at</b> <a href="source-class-IcebergBackend.html#5-107" title="Go to source code">includes/IcebergBackend.class.php</a><br />
 	</div>
 
 
@@ -294,7 +310,7 @@
 	<tr data-order="ExecController" id="_ExecController">
 
 		<td class="attributes"><code>
-			 public 
+			 public static
 			
 			
 			</code>
@@ -316,64 +332,8 @@
 
 
 
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="AddAlert" id="_AddAlert">
-
-		<td class="attributes"><code>
-			 public 
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_AddAlert">#</a>
-		<code><a href="source-class-IcebergBackend.html#107-110" title="Go to source code">AddAlert</a>( <span>mixed <var>$txt</var></span>, <span>mixed <var>$type</var> = <span class="php-quote">'info'</span></span> )</code>
-
-		<div class="description short">
-			
-		</div>
-
-		<div class="description detailed hidden">
-			
-
-
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetAlerts" id="_GetAlerts">
-
-		<td class="attributes"><code>
-			 public 
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetAlerts">#</a>
-		<code><a href="source-class-IcebergBackend.html#112-115" title="Go to source code">GetAlerts</a>( )</code>
-
-		<div class="description short">
-			
-		</div>
-
-		<div class="description detailed hidden">
-			
-
-
-
-
-
-
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-Environment.html#_ExecController">Environment::ExecController()</a></code></div>
 
 		</div>
 		</div></td>
@@ -384,6 +344,8 @@
 	<caption>Methods inherited from <a href="class-Environment.html#methods">Environment</a></caption>
 	<tr>
 		<td><code>
+			<a href="class-Environment.html#_AddAlert">AddAlert()</a>, 
+			<a href="class-Environment.html#_GetAlerts">GetAlerts()</a>, 
 			<a href="class-Environment.html#_GetController">GetController()</a>, 
 			<a href="class-Environment.html#_GetEnvironment">GetEnvironment()</a>, 
 			<a href="class-Environment.html#_GetEnvironmentRouting">GetEnvironmentRouting()</a>, 
@@ -413,7 +375,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-IcebergBackend.html#5-9" title="Go to source code"><var>$ROUTING_CLASS</var></a>
+				<a href="source-class-IcebergBackend.html#7-11" title="Go to source code"><var>$ROUTING_CLASS</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">'RoutingBackend'</span></code></td>
 		<td class="description"><div>
@@ -440,7 +402,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-IcebergBackend.html#11-15" title="Go to source code"><var>$THEME_CLASS</var></a>
+				<a href="source-class-IcebergBackend.html#13-17" title="Go to source code"><var>$THEME_CLASS</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">'ThemeBackend'</span></code></td>
 		<td class="description"><div>
@@ -467,7 +429,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-IcebergBackend.html#17-26" title="Go to source code"><var>$environments</var></a>
+				<a href="source-class-IcebergBackend.html#19-28" title="Go to source code"><var>$environments</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">array</span>(
     <span class="php-quote">'login'</span> =&gt; <span class="php-quote">'login.php'</span>,
@@ -492,35 +454,13 @@
 			</div>
 		</div></td>
 	</tr>
-	<tr data-order="alerts" id="$alerts">
-		<td class="attributes"><code>
-			protected  
-			array
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-IcebergBackend.html#28" title="Go to source code"><var>$alerts</var></a>
-		</td>
-		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
-		<td class="description"><div>
-			<a href="#$alerts" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
 	</table>
 
 	<table class="summary inherited">
 	<caption>Properties inherited from <a href="class-Environment.html#properties">Environment</a></caption>
 	<tr>
 		<td><code>
+			<a href="class-Environment.html#$alerts"><var>$alerts</var></a>, 
 			<a href="class-Environment.html#$environment"><var>$environment</var></a>, 
 			<a href="class-Environment.html#$routing"><var>$routing</var></a>, 
 			<a href="class-Environment.html#$theme"><var>$theme</var></a>

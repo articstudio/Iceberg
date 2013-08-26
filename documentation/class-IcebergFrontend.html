@@ -7,7 +7,7 @@
 	<title>Class IcebergFrontend | Iceberg</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?1342617136"></script>
+	<script type="text/javascript" src="elementlist.js?791472392"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -21,10 +21,12 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
+				<li><a href="package-Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-elfinder.html">elfinder</a>
+						</li>
 				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
-						</li>
 				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
 						</li>
 				<li><a href="package-Iceberg.Database.html">Database</a>
@@ -43,7 +45,7 @@
 						</li>
 				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
 						</li>
-				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
 						</li>
@@ -54,11 +56,23 @@
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
+				<li><a href="package-MySQL.html">MySQL<span></span></a>
+						<ul>
+				<li><a href="package-MySQL.Query.html">Query</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
+				<li><a href="package-Page.html">Page<span></span></a>
+						<ul>
+				<li><a href="package-Page.Config.html">Config</a>
+						</li>
+							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -70,7 +84,7 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-Environment.html">Environment</a></li>
-				<li><a href="class-IcebergApi.html">IcebergApi</a></li>
+				<li><a href="class-IcebergAPI.html">IcebergAPI</a></li>
 				<li><a href="class-IcebergBackend.html">IcebergBackend</a></li>
 				<li class="active"><a href="class-IcebergFrontend.html">IcebergFrontend</a></li>
 			</ul>
@@ -130,6 +144,8 @@
 		<dd style="padding-left:0px">
 			<a href="class-Environment.html"><span>Environment</span></a>
 			
+			 implements 
+				<a href="class-EnvironmentInterface.html"><span>EnvironmentInterface</span></a>
 			
 			
 		</dd>
@@ -160,26 +176,182 @@
 				1.0<br />
 				<b>Since:</b>
 				1.0<br />
-		<b>Located at</b> <a href="source-class-IcebergFrontend.html#3-6" title="Go to source code">includes/IcebergFrontend.class.php</a><br />
+		<b>Located at</b> <a href="source-class-IcebergFrontend.html#5-93" title="Go to source code">includes/IcebergFrontend.class.php</a><br />
 	</div>
 
 
 
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="Load" id="_Load">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_Load">#</a>
+		<code><a href="source-class-IcebergFrontend.html#31-37" title="Go to source code">Load</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-Environment.html#_Load">Environment::Load()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="Config" id="_Config">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_Config">#</a>
+		<code><a href="source-class-IcebergFrontend.html#39-67" title="Go to source code">Config</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-Environment.html#_Config">Environment::Config()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="Generate" id="_Generate">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_Generate">#</a>
+		<code><a href="source-class-IcebergFrontend.html#69-76" title="Go to source code">Generate</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-Environment.html#_Generate">Environment::Generate()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="Show" id="_Show">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_Show">#</a>
+		<code><a href="source-class-IcebergFrontend.html#78-82" title="Go to source code">Show</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-Environment.html#_Show">Environment::Show()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ExecController" id="_ExecController">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ExecController">#</a>
+		<code><a href="source-class-IcebergFrontend.html#84-92" title="Go to source code">ExecController</a>( <span>mixed <var>$template</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-Environment.html#_ExecController">Environment::ExecController()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
 
 	<table class="summary inherited">
 	<caption>Methods inherited from <a href="class-Environment.html#methods">Environment</a></caption>
 	<tr>
 		<td><code>
-			<a href="class-Environment.html#_Config">Config()</a>, 
-			<a href="class-Environment.html#_Generate">Generate()</a>, 
+			<a href="class-Environment.html#_AddAlert">AddAlert()</a>, 
+			<a href="class-Environment.html#_GetAlerts">GetAlerts()</a>, 
 			<a href="class-Environment.html#_GetController">GetController()</a>, 
 			<a href="class-Environment.html#_GetEnvironment">GetEnvironment()</a>, 
 			<a href="class-Environment.html#_GetEnvironmentRouting">GetEnvironmentRouting()</a>, 
 			<a href="class-Environment.html#_GetEnvironmentTheme">GetEnvironmentTheme()</a>, 
 			<a href="class-Environment.html#_GetRouting">GetRouting()</a>, 
-			<a href="class-Environment.html#_GetTheme">GetTheme()</a>, 
-			<a href="class-Environment.html#_Load">Load()</a>, 
-			<a href="class-Environment.html#_Show">Show()</a>
+			<a href="class-Environment.html#_GetTheme">GetTheme()</a>
 		</code></td>
 	</tr>
 	</table>
@@ -194,15 +366,102 @@
 
 
 
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="ROUTING_CLASS" id="$ROUTING_CLASS">
+		<td class="attributes"><code>
+			protected static 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-IcebergFrontend.html#7-11" title="Go to source code"><var>$ROUTING_CLASS</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">'RoutingFrontend'</span></code></td>
+		<td class="description"><div>
+			<a href="#$ROUTING_CLASS" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Routing class name</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Routing class name</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="THEME_CLASS" id="$THEME_CLASS">
+		<td class="attributes"><code>
+			protected static 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-IcebergFrontend.html#13-17" title="Go to source code"><var>$THEME_CLASS</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">'ThemeFrontend'</span></code></td>
+		<td class="description"><div>
+			<a href="#$THEME_CLASS" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Theme class name</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Theme class name</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="environments" id="$environments">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-IcebergFrontend.html#19-28" title="Go to source code"><var>$environments</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(
+    <span class="php-quote">'home'</span> =&gt; <span class="php-quote">'index.php'</span>,
+    <span class="php-quote">'content'</span> =&gt; <span class="php-quote">'content.php'</span>,
+    <span class="php-quote">'404'</span> =&gt; <span class="php-quote">'404.php'</span>,
+    <span class="php-quote">'maintenance'</span> =&gt; <span class="php-quote">'maintenance.php'</span>
+)</code></td>
+		<td class="description"><div>
+			<a href="#$environments" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Environment</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Environment</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
 
 	<table class="summary inherited">
 	<caption>Properties inherited from <a href="class-Environment.html#properties">Environment</a></caption>
 	<tr>
 		<td><code>
-			<a href="class-Environment.html#$ROUTING_CLASS"><var>$ROUTING_CLASS</var></a>, 
-			<a href="class-Environment.html#$THEME_CLASS"><var>$THEME_CLASS</var></a>, 
+			<a href="class-Environment.html#$alerts"><var>$alerts</var></a>, 
 			<a href="class-Environment.html#$environment"><var>$environment</var></a>, 
-			<a href="class-Environment.html#$environments"><var>$environments</var></a>, 
 			<a href="class-Environment.html#$routing"><var>$routing</var></a>, 
 			<a href="class-Environment.html#$theme"><var>$theme</var></a>
 		</code></td>

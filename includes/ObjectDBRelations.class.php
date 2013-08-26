@@ -838,12 +838,12 @@ SELECT
   t0.status,
   t1.count AS count,
 
-  max(case when t2.name='page-type' then t2.pid end) AS type,
-  max(case when t2.name='page-taxonomy' then t2.pid end) AS taxonomy,
-  max(case when t2.name='page-group' then t2.pid end) AS gid,
-  max(case when t2.name='page-parent' AND t2.language='en_US'  then t2.pid end) AS pid,
-  max(case when t2.name='user-create' then t2.pid end) AS user_create,
-  max(case when t2.name='user-update' then t2.pid end) AS user_update
+  MAX(CASE WHEN t2.name='page-type' THEN t2.pid end) AS type,
+  MAX(CASE WHEN t2.name='page-taxonomy' THEN t2.pid end) AS taxonomy,
+  MAX(CASE WHEN t2.name='page-group' THEN t2.pid end) AS gid,
+  MAX(CASE WHEN t2.name='page-parent' AND t2.language='en_US'  THEN t2.pid end) AS pid,
+  MAX(CASE WHEN t2.name='user-create' THEN t2.pid end) AS user_create,
+  MAX(CASE WHEN t2.name='user-update' THEN t2.pid end) AS user_update
 
 FROM iceberg_pages AS t0  
 

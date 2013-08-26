@@ -7,7 +7,7 @@
 	<title>Class ObjectDBBase | Iceberg</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?1342617136"></script>
+	<script type="text/javascript" src="elementlist.js?791472392"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -21,10 +21,12 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
+				<li><a href="package-Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-elfinder.html">elfinder</a>
+						</li>
 				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
-						</li>
 				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
 						</li>
 				<li class="active"><a href="package-Iceberg.Database.html">Database</a>
@@ -43,7 +45,7 @@
 						</li>
 				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
 						</li>
-				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
 						</li>
@@ -54,11 +56,23 @@
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
+				<li><a href="package-MySQL.html">MySQL<span></span></a>
+						<ul>
+				<li><a href="package-MySQL.Query.html">Query</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
+				<li><a href="package-Page.html">Page<span></span></a>
+						<ul>
+				<li><a href="package-Page.Config.html">Config</a>
+						</li>
+							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -69,12 +83,16 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
+				<li><a href="class-ConfigBase.html">ConfigBase</a></li>
 				<li><a href="class-DBRelation.html">DBRelation</a></li>
-				<li><a href="class-MySQL.html">MySQL</a></li>
-				<li><a href="class-MySQLBase.html">MySQLBase</a></li>
+				<li><a href="class-DomainBase.html">DomainBase</a></li>
 				<li><a href="class-ObjectDB.html">ObjectDB</a></li>
 				<li class="active"><a href="class-ObjectDBBase.html">ObjectDBBase</a></li>
 				<li><a href="class-ObjectDBRelations.html">ObjectDBRelations</a></li>
+				<li><a href="class-Page.html">Page</a></li>
+				<li><a href="class-PageBase.html">PageBase</a></li>
+				<li><a href="class-PageMeta.html">PageMeta</a></li>
+				<li><a href="class-UserBase.html">UserBase</a></li>
 			</ul>
 
 
@@ -147,11 +165,18 @@
 	<div>
 		<h4>Indirect known subclasses</h4>
 			<a href="class-Config.html">Config</a>, 
-			<a href="class-DBRelation.html">DBRelation</a>, 
-			<a href="class-Domains.html">Domains</a>, 
-			<a href="class-ObjectDBRelations.html">ObjectDBRelations</a>, 
+			<a href="class-ConfigBase.html">ConfigBase</a>, 
 			<a href="class-User.html">User</a>, 
-			<a href="class-UserMeta.html">UserMeta</a>
+			<a href="class-UserBase.html">UserBase</a>, 
+			<a href="class-UserMeta.html">UserMeta</a>, 
+			<a href="class-DBRelation.html">DBRelation</a>, 
+			<a href="class-Domain.html">Domain</a>, 
+			<a href="class-DomainBase.html">DomainBase</a>, 
+			<a href="class-ObjectDBRelations.html">ObjectDBRelations</a>, 
+			<a href="class-Page.html">Page</a>, 
+			<a href="class-PageBase.html">PageBase</a>, 
+			<a href="class-PageMeta.html">PageMeta</a>, 
+			<a href="class-Taxonomy.html">Taxonomy</a>
 	</div>
 
 
@@ -170,7 +195,7 @@
 				1.0<br />
 				<b>Since:</b>
 				1.0<br />
-		<b>Located at</b> <a href="source-class-ObjectDBBase.html#24-220" title="Go to source code">includes/ObjectDBBase.class.php</a><br />
+		<b>Located at</b> <a href="source-class-ObjectDBBase.html#24-226" title="Go to source code">includes/ObjectDBBase.class.php</a><br />
 	</div>
 
 
@@ -522,6 +547,35 @@
 		<td class="name"><div>
 		<a class="anchor" href="#_DB_FilterFieldsOnValues">#</a>
 		<code><a href="source-class-ObjectDBBase.html#207-219" title="Go to source code">DB_FilterFieldsOnValues</a>( <span>mixed <var>$fields</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="DB_IsField" id="_DB_IsField">
+
+		<td class="attributes"><code>
+			 protected static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_DB_IsField">#</a>
+		<code><a href="source-class-ObjectDBBase.html#221-225" title="Go to source code">DB_IsField</a>( <span>mixed <var>$field</var></span> )</code>
 
 		<div class="description short">
 			

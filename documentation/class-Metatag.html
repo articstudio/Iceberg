@@ -7,7 +7,7 @@
 	<title>Class Metatag | Iceberg</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?1342617136"></script>
+	<script type="text/javascript" src="elementlist.js?791472392"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -21,10 +21,12 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
+				<li><a href="package-Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-elfinder.html">elfinder</a>
+						</li>
 				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
-						</li>
 				<li class="active"><a href="package-Iceberg.Configuration.html">Configuration</a>
 						</li>
 				<li><a href="package-Iceberg.Database.html">Database</a>
@@ -43,7 +45,7 @@
 						</li>
 				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
 						</li>
-				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
 						</li>
@@ -54,11 +56,23 @@
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
+				<li><a href="package-MySQL.html">MySQL<span></span></a>
+						<ul>
+				<li><a href="package-MySQL.Query.html">Query</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
+				<li><a href="package-Page.html">Page<span></span></a>
+						<ul>
+				<li><a href="package-Page.Config.html">Config</a>
+						</li>
+							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -70,9 +84,13 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-Config.html">Config</a></li>
+				<li><a href="class-IcebergCache.html">IcebergCache</a></li>
 				<li class="active"><a href="class-Metatag.html">Metatag</a></li>
 				<li><a href="class-ObjectConfig.html">ObjectConfig</a></li>
 				<li><a href="class-ObjectConfigBase.html">ObjectConfigBase</a></li>
+				<li><a href="class-TaxonomyElementsBase.html">TaxonomyElementsBase</a></li>
+				<li><a href="class-TemplateBase.html">TemplateBase</a></li>
+				<li><a href="class-ThemeCore.html">ThemeCore</a></li>
 			</ul>
 
 
@@ -169,17 +187,166 @@
 				1.0<br />
 				<b>Since:</b>
 				1.0<br />
-		<b>Located at</b> <a href="source-class-Metatag.html#3-22" title="Go to source code">includes/Metatags.class.php</a><br />
+		<b>Located at</b> <a href="source-class-Metatag.html#6-55" title="Go to source code">includes/Metatags.class.php</a><br />
 	</div>
 
 
 
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="Save" id="_Save">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_Save">#</a>
+		<code><a href="source-class-Metatag.html#25-28" title="Go to source code">Save</a>( <span>mixed <var>$config</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetMetatag" id="_GetMetatag">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetMetatag">#</a>
+		<code><a href="source-class-Metatag.html#30-33" title="Go to source code">GetMetatag</a>( <span>mixed <var>$key</var></span>, <span>mixed <var>$default</var> = <span class="php-quote">''</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetTitle" id="_GetTitle">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetTitle">#</a>
+		<code><a href="source-class-Metatag.html#35-40" title="Go to source code">GetTitle</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetDescription" id="_GetDescription">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetDescription">#</a>
+		<code><a href="source-class-Metatag.html#42-47" title="Go to source code">GetDescription</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetKeywords" id="_GetKeywords">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetKeywords">#</a>
+		<code><a href="source-class-Metatag.html#49-54" title="Go to source code">GetKeywords</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
 
 	<table class="summary inherited">
 	<caption>Methods inherited from <a href="class-ObjectConfig.html#methods">ObjectConfig</a></caption>
 	<tr>
 		<td><code>
 			<a href="class-ObjectConfig.html#_GetConfigValue">GetConfigValue()</a>, 
+			<a href="class-ObjectConfig.html#_SaveConfigValue">SaveConfigValue()</a>, 
 			<a href="class-ObjectConfig.html#_SetConfigValue">SetConfigValue()</a>
 		</code></td>
 	</tr>
@@ -218,7 +385,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Metatag.html#5-9" title="Go to source code"><var>$CONFIG_KEY</var></a>
+				<a href="source-class-Metatag.html#8-12" title="Go to source code"><var>$CONFIG_KEY</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">'metatags_config'</span></code></td>
 		<td class="description"><div>
@@ -245,7 +412,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Metatag.html#11-19" title="Go to source code"><var>$CONFIG_DEFAULTS</var></a>
+				<a href="source-class-Metatag.html#14-22" title="Go to source code"><var>$CONFIG_DEFAULTS</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">array</span>(
     <span class="php-quote">'title'</span> =&gt; <span class="php-quote">''</span>,
@@ -276,6 +443,7 @@
 	<tr>
 		<td><code>
 			<a href="class-ObjectConfig.html#$CONFIG_EVENT_GET_VALUE"><var>$CONFIG_EVENT_GET_VALUE</var></a>, 
+			<a href="class-ObjectConfig.html#$CONFIG_EVENT_SAVE_VALUE"><var>$CONFIG_EVENT_SAVE_VALUE</var></a>, 
 			<a href="class-ObjectConfig.html#$CONFIG_EVENT_SET_VALUE"><var>$CONFIG_EVENT_SET_VALUE</var></a>
 		</code></td>
 	</tr>

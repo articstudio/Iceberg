@@ -8,7 +8,7 @@
 	<title>File includes/Metatags.class.php | Iceberg</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?1342617136"></script>
+	<script type="text/javascript" src="elementlist.js?791472392"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -22,10 +22,12 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
+				<li><a href="package-Bootstrap.html">Bootstrap</a>
+						</li>
+				<li><a href="package-elfinder.html">elfinder</a>
+						</li>
 				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
-						</li>
 				<li class="active"><a href="package-Iceberg.Configuration.html">Configuration</a>
 						</li>
 				<li><a href="package-Iceberg.Database.html">Database</a>
@@ -44,7 +46,7 @@
 						</li>
 				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
 						</li>
-				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
+				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
 						</li>
@@ -55,11 +57,23 @@
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
+				<li><a href="package-MySQL.html">MySQL<span></span></a>
+						<ul>
+				<li><a href="package-MySQL.Query.html">Query</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
+				<li><a href="package-Page.html">Page<span></span></a>
+						<ul>
+				<li><a href="package-Page.Config.html">Config</a>
+						</li>
+							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
+						</li>
+				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -71,9 +85,13 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-Config.html">Config</a></li>
+				<li><a href="class-IcebergCache.html">IcebergCache</a></li>
 				<li class="active"><a href="class-Metatag.html">Metatag</a></li>
 				<li><a href="class-ObjectConfig.html">ObjectConfig</a></li>
 				<li><a href="class-ObjectConfigBase.html">ObjectConfigBase</a></li>
+				<li><a href="class-TaxonomyElementsBase.html">TaxonomyElementsBase</a></li>
+				<li><a href="class-TemplateBase.html">TemplateBase</a></li>
+				<li><a href="class-ThemeCore.html">ThemeCore</a></li>
 			</ul>
 
 
@@ -118,27 +136,60 @@
 
 <pre><code><span id="1" class="l"><a class="l" href="#1"> 1: </a><span class="xlang">&lt;?php</span>
 </span><span id="2" class="l"><a class="l" href="#2"> 2: </a>
-</span><span id="3" class="l"><a class="l" href="#3"> 3: </a><span class="php-keyword1">class</span> <a id="Metatag" href="#Metatag">Metatag</a> <span class="php-keyword1">extends</span> ObjectConfig
-</span><span id="4" class="l"><a class="l" href="#4"> 4: </a>{
-</span><span id="5" class="l"><a class="l" href="#5"> 5: </a>    <span class="php-comment">/**
-</span></span><span id="6" class="l"><a class="l" href="#6"> 6: </a><span class="php-comment">     * Configuration key
-</span></span><span id="7" class="l"><a class="l" href="#7"> 7: </a><span class="php-comment">     * @var string
-</span></span><span id="8" class="l"><a class="l" href="#8"> 8: </a><span class="php-comment">     */</span>
-</span><span id="9" class="l"><a class="l" href="#9"> 9: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-var"><a id="$CONFIG_KEY" href="#$CONFIG_KEY">$CONFIG_KEY</a></span> = <span class="php-quote">'metatags_config'</span>;
-</span><span id="10" class="l"><a class="l" href="#10">10: </a>    
-</span><span id="11" class="l"><a class="l" href="#11">11: </a>    <span class="php-comment">/**
-</span></span><span id="12" class="l"><a class="l" href="#12">12: </a><span class="php-comment">     * Configuration defaults
-</span></span><span id="13" class="l"><a class="l" href="#13">13: </a><span class="php-comment">     * @var array
-</span></span><span id="14" class="l"><a class="l" href="#14">14: </a><span class="php-comment">     */</span>
-</span><span id="15" class="l"><a class="l" href="#15">15: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-var"><a id="$CONFIG_DEFAULTS" href="#$CONFIG_DEFAULTS">$CONFIG_DEFAULTS</a></span> = <span class="php-keyword1">array</span>(
-</span><span id="16" class="l"><a class="l" href="#16">16: </a>        <span class="php-quote">'title'</span> =&gt; <span class="php-quote">''</span>,
-</span><span id="17" class="l"><a class="l" href="#17">17: </a>        <span class="php-quote">'description'</span> =&gt; <span class="php-quote">''</span>,
-</span><span id="18" class="l"><a class="l" href="#18">18: </a>        <span class="php-quote">'keywords'</span> =&gt; <span class="php-quote">''</span>
-</span><span id="19" class="l"><a class="l" href="#19">19: </a>    );
-</span><span id="20" class="l"><a class="l" href="#20">20: </a>    
-</span><span id="21" class="l"><a class="l" href="#21">21: </a>    
-</span><span id="22" class="l"><a class="l" href="#22">22: </a>}
-</span><span id="23" class="l"><a class="l" href="#23">23: </a></span></code></pre>
+</span><span id="3" class="l"><a class="l" href="#3"> 3: </a><span class="php-comment">/** Include helpers metatag file */</span>
+</span><span id="4" class="l"><a class="l" href="#4"> 4: </a><span class="php-keyword1">require_once</span> ICEBERG_DIR_HELPERS . <span class="php-quote">'metatag.php'</span>;
+</span><span id="5" class="l"><a class="l" href="#5"> 5: </a>
+</span><span id="6" class="l"><a class="l" href="#6"> 6: </a><span class="php-keyword1">class</span> <a id="Metatag" href="#Metatag">Metatag</a> <span class="php-keyword1">extends</span> ObjectConfig
+</span><span id="7" class="l"><a class="l" href="#7"> 7: </a>{
+</span><span id="8" class="l"><a class="l" href="#8"> 8: </a>    <span class="php-comment">/**
+</span></span><span id="9" class="l"><a class="l" href="#9"> 9: </a><span class="php-comment">     * Configuration key
+</span></span><span id="10" class="l"><a class="l" href="#10">10: </a><span class="php-comment">     * @var string
+</span></span><span id="11" class="l"><a class="l" href="#11">11: </a><span class="php-comment">     */</span>
+</span><span id="12" class="l"><a class="l" href="#12">12: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-var"><a id="$CONFIG_KEY" href="#$CONFIG_KEY">$CONFIG_KEY</a></span> = <span class="php-quote">'metatags_config'</span>;
+</span><span id="13" class="l"><a class="l" href="#13">13: </a>    
+</span><span id="14" class="l"><a class="l" href="#14">14: </a>    <span class="php-comment">/**
+</span></span><span id="15" class="l"><a class="l" href="#15">15: </a><span class="php-comment">     * Configuration defaults
+</span></span><span id="16" class="l"><a class="l" href="#16">16: </a><span class="php-comment">     * @var array
+</span></span><span id="17" class="l"><a class="l" href="#17">17: </a><span class="php-comment">     */</span>
+</span><span id="18" class="l"><a class="l" href="#18">18: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-var"><a id="$CONFIG_DEFAULTS" href="#$CONFIG_DEFAULTS">$CONFIG_DEFAULTS</a></span> = <span class="php-keyword1">array</span>(
+</span><span id="19" class="l"><a class="l" href="#19">19: </a>        <span class="php-quote">'title'</span> =&gt; <span class="php-quote">''</span>,
+</span><span id="20" class="l"><a class="l" href="#20">20: </a>        <span class="php-quote">'description'</span> =&gt; <span class="php-quote">''</span>,
+</span><span id="21" class="l"><a class="l" href="#21">21: </a>        <span class="php-quote">'keywords'</span> =&gt; <span class="php-quote">''</span>
+</span><span id="22" class="l"><a class="l" href="#22">22: </a>    );
+</span><span id="23" class="l"><a class="l" href="#23">23: </a>    
+</span><span id="24" class="l"><a class="l" href="#24">24: </a>    
+</span><span id="25" class="l"><a class="l" href="#25">25: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-keyword1">function</span> <a id="_Save" href="#_Save">Save</a>(<span class="php-var">$config</span>)
+</span><span id="26" class="l"><a class="l" href="#26">26: </a>    {
+</span><span id="27" class="l"><a class="l" href="#27">27: </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">static</span>::SaveConfig(<span class="php-var">$config</span>);
+</span><span id="28" class="l"><a class="l" href="#28">28: </a>    }
+</span><span id="29" class="l"><a class="l" href="#29">29: </a>    
+</span><span id="30" class="l"><a class="l" href="#30">30: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-keyword1">function</span> <a id="_GetMetatag" href="#_GetMetatag">GetMetatag</a>(<span class="php-var">$key</span>, <span class="php-var">$default</span>=<span class="php-quote">''</span>)
+</span><span id="31" class="l"><a class="l" href="#31">31: </a>    {
+</span><span id="32" class="l"><a class="l" href="#32">32: </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">static</span>::GetConfigValue(<span class="php-var">$key</span>, <span class="php-var">$default</span>);
+</span><span id="33" class="l"><a class="l" href="#33">33: </a>    }
+</span><span id="34" class="l"><a class="l" href="#34">34: </a>    
+</span><span id="35" class="l"><a class="l" href="#35">35: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-keyword1">function</span> <a id="_GetTitle" href="#_GetTitle">GetTitle</a>()
+</span><span id="36" class="l"><a class="l" href="#36">36: </a>    {
+</span><span id="37" class="l"><a class="l" href="#37">37: </a>        <span class="php-var">$metatag</span> = <span class="php-keyword1">static</span>::GetMetatag(<span class="php-quote">'title'</span>);
+</span><span id="38" class="l"><a class="l" href="#38">38: </a>        <span class="php-keyword1">list</span>(<span class="php-var">$metatag</span>) = action_event(<span class="php-quote">'get_metatag_title'</span>,<span class="php-var">$metatag</span>);
+</span><span id="39" class="l"><a class="l" href="#39">39: </a>        <span class="php-keyword1">return</span> <span class="php-var">$metatag</span>;
+</span><span id="40" class="l"><a class="l" href="#40">40: </a>    }
+</span><span id="41" class="l"><a class="l" href="#41">41: </a>    
+</span><span id="42" class="l"><a class="l" href="#42">42: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-keyword1">function</span> <a id="_GetDescription" href="#_GetDescription">GetDescription</a>()
+</span><span id="43" class="l"><a class="l" href="#43">43: </a>    {
+</span><span id="44" class="l"><a class="l" href="#44">44: </a>        <span class="php-var">$metatag</span> = <span class="php-keyword1">static</span>::GetMetatag(<span class="php-quote">'description'</span>);
+</span><span id="45" class="l"><a class="l" href="#45">45: </a>        <span class="php-keyword1">list</span>(<span class="php-var">$metatag</span>) = action_event(<span class="php-quote">'get_metatag_description'</span>,<span class="php-var">$metatag</span>);
+</span><span id="46" class="l"><a class="l" href="#46">46: </a>        <span class="php-keyword1">return</span> <span class="php-var">$metatag</span>;
+</span><span id="47" class="l"><a class="l" href="#47">47: </a>    }
+</span><span id="48" class="l"><a class="l" href="#48">48: </a>    
+</span><span id="49" class="l"><a class="l" href="#49">49: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-keyword1">function</span> <a id="_GetKeywords" href="#_GetKeywords">GetKeywords</a>()
+</span><span id="50" class="l"><a class="l" href="#50">50: </a>    {
+</span><span id="51" class="l"><a class="l" href="#51">51: </a>        <span class="php-var">$metatag</span> = <span class="php-keyword1">static</span>::GetMetatag(<span class="php-quote">'keywords'</span>);
+</span><span id="52" class="l"><a class="l" href="#52">52: </a>        <span class="php-keyword1">list</span>(<span class="php-var">$metatag</span>) = action_event(<span class="php-quote">'get_metatag_keywords'</span>,<span class="php-var">$metatag</span>);
+</span><span id="53" class="l"><a class="l" href="#53">53: </a>        <span class="php-keyword1">return</span> <span class="php-var">$metatag</span>;
+</span><span id="54" class="l"><a class="l" href="#54">54: </a>    }
+</span><span id="55" class="l"><a class="l" href="#55">55: </a>}
+</span><span id="56" class="l"><a class="l" href="#56">56: </a></span></code></pre>
 
 	<div id="footer">
 		Iceberg API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>

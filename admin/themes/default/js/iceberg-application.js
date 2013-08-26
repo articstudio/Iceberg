@@ -479,8 +479,9 @@ function initializeGMaps() {
         
         function placeMarker(position, map) {
             deleteOverlays();
-            document.getElementById(lat).value = position.lat();
-            document.getElementById(lng).value = position.lng();
+            console.log(lat);
+            $('#'+lat).val(position.lat());
+            $('#'+lng).val(position.lng());
             var marker = new google.maps.Marker({
                 position: position,
                 map: map
@@ -498,7 +499,9 @@ function initializeGMaps() {
         google.maps.event.addListener(map, 'click', function(e) {
             placeMarker(e.latLng, map);
         });
-        placeMarker(new google.maps.LatLng(mll[0],mll[1]), map);
+        if (mll[0] != '' && mll[1] != '') {
+            placeMarker(new google.maps.LatLng(mll[0],mll[1]), map);
+        }
         
         $('#article-content').bind('change', function(event) {
             google.maps.event.trigger(map, 'resize');  

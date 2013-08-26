@@ -20,6 +20,7 @@ class TE_Geolocation extends TaxonomyElements
     }
     
     public function FormEdit($page) {
+        $uniqe = uniqid();
         $geolocation = $page->GetMeta($this->GetAttrName());
         $latitude = isset($geolocation['latitude'])?$geolocation['latitude']:'';
         $longitude = isset($geolocation['longitude'])?$geolocation['longitude']:'';
@@ -28,13 +29,13 @@ class TE_Geolocation extends TaxonomyElements
         ?>
         <p>
             <label for="latitude-<?php print $this->GetAttrName(); ?>"><?php print_text( 'Latitude' ); ?></label>
-            <input type="text" class="input-block-level" name="latitude-<?php print $this->GetAttrName(); ?>" id="latitude-<?php print $this->GetAttrName(); ?>" value="<?php print_html_attr($latitude); ?>" /><br />
+            <input type="text" class="input-block-level" name="latitude-<?php print $this->GetAttrName(); ?>" id="latitude-<?php print $this->GetAttrName(); ?>-<?php print $uniqe; ?>" value="<?php print_html_attr($latitude); ?>" /><br />
         </p>
         <p>
-            <label for="longitude-<?php print $this->GetAttrName(); ?>"><?php print_text( 'Longitude' ); ?></label>
-            <input type="text" class="input-block-level" name="longitude-<?php print $this->GetAttrName(); ?>" id="longitude-<?php print $this->GetAttrName(); ?>" value="<?php print_html_attr($longitude); ?>" />
+            <label for="longitude-<?php print $this->GetAttrName(); ?>-<?php print $uniqe; ?>"><?php print_text( 'Longitude' ); ?></label>
+            <input type="text" class="input-block-level" name="longitude-<?php print $this->GetAttrName(); ?>" id="longitude-<?php print $this->GetAttrName(); ?>-<?php print $uniqe; ?>" value="<?php print_html_attr($longitude); ?>" />
         </p>
-        <div id="map_canvas-<?php print $this->GetAttrName(); ?>" data-center="<?php print($center_lat); ?>,<?php print($center_lng); ?>" data-marker="<?php print($latitude); ?>,<?php print($longitude); ?>" data-action="place-marker" class="gmap" data-latitude="latitude-<?php print $this->GetAttrName(); ?>" data-longitude="longitude-<?php print $this->GetAttrName(); ?>"></div>
+        <div id="map_canvas-<?php print $this->GetAttrName(); ?>" data-center="<?php print($center_lat); ?>,<?php print($center_lng); ?>" data-marker="<?php print($latitude); ?>,<?php print($longitude); ?>" data-action="place-marker" class="gmap" data-latitude="latitude-<?php print $this->GetAttrName(); ?>-<?php print $uniqe; ?>" data-longitude="longitude-<?php print $this->GetAttrName(); ?>-<?php print $uniqe; ?>"></div>
         <?php
         parent::FormEdit($page);
     }
@@ -42,8 +43,8 @@ class TE_Geolocation extends TaxonomyElements
     public function GetFormEdit($args=array())
     {
         $geolocation = isset($args[$this->GetAttrName()]) ? $args[$this->GetAttrName()] : array(
-            'latitude' => get_request_p('latitude-'.$this->GetAttrName(), '', true),
-            'longitude' => get_request_p('longitude-'.$this->GetAttrName(), '', true)
+            'latitude' => get_request_gp('latitude-'.$this->GetAttrName(), '', true),
+            'longitude' => get_request_gp('longitude-'.$this->GetAttrName(), '', true)
         );
         return $geolocation;
     }

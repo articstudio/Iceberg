@@ -490,10 +490,14 @@ class MySQL extends MySQLBase{
                     $meta = $query->field($i);
                     array_push($field_type, $meta->type);
                 }
-                echo "INSERT INTO `$table` VALUES\n";
-                $index = 0;
+                
+                $index = $nq = 0;
                 while($row = $query->next(MYSQL_ROW_AS_ARRAY))
                 {
+                    if ($index == 0)
+                    {
+                        echo "INSERT INTO `$table` VALUES\n";
+                    }
                     echo "(";
                     for ($i=0; $i < $num_fields; $i++)
                     {
@@ -521,16 +525,25 @@ class MySQL extends MySQLBase{
                         }
                     }
                     echo ")";
-                    if( $index < $num_rows-1)
+                    if ($index > 50)
                     {
-                        echo ",";
+                        $index = -1;
+                        echo ";";
                     }
                     else
                     {
-                        echo ";";
+                        if($nq < $num_rows-1)
+                        {
+                            echo ",";
+                        }
+                        else
+                        {
+                            echo ";";
+                        }
                     }
                     echo "\n";
                     $index++;
+                    $nq++;
                 }
                 
             }

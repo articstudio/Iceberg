@@ -82,6 +82,12 @@ abstract class PageBase extends ObjectDBRelations
             'function' => '',
             'language' => true
         ),
+        'page2page' => array(
+            'object' => 'Page',
+            'force' => false,
+            'function' => '',
+            'language' => true
+        ),
         'user-create' => array(
             'object' => 'User',
             'force' => false,
@@ -111,6 +117,7 @@ abstract class PageBase extends ObjectDBRelations
     const RELATION_KEY_TAXONOMY = 'page-taxonomy';
     const RELATION_KEY_GROUP = 'page-group';
     const RELATION_KEY_PARENT = 'page-parent';
+    const RELATION_KEY_PAGE = 'page2page';
     const RELATION_KEY_USER_CREATE = 'user-create';
     const RELATION_KEY_USER_UPDATE = 'user-update';
     const RELATION_KEY_META = 'page-meta';
@@ -263,7 +270,7 @@ class Page extends PageBase
     
     public function GetTaxonomy()
     {
-        return ObjectTaxonomy::Get($this->taxonomy);
+        return PageTaxonomy::Get($this->taxonomy);
     }
     
     public function GetTypeID()
@@ -273,7 +280,7 @@ class Page extends PageBase
     
     public function GetType()
     {
-        return ObjectTaxonomy::Get($this->type);
+        return PageType::Get($this->type);
     }
     
     public function GetGroupID()
@@ -283,7 +290,7 @@ class Page extends PageBase
     
     public function GetGroup()
     {
-        return ObjectTaxonomy::Get($this->group);
+        return PageGroup::Get($this->group);
     }
     
     /* TRANSLATIONS */
@@ -407,7 +414,7 @@ class Page extends PageBase
             $elements = $taxonomy->GetElements();
             foreach ($elements AS $element)
             {
-                static::InsertUpdateMeta($id, $element->GetAttrName(), $element->GetFormEdit(), $lang);
+                $element->SaveFormEdit($id, array(), $lang);
             }
         }
         return $id;
@@ -448,7 +455,7 @@ class Page extends PageBase
             $elements = $taxonomy->GetElements();
             foreach ($elements AS $element)
             {
-                static::InsertUpdateMeta($id, $element->GetAttrName(), $element->GetFormEdit(), $lang);
+                $element->SaveFormEdit($id, array(), $lang);
             }
         }
         return $done;

@@ -93,6 +93,9 @@
     -moz-box-sizing: border-box;
 }
 .treetable-content:hover { background: #fff; }
+.treetable-content .highlight {
+    color: #b79952; 
+}
 .treetable-dragel > .treetable-item > .treetable-content { margin: 0; }
 
 .treetable-placeholder,

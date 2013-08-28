@@ -35,13 +35,13 @@ $alerts = get_alerts();
                 <a href="<?php print_link(array('module'=>'configuration','mode'=>'languages'));?>" class="btn"><img src="<?php print get_base_url() . $language['flag']; ?>" alt="<?php print_html_attr($language['name']); ?>" /> <?php print $language['name']; ?></a>
                 <?php endif; ?>
                 
-                <div class="btn-group">
+                <?php /*<div class="btn-group">
                     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="icon-list-alt"></i> <?php print get_domain_name(); ?>
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu" role="menu"></ul>
-                </div>
+                </div>*/ ?>
                 
                 <a href="#" class="btn"><i class="icon-user"></i> <?php print get_user_name(); ?></a>
                 

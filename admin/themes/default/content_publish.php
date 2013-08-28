@@ -111,16 +111,6 @@ $pages = get_pages(array(
                 <?php endforeach; ?>
                 <?php endif; ?>
                 
-                
-                
-                <?php /* foreach ($languages AS $locale => $lang): ?>
-                <?php if ($locale !== $language['locale']): ?>
-                <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'translate', 'tlang'=>$locale)); ?>" class="btn">
-                    <img src="<?php print get_base_url() . $lang['flag']; ?>" alt="<?php print_html_attr($lang['name']); ?>" />
-                </a>
-                <?php endif; ?>
-                <?php endforeach; */ ?>
-                
                 <?php if ($page->status): ?>
                 <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'unactive')); ?>" class="btn btn-success"><i class="icon-ok icon-white"></i></a>
                 <?php else: ?>
@@ -130,7 +120,7 @@ $pages = get_pages(array(
                 <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'remove')); ?>" class="btn btn-danger" confirm="<?php print_html_attr(_T('Are you sure to remove this item?')); ?>"><i class="icon-trash"></i></a>
             </div>
             <div class="treetable-handle">Drag</div>
-            <div class="treetable-content"><?php print $page->GetTitle(); ?></div>
+            <div class="treetable-content"><small class="highlight">[<?php print $page->GetTaxonomy()->GetName(); ?>]</small> <?php print $page->GetTitle(); ?></div>
             <?php if ($page->GetTaxonomy()->ChildsAllowed()) { printPagesHTMLTree($pages, $page->id); } ?>
         </li>
     <?php

@@ -49,9 +49,9 @@ class TE_Geolocation extends TaxonomyElements
         return $geolocation;
     }
     
-    public function SaveFormEdit($page, $args=array())
+    public function SaveFormEdit($page_id, $args=array(), $lang=null)
     {
-        $page->SaveMeta($this->GetAttrName(), $this->GetFormEdit($args));
+        return Page::InsertUpdateMeta($page_id, $this->GetAttrName(), $this->GetFormEdit($args), $lang);
     }
     
     

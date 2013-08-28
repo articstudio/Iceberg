@@ -83,10 +83,9 @@ class TE_Images extends TaxonomyElements
         return $list;
     }
     
-    public function SaveFormEdit($page, $args=array())
+    public function SaveFormEdit($page_id, $args=array(), $lang=null)
     {
-        $images = $this->GetFormEdit($args);
-        $page->SaveMeta($this->GetAttrName(), $images);
+        return Page::InsertUpdateMeta($page_id, $this->GetAttrName(), $this->GetFormEdit($args), $lang);
     }
     
     public function GetImages($page)

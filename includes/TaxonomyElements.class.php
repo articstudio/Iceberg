@@ -59,7 +59,7 @@ interface TaxonomyElementsInterface {
     public function SaveFormConfig($args=array());
     public function FormEdit($page);
     public function GetFormEdit($args=array());
-    public function SaveFormEdit($page, $args=array());
+    public function SaveFormEdit($page_id, $args=array(), $lang=null);
     /*
     public function SetEdit();*/
 }

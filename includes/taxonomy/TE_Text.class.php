@@ -53,9 +53,9 @@ class TE_Text extends TaxonomyElements
         return isset($args[$this->GetAttrName()]) ? $args[$this->GetAttrName()] : get_request_p('text-'.$this->GetAttrName(), '', true);
     }
     
-    public function SaveFormEdit($page, $args=array())
+    public function SaveFormEdit($page_id, $args=array(), $lang=null)
     {
-        $page->SaveMeta($this->GetAttrName(), $this->GetFormEdit($args));
+        return Page::InsertUpdateMeta($page_id, $this->GetAttrName(), $this->GetFormEdit($args), $lang);
     }
     
     

@@ -5,6 +5,9 @@ if (empty($pagegroups))
     //ERROR
     die();
 }
+
+$user = get_user();
+
 $pagegroup_id = get_request_group();
 $pagegroup_name = _T('Pages');
 if ($pagegroup_id === null)

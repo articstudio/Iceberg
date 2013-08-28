@@ -77,11 +77,15 @@ class UserBase extends ObjectDBRelations
         ),
         'user-user' => array(
             'object' => 'User'
+        ),
+        'user2page' => array(
+            'object' => 'Page'
         )
     );
     
     const RELATION_KEY_DOMAIN = 'user2domain';
     const RELATION_KEY_USER = 'user-user';
+    const RELATION_KEY_PAGE = 'user2page';
     
     const SESSION_USER = 'user';
     const SESSION_PASSWORD = 'password';
@@ -142,6 +146,7 @@ class User extends UserBase
     var $status;
     var $level;
     var $metas;
+    var $relations;
     
     const METAS_FORCE_LOAD = 'METAS_FORCE_LOAD';
     
@@ -159,6 +164,7 @@ class User extends UserBase
         {
             $this->LoadMetas($this->lang);
         }
+        $this->LoadRelations($this->lang);
     }
     
     public function GetLevelName()
@@ -168,7 +174,7 @@ class User extends UserBase
         $levels = Session::GetLevels();
         foreach ($levels AS $level => $name)
         {
-            if ($this->level > $level && $foundLevel < $level)
+            if ($this->level >= $level && $foundLevel < $level)
             {
                 $foundLevel = $level;
                 $foundName = $name;
@@ -185,6 +191,11 @@ class User extends UserBase
         {
             $this->SetMeta($meta->name, static::DB_DecodeFieldValue($meta->value), $meta->lang);
         }
+    }
+    
+    public function LoadRelations($lang=null)
+    {
+        
     }
     
     public function SetMeta($key, $value, $lang=null)
@@ -231,6 +242,52 @@ class User extends UserBase
         }
         return false;
     }
+    
+    public static function Insert($args=array(), $lang=null)
+    {
+        $insert_args = array(
+            'email' => isset($args['email']) ? $args['email'] : '',
+            'username' => isset($args['username']) ? $args['username'] : uniqid(),
+            'password' => User::EnctryptPassword(isset($args['password']) ? $args['password'] : uniqid()),
+            'level' => isset($args['level']) ? $args['level'] : 1
+        );
+        $relations_args = static::GetRelationsFields($args);
+        $userID = static::DB_Insert($insert_args, $relations_args, $lang);
+        return $userID;
+    }
+    
+    public static function Update($id, $args=array(), $lang=null)
+    {
+        $update_args = array();
+        if (isset($args['email']))
+        {
+            $update_args['email'] = $args['email'];
+        }
+        if (isset($args['username']))
+        {
+            $update_args['username'] = $args['username'];
+        }
+        if (isset($args['password']))
+        {
+            $update_args['password'] = User::EnctryptPassword($args['password']);
+        }
+        if (isset($args['level']))
+        {
+            $update_args['level'] = $args['level'];
+        }
+        $done = static::DB_Update($id, $update_args, $lang);
+        if ($done)
+        {
+            $relations_args = static::GetRelationsFields($args);
+            foreach ($relations_args AS $rel => $parent)
+            {
+                static::InsertUpdateRelation($id, $rel, $parent, $lang, 0);
+            }
+        }
+        return $done;
+    }
+    
+    
     
     public static function GetList($args=array(), $lang=null)
     {
@@ -412,7 +469,7 @@ class User extends UserBase
                 $items
             );
         }
-        else if (isset($args['page']))
+        /*else if (isset($args['page']))
         {
             $page = (int)$args['page'];
             $page_items = isset($args['page_items']) ? (int)$args['page_items'] : 10;
@@ -420,7 +477,7 @@ class User extends UserBase
                 $page * $page_items,
                 $page_items
             );
-        }
+        }*/
         return $arr;
     }
     
@@ -430,6 +487,10 @@ class User extends UserBase
         if (isset($args['user']))
         {
             $arr[static::RELATION_KEY_TYPE] = $args['user'];
+        }
+        if (isset($args['page']))
+        {
+            $arr[static::RELATION_KEY_PAGE] = $args['page'];
         }
         return $arr;
     }

@@ -4,10 +4,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="generator" content="ApiGen 2.8.0" />
 
-	<title>Class MySQLBase | Iceberg</title>
+	<title>Class MySQLBase | Iceberg 1.0</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?791472392"></script>
+	<script type="text/javascript" src="elementlist.js?3811943975"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -21,58 +21,30 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
-				<li><a href="package-Bootstrap.html">Bootstrap</a>
-						</li>
-				<li><a href="package-elfinder.html">elfinder</a>
-						</li>
-				<li><a href="package-Iceberg.html">Iceberg<span></span></a>
+				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
+				<li><a href="package-Iceberg.API.html">API</a>
 						</li>
-				<li><a href="package-Iceberg.Database.html">Database</a>
+				<li><a href="package-Iceberg.Application.html">Application</a>
 						</li>
-				<li><a href="package-Iceberg.Environment.html">Environment</a>
+				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
 						</li>
 				<li><a href="package-Iceberg.Exception.html">Exception</a>
 						</li>
-				<li><a href="package-Iceberg.Extension.html">Extension</a>
-						</li>
-				<li><a href="package-Iceberg.Files.html">Files</a>
-						</li>
 				<li><a href="package-Iceberg.I18N.html">I18N</a>
 						</li>
-				<li><a href="package-Iceberg.Install.html">Install</a>
-						</li>
-				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
-						</li>
-				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
+				<li class="active"><a href="package-Iceberg.MySQL.html">MySQL</a>
 						</li>
 				<li><a href="package-Iceberg.Routing.html">Routing</a>
-						</li>
-				<li><a href="package-Iceberg.Session.html">Session</a>
-						</li>
-				<li><a href="package-Iceberg.User.html">User</a>
 						</li>
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
-				<li class="active"><a href="package-MySQL.html">MySQL<span></span></a>
-						<ul>
-				<li><a href="package-MySQL.Query.html">Query</a>
-						</li>
-							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
-				<li><a href="package-Page.html">Page<span></span></a>
-						<ul>
-				<li><a href="package-Page.Config.html">Config</a>
-						</li>
-							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
-						</li>
-				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -85,6 +57,7 @@
 			<ul>
 				<li><a href="class-MySQL.html">MySQL</a></li>
 				<li class="active"><a href="class-MySQLBase.html">MySQLBase</a></li>
+				<li><a href="class-Query.html">Query</a></li>
 			</ul>
 
 
@@ -112,7 +85,7 @@
 				<a href="index.html" title="Overview"><span>Overview</span></a>
 			</li>
 			<li>
-				<a href="package-MySQL.html" title="Summary of MySQL"><span>Package</span></a>
+				<a href="package-Iceberg.MySQL.html" title="Summary of Iceberg\MySQL"><span>Package</span></a>
 			</li>
 			<li class="active">
 <span>Class</span>			</li>
@@ -121,8 +94,17 @@
 			<li>
 				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
 			</li>
+			<li>
+				<a href="deprecated.html" title="List of deprecated elements"><span>Deprecated</span></a>
+			</li>
+			<li>
+				<a href="todo.html" title="Todo list"><span>Todo</span></a>
+			</li>
 		</ul>
 		<ul>
+			<li>
+				<a href="iceberg-1-0-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
 		</ul>
 	</div>
 
@@ -155,22 +137,22 @@
 		
 		
 		
-		<b>Package:</b> <a href="package-MySQL.html">MySQL</a><br />
+		<b>Package:</b> <a href="package-Iceberg.html">Iceberg</a>\<a href="package-Iceberg.MySQL.html">MySQL</a><br />
 
 				<b>Author:</b>
 				Marc Mascort Bou<br />
 				<b>Version:</b>
 				1.0<br />
-				<b>Since</b>
-				0<br />
-		<b>Located at</b> <a href="source-class-MySQLBase.html#6-136" title="Go to source code">includes/MySQL.class.php</a><br />
+				<b>Since:</b>
+				1.0<br />
+		<b>Located at</b> <a href="source-class-MySQLBase.html#6-71" title="Go to source code">includes/MySQL.class.php</a><br />
 	</div>
 
 
 
 	<table class="summary" id="methods">
 	<caption>Methods summary</caption>
-	<tr data-order="__construct" id="___construct">
+	<tr data-order="MySQLBase" id="_MySQLBase">
 
 		<td class="attributes"><code>
 			 public 
@@ -180,19 +162,44 @@
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-MySQLBase.html#18-24" title="Go to source code">__construct</a>( )</code>
+		<a class="anchor" href="#_MySQLBase">#</a>
+		<code><a href="source-class-MySQLBase.html#19-22" title="Go to source code">MySQLBase</a>( )</code>
 
 		<div class="description short">
 			
-<p>Constructor</p>
-
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Constructor</p>
 
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getDebugInfo" id="_getDebugInfo">
+
+		<td class="attributes"><code>
+			 private static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getDebugInfo">#</a>
+		<code><a href="source-class-MySQLBase.html#24-29" title="Go to source code">getDebugInfo</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
 
 
 
@@ -214,145 +221,14 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_reportError">#</a>
-		<code><a href="source-class-MySQLBase.html#37-87" title="Go to source code">reportError</a>( <span>String <var>$msg</var> = <span class="php-quote">''</span></span>, <span>Int <var>$type</var> = <span class="php-num">0</span></span>, <span>Mixed <var>$admin</var> = <span class="php-quote">''</span></span>, <span>String <var>$headers</var> = <span class="php-quote">''</span></span> )</code>
+		<code><a href="source-class-MySQLBase.html#30-69" title="Go to source code">reportError</a>( <span>mixed <var>$msg</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$type</var> = <span class="php-num">0</span></span>, <span>mixed <var>$admin</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$headers</var> = <span class="php-quote">''</span></span> )</code>
 
 		<div class="description short">
 			
-<p>Report error</p>
-
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Report error</p>
-
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$msg</var></dt>
-					<dd><code>String</code><br>$msg</dd>
-					<dt><var>$type</var></dt>
-					<dd><code>Int</code><br>$type</dd>
-					<dt><var>$admin</var></dt>
-					<dd><code>Mixed</code><br>$admin</dd>
-					<dt><var>$headers</var></dt>
-					<dd><code>String</code><br>$headers</dd>
-				</dl></div>
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="Log" id="_Log">
-
-		<td class="attributes"><code>
-			 public static
-			Boolean
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_Log">#</a>
-		<code><a href="source-class-MySQLBase.html#89-102" title="Go to source code">Log</a>( <span>String <var>$SQL</var></span>, <span>Int <var>$numrows</var></span>, <span>Timestamp <var>$time</var></span> )</code>
-
-		<div class="description short">
-			
-<p>Add new MySQL log</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Add new MySQL log</p>
-
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$SQL</var></dt>
-					<dd><code>String</code><br>$SQL</dd>
-					<dt><var>$numrows</var></dt>
-					<dd><code>Int</code><br>$numrows</dd>
-					<dt><var>$time</var></dt>
-					<dd><code>Timestamp</code><br>$time</dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>Boolean</code><br />
-				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="GetLog" id="_GetLog">
-
-		<td class="attributes"><code>
-			 public static
-			Array
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetLog">#</a>
-		<code><a href="source-class-MySQLBase.html#104-114" title="Go to source code">GetLog</a>( )</code>
-
-		<div class="description short">
-			
-<p>Get MySQL log</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Get MySQL log</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>Array</code><br />
-				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="PrintLog" id="_PrintLog">
-
-		<td class="attributes"><code>
-			 public static
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_PrintLog">#</a>
-		<code><a href="source-class-MySQLBase.html#116-135" title="Go to source code">PrintLog</a>( )</code>
-
-		<div class="description short">
-			
-<p>Print MySQL log</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Print MySQL log</p>
-
 
 
 
@@ -385,7 +261,7 @@
 </div>
 
 	<div id="footer">
-		Iceberg API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+		Iceberg 1.0 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
 	</div>
 </div>
 </div>

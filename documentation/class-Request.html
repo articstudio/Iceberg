@@ -4,10 +4,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="generator" content="ApiGen 2.8.0" />
 
-	<title>Class Request | Iceberg</title>
+	<title>Class Request | Iceberg 1.0</title>
 
 	<script type="text/javascript" src="resources/combined.js?1730007032"></script>
-	<script type="text/javascript" src="elementlist.js?791472392"></script>
+	<script type="text/javascript" src="elementlist.js?3811943975"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -21,58 +21,30 @@
 		<div id="groups">
 			<h3>Packages</h3>
 			<ul>
-				<li><a href="package-Bootstrap.html">Bootstrap</a>
-						</li>
-				<li><a href="package-elfinder.html">elfinder</a>
-						</li>
 				<li class="active"><a href="package-Iceberg.html">Iceberg<span></span></a>
 						<ul>
-				<li><a href="package-Iceberg.Configuration.html">Configuration</a>
+				<li><a href="package-Iceberg.API.html">API</a>
 						</li>
-				<li><a href="package-Iceberg.Database.html">Database</a>
+				<li><a href="package-Iceberg.Application.html">Application</a>
 						</li>
-				<li><a href="package-Iceberg.Environment.html">Environment</a>
+				<li><a href="package-Iceberg.Bootstrap.html">Bootstrap</a>
 						</li>
 				<li><a href="package-Iceberg.Exception.html">Exception</a>
 						</li>
-				<li><a href="package-Iceberg.Extension.html">Extension</a>
-						</li>
-				<li><a href="package-Iceberg.Files.html">Files</a>
-						</li>
 				<li><a href="package-Iceberg.I18N.html">I18N</a>
 						</li>
-				<li><a href="package-Iceberg.Install.html">Install</a>
-						</li>
-				<li><a href="package-Iceberg.Maintenance.html">Maintenance</a>
-						</li>
-				<li><a href="package-Iceberg.Menubar.html">Menubar</a>
+				<li><a href="package-Iceberg.MySQL.html">MySQL</a>
 						</li>
 				<li class="active"><a href="package-Iceberg.Routing.html">Routing</a>
-						</li>
-				<li><a href="package-Iceberg.Session.html">Session</a>
-						</li>
-				<li><a href="package-Iceberg.User.html">User</a>
 						</li>
 							</ul></li>
 				<li><a href="package-IcebergException.html">IcebergException</a>
 						</li>
-				<li><a href="package-MySQL.html">MySQL<span></span></a>
-						<ul>
-				<li><a href="package-MySQL.Query.html">Query</a>
-						</li>
-							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
-				<li><a href="package-Page.html">Page<span></span></a>
-						<ul>
-				<li><a href="package-Page.Config.html">Config</a>
-						</li>
-							</ul></li>
 				<li><a href="package-PHP.html">PHP</a>
 						</li>
 				<li><a href="package-PHPMailer.html">PHPMailer</a>
-						</li>
-				<li><a href="package-Widget.html">Widget</a>
 						</li>
 			</ul>
 		</div>
@@ -83,13 +55,10 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-Domain.html">Domain</a></li>
+				<li><a href="class-Domains.html">Domains</a></li>
 				<li class="active"><a href="class-Request.html">Request</a></li>
 				<li><a href="class-Routing.html">Routing</a></li>
-				<li><a href="class-RoutingAPI.html">RoutingAPI</a></li>
-				<li><a href="class-RoutingBackend.html">RoutingBackend</a></li>
-				<li><a href="class-RoutingBackendAPI.html">RoutingBackendAPI</a></li>
-				<li><a href="class-RoutingFrontend.html">RoutingFrontend</a></li>
+				<li><a href="class-RoutingExtension.html">RoutingExtension</a></li>
 			</ul>
 
 
@@ -126,8 +95,17 @@
 			<li>
 				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
 			</li>
+			<li>
+				<a href="deprecated.html" title="List of deprecated elements"><span>Deprecated</span></a>
+			</li>
+			<li>
+				<a href="todo.html" title="Todo list"><span>Todo</span></a>
+			</li>
 		</ul>
 		<ul>
+			<li>
+				<a href="iceberg-1-0-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
 		</ul>
 	</div>
 
@@ -143,29 +121,6 @@
 
 	</div>
 
-	<dl class="tree">
-		<dd style="padding-left:0px">
-			<a href="class-ObjectConfigBase.html"><span>ObjectConfigBase</span></a>
-			
-			
-			
-		</dd>
-		<dd style="padding-left:30px">
-			<img src="resources/inherit.png" alt="Extended by" />
-			<a href="class-ObjectConfig.html"><span>ObjectConfig</span></a>
-			
-			 implements 
-				<a href="class-ObjectConfigInterface.html"><span>ObjectConfigInterface</span></a>
-			
-			
-		</dd>
-		<dd style="padding-left:60px">
-			<img src="resources/inherit.png" alt="Extended by" />
-<b><span>Request</span></b>			
-			
-			
-		</dd>
-	</dl>
 
 
 	<div>
@@ -175,10 +130,7 @@
 
 	<div>
 		<h4>Indirect known subclasses</h4>
-			<a href="class-RoutingAPI.html">RoutingAPI</a>, 
-			<a href="class-RoutingBackend.html">RoutingBackend</a>, 
-			<a href="class-RoutingBackendAPI.html">RoutingBackendAPI</a>, 
-			<a href="class-RoutingFrontend.html">RoutingFrontend</a>
+			<a href="class-RoutingExtension.html">RoutingExtension</a>
 	</div>
 
 
@@ -197,7 +149,7 @@
 				1.0<br />
 				<b>Since:</b>
 				1.0<br />
-		<b>Located at</b> <a href="source-class-Request.html#6-554" title="Go to source code">includes/Request.class.php</a><br />
+		<b>Located at</b> <a href="source-class-Request.html#6-706" title="Go to source code">includes/Request.class.php</a><br />
 	</div>
 
 
@@ -215,7 +167,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-Request.html#113-119" title="Go to source code">__construct</a>( )</code>
+		<code><a href="source-class-Request.html#107-113" title="Go to source code">__construct</a>( )</code>
 
 		<div class="description short">
 			
@@ -248,7 +200,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_LoadRequest">#</a>
-		<code><a href="source-class-Request.html#121-167" title="Go to source code">LoadRequest</a>( )</code>
+		<code><a href="source-class-Request.html#115-138" title="Go to source code">LoadRequest</a>( )</code>
 
 		<div class="description short">
 			
@@ -270,6 +222,64 @@
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="ParseURL" id="_ParseURL">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ParseURL">#</a>
+		<code><a href="source-class-Request.html#140-192" title="Go to source code">ParseURL</a>( <span>mixed <var>$force</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="LoadDinamicRedirect" id="_LoadDinamicRedirect">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_LoadDinamicRedirect">#</a>
+		<code><a href="source-class-Request.html#194-203" title="Go to source code">LoadDinamicRedirect</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="GetProtocol" id="_GetProtocol">
 
 		<td class="attributes"><code>
@@ -281,17 +291,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetProtocol">#</a>
-		<code><a href="source-class-Request.html#182-195" title="Go to source code">GetProtocol</a>( )</code>
+		<code><a href="source-class-Request.html#205-218" title="Go to source code">GetProtocol</a>( )</code>
 
 		<div class="description short">
 			
-<p>Get the request protocol</p>
+<p>Returns the request protocol</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Get the request protocol</p>
+<p>Returns the request protocol</p>
 
 
 
@@ -326,17 +336,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetURI">#</a>
-		<code><a href="source-class-Request.html#197-214" title="Go to source code">GetURI</a>( <span>mixed <var>$relative</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-Request.html#220-235" title="Go to source code">GetURI</a>( )</code>
 
 		<div class="description short">
 			
-<p>Get the request URI</p>
+<p>Returns the request URI</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Get the request URI</p>
+<p>Returns the request URI</p>
 
 
 
@@ -356,35 +366,6 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="GetQuery" id="_GetQuery">
-
-		<td class="attributes"><code>
-			 public static
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_GetQuery">#</a>
-		<code><a href="source-class-Request.html#216-220" title="Go to source code">GetQuery</a>( <span>mixed <var>$withSeparator</var> = <span class="php-keyword1">false</span></span> )</code>
-
-		<div class="description short">
-			
-		</div>
-
-		<div class="description detailed hidden">
-			
-
-
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
 	<tr data-order="GetDomain" id="_GetDomain">
 
 		<td class="attributes"><code>
@@ -396,17 +377,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetDomain">#</a>
-		<code><a href="source-class-Request.html#222-233" title="Go to source code">GetDomain</a>( )</code>
+		<code><a href="source-class-Request.html#237-248" title="Go to source code">GetDomain</a>( )</code>
 
 		<div class="description short">
 			
-<p>Get the domain</p>
+<p>Returns the domain</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Get the domain</p>
+<p>Returns the domain</p>
 
 
 
@@ -441,17 +422,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetUrl">#</a>
-		<code><a href="source-class-Request.html#235-248" title="Go to source code">GetUrl</a>( <span>boolean <var>$withProtocol</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-Request.html#250-263" title="Go to source code">GetUrl</a>( <span>boolean <var>$withProtocol</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			
-<p>Get the URL (With or without protocol)</p>
+<p>Returns the URL (With or without protocol)</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Get the URL (With or without protocol)</p>
+<p>Returns the URL (With or without protocol)</p>
 
 
 
@@ -491,17 +472,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetBaseUrl">#</a>
-		<code><a href="source-class-Request.html#250-275" title="Go to source code">GetBaseUrl</a>( <span>boolean <var>$withProtocol</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-Request.html#265-291" title="Go to source code">GetBaseUrl</a>( <span>boolean <var>$withProtocol</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			
-<p>Get the base URL (With or without protocol)</p>
+<p>Returns the base URL (With or without protocol)</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Get the base URL (With or without protocol)</p>
+<p>Returns the base URL (With or without protocol)</p>
 
 
 
@@ -541,17 +522,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetBaseUrlAdmin">#</a>
-		<code><a href="source-class-Request.html#277-289" title="Go to source code">GetBaseUrlAdmin</a>( <span>boolean <var>$withProtocol</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-Request.html#293-305" title="Go to source code">GetBaseUrlAdmin</a>( <span>boolean <var>$withProtocol</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			
-<p>Get the base URL ADMIN (With or without protocol)</p>
+<p>Returns the base URL ADMIN (With or without protocol)</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Get the base URL ADMIN (With or without protocol)</p>
+<p>Returns the base URL ADMIN (With or without protocol)</p>
 
 
 
@@ -591,17 +572,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetBaseUrlAPI">#</a>
-		<code><a href="source-class-Request.html#291-303" title="Go to source code">GetBaseUrlAPI</a>( <span>boolean <var>$withProtocol</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-Request.html#307-319" title="Go to source code">GetBaseUrlAPI</a>( <span>boolean <var>$withProtocol</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			
-<p>Get the base URL API (With or without protocol)</p>
+<p>Returns the base URL API (With or without protocol)</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Get the base URL API (With or without protocol)</p>
+<p>Returns the base URL API (With or without protocol)</p>
 
 
 
@@ -630,6 +611,61 @@
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="GetValueS" id="_GetValueS">
+
+		<td class="attributes"><code>
+			 public static
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetValueS">#</a>
+		<code><a href="source-class-Request.html#321-336" title="Go to source code">GetValueS</a>( <span>string <var>$key</var></span>, <span>mixed <var>$default</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$stripSlashes</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Returns value of SESSION</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns value of SESSION</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$key</var></dt>
+					<dd><code>string</code><br>$key</dd>
+					<dt><var>$default</var></dt>
+					<dd><code>mixed</code><br>$default</dd>
+					<dt><var>$stripSlashes</var></dt>
+					<dd><code>boolean</code><br>$stripSlashes</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br />
+				</div>
+
+
+				<h4>Uses</h4>
+				<div class="list">
+						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'request_get_value_s'<br />
+				</div>
+				<h4>Used by</h4>
+				<div class="list">
+						<code><code><a href="class-Session.html#_GetValue">Session::GetValue()</a></code></code> <br />
+						<code><code><a href="function-get_request_s.html">get_request_s()</a></code></code> <br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="GetValueG" id="_GetValueG">
 
 		<td class="attributes"><code>
@@ -641,17 +677,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetValueG">#</a>
-		<code><a href="source-class-Request.html#305-320" title="Go to source code">GetValueG</a>( <span>string <var>$key</var></span>, <span>mixed <var>$default</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$stripSlashes</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-Request.html#338-353" title="Go to source code">GetValueG</a>( <span>string <var>$key</var></span>, <span>mixed <var>$default</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$stripSlashes</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
-<p>Get value of GET</p>
+<p>Returns value of GET</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Get value of GET</p>
+<p>Returns value of GET</p>
 
 
 
@@ -695,17 +731,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetValueP">#</a>
-		<code><a href="source-class-Request.html#322-337" title="Go to source code">GetValueP</a>( <span>string <var>$key</var></span>, <span>mixed <var>$default</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$stripSlashes</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-Request.html#355-370" title="Go to source code">GetValueP</a>( <span>string <var>$key</var></span>, <span>mixed <var>$default</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$stripSlashes</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
-<p>Get value of POST</p>
+<p>Returns value of POST</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Get value of POST</p>
+<p>Returns value of POST</p>
 
 
 
@@ -749,17 +785,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetValueGP">#</a>
-		<code><a href="source-class-Request.html#339-354" title="Go to source code">GetValueGP</a>( <span>string <var>$key</var></span>, <span>mixed <var>$default</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$stripSlashes</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-Request.html#372-387" title="Go to source code">GetValueGP</a>( <span>string <var>$key</var></span>, <span>mixed <var>$default</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$stripSlashes</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
-<p>Get value of GET &gt; POST</p>
+<p>Returns value of GET &gt; POST</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Get value of GET &gt; POST</p>
+<p>Returns value of GET &gt; POST</p>
 
 
 
@@ -803,17 +839,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_GetValueSGP">#</a>
-		<code><a href="source-class-Request.html#356-372" title="Go to source code">GetValueSGP</a>( <span>string <var>$key</var></span>, <span>mixed <var>$default</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$stripSlashes</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-Request.html#389-405" title="Go to source code">GetValueSGP</a>( <span>string <var>$key</var></span>, <span>mixed <var>$default</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$stripSlashes</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
-<p>Get value of SESSION &gt; GET &gt; POST</p>
+<p>Returns value of SESSION &gt; GET &gt; POST</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Get value of SESSION &gt; GET &gt; POST</p>
+<p>Returns value of SESSION &gt; GET &gt; POST</p>
 
 
 
@@ -839,7 +875,7 @@
 				</div>
 				<h4>Used by</h4>
 				<div class="list">
-						<code><code><a href="function-get_request_sgp.html">get_request_sgp()</a></code></code> <br />
+						<code><code><a href="function-get_requestsg_p.html">get_requestsg_p()</a></code></code> <br />
 				</div>
 
 
@@ -857,17 +893,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_IssetKeyS">#</a>
-		<code><a href="source-class-Request.html#374-384" title="Go to source code">IssetKeyS</a>( <span>string <var>$key</var></span> )</code>
+		<code><a href="source-class-Request.html#407-419" title="Go to source code">IssetKeyS</a>( <span>string <var>$key</var></span> )</code>
 
 		<div class="description short">
 			
-<p>Check is set key in SESSION</p>
+<p>Returns is set key in SESSION</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Check is set key in SESSION</p>
+<p>Returns is set key in SESSION</p>
 
 
 
@@ -903,17 +939,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_IssetKeyG">#</a>
-		<code><a href="source-class-Request.html#386-398" title="Go to source code">IssetKeyG</a>( <span>string <var>$key</var></span> )</code>
+		<code><a href="source-class-Request.html#421-433" title="Go to source code">IssetKeyG</a>( <span>string <var>$key</var></span> )</code>
 
 		<div class="description short">
 			
-<p>Check is set key in GET</p>
+<p>Returns is set key in GET</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Check is set key in GET</p>
+<p>Returns is set key in GET</p>
 
 
 
@@ -949,17 +985,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_IssetKeyP">#</a>
-		<code><a href="source-class-Request.html#400-412" title="Go to source code">IssetKeyP</a>( <span>string <var>$key</var></span> )</code>
+		<code><a href="source-class-Request.html#435-447" title="Go to source code">IssetKeyP</a>( <span>string <var>$key</var></span> )</code>
 
 		<div class="description short">
 			
-<p>Check is set key in POST</p>
+<p>Returns is set key in POST</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Check is set key in POST</p>
+<p>Returns is set key in POST</p>
 
 
 
@@ -995,17 +1031,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_IssetKeyGP">#</a>
-		<code><a href="source-class-Request.html#414-426" title="Go to source code">IssetKeyGP</a>( <span>string <var>$key</var></span> )</code>
+		<code><a href="source-class-Request.html#449-461" title="Go to source code">IssetKeyGP</a>( <span>string <var>$key</var></span> )</code>
 
 		<div class="description short">
 			
-<p>Check is set key in GET &gt; POST</p>
+<p>Returns is set key in GET &gt; POST</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Check is set key in GET &gt; POST</p>
+<p>Returns is set key in GET &gt; POST</p>
 
 
 
@@ -1041,17 +1077,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_IssetKeySGP">#</a>
-		<code><a href="source-class-Request.html#428-440" title="Go to source code">IssetKeySGP</a>( <span>string <var>$key</var></span> )</code>
+		<code><a href="source-class-Request.html#463-475" title="Go to source code">IssetKeySGP</a>( <span>string <var>$key</var></span> )</code>
 
 		<div class="description short">
 			
-<p>Check is set key in SESSION &gt; GET &gt; POST</p>
+<p>Returns is set key in SESSION &gt; GET &gt; POST</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Check is set key in SESSION &gt; GET &gt; POST</p>
+<p>Returns is set key in SESSION &gt; GET &gt; POST</p>
 
 
 
@@ -1080,45 +1116,26 @@
 
 		<td class="attributes"><code>
 			 public static
-			boolean
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_SetValueG">#</a>
-		<code><a href="source-class-Request.html#442-457" title="Go to source code">SetValueG</a>( <span>string <var>$key</var></span>, <span>mixed <var>$value</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-Request.html#477-484" title="Go to source code">SetValueG</a>( <span>mixed <var>$key</var></span>, <span>mixed <var>$value</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
-<p>Set GET value for a key</p>
-
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Set GET value for a key</p>
 
 
 
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$key</var></dt>
-					<dd><code>string</code><br>$key</dd>
-					<dt><var>$value</var></dt>
-					<dd><code>mixed</code><br>$value</dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>boolean</code><br />
-				</div>
 
 
-				<h4>Used by</h4>
-				<div class="list">
-						<code><code><a href="function-set_request_g.html">set_request_g()</a></code></code> <br />
-				</div>
 
 
 		</div>
@@ -1128,45 +1145,66 @@
 
 		<td class="attributes"><code>
 			 public static
-			boolean
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_SetValueP">#</a>
-		<code><a href="source-class-Request.html#459-474" title="Go to source code">SetValueP</a>( <span>string <var>$key</var></span>, <span>mixed <var>$value</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-Request.html#486-493" title="Go to source code">SetValueP</a>( <span>mixed <var>$key</var></span>, <span>mixed <var>$value</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
-<p>Set POST value for a key</p>
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="GetLanguage" id="_GetLanguage">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_GetLanguage">#</a>
+		<code><a href="source-class-Request.html#495-506" title="Go to source code">GetLanguage</a>( )</code>
+
+		<div class="description short">
+			
+<p>Returns language of request</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Set POST value for a key</p>
+<p>Returns language of request</p>
 
 
 
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$key</var></dt>
-					<dd><code>string</code><br>$key</dd>
-					<dt><var>$value</var></dt>
-					<dd><code>mixed</code><br>$value</dd>
-				</dl></div>
 
 				<h4>Returns</h4>
 				<div class="list">
-					<code>boolean</code><br />
+					<code>string</code><br />
 				</div>
 
 
-				<h4>Used by</h4>
+				<h4>Uses</h4>
 				<div class="list">
-						<code><code><a href="function-locate.html">locate()</a></code></code> <br />
-						<code><code><a href="function-set_request_p.html">set_request_p()</a></code></code> <br />
+						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'request_get_language'<br />
 				</div>
 
 
@@ -1184,7 +1222,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_StripSlashes">#</a>
-		<code><a href="source-class-Request.html#476-498" title="Go to source code">StripSlashes</a>( <span>mixed <var>$var</var></span> )</code>
+		<code><a href="source-class-Request.html#508-530" title="Go to source code">StripSlashes</a>( <span>mixed <var>$var</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1230,7 +1268,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_AddMagicQuotes">#</a>
-		<code><a href="source-class-Request.html#500-521" title="Go to source code">AddMagicQuotes</a>( <span>mixed <var>$var</var></span> )</code>
+		<code><a href="source-class-Request.html#532-553" title="Go to source code">AddMagicQuotes</a>( <span>mixed <var>$var</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1265,6 +1303,110 @@
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="MakeURL" id="_MakeURL">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_MakeURL">#</a>
+		<code><a href="source-class-Request.html#555-672" title="Go to source code">MakeURL</a>( <span>string <var>$baseurl</var></span>, <span>array <var>$params</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Make a URL</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Make a URL</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$baseurl</var></dt>
+					<dd><code>string</code><br>$url</dd>
+					<dt><var>$params</var></dt>
+					<dd><code>array</code><br>$params</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+				<h4>Uses</h4>
+				<div class="list">
+						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'request_makeurl'<br />
+				</div>
+				<h4>Used by</h4>
+				<div class="list">
+						<code><code><a href="function-get_link.html">get_link()</a></code></code> <br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="MakeURLDir" id="_MakeURLDir">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_MakeURLDir">#</a>
+		<code><a href="source-class-Request.html#674-688" title="Go to source code">MakeURLDir</a>( <span>string <var>$dir</var></span>, <span>array <var>$params</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Make a URL to directory</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Make a URL to directory</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$dir</var></dt>
+					<dd><code>string</code><br>$dir</dd>
+					<dt><var>$params</var></dt>
+					<dd><code>array</code><br>$params</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+				<h4>Uses</h4>
+				<div class="list">
+						<code><code><a href="function-action_event.html">action_event()</a></code></code><br>for 'request_makeurldir'<br />
+				</div>
+				<h4>Used by</h4>
+				<div class="list">
+						<code><code><a href="function-get_link_dir.html">get_link_dir()</a></code></code> <br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="Locate" id="_Locate">
 
 		<td class="attributes"><code>
@@ -1276,7 +1418,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_Locate">#</a>
-		<code><a href="source-class-Request.html#523-538" title="Go to source code">Locate</a>( <span>string <var>$url</var></span>, <span>integer <var>$code</var> = <span class="php-num">100</span></span> )</code>
+		<code><a href="source-class-Request.html#690-705" title="Go to source code">Locate</a>( <span>string <var>$url</var></span>, <span>integer <var>$code</var> = <span class="php-num">100</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1305,70 +1447,8 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="Response" id="_Response">
-
-		<td class="attributes"><code>
-			 public static
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_Response">#</a>
-		<code><a href="source-class-Request.html#540-553" title="Go to source code">Response</a>( <span>integer <var>$code</var> = <span class="php-num">400</span></span> )</code>
-
-		<div class="description short">
-			
-<p>Response request</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Response request</p>
-
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$code</var></dt>
-					<dd><code>integer</code><br>$code Header response code</dd>
-				</dl></div>
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
 	</table>
 
-	<table class="summary inherited">
-	<caption>Methods inherited from <a href="class-ObjectConfig.html#methods">ObjectConfig</a></caption>
-	<tr>
-		<td><code>
-			<a href="class-ObjectConfig.html#_GetConfigValue">GetConfigValue()</a>, 
-			<a href="class-ObjectConfig.html#_SaveConfigValue">SaveConfigValue()</a>, 
-			<a href="class-ObjectConfig.html#_SetConfigValue">SetConfigValue()</a>
-		</code></td>
-	</tr>
-	</table>
-	<table class="summary inherited">
-	<caption>Methods inherited from <a href="class-ObjectConfigBase.html#methods">ObjectConfigBase</a></caption>
-	<tr>
-		<td><code>
-			<a href="class-ObjectConfigBase.html#_GetConfig">GetConfig()</a>, 
-			<a href="class-ObjectConfigBase.html#_NormalizeConfig">NormalizeConfig()</a>, 
-			<a href="class-ObjectConfigBase.html#_SaveConfig">SaveConfig()</a>, 
-			<a href="class-ObjectConfigBase.html#_SelectConfig">SelectConfig()</a>, 
-			<a href="class-ObjectConfigBase.html#_SetConfig">SetConfig()</a>, 
-			<a href="class-ObjectConfigBase.html#_UnsaveConfig">UnsaveConfig()</a>, 
-			<a href="class-ObjectConfigBase.html#_UnsetConfig">UnsetConfig()</a>
-		</code></td>
-	</tr>
-	</table>
 
 
 
@@ -1382,33 +1462,6 @@
 
 	<table class="summary" id="properties">
 	<caption>Properties summary</caption>
-	<tr data-order="CONFIG_KEY" id="$CONFIG_KEY">
-		<td class="attributes"><code>
-			public static 
-			string
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-Request.html#19-23" title="Go to source code"><var>$CONFIG_KEY</var></a>
-		</td>
-		<td class="value"><code><span class="php-quote">'request_config'</span></code></td>
-		<td class="description"><div>
-			<a href="#$CONFIG_KEY" class="anchor">#</a>
-
-			<div class="description short">
-				
-<p>Configuration key</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>Configuration key</p>
-
-
-			</div>
-		</div></td>
-	</tr>
 	<tr data-order="HTTP_RESPONSES" id="$HTTP_RESPONSES">
 		<td class="attributes"><code>
 			public static 
@@ -1416,7 +1469,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Request.html#25-111" title="Go to source code"><var>$HTTP_RESPONSES</var></a>
+				<a href="source-class-Request.html#19-105" title="Go to source code"><var>$HTTP_RESPONSES</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">array</span> (
    <span class="php-num">100</span> =&gt; <span class="php-quote">&quot;HTTP/1.1 100 Continue&quot;</span>,
@@ -1634,28 +1687,6 @@
 	</tr>
 	</table>
 
-	<table class="summary inherited">
-	<caption>Properties inherited from <a href="class-ObjectConfig.html#properties">ObjectConfig</a></caption>
-	<tr>
-		<td><code>
-			<a href="class-ObjectConfig.html#$CONFIG_EVENT_GET_VALUE"><var>$CONFIG_EVENT_GET_VALUE</var></a>, 
-			<a href="class-ObjectConfig.html#$CONFIG_EVENT_SAVE_VALUE"><var>$CONFIG_EVENT_SAVE_VALUE</var></a>, 
-			<a href="class-ObjectConfig.html#$CONFIG_EVENT_SET_VALUE"><var>$CONFIG_EVENT_SET_VALUE</var></a>
-		</code></td>
-	</tr>
-	</table>
-	<table class="summary inherited">
-	<caption>Properties inherited from <a href="class-ObjectConfigBase.html#properties">ObjectConfigBase</a></caption>
-	<tr>
-		<td><code>
-			<a href="class-ObjectConfigBase.html#$CONFIG_DEFAULTS"><var>$CONFIG_DEFAULTS</var></a>, 
-			<a href="class-ObjectConfigBase.html#$CONFIG_EVENT_GET"><var>$CONFIG_EVENT_GET</var></a>, 
-			<a href="class-ObjectConfigBase.html#$CONFIG_EVENT_SAVE"><var>$CONFIG_EVENT_SAVE</var></a>, 
-			<a href="class-ObjectConfigBase.html#$CONFIG_EVENT_SELECT"><var>$CONFIG_EVENT_SELECT</var></a>, 
-			<a href="class-ObjectConfigBase.html#$CONFIG_EVENT_SET"><var>$CONFIG_EVENT_SET</var></a>
-		</code></td>
-	</tr>
-	</table>
 
 
 
@@ -1664,7 +1695,7 @@
 </div>
 
 	<div id="footer">
-		Iceberg API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+		Iceberg 1.0 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
 	</div>
 </div>
 </div>

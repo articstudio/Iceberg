@@ -9,7 +9,8 @@ function get_admin_modes_content($args)
         ),
         'menubar' => array(
             'template' => 'content_menubar.php',
-            'name' => 'Menubar'
+            'name' => 'Menubar',
+            'level' => 200
         )
     );
     $array = array_merge(isset($args[0]) ? $args[0] : array(), $array);

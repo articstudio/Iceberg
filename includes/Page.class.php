@@ -365,28 +365,6 @@ class Page extends PageBase
         return static::DB_InsertUpdateChild('PageMeta', $args_meta, $where, $id, $lang);
     }
     
-    public static function InsertUpdateRelation($id, $rel, $parent, $lang=null, $count=null)
-    {
-        $args_rel = array(
-            DBRelation::GetParentField() => $parent
-        );
-        if (!is_null($count))
-        {
-            $args_rel[DBRelation::GetCountField()] = $count;
-        }
-        $where_rel = array(
-            DBRelation::GetNameField() => $rel,
-            DBRelation::GetChildField() => $id
-        );
-        $parent = static::GetParent($rel);
-        if ($parent['language'])
-        {
-            $lang = is_null($lang) ? I18N::GetLanguage() : $lang;
-            $where_rel[DBRelation::GetLanguageField()] = $lang;
-        }
-        return DBRelation::DB_InsertUpdate($args_rel, $where_rel);
-    }
-    
     public static function Insert($args=array(), $lang=null)
     {
         $taxonomy = (isset($args['taxonomy']) && !is_null($args['taxonomy'])) ? $args['taxonomy'] : get_default_pagetaxnomy();
@@ -667,6 +645,10 @@ class Page extends PageBase
     
     public static function GetPage($id, $lang=null)
     {
+        if (is_null($id))
+        {
+            return new Page();
+        }
         $obj = static::GetCache($id, $lang);
         if ($obj !== false)
         {

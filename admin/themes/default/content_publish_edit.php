@@ -122,6 +122,8 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                 <?php endforeach; ?>
                 
                 <?php endif; ?>
+            
+                <?php action_event('content_publish_edit_content', $action, $pagegroup_id, $id, $plang); ?>
                 
                 
                 <div class="form-actions text-right">
@@ -337,6 +339,8 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                     </p>
                 </div>
             </div>
+            
+            <?php action_event('content_publish_edit_sidebar', $action, $pagegroup_id, $id, $plang); ?>
         </div>
     </div>
 </form>

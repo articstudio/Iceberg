@@ -32,6 +32,7 @@ class Session extends ObjectConfig
         'multisession' => true,
         'levels' => array(
             1 => 'User',
+            100 => 'Translator',
             200 => 'Editor',
             500 => 'Administrator',
             999 => 'Root'
@@ -148,7 +149,9 @@ class Session extends ObjectConfig
     
     public static function GetLevels()
     {
-        return static::GetConfigValue('levels', array());
+        $arr = static::GetConfigValue('levels', array());
+        ksort($arr);
+        return $arr;
     }
     
     public static function GetMinimumLevel()

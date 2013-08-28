@@ -37,6 +37,7 @@ else if ($action == 'insert')
     if ($id)
     {
         add_alert('Page inserted', 'success');
+        action_event('content_publish_insert', $group, $id, $lang);
     }
     else
     {
@@ -66,6 +67,7 @@ else if ($action == 'update' || $action == 'translate')
         if ($tlang && Page::Translate($id, $tlang, $args))
         {
             add_alert('Page translated', 'success');
+            action_event('content_publish_translate', $group, $id, $tlang);
         }
         else
         {
@@ -74,9 +76,11 @@ else if ($action == 'update' || $action == 'translate')
     }
     else
     {
-        if (Page::Update($id, $args))
+        $lang = null;
+        if (Page::Update($id, $args, $lang))
         {
             add_alert('Page updated', 'success');
+            action_event('content_publish_edit', $group, $id, $lang);
         }
         else
         {

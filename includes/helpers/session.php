@@ -106,3 +106,8 @@ function isset_session_value($key)
 {
     return Session::IssetKey($key);
 }
+
+function get_session_admin_level()
+{
+    return Session::GetAdminLevel();
+}

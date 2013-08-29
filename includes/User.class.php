@@ -195,7 +195,25 @@ class User extends UserBase
     
     public function LoadRelations($lang=null)
     {
-        
+        $this->relations = array();
+        $parents = static::GetParents();
+        foreach ($parents AS $rel => $parent)
+        {
+            $this->relations[$rel] = (isset($this->relations[$rel]) && is_array($this->relations[$rel])) ? $this->relations[$rel]  : array();
+            $objs = static::SelectRelation($this->id, $rel, $lang);
+            if (is_array($objs))
+            {
+                foreach ($objs AS $obj)
+                {
+                    array_push($this->relations[$rel], $obj->pid);
+                }
+            }
+        }
+    }
+    
+    public function GetRelation($rel)
+    {
+        return is_array($this->relations[$rel]) ? $this->relations[$rel]  : array();
     }
     
     public function SetMeta($key, $value, $lang=null)

@@ -370,6 +370,25 @@ abstract class ObjectDBRelations extends ObjectDB
         return DBRelation::DB_InsertUpdate($args_rel, $where_rel);
     }
     
+    public static function SelectRelation($id, $rel, $lang=null)
+    {
+        $fields = array(
+            DBRelation::GetParentField(),
+            DBRelation::GetCountField()
+        );
+        $where = array(
+            DBRelation::GetChildField() => $id,
+            DBRelation::GetNameField() => $rel
+        );
+        $parent = static::GetParent($rel);
+        if ($parent['language'])
+        {
+            $lang = is_null($lang) ? I18N::GetLanguage() : $lang;
+            $where[DBRelation::GetLanguageField()] = $lang;
+        }
+        return DBRelation::DB_Select($fields, $where);
+    }
+    
     public static function DB_InsertChild($childObj, $args, $id=null, $lang=null)
     {
         $parentObj = get_called_class();

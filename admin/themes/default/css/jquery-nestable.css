@@ -72,6 +72,9 @@
     background:    -moz-linear-gradient(top, #ddd 0%, #bbb 100%);
     background:         linear-gradient(top, #ddd 0%, #bbb 100%);
 }
+.treetable-item.no-drag > button {
+    margin-left:15px;
+}
 .treetable-item > button:hover { background: #ddd; }
 .treetable-item > button:before { content: '+'; display: block; position: absolute; width: 100%; text-align: center; text-indent: 0; }
 .treetable-item > button[data-action="collapse"]:before { content: '-'; }
@@ -91,6 +94,9 @@
     border-radius: 3px;
     box-sizing: border-box; 
     -moz-box-sizing: border-box;
+}
+.no-drag .treetable-content {
+    padding-left:15px;
 }
 .treetable-content:hover { background: #fff; }
 .treetable-content .highlight {

@@ -224,8 +224,6 @@ nbproject/
 #############
 ## Iceberg
 #############
-# Mr Developer
-.mr.developer.cfg
 
 /db.php
 /content/uploads/
@@ -233,5 +231,5 @@ nbproject/
 !/content/themes/default/
 
 # Documentation
-/documentation/
-/phpdoc/
+#/documentation/
+#/phpdoc/

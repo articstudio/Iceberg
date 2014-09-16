@@ -27,7 +27,8 @@ function elFinderFileAccessControl($attr, $path, $data, $volume) {
 }
 
 $opts = array(
-    // 'debug' => true,
+    'debug' => ICEBERG_DEBUG_MODE,
+    'locale' => I18N::GetLanguage(),
     'roots' => array(
         array(
             'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
@@ -38,6 +39,26 @@ $opts = array(
     )
 );
 
+/* TRANSLATORS */
+if (User::IsLogged())
+{
+    $user = User::GetUser();
+    $user_level = $user->level;
+    if ($user_level == Session::GetAdminLevel())
+    {
+        $done = true;
+        $path = ICEBERG_DIR_UPLOADS . 'USERS' . DIRECTORY_SEPARATOR . get_user_id() . DIRECTORY_SEPARATOR;
+        if (!is_dir($path))
+        {
+            $done = @mkdir($path, 0755, true);
+            $txt .= ($done ? 'Created' : 'Creation error') . "\n";
+            
+        }
+        $opts['roots'][0]['path'] = $path;
+        $opts['roots'][0]['URL'] = File::GetURL($path, ICEBERG_DIR, get_base_url());
+    }
+}
+/* ---------------- */
 // run elFinder
 $connector = new elFinderConnector(new elFinder($opts));
 $connector->run();

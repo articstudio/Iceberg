@@ -37,3 +37,7 @@ function reOrderArray($arr, $from, $to)
     return $arr;
 }
 
+// Remove unwanted HTML comments
+function remove_html_comments($content='') {
+	return preg_replace('/<!--(.|\s)*?-->/', '', $content);
+}

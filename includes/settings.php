@@ -71,6 +71,11 @@ define('ICEBERG_DIR_TEMP',                  ICEBERG_DIR_CONTENT . 'temp' . DIREC
 define('ICEBERG_DIR_API_INCLUDES',          ICEBERG_DIR_API . 'includes' . DIRECTORY_SEPARATOR);
 
 /**
+ * Iceberg api includes defaults directory
+ */
+define('ICEBERG_DIR_API_INCLUDES_DEFAULTS',          ICEBERG_DIR_API_INCLUDES . 'defaults' . DIRECTORY_SEPARATOR);
+
+/**
  * Iceberg admin includes directory
  */
 define('ICEBERG_DIR_ADMIN_INCLUDES',        ICEBERG_DIR_ADMIN . 'includes' . DIRECTORY_SEPARATOR);
@@ -127,6 +132,12 @@ $__ICEBERG_API                  = false;
 /**#@-*/
 
 /**#@+
+ * Degub
+ */
+//$__ICEBERG_DEBUG                = null;
+/**#@-*/
+
+/**#@+
  * Languages
  */
 $__ICEBERG_LANGUAGES            = array('ca_ES', 'en_US', 'es_ES');
@@ -145,7 +156,6 @@ $__MYSQL_ROW_METHOD             = MYSQL_ROW_AS_OBJECT;
 $__MYSQL_ERROR_DEBUG_LOG        = true;
 $__MYSQL_ERROR_DEBUG_LOG_FILE   = '';
 $__MYSQL_ERROR_DEBUG_SHOW       = true;
-$__MYSQL_QUERY_DEBUG             = array();
 /**#@-*/
 
 /**#@+
@@ -172,7 +182,6 @@ $__CONFIG_ROWS                  = array();
  * CACHE
  */
 $__CACHE_OBJECTS                = array();
-$__CACHE_DEBUG                  = array();
 /**#@-*/
 
 /**#@+

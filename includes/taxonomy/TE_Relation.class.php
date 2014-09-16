@@ -112,23 +112,59 @@ class TE_Relation extends TaxonomyElements
         parent::FormEdit($page);
     }
     
-    public function FormEditMultiple($page)
+    public function FormEditMultipleTaxonomy($page, $taxonomy)
     {
         $pages = get_pages(array(
             'group' => $this->group,
             'type' => $this->type,
-            'taxonomy' => $this->taxonomy,
+            'taxonomy' => $taxonomy,
             'order' => 'name'
         ));
+        $parents = array();
+        foreach ($pages AS $ppage)
+        {
+            array_push($parents, $ppage->parent);
+        }
+        $categs = get_pages(array('id'=>$parents));
+        list($pages, $categs) = action_event('filter_form_edit_te_relation', $pages, $categs, $this, $page);
         ?>
+        
+        <?php if (count($categs) > 0 && count($taxonomy)==1): ?>
+        
+        <?php foreach ($categs AS $categ): ?>
+        <h5><?php print $categ->GetTitle(); ?></h5>
+        <div class="row-fluid">
+            <?php $i=1; foreach ($pages AS $id => $rpage): $parent=get_page($rpage->parent); ?>
+            <?php if ($rpage->parent == $categ->id): ?>
+            <div class="span3">
+                <label class="checkbox" for="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-<?php print $id; ?>">
+                    <input type="checkbox" name="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>[]" value="<?php print $id; ?>" id="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-<?php print $id; ?>" <?php print $this->IsRelation($page, $id) ? 'checked' : ''; ?>>
+                    <?php print $rpage->GetTitle(); ?>
+                </label>
+            </div>
+            <?php if ($i%4==0): ?>
+        </div>
+        <div class="row-fluid">
+            <?php endif; ?>
+            <?php $i++; endif; ?>
+            <?php endforeach; ?>
+        </div>
+        <?php endforeach; ?>
+        
+        <?php else: ?>
+        
+        <?php
+        $taxonomy_object = get_pagetaxonomy($taxonomy);
+        ?>
+        <h5><?php print $taxonomy_object->GetName(); ?></h5>
         <div class="row-fluid">
             <?php $i=1; foreach ($pages AS $id => $rpage): $parent=get_page($rpage->parent); ?>
             <div class="span3">
-                <label class="checkbox" for="select-<?php print $this->GetAttrName(); ?>-<?php print $id; ?>">
-                    <input type="checkbox" name="select-<?php print $this->GetAttrName(); ?>[]" value="<?php print $id; ?>" id="select-<?php print $this->GetAttrName(); ?>-<?php print $id; ?>" <?php print $this->IsRelation($page, $id) ? 'checked' : ''; ?>>
+                <label class="checkbox" for="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-<?php print $id; ?>">
+                    <input type="checkbox" name="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>[]" value="<?php print $id; ?>" id="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-<?php print $id; ?>" <?php print $this->IsRelation($page, $id) ? 'checked' : ''; ?>>
                     <?php print $rpage->GetTitle(); ?>
                     <?php if ($parent->id != -1): ?>
-                    <br /><small>(<?php print $parent->GetTitle(); ?>)</small>
+                    <br/><small>(<?php print $parent->GetTitle(); ?>)</small>
                     <?php endif; ?>
                 </label>
             </div>
@@ -136,9 +172,20 @@ class TE_Relation extends TaxonomyElements
         </div>
         <div class="row-fluid">
             <?php endif; ?>
-            <?php $i++; endforeach; ?>
+            <?php $i++; ?>
+            <?php endforeach; ?>
         </div>
+        
+        <?php endif; ?>
+        
         <?php
+    }
+    
+    public function FormEditMultiple($page)
+    {
+        foreach ($this->taxonomy AS $taxonomy) {
+            $this->FormEditMultipleTaxonomy($page, $taxonomy);
+        }
     }
     
     public function FormEditSimple($page)
@@ -149,8 +196,9 @@ class TE_Relation extends TaxonomyElements
             'taxonomy' => $this->taxonomy,
             'order' => 'name'
         ));
+        list($pages) = action_event('filter_form_edit_te_relation', $pages, null, $this, $page);
         ?>
-        <select class="input-block-level" id="select-<?php print $this->GetAttrName(); ?>" name="select-<?php print $this->GetAttrName(); ?>">
+        <select class="input-block-level" id="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" name="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>">
             <option value="NULL"></option>
             <?php foreach ($pages AS $id => $rpage): $parent=get_page($rpage->parent); ?>
             <?php if ($page->id != $id): ?>
@@ -168,13 +216,18 @@ class TE_Relation extends TaxonomyElements
     
     public function GetFormEdit($args=array())
     {
-        return isset($args[$this->GetAttrName()]) ? $args[$this->GetAttrName()] : get_request_p('select-'.$this->GetAttrName(), array());
+        return isset($args[$this->GetAttrName()]) ? $args[$this->GetAttrName()] : get_request_p('select-'.$this->GetAttrName().'-'.$this->GetTaxonomy(), array());
     }
     
     public function SaveFormEdit($page_id, $args=array(), $lang=null)
     {
         $ids = $this->GetFormEdit($args);
         $ids = is_array($ids) ? $ids : array($ids);
+        Page::DeleteRelation($page_id, Page::RELATION_KEY_PAGE . '#' . $this->GetAttrName(), $lang);
+        foreach ($ids AS $k => $parent)
+        {
+            Page::InsertRelation($page_id, Page::RELATION_KEY_PAGE . '#' . $this->GetAttrName(), $parent, $lang, $k);
+        }
         return Page::InsertUpdateMeta($page_id, $this->GetAttrName(), $ids, $lang);
     }
     

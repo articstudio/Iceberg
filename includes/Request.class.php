@@ -216,7 +216,7 @@ class Request extends ObjectConfig
     public static function GetQuery($withSeparator=false)
     {
         $query = (isset($_SERVER['QUERY_STRING']) && !empty ($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : '';
-        return ($withSeparator ? '?' : '') . $query;
+        return (($withSeparator && !empty($query)) ? '?' : '') . $query;
     }
 
     /**
@@ -244,6 +244,15 @@ class Request extends ObjectConfig
         $url = $withProtocol ? self::GetProtocol() . '://' : '';
         $url .= $_SERVER['HTTP_HOST'] . DIRECTORY_SEPARATOR . static::GetURI(false);
         list($url, $withProtocol) = action_event('request_get_url', $url, $withProtocol);
+        return $url;
+    }
+    
+    static public function GetFullUrl()
+    {
+        $url = self::GetProtocol() . '://';
+        $url .= $_SERVER['HTTP_HOST'] . DIRECTORY_SEPARATOR . static::GetURI(false);
+        $url .= static::GetQuery(true);
+        list($url) = action_event('request_get_full_url', $url);
         return $url;
     }
 
@@ -549,6 +558,6 @@ class Request extends ObjectConfig
         {
             header($response);
         }
-        exit();
+        //exit();
     }
 }

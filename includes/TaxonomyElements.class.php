@@ -19,9 +19,11 @@ abstract class TaxonomyElementsBase extends ObjectConfig
         'iceberg' => array(
             'TE_Input',
             'TE_Text',
+            'TE_Check',
             'TE_Images',
             'TE_Geolocation',
-            'TE_Relation'
+            'TE_Relation',
+            'TE_Relation_User'
         ),
         'dynamic' => array()
     );
@@ -78,11 +80,14 @@ abstract class TaxonomyElements extends TaxonomyElementsBase implements Taxonomy
 {
     protected static $NAME = '';
     protected $attribute_name;
+    protected $title;
     protected $comments;
+    protected $parent_taxonomy;
     
     public function __construct($args=array()) {
         $this->SetAttrName(isset($args['name']) ? $args['name'] : uniqid());
         $this->SetComments(isset($args['comments']) ? $args['comments'] : '');
+        $this->SetParentTaxonomy(isset($args['taxonomy']) ? $args['taxonomy'] : -1);
     }
     
     public function GetName()
@@ -103,6 +108,26 @@ abstract class TaxonomyElements extends TaxonomyElementsBase implements Taxonomy
     public function GetType()
     {
         return get_called_class();
+    }
+    
+    public function GetTitle()
+    {
+        return $this->title;
+    }
+    
+    public function SetTitle($title)
+    {
+        return $this->title = $title;
+    }
+    
+    public function GetTaxonomy()
+    {
+        return $this->parent_taxonomy;
+    }
+    
+    public function SetParentTaxonomy($taxonomy)
+    {
+        return $this->parent_taxonomy = $taxonomy;
     }
     
     public function GetComments()
@@ -128,15 +153,20 @@ abstract class TaxonomyElements extends TaxonomyElementsBase implements Taxonomy
     {
         ?>
         <p>
+            <label for="title-<?php print $this->GetAttrName(); ?>"><?php print_text('Title'); ?></label>
+            <input type="text" class="input-block-level" name="title-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" id="title-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" value="<?php print_html_attr($this->GetTitle()); ?>">
+        </p>
+        <p>
             <label for="comments-<?php print $this->GetAttrName(); ?>"><?php print_text('Comments'); ?></label>
-            <textarea class="input-block-level" name="comments-<?php print $this->GetAttrName(); ?>" id="comments-<?php print $this->GetAttrName(); ?>"><?php print $this->GetComments(); ?></textarea>
+            <textarea class="input-block-level" name="comments-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" id="comments-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>"><?php print $this->GetComments(); ?></textarea>
         </p>
         <?php
     }
     
     public function SaveFormConfig($args=array())
     {
-        $this->SetComments(isset($args['comments']) ? $args['comments'] : get_request_p('comments-'.$this->GetAttrName(), '', true));
+        $this->SetTitle(isset($args['title']) ? $args['title'] : get_request_p('title-'.$this->GetAttrName().'-'.$this->GetTaxonomy(), '', true));
+        $this->SetComments(isset($args['comments']) ? $args['comments'] : get_request_p('comments-'.$this->GetAttrName().'-'.$this->GetTaxonomy(), '', true));
     }
     
     public function FormEdit($page)

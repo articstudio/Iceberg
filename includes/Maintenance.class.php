@@ -63,7 +63,7 @@ class Maintenance extends ObjectConfig
         $ip = getIP();
         $ips = str_replace(',', ' ', static::GetConfigValue('allowed'));
         $ips = explode(' ', $ips);
-        $is = (in_array($ip, $ips) && User::IsAdmin());
+        $is = (in_array($ip, $ips) || User::IsAdmin());
         return $is;
     }
     

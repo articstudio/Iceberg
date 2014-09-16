@@ -627,7 +627,62 @@ $.extend( true, $.fn.DataTable.TableTools.DEFAULTS.oTags, {
     }
 });
 
+// Accent neutralization
+/*function cleanStrAccents(data)
+{
+    return ! data ?
+    '' :
+    typeof data === 'string' ?
+        data
+            .replace( /\n/g, ' ' )
+            .replace( /á/g, 'a' )
+            .replace( /à/g, 'a' )
+            .replace( /é/g, 'e' )
+            .replace( /è/g, 'e' )
+            .replace( /í/g, 'i' )
+            .replace( /ó/g, 'o' )
+            .replace( /ò/g, 'o' )
+            .replace( /ú/g, 'u' )
+            .replace( /ê/g, 'e' )
+            .replace( /î/g, 'i' )
+            .replace( /ô/g, 'o' )
+            .replace( /è/g, 'e' )
+            .replace( /ï/g, 'i' )
+            .replace( /ü/g, 'u' )
+            .replace( /ç/g, 'c' ) :
+        data;
+}
+$.fn.dataTableExt.ofnSearch  = function ( data ) {
+    var newfilter = cleanStrAccents(data);
+    console.log(newfilter);
+    return newfilter;
+};*/
+/*$.fn.DataTable.ext.type.search.string = function ( data ) {
+    return ! data ?
+        '' :
+        typeof data === 'string' ?
+            data
+                .replace( /\n/g, ' ' )
+                .replace( /á/g, 'a' )
+                .replace( /à/g, 'a' )
+                .replace( /é/g, 'e' )
+                .replace( /è/g, 'e' )
+                .replace( /í/g, 'i' )
+                .replace( /ó/g, 'o' )
+                .replace( /ò/g, 'o' )
+                .replace( /ú/g, 'u' )
+                .replace( /ê/g, 'e' )
+                .replace( /î/g, 'i' )
+                .replace( /ô/g, 'o' )
+                .replace( /è/g, 'e' )
+                .replace( /ï/g, 'i' )
+                .replace( /ü/g, 'u' )
+                .replace( /ç/g, 'c' ) :
+            data;
+};*/
+
 var _datatables = [];
+var _datatables_allow_filter = [];
 function SearchDataTables()
 {
     $('table.datatable').each(function(){
@@ -720,6 +775,95 @@ function addDataTable($obj)
             }
         });
     }
+    
+    $('[table-filter='+selector+']').each(function(){
+        var $obj = $(this);
+        var filter = $obj.attr('table-filter');
+        var column = $obj.attr('table-filter-column');
+        column = (typeof column === 'undefined' || column === '') ? null : parseInt(column);
+        var $filter = _datatables[filter];
+        if ($obj.is('select')) {
+            $obj.bind('change', function(){
+                var filter_value = $obj.val();
+                if (filter_value === '*' || filter_value === '') {
+                    $filter.fnFilter('', column);
+                }
+                else {
+                    filter_value = $('option:selected', $obj).text();
+                    $filter.fnFilter(filter_value, column);
+                }
+            });
+        }
+        else if ($obj.is('input[type=checkbox]')) {
+            var chkname = $obj.attr('name');
+            if (typeof _datatables_allow_filter[selector+'@'+column] === 'undefined')
+            {
+                _datatables_allow_filter[selector+'@'+column] = false;
+            }
+            //console.log(_datatables_allow_filter[selector+'@'+column]);
+            if (_datatables_allow_filter[selector+'@'+column] === false)
+            {
+                _datatables_allow_filter[selector+'@'+column] = chkname;
+                //console.log(selector+'@'+column+ ' => ' + chkname);
+                //console.log(_datatables_allow_filter);
+                $.fn.dataTableExt.afnFiltering.push(
+                    function (oSettings, aData, iDataIndex) {
+                        var found = true;
+                        var columns = aData.length;
+                        var nColumn;
+                        for (nColumn=0;nColumn<columns;++nColumn)
+                        {
+                            var key = oSettings.nTable.getAttribute('id') + '@' + nColumn;
+                            if (typeof _datatables_allow_filter[key] === 'undefined' || _datatables_allow_filter[key] === false) // && $.inArray(chkname, _datatables_allow_filter[key]) === -1
+                            {
+                                //console.log('SKIP: '+key);
+                                //console.log('-------------------------------');
+                                //return true;
+                            }
+                            else
+                            {
+                                var filter_values = [];
+                                $('input[type=checkbox][name="'+chkname+'"]:checked').each(function(){
+                                    filter_values.push($(this).attr('table-filter-text'));
+                                });
+                                var l = filter_values.length;
+                                if (l > 0)
+                                {
+                                    found = false;
+                                    //console.log(filter_values);
+                                    //console.log(aData[nColumn]);
+                                    var i;
+                                    for (i=0;i<l;++i)
+                                    {
+                                        if (aData[nColumn].indexOf(filter_values[i])>-1)
+                                        {
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                    //console.log(found);
+                                    //console.log('-------------------------------');
+                                    if (!found) { break; }
+                                }
+                                else
+                                {
+                                    //console.log('NO FILTER: '+key);
+                                    //console.log('-------------------------------');
+                                }
+                            }
+                        }
+                        return found;
+                    }
+                );
+            }
+            $obj.bind('change', function(){
+                $filter.fnFilter('', column);
+            });
+        }
+        
+        
+        
+    });
 }
 
 $(document).ready(function(){

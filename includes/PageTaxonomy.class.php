@@ -12,16 +12,22 @@ class PageTaxonomy extends ObjectTaxonomy
     public static $TAXONOMY_KEY = 'pagetaxonomy';
     
     protected $permalink;
+    protected $permalink_comments;
     protected $text;
+    protected $text_comments;
     protected $image;
+    protected $image_comments;
     protected $childs_allowed;
     protected $templates;
     protected $elements;
     
     public function __construct($args=array()) {
         $this->UsePermalink(isset($args['permalink']) ? $args['permalink'] : false);
+        $this->PermalinkComments(isset($args['permalink-comments']) ? $args['permalink-comments'] : '');
         $this->UseText(isset($args['text']) ? $args['text'] : false);
+        $this->TextComments(isset($args['text-comments']) ? $args['text-comments'] : '');
         $this->UseImage(isset($args['image']) ? $args['image'] : false);
+        $this->ImageComments(isset($args['image-comments']) ? $args['image-comments'] : '');
         $this->ChildsAllowed(isset($args['childs']) ? $args['childs'] : false);
         $this->SetTemplates(isset($args['templates']) ? $args['templates'] : array());
         $this->SetElements(isset($args['elements']) ? $args['elements'] : array());
@@ -40,6 +46,18 @@ class PageTaxonomy extends ObjectTaxonomy
         }
     }
     
+    public function PermalinkComments($comments=null)
+    {
+        if (is_null($comments))
+        {
+            return $this->permalink_comments;
+        }
+        else
+        {
+            return $this->permalink_comments = $comments;
+        }
+    }
+    
     public function UseText($use=null)
     {
         if (is_null($use))
@@ -52,6 +70,18 @@ class PageTaxonomy extends ObjectTaxonomy
         }
     }
     
+    public function TextComments($comments=null)
+    {
+        if (is_null($comments))
+        {
+            return $this->text_comments;
+        }
+        else
+        {
+            return $this->text_comments = $comments;
+        }
+    }
+    
     public function UseImage($use=null)
     {
         if (is_null($use))
@@ -61,6 +91,18 @@ class PageTaxonomy extends ObjectTaxonomy
         else
         {
             return $this->image = $use;
+        }
+    }
+    
+    public function ImageComments($comments=null)
+    {
+        if (is_null($comments))
+        {
+            return $this->image_comments;
+        }
+        else
+        {
+            return $this->image_comments = $comments;
         }
     }
     
@@ -93,6 +135,11 @@ class PageTaxonomy extends ObjectTaxonomy
     
     public function GetElements()
     {
+        foreach ($this->elements AS $k => $element)
+        {
+            $element->SetParentTaxonomy($this->GetID());
+            $this->elements[$k] = $element;
+        }
         return $this->elements;
     }
     
@@ -113,7 +160,8 @@ class PageTaxonomy extends ObjectTaxonomy
                     {
                         $class = $element['type'];
                         $args_element = array(
-                            'name' => $element['name']
+                            'name' => $element['name'],
+                            'taxonomy' => $this->GetID()
                         );
                         $element = new $class($args_element);
                         $buffer[$element->GetAttrName()] = $element;
@@ -124,11 +172,13 @@ class PageTaxonomy extends ObjectTaxonomy
         return $this->elements = $buffer;
     }
     
-    public function Configure() {
+    public function Configure($args=array()) {
         foreach ($this->elements AS $element)
         {
-            $element->SaveFormConfig();
+            $element->SetParentTaxonomy($this->GetID());
+            $name = $element->GetAttrName();
+            $element->SaveFormConfig(isset($args[$name]) ? $args[$name] : array());
         }
-        parent::Configure();
+        parent::Configure($args);
     }
 }

@@ -203,10 +203,13 @@ abstract class Theme extends ThemeBase
     private $styles_enqueue = array();
     
     
-    public function SetDirectory($basedir)
+    public function SetDirectory($basedir, $dirname=null)
     {
-        $theme = Theme::GetConfigValue(static::$THEME_CONFIG_KEY, array());
-        $dirname = isset($theme['dirname']) ? $theme['dirname'] : '';
+        if (is_null($dirname))
+        {
+            $theme = Theme::GetConfigValue(static::$THEME_CONFIG_KEY, array());
+            $dirname = isset($theme['dirname']) ? $theme['dirname'] : '';
+        }
         $this->directory = $basedir . $dirname . DIRECTORY_SEPARATOR;
         $this->url = File::GetURL($this->directory, ICEBERG_DIR, Request::GetBaseUrl());
     }

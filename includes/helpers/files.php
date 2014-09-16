@@ -15,6 +15,11 @@ function get_file_extension($filepath)
     return File::GetExtension($filepath);
 }
 
+function is_file_image_extension($filepath)
+{
+    return File::IsImageExtension($filepath);
+}
+
 function get_file_name($filepath)
 {
     return File::GetName($filepath);

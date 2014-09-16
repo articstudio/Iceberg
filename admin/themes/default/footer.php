@@ -22,6 +22,7 @@
                 button_new: "<?php print_html_attr(_T('New')); ?>",
                 reorder_error: "<?php print_html_attr(_T('Failed to reorder items')); ?>"
             };
+            var icebergAPI = "<?php echo get_iceberg_api_link(); ?>";
         </script>
         
         <?php theme_foot(); ?>

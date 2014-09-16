@@ -55,12 +55,14 @@ class Iceberg {
         require_once ICEBERG_DIR_INCLUDES .'DBRelation.class.php'; /* @todo DBRelation documentation */
         require_once ICEBERG_DIR_INCLUDES .'ObjectDBRelations.class.php'; /* @todo ObjectDBRelations documentation */
         
+        require_once ICEBERG_DIR_INCLUDES .'Config.class.php';
+        require_once ICEBERG_DIR_INCLUDES .'ObjectConfig.class.php'; /* @todo ObjectConfig documentation */
+        require_once ICEBERG_DIR_INCLUDES .'IcebergCache.class.php';
+        
         
         require_once ICEBERG_DIR_INCLUDES .'Domain.class.php';
         
         
-        require_once ICEBERG_DIR_INCLUDES .'Config.class.php';
-        require_once ICEBERG_DIR_INCLUDES .'ObjectConfig.class.php'; /* @todo ObjectConfig documentation */
         require_once ICEBERG_DIR_INCLUDES .'Time.class.php';
         require_once ICEBERG_DIR_INCLUDES .'Number.class.php';
         require_once ICEBERG_DIR_INCLUDES .'Metatags.class.php';
@@ -75,8 +77,6 @@ class Iceberg {
         require_once ICEBERG_DIR_INCLUDES .'Routing.class.php';
         require_once ICEBERG_DIR_INCLUDES .'RoutingBackendAPI.class.php';
         
-        
-        require_once ICEBERG_DIR_INCLUDES .'IcebergCache.class.php';
         
         
         require_once ICEBERG_DIR_INCLUDES .'User.class.php';
@@ -139,14 +139,6 @@ class Iceberg {
                 self::LoadDinamicLanguages(); /* Load Dinamic Languages */
                 self::Configure(); /* Configure */
                 self::Taxonomy(); /* Load taxonomy */
-                /*
-                //Request::ParseURL();
-                //
-                //Request::LoadDinamicRedirect();*/
-            }
-            else
-            {
-                throw new IcebergException( 'ICEBERG INITIALIZATION ERROR: No configuration for this domain.' );
             }
         }
         else
@@ -170,6 +162,7 @@ class Iceberg {
     private static function LoadRequest()
     {
         Request::LoadRequest();
+        action_event('iceberg_load_request');
     }
 
     /**
@@ -278,6 +271,7 @@ class Iceberg {
     {
         Session::Start();
         //Session::LoadSession();
+        action_event('iceberg_session');
     }
 
     /**
@@ -300,19 +294,25 @@ class Iceberg {
         }
         if (!is_null($class) && class_exists($class)) {
             $this->Environment = new $class();
-            $this->Environment
-                    ->Load()
-                    ->Config()
-                    ->Generate()
-                    ->Show();
+            
+            $this->Environment->Load()->Config();
+            $content = '';
+            
+            list($content) = action_event('filter_iceberg_environment_content', $content);
+            if (empty($content))
+            {
+                ob_start();
+                $this->Environment->Generate()->Show();
+                $content = ob_get_clean();
+            }
+            list($content) = action_event('iceberg_environment_content', $content);
+            printf('%s', $content);
+            
             $this->time_end = microtime(true);
             $time = $this->time_end - $this->time_start;
-            if (ICEBERG_DEBUG_MODE)
-            {
-                print "\n\n" . '<!-- Page generated in ' . $time . ' seconds -->';
-                MySQL::PrintLog();
-                IcebergCache::PrintLog();
-            }
+            IcebergDebug::PrintLog($time);
+            
+            action_event('iceberg_loaded');
         }
         else {
             throw new IcebergException('ICEBERG INITIALIZATION ERROR: Environment not found.');

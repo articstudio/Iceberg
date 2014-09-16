@@ -32,6 +32,23 @@ $is_new = !(bool)$id || $action === 'new' || $page->id === -1;
 $submit = $is_new ? ($is_translate ? array('action'=>'translate', 'id'=>$id, 'group'=>$pagegroup_id, 'tlang'=>$tlang) : array('action'=>'insert', 'group'=>$pagegroup_id)) : ($is_translate ? array('action'=>'translate', 'id'=>$id, 'group'=>$pagegroup_id, 'tlang'=>$tlang) : array('action'=>'update', 'id'=>$id, 'group'=>$pagegroup_id));
 $back = array('group'=>$pagegroup_id);
 
+$user = get_user();
+$user_level = $user->level;
+$user_page = $user->GetMeta('page');
+$user2page = $user->GetRelation(User::RELATION_KEY_PAGE);
+$user_edit = true;
+if ($user_level == get_session_admin_level())
+{
+    if (in_array($id, $user2page))
+    {
+        $user_edit = false;
+    }
+    /*if ($user_page == $page->id)
+    {
+        $user_edit = false;
+    }*/
+}
+
 $p_type = get_pagetype($page->type);
 $p_taxonomy = get_pagetaxonomy($page->taxonomy);
 $p_templates = $p_taxonomy->GetTemplates();
@@ -41,31 +58,87 @@ $pages = get_pages(array(
     'order' => 'name'
 ), $plang);
 
+$page_parent = $page->parent;
+
 $types = $pagegroup->GetTypeObject();
 $taxonomies = $pagegroup->GetTaxonomyObjects();
 $templates = $pagegroup->GetTemplates();
+list($pages, $page_parent, $types, $taxonomies, $templates) = action_event('filter_content_publish_edit_settings', $pages, $page_parent, $types, $taxonomies, $templates, $action, $pagegroup_id, $id, $plang);
 
 $taxonomies_permalink = $pagegroup->GetTaxonomyUsePermalink();
 $taxonomies_text = $pagegroup->GetTaxonomyUseText();
 $taxonomies_image = $pagegroup->GetTaxonomyUseImage();
 
-function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = null)
+$have_permalink = false;
+if ($is_new)
 {
+    if (count($taxonomies)>1)
+    {
+        $have_permalink = true;
+    }
+    else if (count($taxonomies)==1)
+    {
+        $intersect = array_intersect(array_keys($taxonomies), $taxonomies_permalink);
+        if (count($intersect)>0)
+        {
+            $have_permalink = true;
+        }
+    }
+}
+else if ($p_taxonomy->UsePermalink())
+{
+    $have_permalink = true;
+}
+
+$have_text = false;
+if ($is_new)
+{
+    if (count($taxonomies)>1)
+    {
+        $have_text = true;
+    }
+    else if (count($taxonomies)==1)
+    {
+        $intersect = array_intersect(array_keys($taxonomies), $taxonomies_text);
+       if (count($intersect)>0)
+       {
+           $have_text = true;
+       }
+    }
+}
+else if ($p_taxonomy->UseText())
+{
+    $have_text = true;
+}
+
+function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = null, $found = false)
+{
+    $user = get_user();
+    $user_level = $user->level;
+    $user2page = $user->GetRelation(User::RELATION_KEY_PAGE);
     foreach ($pages AS $k => $page)
     {
         if (($parent === $page->parent || (is_null($parent) && !isset($pages[$page->parent]))) && $page->id != $actual && $page->GetTaxonomy()->ChildsAllowed())
         {
-            ?>
-            <li>
-                <span class="click <?php print $page->id==$active ? 'active' : ''; ?>" data-click="<?php print $page->id; ?>"><?php print $page->GetTitle(); ?></span>
-                
-                <?php if ($page->GetTaxonomy()->ChildsAllowed()): ?>
-                <ul>
-                    <?php printPagesHTMLTree($pages, $active, $actual, $page->id); ?>
-                </ul>
-                <?php endif; ?>
-            </li>
-            <?php
+            $found2 = $found ? $found : ($user_level > get_session_admin_level() || in_array($page->id, $user2page));
+            if ($found2)
+            {
+                ?>
+                <li>
+                    <span class="click <?php print $page->id==$active ? 'active' : ''; ?>" data-click="<?php print $page->id; ?>"><?php print $page->GetTitle(); ?></span>
+
+                    <?php if ($page->GetTaxonomy()->ChildsAllowed()): ?>
+                    <ul>
+                        <?php printPagesHTMLTree($pages, $active, $actual, $page->id, $found2); ?>
+                    </ul>
+                    <?php endif; ?>
+                </li>
+                <?php
+            }
+            else if ($page->GetTaxonomy()->ChildsAllowed())
+            {
+                printPagesHTMLTree($pages, $active, $actual, $page->id, $found2);
+            }
         }
     }
 }
@@ -89,15 +162,19 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                     <input type="text" name="name" id="name" class="input-block-level" value="<?php print_html_attr($page->GetTitle()); ?>" permalink="#permalink" required />
                 </p>
                 
+                <?php if ($have_permalink): ?>
                 <p id="permalink-container" data-filter="taxonomy" data-filter-values="<?php print implode(',', $taxonomies_permalink); ?>">
                     <label for="permalink"><?php print_text('Permalink'); ?>:</label>
                     <input type="text" name="permalink" id="permalink" class="input-block-level" value="<?php print_html_attr($page->GetPermalink()); ?>" required />
                 </p>
+                <?php endif; ?>
                 
+                <?php if ($have_text): ?>
                 <div id="text-container" data-filter="taxonomy" data-filter-values="<?php print implode(',', $taxonomies_text); ?>">
                     <label for="text"><?php print_text('Text'); ?>:</label>
                     <textarea class="ckeditor input-block-level" id="text" name="text" rows="10" cols="10"><?php print $page->GetText(); ?></textarea>
                 </div>
+                <?php endif; ?>
                 
                 <?php if ($is_new): ?>
                 <?php foreach ($taxonomies AS $taxonomy): ?>
@@ -105,20 +182,30 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                     <hr />
                     <h5><?php print $taxonomy->GetName(); ?></h5>
                     <?php $elements = $taxonomy->GetElements(); foreach ($elements AS $e_name => $element): ?>
-                    <hr />
-                    <h6><?php print_text('Attribute'); ?>: <?php print $e_name; ?></h6>
-                    <?php $element->FormEdit($page); ?>
+                    <?php list($show_element) = action_event('filter_content_publish_edit_show_te', true, $taxonomy, $element, $tpage, $is_new); ?>
+                    <?php if ($show_element || true): ?>
+                    <div id="element-<?php print $taxonomy->GetID(); ?>-<?php print $element->GetAttrName(); ?>" class="<?php echo $show_element?'':'hidden'; ?>">
+                        <hr />
+                        <h6><?php print $element->GetTitle(); ?> <small>(<?php print $e_name; ?>)</small></h6>
+                        <?php $element->FormEdit($page); ?>
+                    </div>
+                    <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
                 <?php endforeach; ?>
                 <?php else: ?>
                 
                 <hr />
-                <h5><?php print $p_taxonomy->GetName(); ?></h5>
+                <!--<h5><?php print $p_taxonomy->GetName(); ?></h5>-->
                 <?php $elements = $p_taxonomy->GetElements(); foreach ($elements AS $e_name => $element): ?>
-                <hr />
-                <h6><?php print_text('Attribute'); ?>: <?php print $e_name; ?></h6>
-                <?php $element->FormEdit($page); ?>
+                <?php list($show_element) = action_event('filter_content_publish_edit_show_te', true, $p_taxonomy, $element, $tpage, $is_new); ?>
+                <?php if ($show_element || true): ?>
+                <div id="element-<?php print $p_taxonomy->GetID(); ?>-<?php print $element->GetAttrName(); ?>" class="<?php echo $show_element?'':'hidden'; ?>">
+                    <hr />
+                    <h6><?php print $element->GetTitle(); ?> <small>(<?php print $e_name; ?>)</small></h6>
+                    <?php $element->FormEdit($page); ?>
+                </div>
+                <?php endif; ?>
                 <?php endforeach; ?>
                 
                 <?php endif; ?>
@@ -254,6 +341,7 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                 </div>
             </div>
             
+            <?php if ($user_edit): ?>
             <div class="well widget">
                 <header><?php print_text('Settings'); ?></header>
                 <div class="btn-toolbar header">
@@ -265,17 +353,38 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                     <label><?php print_text('Group'); ?>: <strong><?php print $pagegroup->GetName(); ?></strong></label>
                 </p>
                 
+                <?php if (count($pages) > 1): ?>
                 <label for="parent"><?php print_text('Parent'); ?>:</label>
                 <div class="treeview-container mini">
                     <ul select-treeview="parent">
                         <?php
-                        printPagesHTMLTree($pages, $page->parent, $id);
+                        printPagesHTMLTree($pages, $page_parent, $id);
                         ?>
                     </ul>
-                    <input type="hidden" name="parent" id="parent" value="<?php print is_null($page->parent) ? 'NULL' : $page->parent; ?>" />
+                    <input type="hidden" name="parent" id="parent" value="<?php print is_null($page_parent) ? 'NULL' : $page_parent; ?>" />
                 </div>
+                <?php elseif (count($pages) == 1): $b_parent=current($pages); ?>
+                
+                <?php if ($b_parent->id == $page_parent): ?>
+                <p>
+                    <label><?php print_text('Parent'); ?>: <strong><?php print $b_parent->GetTitle(); ?></strong></label>
+                    <input type="hidden" name="parent" id="parent" value="<?php print $b_parent->id; ?>" />
+                </p>
+                <?php else: ?>
+                <p>
+                    <label for="parent"><?php print_text('Parent'); ?>:</label>
+                    <select name="parent" id="parent" class="input-block-level">
+                        <option value="NULL"></option>
+                        <option value="<?php print $b_parent->id; ?>"><?php print $b_parent->GetTitle(); ?></option>
+                    </select>
+                </p>
+                <?php endif; ?>
+                
+                <?php endif; ?>
                 
                 <?php if ($is_new): ?>
+                
+                <?php if (count($types) > 1): ?>
                 <p>
                     <label for="type"><?php print_text('Type'); ?>:</label>
                     <select name="type" id="type" class="input-block-level">
@@ -284,6 +393,14 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                         <?php endforeach; ?>
                     </select>
                 </p>
+                <?php elseif (count($types) == 1): reset($types); $type=current($types); ?>
+                <p>
+                    <label><?php print_text('Type'); ?>: <strong><?php print $type->GetName(); ?></strong></label>
+                    <input type="hidden" name="type" id="type" value="<?php print $type->GetID(); ?>" />
+                </p>
+                <?php endif; ?>
+                
+                <?php if (count($taxonomies) > 1): ?>
                 <p>
                     <label for="taxonomy"><?php print_text('Taxonomy'); ?>:</label>
                     <select name="taxonomy" id="taxonomy" class="input-block-level" data-filter="type">
@@ -292,7 +409,15 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                         <?php endforeach; ?>
                     </select>
                 </p>
-                <?php if (count($templates) > 0): ?>
+                <?php elseif (count($taxonomies) == 1): reset($taxonomies); $taxonomy=current($taxonomies); ?>
+                <p>
+                    <label><?php print_text('Taxonomy'); ?>: <strong><?php print $taxonomy->GetName(); ?></strong></label>
+                    <input type="hidden" name="taxonomy" id="taxonomy" value="<?php print $taxonomy->GetID(); ?>" />
+                </p>
+                <?php endif; ?>
+                
+                
+                <?php if (count($templates) > 1): ?>
                 <p>
                     <label for="template"><?php print_text('Template'); ?>:</label>
                     <select name="template" id="template" class="input-block-level" data-filter="taxonomy">
@@ -301,8 +426,15 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                         <?php endforeach; ?>
                     </select>
                 </p>
+                <?php elseif (count($templates) == 1): reset($templates); $template=current($templates); ?>
+                <p>
+                    <label><?php print_text('Template'); ?>: <strong><?php print $template; ?></strong></label>
+                    <input type="hidden" name="template" id="template" value="<?php print $template; ?>" />
+                </p>
                 <?php endif; ?>
+                
                 <?php else: ?>
+                
                 <p>
                     <label><?php print_text('Type'); ?>: <strong><?php print $p_type->GetName(); ?></strong></label>
                     <input type="hidden" name="type" value="<?php print $page->type; ?>" />
@@ -311,7 +443,8 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                     <label><?php print_text('Taxonomy'); ?>: <strong><?php print $p_taxonomy->GetName(); ?></strong></label>
                     <input type="hidden" name="taxonomy" value="<?php print $page->taxonomy; ?>" />
                 </p>
-                <?php if (count($p_templates) > 0): ?>
+                
+                <?php if (count($p_templates) > 1): ?>
                 <p>
                     <label for="template"><?php print_text('Template'); ?>:</label>
                     <select name="template" id="template" class="input-block-level" data-filter="taxonomy">
@@ -320,10 +453,25 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                         <?php endforeach; ?>
                     </select>
                 </p>
+                <?php elseif (count($p_templates) == 1): reset($p_templates); $template=current($p_templates); ?>
+                <p>
+                    <label><?php print_text('Template'); ?>: <strong><?php print $template; ?></strong></label>
+                    <input type="hidden" name="template" id="template" value="<?php print $template; ?>" />
+                </p>
                 <?php endif; ?>
+                
                 <?php endif; ?>
             </div>
+            <?php else: ?>
             
+            <input type="hidden" name="parent" id="parent" value="<?php print is_null($page->parent) ? 'NULL' : $page->parent; ?>" />
+            <input type="hidden" name="type" value="<?php print $page->type; ?>" />
+            <input type="hidden" name="taxonomy" value="<?php print $page->taxonomy; ?>" />
+            <input type="hidden" name="template" id="template" value="<?php print $page->GetTemplate(); ?>" />
+            
+            <?php endif; ?>
+            
+            <?php if (($is_new && count($taxonomies_image)>0) || (!$is_new && $p_taxonomy->UseImage())): ?>
             <div class="well widget" id="image-container" data-filter="taxonomy" data-filter-values="<?php print implode(',', $taxonomies_image); ?>">
                 <header><?php print_text('Principal image'); ?></header>
                 <div class="btn-toolbar header">
@@ -336,9 +484,17 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                         <button type="button" id="page-image-button" class="btn btn-inverse"><?php print_text('Browse'); ?></button>
                         <input type="hidden" name="image" id="image" class="input-block-level" value="<?php print_html_attr($page->GetImage()); ?>" />
                         <span class="thumbnail"><img src="<?php print_html_attr($page->GetImage()); ?>" /></span>
+                        <?php if ($is_new): ?>
+                        <?php foreach ($taxonomies AS $taxonomy): ?>
+                        <small id="image-comments-<?php print $taxonomy->GetID(); ?>" data-filter="taxonomy" data-filter-values="<?php print $taxonomy->GetID(); ?>"><?php print $taxonomy->ImageComments(); ?></small>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                        <small><?php print $p_taxonomy->ImageComments(); ?></small>
+                        <?php endif; ?>
                     </p>
                 </div>
             </div>
+            <?php endif; ?>
             
             <?php action_event('content_publish_edit_sidebar', $action, $pagegroup_id, $id, $plang); ?>
         </div>

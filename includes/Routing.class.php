@@ -24,11 +24,23 @@ interface RoutingInterface
 
 abstract class Routing extends Request
 {
+    
     /**
      * Configuration key
      * @var string
      */
     public static $CONFIG_KEY = 'routing_config';
+    
+    /**
+     * Configuration defaults
+     * @var array
+     */
+    public static $CONFIG_DEFAULTS = array(
+        'canonical' => 0,
+        'type' => 1,
+        'domains_by_language' => array(),
+        'domains' => array()
+    );
     
     /**
      * Language
@@ -92,15 +104,40 @@ abstract class Routing extends Request
         return array_key_exists($key, $request) ? $request[$key] : false;
     }
     
+    public function SetParsedRequestValue($key, $value)
+    {
+        return ($this->request[$key] = $value);
+    }
+    
     public function GenerateURL($params=array(), $baseurl=null)
     {
         return static::MakeURL($params, $baseurl);
     }
     
     
+    
+    public static function Save($config)
+    {
+        return static::SaveConfig($config);
+    }
+    
     public static function GetRouting()
     {
         return Environment::GetEnvironmentRouting();
+    }
+    
+    public static function GetCanonicals()
+    {
+        $arr = array();
+        list($arr) = action_event('routing_get_canonicals', $arr);
+        return $arr;
+    }
+    
+    public static function GetTypes()
+    {
+        $arr = array();
+        list($arr) = action_event('routing_get_types', $arr);
+        return $arr;
     }
     
     /**
@@ -119,8 +156,19 @@ abstract class Routing extends Request
             $baseurl = in_admin() ? get_base_url_admin() : $baseurl;
             $baseurl = in_api() ? get_base_url_api() : $baseurl;
         }
+        $hash = '';
+        if (isset($params['#'])) {
+            $hash = $params['#'];
+            $params['#'] = null;
+            unset($params['#']);
+        }
         $query = http_build_query($params);
         $url = $baseurl . (empty($query) ? '' : '?' . $query);
+        if (!empty($hash))
+        {
+            $url .= '#' . $hash;
+        }
+        list($url, $baseurl, $params) = action_event('routing_make_url', $url, $baseurl, $params);
         return $url;
     }
     

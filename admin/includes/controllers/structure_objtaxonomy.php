@@ -35,8 +35,11 @@ else if ($action == 'insert')
         $e_names = get_request_p('element_name', array());
         $e_types = get_request_p('element_type', array());
         $args['permalink'] = get_request_p('permalink', false);
+        $args['permalink-comments'] = get_request_p('comments-permalink', '', true);
         $args['text'] = get_request_p('text', false);
+        $args['text-comments'] = get_request_p('comments-text', '', true);
         $args['image'] = get_request_p('image', false);
+        $args['image-comments'] = get_request_p('comments-image', '', true);
         $args['childs'] = get_request_p('childs', false);
         $args['templates'] = get_request_p('templates', array());
         $args['elements'] = array();
@@ -72,8 +75,11 @@ else if ($action == 'update')
     else if ($mode === 'pagetaxonomies')
     {
         $obj->UsePermalink(get_request_p('permalink', false));
+        $obj->PermalinkComments(get_request_p('comments-permalink', '', true));
         $obj->UseText(get_request_p('text', false));
+        $obj->TextComments(get_request_p('comments-text', '', true));
         $obj->UseImage(get_request_p('image', false));
+        $obj->ImageComments(get_request_p('comments-image', '', true));
         $obj->ChildsAllowed(get_request_p('childs', false));
         $templates = get_request_p('templates', array());
         $obj->SetTemplates($templates);

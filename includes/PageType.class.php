@@ -37,8 +37,20 @@ class PageType extends ObjectTaxonomy
     public function GetTaxonomyObject()
     {
         $args = array(
-            'id' => $this->type
+            'id' => $this->GetTaxonomy()
         );
         return PageTaxonomy::GetList($args);
+    }
+    
+    public function GetTemplates($args=array())
+    {
+        $templates = array();
+        $taxonomies = $this->GetTaxonomyObject($args);
+        foreach ($taxonomies AS $taxonomy)
+        {
+            $buffer = $taxonomy->GetTemplates();
+            $templates = array_merge($templates, $buffer);
+        }
+        return $templates;
     }
 }

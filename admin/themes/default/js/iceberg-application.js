@@ -1,3 +1,6 @@
+var IcebergApplicationLoaded = false;
+
+
 
 /* PAGE IMAGE */
 function pushPageImage(file)
@@ -132,27 +135,61 @@ var defaultDiacriticsRemovalMap = [
     {'base':'z','letters':/[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g}
 ];
 function makePagePermalink(str) {
-        str = str.toLowerCase();
-        for(var i=0; i<defaultDiacriticsRemovalMap.length; i++) {
-            str = str.replace(defaultDiacriticsRemovalMap[i].letters, defaultDiacriticsRemovalMap[i].base);
-        }
-        var str_hyphens = str.replace(/\s/g,'-');
-        var finishedstr = str_hyphens.replace(/[^a-zA-Z0-9\-]/g,'');
-        finishedstr = finishedstr.toLowerCase();
-        finishedstr = finishedstr.replace(/-+/g,'-');
-        finishedstr = finishedstr.replace(/(^-)|(-$)/g,'');
-        return finishedstr;
+    str = str.toLowerCase();
+    for(var i=0; i<defaultDiacriticsRemovalMap.length; i++) {
+        str = str.replace(defaultDiacriticsRemovalMap[i].letters, defaultDiacriticsRemovalMap[i].base);
     }
+    var str_hyphens = str.replace(/\s/g,'-');
+    var finishedstr = str_hyphens.replace(/[^a-zA-Z0-9\-]/g,'');
+    finishedstr = finishedstr.toLowerCase();
+    finishedstr = finishedstr.replace(/-+/g,'-');
+    finishedstr = finishedstr.replace(/(^-)|(-$)/g,'');
+    return finishedstr;
+}
+function permalinkExists(permalink, $target, exclude, language)
+{
+    $.ajax({
+        url: icebergAPI,
+        type: 'GET',
+        dataType: 'JSON',
+        data: {
+            module:'permalinks',
+            action:'exists',
+            permalink:permalink,
+            exclude:exclude,
+            lang:language
+        },
+        success: function(data){
+            if (typeof data === 'object')
+            {
+                if (data.exists)
+                {
+                    $target.val(data.permalink);
+                }
+            }
+        },
+        error: function() {}
+    });
+}
 function SearchPagePermalink()
 {
     $('input[permalink]').each(function(){
         var $obj = $(this);
         var $output = $obj.attr('permalink');
         $output = $($output);
+        var exclude = $output.attr('exclude');
+        var language = $output.attr('language');
         if ($output.length > 0)
         {
             $obj.focusout(function(){
-                $($output).val(makePagePermalink($obj.val()));
+                var permalink = makePagePermalink($obj.val());
+                $output.val(permalink);
+                permalinkExists(permalink, $output, exclude, language);
+            });
+            $output.focusout(function(){
+                var permalink = makePagePermalink($output.val());
+                $output.val(permalink);
+                permalinkExists(permalink, $output, exclude, language);
             });
         }
     });
@@ -243,8 +280,15 @@ function SerachSortableLists() {
     $('ul[data-sortable]').each(function(){
         var $obj = $(this);
         var attributes = $obj.attr('data-sortable')
+        var connect = $obj.attr('data-sortable-connect')
+        var update = $obj.attr('data-sortable-update')
         var $sortable = $obj.sortable({
-            revert: _.inStringList(attributes, 'revert')
+            revert: _.inStringList(attributes, 'revert'),
+            connectWith: (typeof connect === 'undefined' || connect === '') ? false : connect,
+            update: (typeof connect === 'undefined' || connect === '') ? function(event, ui) {} : function(event, ui) {
+                var ids = $obj.sortable('toArray').toString();
+                $(update).val(ids);
+            }
         });
         if (_.inStringList(attributes, 'droppable')) {
             $sortable.droppable({
@@ -259,8 +303,9 @@ function SearchDragableLists() {
     $('ul[data-draggable]').each(function(){
         var $obj = $(this);
         var to = $obj.attr('data-draggable')
+        var clone = $obj.hasClass('')
         $('li', $obj).draggable({
-            connectToSortable: '#'+to,
+            connectToSortable: to,
             containment: $('#article-content'),
             helper: "clone",
             cursorAt: {top:30, left:10},
@@ -423,7 +468,7 @@ function SearchFilters() {
                 }
                 
                 /* SELECT => DIV / P */
-                if ($obj.is('div') || $obj.is('p')) {
+                if ($obj.is('div') || $obj.is('p') || $obj.is('span') || $obj.is('small')) {
                     
                     var values = []
                     $('option:selected', $filter).each(function(){
@@ -534,4 +579,7 @@ $(document).ready(function(){
     SearchFilters();
     SearchGMaps();
     SearchImagesGallery();
+    
+    IcebergApplicationLoaded = true;
+    $(window).trigger('IcebergApplicationLoaded');
 });

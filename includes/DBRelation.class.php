@@ -54,7 +54,7 @@ class DBRelation extends ObjectDB
         'language' => array(
             'name' => 'LANGUAGE',
             'type' => 'VARCHAR',
-            'length' => '10',
+            'length' => '150',
             'flags' => array(
                 'NOT NULL'
             ),

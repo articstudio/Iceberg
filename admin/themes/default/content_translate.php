@@ -23,13 +23,14 @@ foreach ($pagegroups AS $pagegroup_id => $pagegroup)
     }
 }
 
+
 ?>
 
 
 <?php foreach ($pagegroups AS $pagegroup_id => $pagegroup): ?>
 <?php if (count($pages[$pagegroup_id])): ?>
 
-<h3><?php print $pagegroup->GetName(); ?></h3>
+<!--<h3><?php print $pagegroup->GetName(); ?></h3>-->
 <?php if ($childs_allowed[$pagegroup_id]): ?>
 <div class="DTTT btn-group">
     <a href="<?php print get_admin_action_link(array('group'=>$pagegroup_id, 'action'=>'new')); ?>" class="btn">

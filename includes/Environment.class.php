@@ -87,6 +87,10 @@ abstract class Environment implements EnvironmentInterface
         {
             throw new IcebergException('ENVIRONMENT ERROR: Theme class not found.');
         }
+        else
+        {
+            $this->theme->Load();
+        }
         
         /* LANGUAGE */
         $language = $this->routing->GetLanguage();
@@ -101,8 +105,7 @@ abstract class Environment implements EnvironmentInterface
     
     public function Config()
     {
-        /* THEME */
-        $this->theme->Load();
+        
         $env_tpl = isset($this->environments[$this->environment]) ? $this->environments[$this->environment] : $this->environment;
         $this->theme->SetTemplate($env_tpl);
         
@@ -171,6 +174,12 @@ abstract class Environment implements EnvironmentInterface
     {
         $env = Iceberg::GetIcebergEnvironment();
         return $env->environment;
+    }
+    
+    public static function SetController($environment)
+    {
+        $env = Iceberg::GetIcebergEnvironment();
+        return $env->environment = $environment;
     }
     
     public static function ExecController($template)

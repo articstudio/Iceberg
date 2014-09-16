@@ -6,7 +6,7 @@
  * @uses Request::GetProtocol()
  * @return string 
  */
-function get_protocol()
+function get_request_protocol()
 {
     return Request::GetProtocol();
 }
@@ -17,7 +17,7 @@ function get_protocol()
  * @uses Request::GetDomain()
  * @return string 
  */
-function get_domain()
+function get_request_domain()
 {
     return Request::GetDomain();
 }

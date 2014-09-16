@@ -1,7 +1,12 @@
 <?php
 
+define('API_ICEBERG_ENVIRONMENT', 'iceberg');
+
 /** Include helpers routing file */
 require_once ICEBERG_DIR_HELPERS . 'routing-backend-api.php';
+
+/** Include frontend routing file */
+require_once ICEBERG_DIR_INCLUDES . 'RoutingFrontend.class.php';
 
 abstract class RoutingBackendAPI extends Routing
 {
@@ -21,6 +26,7 @@ abstract class RoutingBackendAPI extends Routing
     const REQUEST_KEY_PASSWORD = 'password';
     const REQUEST_KEY_LOGOUT = 'logout';
     
+    const REQUEST_ENVIRONMENT_ICEBERG_API = 'iceberg';
     const REQUEST_ENVIRONMENT_ADMIN_API = 'admin';
     const REQUEST_ENVIRONMENT_API = 'api';
     
@@ -169,6 +175,9 @@ abstract class RoutingBackendAPI extends Routing
     {
         $mode = static::GetRequestMode(); 
         $modes = static::GetModes();
+        
+        //var_dump($modes);
+        
         if (!$mode)
         {
             $keys = array_keys($modes);

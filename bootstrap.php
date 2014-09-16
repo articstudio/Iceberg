@@ -149,6 +149,16 @@ class Bootstrap
         //require_once ICEBERG_DIR_INCLUDES . 'hooks.php';
         
         /**
+         * IcebergSingleton class file
+         */
+        require_once ICEBERG_DIR_INCLUDES . 'IcebergSingleton.class.php';
+
+        /**
+         * IcebergDebug class file
+         */
+        require_once ICEBERG_DIR_INCLUDES . 'IcebergDebug.class.php';
+        
+        /**
          * Iceberg class file
          */
         require_once ICEBERG_DIR_INCLUDES . 'Iceberg.class.php';
@@ -170,16 +180,7 @@ class Bootstrap
      */
     private static function SetDebugMode($debug=true)
     {
-        if ($debug)
-        {
-            error_reporting(-1);
-            ini_set('display_errors', 1);
-        }
-        else
-        {
-            error_reporting(0);
-            ini_set('display_errors', 0);
-        }
+        IcebergDebug::Initialize($debug);
     }
 
     /**

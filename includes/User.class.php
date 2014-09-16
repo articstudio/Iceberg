@@ -83,6 +83,16 @@ class UserBase extends ObjectDBRelations
         )
     );
     
+    /**
+     * Childs relation
+     * @var array 
+     */
+    public static $DB_CHILDS = array(
+        'user-meta' => array(
+            'object' => 'UserMeta'
+        )
+    );
+    
     const RELATION_KEY_DOMAIN = 'user2domain';
     const RELATION_KEY_USER = 'user-user';
     const RELATION_KEY_PAGE = 'user2page';
@@ -162,9 +172,17 @@ class User extends UserBase
         $this->metas = isset($args['metas']) ? $args['metas'] : static::METAS_FORCE_LOAD;
         if ($this->metas === static::METAS_FORCE_LOAD)
         {
-            $this->LoadMetas($this->lang);
+            $this->metas = array();
+            if ($this->id!=-1)
+            {
+                $this->LoadMetas($this->lang);
+            }
         }
-        $this->LoadRelations($this->lang);
+        $this->relations = array();
+        if ($this->id!=-1)
+        {
+            $this->LoadRelations($this->lang);
+        }
     }
     
     public function GetLevelName()
@@ -222,17 +240,30 @@ class User extends UserBase
         $this->metas = !is_array($this->metas) ? array() : $this->metas;
         $this->metas[$lang] = (!isset($this->metas[$lang]) || !is_array($this->metas[$lang])) ? array() : $this->metas[$lang];
         $this->metas[$lang][$key] = $value;
+        return true;
     }
     
     public function SaveMeta($key, $value, $lang=null)
     {
         $lang = is_null($lang) ? $this->lang : $lang;
-        $done = $this->SetMeta($key, $value, $lang);
+        $done = $this->SetMeta($key, $value, $lang); //var_dump($done);
         if ($done)
-        {
+        { //var_dump($value); echo 'a';
             return static::InsertUpdateMeta($this->id, $key, $value, $lang);
         }
         return $done;
+    }
+    
+    public static function InsertUpdateMeta($id, $key, $value, $lang=null)
+    {
+        $args_meta = array(
+            'name' => $key,
+            'value' => $value
+        );
+        $where = array(
+            'name' => $key
+        );
+        return static::DB_InsertUpdateChild('UserMeta', $args_meta, $where, $id, $lang);
     }
     
     public function GetMeta($key, $default=false, $lang=null)
@@ -305,6 +336,17 @@ class User extends UserBase
         return $done;
     }
     
+    public static function Remove($id, $lang=null)
+    {
+        $where = static::GetWhereFields(array(static::DB_GetPrimaryField() => $id));
+        $done = static::DB_Delete($where, array(), null);
+        if ($done)
+        {
+            static::DB_DeleteChild('UserMeta', array(), $id, $lang);
+        }
+        return $done;
+    }
+    
     
     
     public static function GetList($args=array(), $lang=null)
@@ -369,10 +411,11 @@ class User extends UserBase
                 UserMeta::RELATION_KEY_USER => array(
                     array(DBRelation::GetLanguageField(), 'lang')
                 )
-            ), 
-            array(), 
-            array(), 
-            array(), 
+            ),
+            array(),
+            array(),
+            array(),
+            array(),
             $lang
         );
     }
@@ -471,6 +514,13 @@ class User extends UserBase
     protected static function GetOrderFields($args=array())
     {
         $arr = array();
+        if (isset($args['order']))
+        {
+            if ($args['order'] == 'username')
+            {
+                $arr[] = 'username';
+            }
+        }
         $arr[static::RELATION_KEY_DOMAIN] = DBRelation::GetCountField();
         $arr[] = static::DB_GetPrimaryField();
         return $arr;
@@ -513,6 +563,15 @@ class User extends UserBase
         return $arr;
     }
     
+    
+    public static function UsernameExists($username)
+    {
+        $args = array(
+            'username' => $username
+        );
+        $users = static::GetList($args);
+        return count($users) > 0;
+    }
     
 
     /**
@@ -583,17 +642,7 @@ class User extends UserBase
             'time' => time()
         );
         list($last, $id) = action_event('user_register_login', $last, $id);
-        static::DB_InsertUpdateChild(
-            'UserMeta',
-            array(
-                'name' => UserMeta::META_LAST_VISIT,
-                'value' => $last
-            ),
-            array(
-                'name' => UserMeta::META_LAST_VISIT
-            ),
-            $id
-        );
+        return static::InsertUpdateMeta($id, UserMeta::META_LAST_VISIT, $last);
     }
     
     /* CACHE */

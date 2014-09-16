@@ -68,6 +68,13 @@ function get_request_group()
     return RoutingBackendAPI::GetRequestGroup();
 }
 
+function get_iceberg_api_link($params=array())
+{
+    $url = get_base_url_api() .  API_ICEBERG_ENVIRONMENT . DIRECTORY_SEPARATOR;
+    return get_link($params, $url);
+    return $url;
+}
+
 
 
 

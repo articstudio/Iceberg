@@ -38,7 +38,15 @@ class IcebergFrontend extends Environment
     
     public function Config()
     {
-        if (Maintenance::InFrontendMode())
+        if (is_null(Domain::GetID()))
+        {
+            $this->theme->SetDirectory(ICEBERG_DIR_INCLUDES, 'unknown');
+            $this->environment = 'unknown';
+            $this->environments = array(
+                'unknown' => 'unknown.php'
+            );
+        }
+        else if (Maintenance::InFrontendMode())
         {
             $this->environment = 'maintenance';
         }
@@ -59,9 +67,6 @@ class IcebergFrontend extends Environment
                 }
             }
         }
-        //IF NO PAGE => HOME
-        //ELSE IF PAGE => CONTENT
-        //ELSE => 404
         action_event('iceberg_frontend_config');
         return parent::Config();
     }
@@ -69,8 +74,6 @@ class IcebergFrontend extends Environment
     public function Generate()
     {
         /* Exec controllers */
-        //
-        
         action_event('iceberg_frontend_generate');
         return parent::Generate();
     }

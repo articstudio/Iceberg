@@ -63,6 +63,7 @@ function print_html_attr($str, $strip_tags=true)
 function cut_text($text, $len=180, $strip_tags=true, $end='...', $force=false)
 {
     if ($strip_tags) { $text = nl2br($text); $text = strip_tags($text); }
+    //$text = html_entity_decode(utf8_encode($text), ENT_QUOTES, 'UTF-8');
     if ( strlen($text) > $len ) {
         if ($force)
         {

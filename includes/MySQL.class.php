@@ -85,54 +85,6 @@ class MySQLBase {
             exit;
         }
     }
-
-    /**
-     * Add new MySQL log
-     * @global array $__MYSQL_QUERY_DEBUG
-     * @param String $SQL
-     * @param Int $numrows
-     * @param Timestamp $time 
-     * @return Boolean 
-     */
-    public static function Log($SQL, $numrows, $time)
-    {
-        global $__MYSQL_QUERY_DEBUG;
-        if (!is_array($__MYSQL_QUERY_DEBUG)) {$__MYSQL_QUERY_DEBUG = array();}
-        return array_push($__MYSQL_QUERY_DEBUG, array($SQL, $numrows, $time));
-    }
-    
-    /**
-     * Get MySQL log
-     * @global Array $__MYSQL_QUERY_DEBUG
-     * @return Array 
-     */
-    public static function GetLog()
-    {
-        global $__MYSQL_QUERY_DEBUG;
-        if (!is_array($__MYSQL_QUERY_DEBUG)) {$__MYSQL_QUERY_DEBUG = array();}
-        return $__MYSQL_QUERY_DEBUG;
-    }
-    
-    /**
-     * Print MySQL log 
-     */
-    public static function PrintLog()
-    {
-        $log = static::GetLog();
-        $time_total = 0;
-        $buffer = '';
-        $n = count($log);
-        foreach ($log AS $query)
-        {
-            $time_total += $query[2];
-            $buffer .= 'Query time: ' . $query[2] . " seconds\n";
-            $buffer .= 'Query results: ' . $query[1] . "\n";
-            $buffer .= 'Query: ' . $query[0] . "\n\n";
-        }
-        $average = $time_total / $n;
-        $buffer = "\n<!--\n\n MySQL time: " . $time_total . " seconds\n MySQL time average: " . $average . " seconds\n MySQL queries: " . $n . "\n\n\n" . $buffer . " -->";
-        print $buffer;
-    }
 }
 
 /**
@@ -301,6 +253,7 @@ class MySQL extends MySQLBase{
             foreach ($__ICEBERG_DB AS $key=>$value) {
                 $mysql=new MySQL();
                 $mysql->Connect($value['dbname'], $value['host'], $value['user'], $value['password'], $value['charset'], $value['collate']);
+                break; // BYPASS (Only one connection)
             }
             if (self::Connected())
             {
@@ -430,7 +383,11 @@ class MySQL extends MySQLBase{
         $defaults = array(
             'drop_table' => true,
             'create_table' => true,
-            'table_data' => true
+            'table_data' => true,
+            'search' => '',
+            'replace' => '',
+            'gzip' => true,
+            'filename' => 'DB_Backup_Iceberg_' . ICEBERG_VERSION . '_' . time()
         );
         $args = array_merge($defaults, $args);
         ob_start();
@@ -438,6 +395,9 @@ class MySQL extends MySQLBase{
         echo '/* Domain: ' . get_domain_canonical() . ' */' . "\n";
         echo '/* Time: ' . time() . ' */' . "\n";
         echo "\n\n";
+        
+        $charset = MySQL::GetCharset();
+        echo 'SET NAMES ' . $charset . ';' . "\n\n";
         
         $query = new Query();
         $query->show_tables();
@@ -447,9 +407,22 @@ class MySQL extends MySQLBase{
             static::DumpTableStructure($table, $args);
             static::DumpTableData($table, $args);
         }
-        $buffer = ob_get_flush();
+        $buffer = ob_get_contents();
         ob_end_clean();
-        return $buffer;
+        
+        $gzip = $args['gzip'] ? function_exists( 'gzopen' ) : false;
+        $filename = $args['filename'] . ($args['gzip'] ? '.sql.gz' : '.sql');
+        $file = ICEBERG_DIR_TEMP . $filename;
+        $fp = $gzip ? gzopen($file, 'w') : fopen($file, 'w');
+        $done = false;
+        if ($fp)
+        {
+            $done2 = $gzip ? @gzwrite($fp, $buffer) : @fwrite($fp, $buffer);
+            $done3 = $gzip ? gzclose($fp) : fclose($fp);
+            $done = ($done2 && $done3) ? $file : false;
+        }
+        
+        return $done;
     }
     
     public static function DumpTableStructure($table, $args = array())
@@ -515,7 +488,8 @@ class MySQL extends MySQLBase{
                                 case 'string':
                                 case 'blob' :
                                 default:
-                                    echo "'".mysql_escape($row[$i])."'";
+                                    echo "'" . mysql_escape(static::SearchReplaceData($row[$i], $args['search'], $args['replace'])) . "'";
+                                    //echo "'".mysql_escape($row[$i])."'"; //echo "\n" . 'ROW => ' . $row[$i] . "\n";
                                     break;
                             }
                         }
@@ -550,7 +524,73 @@ class MySQL extends MySQLBase{
         }
         echo "\n\n";
     }
+    
+    public static function SearchReplaceData($data, $search='', $replace='', $serialized = false)
+    {
+        if (!empty($search) && !empty($replace))
+        {
+            try
+            {
+                if (is_string($data))
+                {
+                    $unserialized = @unserialize($data);
+                    if($unserialized !== false)
+                    {
+                        $data = static::SearchReplaceData($unserialized, $search, $replace, true);
+                    }
+                    else
+                    {
+                        $unserialized = @json_decode($data, true);
+                        if (json_last_error() == JSON_ERROR_NONE)
+                        {
+                            $data = static::SearchReplaceData($unserialized, $search, $replace, true);
+                        }
+                        else
+                        {
+                            $data = str_ireplace($search, $replace, $data);
+                        }
+                    }
+                    
+                }
+                elseif (is_array($data))
+                {
+                    $_tmp = array();
+                    foreach ($data AS $key => $value)
+                    {
+                        $_tmp[$key] = static::SearchReplaceData($value, $search, $replace, false);
+                    }
+                    $data = $_tmp;
+                    unset( $_tmp );
+                }
+                elseif (is_object($data))
+                {
+                    $dataClass = get_class($data);
+                    $_tmp = new $dataClass( );
+                    foreach ($data AS $key => $value)
+                    {
+                        $_tmp->$key = static::SearchReplaceData($value, $search, $replace, false);
+                    }
+                    $data = $_tmp;
+                    unset( $_tmp );
+                }
+                if ($serialized)
+                {
+                    if (is_object($data))
+                    {
+                        return serialize($data);
+                    }
+                    else if (is_array($data))
+                    {
+                        return json_encode($data);
+                    }
+                }
+            } catch( Exception $error ) {}
+        }
+        return $data;
+    }
+    
 }
+
 
 /**
  * Query
@@ -855,7 +895,7 @@ class Query extends MySQLBase {
             }
             $time_end = microtime(true);
             $time = $time_end - $time_start;
-            MySQL::Log($query, $numrows, $time);
+            list($insertId, $numrows, $result, $query, $time) = action_event('mysql_query_send', $insertId, $numrows, $result, $query, $time);
             return array($insertId, $numrows, $result);
         }
         else { MySQLBase::reportError('ERROR DATABASE QUERY: '.$query); }

@@ -13,7 +13,7 @@ function get_mysql_collates()
  */
 function mysql_escape($string)
 {
-    return mysql_real_escape_string($string);
+    return is_string($string) ? mysql_real_escape_string($string) : $string;
 }
 
 function db_get_query()

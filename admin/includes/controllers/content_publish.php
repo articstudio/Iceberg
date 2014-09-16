@@ -6,7 +6,9 @@ $id = get_request_id();
 
 if ($action == 'remove')
 {
-    if (Page::Remove($id))
+    $have_permision = true;
+    list($have_permision, $id) = action_event('content_publish_remove_have_permision', $have_permision, $id);
+    if ($have_permision && Page::Remove($id))
     {
         add_alert('Page removed', 'success');
     }
@@ -24,6 +26,10 @@ else if ($action == 'insert')
         PageMeta::META_IMAGE => get_request_p('image', '', true),
         PageMeta::META_TEMPLATE => get_request_p('template', '', true)
     );
+    if ($metas[PageMeta::META_PERMALINK] === '')
+    {
+        $metas[PageMeta::META_PERMALINK] = Page::UniqueSlug(Page::MakeSlug($metas[PageMeta::META_TITLE]));
+    }
     $args = array(
         'taxonomy' => get_request_p('taxonomy', get_default_pagetaxnomy()),
         'type' => get_request_p('type', get_page_pagetype()),
@@ -37,7 +43,7 @@ else if ($action == 'insert')
     if ($id)
     {
         add_alert('Page inserted', 'success');
-        action_event('content_publish_insert', $group, $id, $lang);
+        action_event('content_publish_insert', $group, $id, $lang, null);
     }
     else
     {
@@ -49,10 +55,15 @@ else if ($action == 'update' || $action == 'translate')
     $metas = array(
         PageMeta::META_TITLE => get_request_p('name', '', true),
         PageMeta::META_PERMALINK => get_request_p('permalink', '', true),
+        PageMeta::META_PERMALINK => get_request_p('permalink', '', true),
         PageMeta::META_TEXT => get_request_p('text', '', true),
         PageMeta::META_IMAGE => get_request_p('image', '', true),
         PageMeta::META_TEMPLATE => get_request_p('template', '', true)
     );
+    if ($metas[PageMeta::META_PERMALINK] === '')
+    {
+        $metas[PageMeta::META_PERMALINK] = Page::UniqueSlug(Page::MakeSlug($metas[PageMeta::META_TITLE]), $id);
+    }
     $args = array(
         'taxonomy' => get_request_p('taxonomy', get_default_pagetaxnomy()),
         'type' => get_request_p('type', get_page_pagetype()),
@@ -64,10 +75,11 @@ else if ($action == 'update' || $action == 'translate')
     if ($action == 'translate')
     {
         $tlang = get_request_gp('tlang');
+        $buffer_page = Page::GetPage($id, $tlang);
         if ($tlang && Page::Translate($id, $tlang, $args))
         {
             add_alert('Page translated', 'success');
-            action_event('content_publish_translate', $group, $id, $tlang);
+            action_event('content_publish_translate', $group, $id, $tlang, $buffer_page);
         }
         else
         {
@@ -77,10 +89,11 @@ else if ($action == 'update' || $action == 'translate')
     else
     {
         $lang = null;
+        $buffer_page = Page::GetPage($id, $lang);
         if (Page::Update($id, $args, $lang))
         {
             add_alert('Page updated', 'success');
-            action_event('content_publish_edit', $group, $id, $lang);
+            action_event('content_publish_edit', $group, $id, $lang, $buffer_page);
         }
         else
         {
@@ -122,10 +135,25 @@ else if ($action == 'order')
             if ($done)
             {
                 $done = Page::UpdateOrder($id, $k);
-                if ($done && isset($page['children']))
+                if ($done)
                 {
-                    $done = execReorder($page['children'], $id);
+                    if (isset($page['children']) && !empty($page['children']))
+                    {
+                        $done = execReorder($page['children'], $id);
+                        if (!$done)
+                        {
+                            break;
+                        }
+                    }
                 }
+                else
+                {
+                    break;
+                }
+            }
+            else
+            {
+                break;
             }
         }
         return $done;

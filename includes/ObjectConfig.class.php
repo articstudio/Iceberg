@@ -58,12 +58,16 @@ abstract class ObjectConfigBase
      */
     static public function NormalizeConfig($config)
     {
+        if (is_null($config))
+        {
+            return $config;
+        }
         $defaults = static::$CONFIG_DEFAULTS;
-        if (is_array($config) && is_array($defaults))
+        if (is_array($defaults))
         {
             return array_merge((array) $defaults, (array) $config);
         }
-        else if (is_object($config) && is_object($defaults))
+        else if (is_object($defaults))
         {
             return (object) array_merge((array) $defaults, (array) $config);
         }
@@ -78,7 +82,7 @@ abstract class ObjectConfigBase
     static public function GetConfig()
     {
         $value = Config::GetConfig(static::$CONFIG_KEY, static::$CONFIG_DEFAULTS);
-        $value = self::NormalizeConfig($value);
+        $value = static::NormalizeConfig($value);
         list($value, $class) = action_event(static::$CONFIG_EVENT_GET, $value, get_called_class());
         return $value;
     }

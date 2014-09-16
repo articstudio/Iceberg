@@ -91,7 +91,7 @@ abstract class PageBase extends ObjectDBRelations
         'user-create' => array(
             'object' => 'User',
             'force' => false,
-            'function' => '',
+            'function' => 'get_user_id',
             'language' => false
         ),
         'user-update' => array(
@@ -150,80 +150,111 @@ class Page extends PageBase
     
     public function __construct($args=array(), $lang=null)
     {
-        $this->id = isset($args['id']) ? $args['id'] : -1;
+        $this->id = isset($args['id']) ? intval($args['id']) : -1;
         $this->type = isset($args['type']) ? $args['type'] : get_page_pagetype();
         $this->taxonomy = isset($args['taxonomy']) ? $args['taxonomy'] : get_default_pagetaxnomy();
         $this->group = isset($args['group']) ? $args['group'] : get_default_pagegroup();
-        $this->parent = isset($args['parent']) ? $args['parent'] : null;
+        $this->parent = isset($args['parent']) ? intval($args['parent']) : null;
         $this->status = isset($args['status']) ? $args['status'] : static::STATUS_ACTIVE;
         $this->order = isset($args['order']) ? $args['order'] : 0;
         $this->lang = is_null($lang) ? I18N::GetLanguage() : $lang;
         $this->metas = isset($args['metas']) ? $args['metas'] : static::METAS_FORCE_LOAD;
         if ($this->metas === static::METAS_FORCE_LOAD)
         {
-            $this->LoadMetas($this->lang);
+            $this->metas = array();
+            if ($this->id>0)
+            {
+                $this->LoadMetas($this->lang, false);
+            }
         }
         $this->created = isset($args['created']) ? $args['created'] : time();
         $this->updated = isset($args['updated']) ? $args['updated'] : null;
         $this->created_uid = isset($args['created_uid']) ? $args['created_uid'] : get_user_id();
         $this->updated_uid = isset($args['updated_uid']) ? $args['updated_uid'] : null;
-        $this->translations = $this->GetTranslations();
+        $this->translations = $this->id>0 ? $this->GetTranslations() : array();
+        list($obj, $args, $lang) = action_event('page_contruct', $this, $args, $lang);
+        $this->Merge($obj);
+    }
+    
+    public function Merge($obj)
+    {
+        if (is_object($obj))
+        {
+            $obj = (array)$obj;
+        }
+        if (is_array($obj))
+        {
+            foreach ($obj AS $key => $value)
+            {
+                $this->$key = $value;
+            }
+            return true;
+        }
+        return false;
     }
     
     /* METAS */
-    public function LoadMetas($lang=null)
+    public function LoadMetas($lang=null, $cache=true)
     {
         $this->metas = !is_array($this->metas) ? array() : $this->metas;
         $metas = static::GetMetas($this->id, $lang);
-        foreach ($metas AS $meta)
+        if (!empty($metas))
         {
-            $this->SetMeta($meta->name, static::DB_DecodeFieldValue($meta->value), $meta->lang);
+            foreach ($metas AS $meta)
+            {
+                $this->SetMeta($meta->name, static::DB_DecodeFieldValue($meta->value), $meta->lang, false);
+            }
+            if ($cache)
+            {
+                static::AddCache($this->id, $this, $lang);
+            }
         }
     }
     
-    public function SetMeta($key, $value, $lang=null)
+    public function SetMeta($key, $value, $lang=null, $cache=true)
     {
         $lang = is_null($lang) ? $this->lang : $lang;
         $this->metas = !is_array($this->metas) ? array() : $this->metas;
         $this->metas[$lang] = (!isset($this->metas[$lang]) || !is_array($this->metas[$lang])) ? array() : $this->metas[$lang];
         $this->metas[$lang][$key] = $value;
+        return $cache ? static::AddCache($this->id, $this, $lang) : true;
     }
     
-    public function SaveMeta($key, $value, $lang=null)
+    public function SaveMeta($key, $value, $lang=null, $cache=true)
     {
         $lang = is_null($lang) ? $this->lang : $lang;
         $done = $this->SetMeta($key, $value, $lang);
-        if ($done)
+        return ($this->SetMeta($key, $value, $lang) && static::InsertUpdateMeta($this->id, $key, $value, $lang) && (!$cache || static::AddCache($this->id, $this, $lang)));
+    }
+    
+    public function GetMetaList($lang=null)
+    {
+        $lang = is_null($lang) ? $this->lang : $lang;
+        if (!is_array($this->metas) || !isset($this->metas[$lang]))
         {
-            return static::InsertUpdateMeta($this->id, $key, $value, $lang);
+            $this->LoadMetas($lang);
         }
-        return $done;
+        if (is_array($this->metas) && isset($this->metas[$lang]))
+        {
+            if (is_array($this->metas[$lang]))
+            {
+                return $this->metas[$lang];
+            }
+        }
+        return array();
     }
     
     public function GetMeta($key, $default=false, $lang=null)
     {
-        $lang = is_null($lang) ? $this->lang : $lang;
-        if (is_array($this->metas) && isset($this->metas[$lang]))
-        {
-            if (is_array($this->metas[$lang]) && isset($this->metas[$lang][$key]))
-            {
-                return $this->metas[$lang][$key];
-            }
-        }
-        return $default;
+        $metas = $this->GetMetaList($lang);
+        return isset($metas[$key]) ? $metas[$key] : $default;
     }
     
     public function HasMeta($key, $lang=null)
     {
         $lang = is_null($lang) ? get_lang() : $lang;
-        if (is_array($this->metas) && isset($this->metas[$lang]))
-        {
-            if (is_array($this->metas[$lang]) && isset($this->metas[$lang][$key]))
-            {
-                return true;
-            }
-        }
-        return false;
+        $metas = $this->GetMetaList($lang);
+        return isset($metas[$key]);
     }
     
     public function GetTitle($lang=null)
@@ -243,6 +274,7 @@ class Page extends PageBase
     
     public function GetLink($args=array(), $lang=null)
     {
+        $args = is_array($args) ? $args : array();
         $buffer = array(
             'page' => $this->id,
             'lang' => is_null($lang) ? I18N::GetLanguage() : $lang
@@ -296,6 +328,18 @@ class Page extends PageBase
     /* TRANSLATIONS */
     public function IsTranslated($lang)
     {
+        if (!is_array($lang) || !is_string($lang) || empty($lang))
+        {
+            return false;
+        }
+        if (is_array($lang) && count($lang)==1)
+        {
+            $lang = current($lang);
+        }
+        if ($lang === $this->lang)
+        {
+            return true;
+        }
         if (!is_array($lang) && is_array($this->translations) && !empty($this->translations))
         {
             return isset($this->translations[$lang]) ? $this->translations[$lang] : false;
@@ -388,11 +432,12 @@ class Page extends PageBase
                 static::InsertUpdateMeta($id, $key, $value, $lang);
             }
             
+            $args['elements'] = (isset($args['elements']) && is_array($args['elements'])) ? $args['elements'] : array();
             $taxonomy = PageTaxonomy::Get($taxonomy);
             $elements = $taxonomy->GetElements();
-            foreach ($elements AS $element)
+            foreach ($elements AS $name => $element)
             {
-                $element->SaveFormEdit($id, array(), $lang);
+                $element->SaveFormEdit($id, $args['elements'], $lang);
             }
         }
         return $id;
@@ -576,15 +621,18 @@ class Page extends PageBase
             $found = true;
             foreach ($ids AS $id)
             {
-                $cache = static::GetCache($id, $lang);
-                if ($cache === false)
+                if (abs(intval($id))>0)
                 {
-                    $found = false;
-                    break;
-                }
-                else
-                {
-                    $list[$id] = $cache;
+                    $cache = static::GetCache($id, $lang);
+                    if ($cache === false)
+                    {
+                        $found = false;
+                        break;
+                    }
+                    else
+                    {
+                        $list[$id] = $cache;
+                    }
                 }
             }
         }
@@ -610,12 +658,15 @@ class Page extends PageBase
     }
     
     /* GET */
-    public static function GetList($args=array(), $lang=null)
+    public static function GetCountList($args=array(), $lang=null, $cache=true)
     {
-        $obj = static::GetCacheList($args, $lang);
-        if ($obj !== false)
+        if ($cache && false)
         {
-            return $obj;
+            $obj = static::GetCacheList($args, $lang);
+            if ($obj !== false)
+            {
+                return $obj;
+            }
         }
         $fields = static::GetSelectFields();
         $where = static::GetWhereFields($args);
@@ -643,16 +694,114 @@ class Page extends PageBase
         return $pages;
     }
     
-    public static function GetPage($id, $lang=null)
+    public static function GetList($args=array(), $lang=null, $cache=true, $metas=true)
+    {
+        if ($cache)
+        {
+            $obj = static::GetCacheList($args, $lang);
+            if ($obj !== false)
+            {
+                return $obj;
+            }
+        }
+        $fields = static::GetSelectFields();
+        $where = static::GetWhereFields($args);
+        $orderby = static::GetOrderFields($args);
+        $limit = static::GetLimitFields($args);
+        $relations = static::GetRelationsFields($args);
+        $pages = static::DB_Select($fields, $where, $orderby, $limit, $relations, $lang);
+        
+        foreach ($pages AS $k => $page)
+        {
+            $pages[$k] = static::GetPageFromObject($page, $lang);
+        }
+        
+        if ($metas)
+        {
+            static::LoadListMetas($pages, $lang, false, $metas);
+        }
+        
+        if (isset($args['order']))
+        {
+            if ($args['order'] === 'name')
+            {
+                uasort($pages , 'page_sort_by_name');
+            }
+        }
+        reset($pages);
+        
+        static::AddCacheList($args, $pages, $lang);
+        
+        return $pages;
+    }
+    
+    public static function LoadListMetas($pages, $lang=null, $cache=true, $metakeys=array())
+    {
+        if (!is_array($pages) || empty($pages))
+        {
+            return false;
+        }
+        $metakeys = is_array($metakeys) ? $metakeys : array();
+        $ids = array_keys($pages);
+        $metas = static::GetListMetas($ids, $lang, $metakeys);
+        if (!empty($metas))
+        {
+            foreach ($metas AS $meta)
+            {
+                if (isset($pages[$meta->pid]))
+                {
+                    $pages[$meta->pid]->SetMeta($meta->name, static::DB_DecodeFieldValue($meta->value), $meta->lang, false);
+                }
+            }
+        }
+        
+        if ($cache)
+        {
+            foreach ($pages AS $id => $page)
+            {
+                static::AddCache($id, $page, $lang);
+            }
+        }
+        
+        //var_dump($ids);
+        //var_dump($metas);
+        //die();
+        /*$this->metas = !is_array($this->metas) ? array() : $this->metas;
+        $metas = static::GetMetas($this->id, $lang);
+        if (!empty($metas))
+        {
+            foreach ($metas AS $meta)
+            {
+                $this->SetMeta($meta->name, static::DB_DecodeFieldValue($meta->value), $meta->lang, false);
+            }
+            static::AddCache($this->id, $this, $lang);
+        }*/
+    }
+    
+    public static function GetPageID()
+    {
+        $id = get_request_page();
+        return $id;
+    }
+    
+    public static function GetPage($id=null, $lang=null, $cache=true)
     {
         if (is_null($id))
         {
+            $id =  static::GetPageID();
+            
+        }
+        if (is_null($id) || intval($id)<1)
+        {
             return new Page();
         }
-        $obj = static::GetCache($id, $lang);
-        if ($obj !== false)
+        if ($cache)
         {
-            return $obj;
+            $obj = static::GetCache($id, $lang);
+            if ($obj !== false)
+            {
+                return $obj;
+            }
         }
         $fields = static::GetSelectFields();
         $where = static::GetWhereFields(array('id' => $id));
@@ -668,6 +817,12 @@ class Page extends PageBase
         return new Page();
     }
     
+    public static function GetPageByPermalink($permalink, $lang=null, $cache=true)
+    {
+        $pid = PageMeta::GetParentID(PageMeta::META_PERMALINK, $permalink, $lang);
+        return static::GetPage($pid, $lang, $cache);
+    }
+    
     public static function GetMetas($id, $lang=null)
     {
         return static::DB_SelectChild(
@@ -680,6 +835,29 @@ class Page extends PageBase
                     array(DBRelation::GetLanguageField(), 'lang')
                 )
             ), 
+            array(), 
+            array(), 
+            array(), 
+            array(), 
+            $lang
+        );
+    }
+    
+    public static function GetListMetas($ids, $lang=null, $metakeys=array())
+    {
+        $where = (is_array($metakeys) && !empty($metakeys)) ? array('name'=>$metakeys) : array();
+        return static::DB_SelectChild(
+            'PageMeta', 
+            $ids, 
+            array(
+                'name', 
+                'value', 
+                PageMeta::RELATION_KEY_PAGE => array(
+                    array(DBRelation::GetLanguageField(), 'lang'),
+                    array(DBRelation::GetParentField(), 'pid')
+                )
+            ), 
+            $where, 
             array(), 
             array(), 
             array(), 
@@ -702,7 +880,8 @@ class Page extends PageBase
             'updated' => strtotime($obj->updated),
             'created_uid' => $obj->user_create,
             'updated_uid' => $obj->user_update,
-            'metas' => static::METAS_FORCE_LOAD
+            //'metas' => static::METAS_FORCE_LOAD
+            'metas' => false
         );
         return new Page($args, $lang);
     }
@@ -761,7 +940,11 @@ class Page extends PageBase
             {
                 $arr[] = 'created';
             }
-            if ($args['order'] == 'tree')
+            else if ($args['order'] == 'random')
+            {
+                $arr[] = 'RAND()';
+            }
+            else if ($args['order'] == 'tree')
             {
                 $arr[static::RELATION_KEY_DOMAIN] = DBRelation::GetCountField();
             }
@@ -818,6 +1001,13 @@ class Page extends PageBase
         {
             $arr[static::RELATION_KEY_PARENT] = $args['parent'];
         }
+        if (isset($args['relateds']) && is_array($args['relateds']))
+        {
+            foreach ($args['relateds'] AS $rel => $id)
+            {
+                $arr[static::RELATION_KEY_PAGE . '#' . $rel] = $id;
+            }
+        }
         if (isset($args['metas']) && is_array($args['metas']))
         {
             $arr[static::RELATION_KEY_META] = array();
@@ -826,6 +1016,14 @@ class Page extends PageBase
                 $arr[static::RELATION_KEY_META][$k] = $v;
             }
             
+        }
+        if (isset($args['search']) && !empty($args['search']))
+        {
+            if (!isset($arr[static::RELATION_KEY_META]))
+            {
+                $arr[static::RELATION_KEY_META] = array();
+            }
+            $arr[static::RELATION_KEY_META][PageMeta::META_TITLE . '#' . PageMeta::META_TEXT] = $args['search'];
         }
         return $arr;
     }

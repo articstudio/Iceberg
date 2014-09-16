@@ -47,7 +47,7 @@
 
             <h5><?php print_text('Domain and alias'); ?></h5>
             <p><?php printf( _T('The URL installation is: %s'), '<strong>'.get_base_url().'</strong>' ); ?></p>
-            <p><?php printf( _T('The Domain installation is: %s'), '<strong>'.get_domain().'</strong>' ); ?></p>
+            <p><?php printf( _T('The Domain installation is: %s'), '<strong>'.get_request_domain().'</strong>' ); ?></p>
             <p><?php print_text('If you use aliases for this domain, plis add them'); ?>:</p>
             <div class="row-fluid">
                 <div class="span6">

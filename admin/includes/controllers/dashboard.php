@@ -14,6 +14,14 @@ function get_admin_modes_dashboard($args)
 }
 add_action('get_modes', 'get_admin_modes_dashboard', 10, 1);
 
+function get_admin_mode_dashboard($args)
+{
+    list($data, $key) = $args;
+    list($data, $key) = action_event('get_admin_mode_dashboard', $data, $key);
+    return array($data, $key);
+}
+add_action('get_mode', 'get_admin_mode_dashboard', 10, 2);
+
 
 /*
 function get_admin_dashboard_breadcrumb($args)

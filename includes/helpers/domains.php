@@ -56,17 +56,22 @@ function get_domain_name()
     return Domain::GetName();
 }
 
-function get_domains_canonicals()
+function get_domains_canonicals($cache=true)
 {
-    return Domain::GetCanonicals();
+    return Domain::GetCanonicals($cache);
 }
 
-function get_domains_alias($id=null)
+function get_domains_by_parent($id, $cache=true)
 {
-    return Domain::GetAlias($id);
+    return Domain::GetDomainsByParent($id, $cache);
 }
 
-function get_domains_tree()
+function get_domains($cache=true)
 {
-    return Domain::GetTree();
+    return Domain::GetDomains($cache);
+}
+
+function get_domain($id=null, $cache=true)
+{
+    return Domain::GetDomain($id, $cache);
 }

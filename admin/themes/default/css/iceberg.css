@@ -60,6 +60,9 @@ select[multiple] {
 .alert {
     text-shadow:none;
 }
+.table th {
+    background-color:#eaeaea;
+}
 .table td.text-right {
     text-align:right;
 }
@@ -377,6 +380,9 @@ input.error, textarea.error, select.error {
 .gmap {
     width:100%;
     height:400px;
+}
+.gmap img {
+    max-width:none;
 }
 
 /* MEDIA QUERIES */

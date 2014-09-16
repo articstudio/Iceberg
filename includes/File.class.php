@@ -28,6 +28,8 @@ class File extends ObjectConfig
      */
     public static $CONFIG_DEFAULTS = array();
     
+    public static $IMAGE_EXTENSIONS = array('jpg', 'jpeg', 'gif', 'png', 'tiff', 'tif');
+    
     const FILE_READ = 'r';
     const FILE_WRITE_OVERRIDE = 'w';
     const FILE_WRITE_CONTINUE_END = 'a';
@@ -67,6 +69,12 @@ class File extends ObjectConfig
             }
         }
         return '';
+    }
+    
+    static public function IsImageExtension($filepath)
+    {
+        $ext = static::GetExtension($filepath);
+        return in_array($ext, static::$IMAGE_EXTENSIONS);
     }
     
     static public function GetName($filepath)

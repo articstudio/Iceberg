@@ -1,3 +1,15 @@
+/* EVENTS */
+function addIcebergEventListener(event_name, callback) {
+    if (typeof event_name === 'string' && typeof callback !== 'undefined') {
+        if(window.addEventListener){ console.log('a');
+            window.addEventListener(event_name, callback, false);
+        } else if(window.attachEvent){ console.log('b');
+            window.attachEvent(event_name, callback);
+        } else{ console.log('c');
+           document.addEventListener(event_name, callback, false);
+        }
+    }
+}
 
 /* JS I18N */
 function get_text(key)

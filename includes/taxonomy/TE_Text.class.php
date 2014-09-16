@@ -43,14 +43,14 @@ class TE_Text extends TaxonomyElements
     
     public function FormEdit($page) {
         ?>
-        <textarea class="<?php print $this->UseWysiwing() ? 'ckeditor' : ''; ?> input-block-level" id="text-<?php print $this->GetAttrName(); ?>" name="text-<?php print $this->GetAttrName(); ?>" rows="10" cols="10"><?php print $page->GetMeta($this->GetAttrName()); ?></textarea>
+        <textarea class="<?php print $this->UseWysiwing() ? 'ckeditor' : ''; ?> input-block-level" id="text-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" name="text-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" rows="10" cols="10"><?php print $page->GetMeta($this->GetAttrName()); ?></textarea>
         <?php
         parent::FormEdit($page);
     }
     
     public function GetFormEdit($args=array())
     {
-        return isset($args[$this->GetAttrName()]) ? $args[$this->GetAttrName()] : get_request_p('text-'.$this->GetAttrName(), '', true);
+        return isset($args[$this->GetAttrName()]) ? $args[$this->GetAttrName()] : get_request_p('text-'.$this->GetAttrName().'-'.$this->GetTaxonomy(), '', true);
     }
     
     public function SaveFormEdit($page_id, $args=array(), $lang=null)

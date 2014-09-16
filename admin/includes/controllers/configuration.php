@@ -24,6 +24,10 @@ function get_admin_modes_configuration($args)
             'template' => 'configuration_users.php',
             'name' => 'Users'
         ),
+        'routing' => array(
+            'template' => 'configuration_routing.php',
+            'name' => 'Routing'
+        ),
         'domains' => array(
             'template' => 'configuration_domains.php',
             'name' => 'Domains'

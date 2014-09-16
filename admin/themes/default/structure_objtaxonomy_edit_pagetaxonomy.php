@@ -11,25 +11,30 @@ $elements = get_texonomy_elements();
 
 <h5><?php print_text('Settings'); ?></h5>
 <div class="row-fluid">
-    <div class="span3">
+    <div class="span6">
         <label class="checkbox" for="permalink">
             <input type="checkbox" value="1" name="permalink" id="permalink" <?php print $obj->UsePermalink() ? 'checked' : ''; ?>>
             <?php print_text('Permalink'); ?>
         </label>
+        <textarea class="input-block-level" name="comments-permalink" id="comments-permalink"><?php print $obj->PermalinkComments(); ?></textarea>
     </div>
-    <div class="span3">
+    <div class="span6">
         <label class="checkbox" for="text">
             <input type="checkbox" value="1" name="text" id="text" <?php print $obj->UseText() ? 'checked' : ''; ?>>
             <?php print_text('Text'); ?>
         </label>
+        <textarea class="input-block-level" name="comments-text" id="comments-text"><?php print $obj->TextComments(); ?></textarea>
     </div>
-    <div class="span3">
+</div>
+<div class="row-fluid">
+    <div class="span6">
         <label class="checkbox" for="image">
             <input type="checkbox" value="1" name="image" id="image" <?php print $obj->UseImage() ? 'checked' : ''; ?>>
             <?php print_text('Image'); ?>
         </label>
+        <textarea class="input-block-level" name="comments-image" id="comments-image"><?php print $obj->ImageComments(); ?></textarea>
     </div>
-    <div class="span3">
+    <div class="span6">
         <label class="checkbox" for="image">
             <input type="checkbox" value="1" name="childs" id="childs" <?php print $obj->ChildsAllowed() ? 'checked' : ''; ?>>
             <?php print_text('Childs allowed'); ?>
@@ -68,10 +73,10 @@ $elements = get_texonomy_elements();
 
 <hr />
 
-<div class="row-fluid" data-select="templates">
+<div class="row-fluid">
     <div class="span6">
         <h5><?php print_text('Elements'); ?></h5>
-        <ul class="unstyled" id="newelements" data-draggable="elements">
+        <ul class="unstyled" id="newelements" data-draggable="#elements">
             <?php foreach($elements AS $class): ?>
             <li>
                 <div class="well widget closed">
@@ -88,7 +93,7 @@ $elements = get_texonomy_elements();
     </div>
     <div class="span6">
         <h5><?php print_text('Taxonomy elements'); ?></h5>
-        <ul class="unstyled" id="elements" data-sortable="revert,droppable">
+        <ul class="unstyled" id="elements" data-sortable="droppable">
             <?php foreach($taxonomy_elements AS $e_name => $element): ?>
             <li>
                 <div class="well widget">

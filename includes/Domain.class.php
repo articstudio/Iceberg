@@ -55,11 +55,23 @@ class DomainBase extends ObjectDBRelations
         
         $domain = is_null($domain_id) ?  static::GetDomainByName($domain_name) : static::GetDomainByID($domain_id);
         
-        $domain_id = $domain->GetCanonicalID();
-        static::SetDomainID($domain_id);
+        //var_dump($domain);
+        //var_dump($domain_name);
+        //var_dump($domain_id);
         
-        $domain_name = $domain->GetCanonicalDomain();
+        if ($domain)
+        {
+            $domain_id = $domain->GetCanonicalID();
+            $domain_name = $domain->GetCanonicalDomain();
+        }
+        else
+        {
+            //$domain_id = -1;
+            $domain_name = Request::GetProtocol() . '://' . $domain_name;
+        }
+        static::SetDomainID($domain_id);
         static::SetDomainCanonical($domain_name);
+        //die();
         
         return $domain_id;
     }
@@ -145,82 +157,82 @@ class DomainBase extends ObjectDBRelations
         return $domain;
     }
     
-    public static function GetDomainByID($id)
+    
+    /* CACHE */
+    public static function GetCacheKey($id)
     {
-        $domains = self::DB_Select(
-            array(
-                'id',
-                'name',
-                static::RELATION_KEY_CANONICAL => array(
-                    array(
-                        DBRelation::GetParentField(),
-                        'pid'
-                    )
-                )
-            ),
-            array(
-                'id' => $id
-            )
-        );
-        if (count($domains) > 0)
+        $key = 'Domain';
+        return $key;
+    }
+    
+    public static function GetCache($id)
+    {
+        $rel = static::GetCacheKey($id);
+        return IcebergCache::GetObject($id, $rel);
+        
+    }
+    
+    public static function AddCache($id, $object)
+    {
+        $rel = static::GetCacheKey($id);
+        return IcebergCache::AddObject($id, $object, $rel) ? IcebergCache::AddObject($object->name, $object, $rel) : false;
+    }
+    
+    public static function GetCacheListKey($args)
+    {
+        $key = 'DomainList';
+        return $key;
+    }
+    
+    public static function GetCacheListID($args)
+    {
+        $key = md5(json_encode($args));
+        return $key;
+    }
+    
+    public static function GetCacheList($args)
+    {
+        $found = false;
+        $list = array();
+        $id = static::GetCacheListID($args);
+        $rel = static::GetCacheListKey($args);
+        $ids = IcebergCache::GetObject($id, $rel);
+        if (is_array($ids))
         {
-            $row = current($domains);
-            return new Domain($row->id, $row->name, $row->pid);
+            $found = true;
+            foreach ($ids AS $id)
+            {
+                $cache = static::GetCache($id);
+                if ($cache === false)
+                {
+                    $found = false;
+                    break;
+                }
+                else
+                {
+                    $list[$id] = $cache;
+                }
+            }
+        }
+        return $found ? $list : false;
+    }
+    
+    public static function AddCacheList($args, $list)
+    {
+        $done = true;
+        foreach ($list AS $id => $object)
+        {
+            $done = static::AddCache($id, $object);
+            if (!$done) { break; }
+        }
+        if ($done)
+        {
+            $id = static::GetCacheListID($args);
+            $rel = static::GetCacheListKey($args);
+            $ids = array_keys($list);
+            return IcebergCache::AddObject($id, $ids, $rel);
         }
         return false;
-    }
-    
-    public static function GetDomainByName($name)
-    {
-        $domains = self::DB_Select(
-            array(
-                'id',
-                'name',
-                static::RELATION_KEY_CANONICAL => array(
-                    array(
-                        DBRelation::GetParentField(),
-                        'pid'
-                    )
-                )
-            ),
-            array(
-                'name' => $name
-            )
-        );
-        if (count($domains) > 0)
-        {
-            $row = current($domains);
-            return new Domain($row->id, $row->name, $row->pid);
-        }
-        return false;
-    }
-    
-    
-    
-    
-    
-    /** @TODO */
-    
-    
-    public static function GetCanonicals()
-    {
-        return static::DB_Select(array('name'), array(), array(), array(), array(static::RELATION_KEY_CANONICAL=>null));
-    }
-    
-    public static function GetAlias($id=null)
-    {
-        $id = is_null($id) ? static::GetID() : $id;
-        return static::DB_Select(array('name'), array(), array(), array(), array('Domains'=>$id));
-    }
-    
-    public static function GetTree()
-    {
-        $items = static::GetCanonicals();
-        foreach($items AS $k => $v)
-        {
-            $items[$k]->alias = static::GetAlias($k);
-        }
-        return $items;
     }
 }
 
@@ -240,6 +252,7 @@ class Domain extends DomainBase
     var $id;
     var $name;
     var $parent;
+    var $childs;
     
     public function __construct($id, $name, $parent=null) {
         $this->id = $id;
@@ -254,11 +267,141 @@ class Domain extends DomainBase
     
     public function GetCanonicalName()
     {
-        return $this->parent === false ? $this->name : $this->parent->GetCanonicalDomain();
+        return $this->parent === false ? $this->name : $this->parent->GetCanonicalName();
     }
     
     public function GetCanonicalDomain()
     {
         return Request::GetProtocol() . '://' . $this->GetCanonicalName();
+    }
+    
+    public static function GetDomain($id=null, $cache=true)
+    {
+        return static::GetDomainByID($id, $cache);
+    }
+    
+    public static function GetDomainByID($id=null, $cache=true)
+    {
+        $id = is_null($id) ? static::GetID() : $id;
+        if ($cache)
+        {
+            $obj = static::GetCache($id);
+            if ($obj !== false)
+            {
+                return $obj;
+            }
+        }
+        $fields = static::GetSelectFields();
+        $where = array(static::$DB_PRIMARY_FIELD=>$id);
+        $domains = self::DB_Select($fields, $where);
+        if (count($domains) > 0)
+        {
+            $row = current($domains);
+            $domain = new Domain($row->id, $row->name, $row->pid);
+            static::AddCache($row->id, $domain);
+            return $domain;
+        }
+        return false;
+    }
+    
+    public static function GetDomainByName($name, $cache=true)
+    {
+        $name = is_null($name) ? static::GetName() : $name;
+        if ($cache)
+        {
+            $obj = static::GetCache($name);
+            if ($obj !== false)
+            {
+                return $obj;
+            }
+        }
+        $fields = static::GetSelectFields();
+        $where = array('name'=>$name);
+        $domains = self::DB_Select($fields, $where);
+        if (count($domains) > 0)
+        {
+            $row = current($domains);
+            $domain = new Domain($row->id, $row->name, $row->pid);
+            static::AddCache($row->id, $domain);
+            return $domain;
+        }
+        return false;
+    }
+    
+    public static function GetDomains($cache=true)
+    {
+        $fields = static::GetSelectFields();
+        $where = array();
+        $orderby = array('name');
+        if ($cache)
+        {
+            $obj = static::GetCacheList($where);
+            if ($obj !== false)
+            {
+                return $obj;
+            }
+        }
+        $domains = self::DB_Select($fields, $where, $orderby);
+        if (count($domains) > 0)
+        {
+            foreach ($domains AS $key => $domain)
+            {
+                $domains[$key] = new Domain($key, $domain->name, $domain->pid);
+            }
+        }
+        reset($domains);
+        static::AddCacheList($where, $domains);
+        return $domains;
+    }
+    
+    public static function GetDomainsByParent($id, $cache=true)
+    {
+        $fields = static::GetSelectFields();
+        $where = array();
+        $orderby = array('name');
+        $limit = array();
+        $relations = array(static::RELATION_KEY_CANONICAL => $id);
+        if ($cache)
+        {
+            $obj = static::GetCacheList($relations);
+            if ($obj !== false)
+            {
+                return $obj;
+            }
+        }
+        $domains = self::DB_Select($fields, $where, $orderby, $limit, $relations);
+        if (count($domains) > 0)
+        {
+            foreach ($domains AS $key => $domain)
+            {
+                $domains[$key] = new Domain($key, $domain->name, $domain->pid);
+            }
+        }
+        reset($domains);
+        static::AddCacheList($relations, $domains);
+        return $domains;
+    }
+    
+    public static function GetCanonicals($cache=true)
+    {
+        return static::GetDomainsByParent(null, $cache);
+    }
+    
+    
+    
+    
+    
+    protected static function GetSelectFields()
+    {
+        return array(
+            'id',
+            'name',
+            static::RELATION_KEY_CANONICAL => array(
+                array(
+                    DBRelation::GetParentField(),
+                    'pid'
+                )
+            )
+        );
     }
 }

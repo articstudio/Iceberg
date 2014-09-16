@@ -63,7 +63,7 @@ class ObjectTaxonomy
         return $this->locked;
     }
     
-    public function Configure()
+    public function Configure($args=array())
     {
         
     }

@@ -16,6 +16,13 @@ require_once ICEBERG_DIR_HELPERS . 'request.php';
  */
 class Request extends ObjectConfig
 {
+    
+    /**
+     * Configuration use language
+     * @var boolean
+     */
+    public static $CONFIG_USE_LANGUAGE = false;
+    
     /**
      * Configuration key
      * @var string
@@ -190,7 +197,7 @@ class Request extends ObjectConfig
         $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : '';
         $protocol = explode(DIRECTORY_SEPARATOR, $_SERVER['SERVER_PROTOCOL']);
         $protocol = strtolower($protocol[0]);
-        list($protocol) = action_event('request_get_protocol', $protocol);
+        $protocol = apply_filters('request_get_protocol', $protocol);
         return $protocol;
     }
 
@@ -209,7 +216,7 @@ class Request extends ObjectConfig
         $uri = substr($uri, 0, 1)==DIRECTORY_SEPARATOR ? substr($uri, 1) : $uri;
         $query = static::GetQuery(true);
         $uri = str_replace($query, '', $uri);
-        list($uri) = action_event('request_get_uri', $uri);
+        $uri = apply_filters('request_get_uri', $uri);
         return $uri;
     }
     
@@ -228,7 +235,7 @@ class Request extends ObjectConfig
     static public function GetDomain()
     {
         $domain = $_SERVER['HTTP_HOST'];
-        list($domain) = action_event('request_get_domain', $domain);
+        $domain = apply_filters('request_get_domain', $domain);
         return $domain;
     }
 
@@ -243,7 +250,7 @@ class Request extends ObjectConfig
     {
         $url = $withProtocol ? self::GetProtocol() . '://' : '';
         $url .= $_SERVER['HTTP_HOST'] . DIRECTORY_SEPARATOR . static::GetURI(false);
-        list($url, $withProtocol) = action_event('request_get_url', $url, $withProtocol);
+        $url = apply_filters('request_get_url', $url, $withProtocol);
         return $url;
     }
     
@@ -252,7 +259,7 @@ class Request extends ObjectConfig
         $url = self::GetProtocol() . '://';
         $url .= $_SERVER['HTTP_HOST'] . DIRECTORY_SEPARATOR . static::GetURI(false);
         $url .= static::GetQuery(true);
-        list($url) = action_event('request_get_full_url', $url);
+        $url = apply_filters('request_get_full_url', $url);
         return $url;
     }
 
@@ -279,7 +286,7 @@ class Request extends ObjectConfig
         else if ( substr($url, (-1 * strlen($api_uri)) ) === $api_uri ) {
             $url = substr( $url, 0, (-1 * strlen($api_uri) ) );
         }
-        list($url, $withProtocol) = action_event('request_get_baseurl', $url, $withProtocol);
+        $url = apply_filters('request_get_baseurl', $url, $withProtocol);
         return $url;
     }
 
@@ -293,7 +300,7 @@ class Request extends ObjectConfig
     static public function GetBaseUrlAdmin($withProtocol=true)
     {
         $url = self::GetBaseUrl($withProtocol). str_replace(ICEBERG_DIR, '', ICEBERG_DIR_ADMIN);
-        list($url, $withProtocol) = action_event('request_get_baseurladmin', $url, $withProtocol);
+        $url = apply_filters('request_get_baseurladmin', $url, $withProtocol);
         return $url;
     }
 
@@ -307,7 +314,7 @@ class Request extends ObjectConfig
     static public function GetBaseUrlAPI($withProtocol=true)
     {
         $url = Request::GetBaseUrl($withProtocol). str_replace(ICEBERG_DIR, '', ICEBERG_DIR_API);
-        list($url, $withProtocol) = action_event('request_get_baseurlapi', $url, $withProtocol);
+        $url = apply_filters('request_get_baseurlapi', $url, $withProtocol);
         return $url;
     }
 
@@ -324,7 +331,7 @@ class Request extends ObjectConfig
     {
         $value = isset($_GET[$key]) ? $_GET[$key] : $default;
         $value = $stripSlashes ? self::StripSlashes($value) : $value;
-        list($value, $key, $default, $stripSlashes) = action_event('request_get_value_g', $value, $key, $default, $stripSlashes);
+        //list($value, $key, $default, $stripSlashes) = do_action('request_get_value_g', $value, $key, $default, $stripSlashes);
         return $value;
     }
 
@@ -341,7 +348,7 @@ class Request extends ObjectConfig
     {
         $value = isset($_POST[$key]) ? $_POST[$key] : $default;
         $value = $stripSlashes ? self::StripSlashes($value) : $value;
-        list($value, $key, $default, $stripSlashes) = action_event('request_get_value_p', $value, $key, $default, $stripSlashes);
+        //list($value, $key, $default, $stripSlashes) = do_action('request_get_value_p', $value, $key, $default, $stripSlashes);
         return $value;
     }
 
@@ -358,7 +365,7 @@ class Request extends ObjectConfig
     {
         $value = self::GetValueG($key, $default, $stripSlashes);
         $value = self::GetValueP($key, $value, $stripSlashes);
-        list($value, $key, $default, $stripSlashes) = action_event('request_get_value_gp', $value, $key, $default, $stripSlashes);
+        //list($value, $key, $default, $stripSlashes) = do_action('request_get_value_gp', $value, $key, $default, $stripSlashes);
         return $value;
     }
 
@@ -376,7 +383,7 @@ class Request extends ObjectConfig
         $value = Session::GetValue($key, $default);
         $value = self::GetValueG($key, $value, $stripSlashes);
         $value = self::GetValueP($key, $value, $stripSlashes);
-        list($value, $key, $default, $stripSlashes) = action_event('request_get_value_sgp', $value, $key, $default, $stripSlashes);
+        //list($value, $key, $default, $stripSlashes) = do_action('request_get_value_sgp', $value, $key, $default, $stripSlashes);
         return $value;
     }
 
@@ -402,7 +409,7 @@ class Request extends ObjectConfig
     static function IssetKeyG($key)
     {
         $isset = isset($_GET[$key]) ? true : false;
-        list($isset, $key) = action_event('request_isset_g', $isset, $key);
+        //list($isset, $key) = do_action('request_isset_g', $isset, $key);
         return $isset;
     }
 
@@ -416,7 +423,7 @@ class Request extends ObjectConfig
     static function IssetKeyP($key)
     {
         $isset = isset($_POST[$key]) ? true : false;
-        list($isset, $key) = action_event('request_isset_p', $isset, $key);
+        //list($isset, $key) = do_action('request_isset_p', $isset, $key);
         return $isset;
     }
 
@@ -430,7 +437,7 @@ class Request extends ObjectConfig
     static function IssetKeyGP($key)
     {
         $isset = (self::IssetKeyG($key) || self::IssetKeyP($key)) ? true : false;
-        list($isset, $key) = action_event('request_isset_gp', $isset, $key);
+        //list($isset, $key) = do_action('request_isset_gp', $isset, $key);
         return $isset;
     }
 
@@ -444,7 +451,7 @@ class Request extends ObjectConfig
     static function IssetKeySGP($key)
     {
         $isset = (Session::IssetKey($key) || self::IssetKeyG($key) || self::IssetKeyP($key)) ? true : false;
-        list($isset, $key) = action_event('request_isset_sgp', $isset, $key);
+        //list($isset, $key) = do_action('request_isset_sgp', $isset, $key);
         return $isset;
     }
     
@@ -481,6 +488,53 @@ class Request extends ObjectConfig
         }
         return $_POST[$key] = $value;
     }
+    
+    /**
+     * Get value of Cookie
+     * @param String $name
+     * @param String $default
+     * @return mixed
+     */
+    static function GetCookie($name, $default=false)
+    {
+        if (isset($_COOKIE) && isset($_COOKIE[$name]))
+        {
+            return $_COOKIE[$name];
+        }
+        return $default;
+    }
+    
+    /**
+     * Check if is set key in Cookies
+     * @param String $name
+     * @return Boolean
+     */
+    static function IssetCookie($name)
+    {
+        return (isset($_COOKIE) && isset($_COOKIE[$name]));
+    }
+    
+    /**
+     * Set a Cookie value for a key
+     * @param String $name
+     * @param mixed $value
+     * @param Int $duration
+     * @return Boolean
+     */
+    static function SetCookie($name, $value, $duration=86400)
+    {
+        return setcookie($name, $value, time()+$duration);
+    }
+    
+    /**
+     * Delete cookie
+     * @param String $name
+     * @return Boolean
+     */
+    static function DeleteCookie($name)
+    {
+        return setcookie($name, '', time()-3600);
+    }
 
     /**
      * Strip slashes of values
@@ -502,7 +556,7 @@ class Request extends ObjectConfig
             $var = stripslashes( $var );
             $var = stripcslashes( $var );
         }
-        list($var) = action_event('request_stripslashes', $var);
+        //list($var) = do_action('request_stripslashes', $var);
         return $var;
     }
 
@@ -525,7 +579,7 @@ class Request extends ObjectConfig
         else {
             $var = addslashes( $var );
         }
-        list($var) = action_event('request_addmagicquotes', $var);
+        //list($var) = do_action('request_addmagicquotes', $var);
         return $var;
     }
 

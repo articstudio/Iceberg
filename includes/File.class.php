@@ -16,6 +16,13 @@ require_once ICEBERG_DIR_HELPERS . 'files.php';
  */
 class File extends ObjectConfig
 {
+    
+    /**
+     * Configuration use language
+     * @var boolean
+     */
+    public static $CONFIG_USE_LANGUAGE = false;
+    
     /**
      * Configuration key
      * @var string
@@ -40,15 +47,55 @@ class File extends ObjectConfig
     static public function Write($file, $content, $type='w', $reading=false)
     {
         $done = false;
-        if (is_file($file) && is_writable($file)) {
+        if (!is_file($file) || is_writable($file))
+        {
             $mode = $type . ( $reading ? '+' : '');
             $file = @fopen($file, $mode);
-            if ($file !== false) {
+            if ($file !== false)
+            {
                 $done = @fwrite($file, $content);
                 @fclose($file);
             }
         }
         return $done;
+    }
+    
+    static public function ReadCSV($file, $delimiter=';', $enclosure='"', $escape='\\')
+    {
+        if (is_file($file) && is_writable($file))
+        {
+            $file = @fopen($file, static::FILE_READ);
+            if ($file !== false)
+            {
+                $data = array();
+                while ($line = fgetcsv($file, 4096, $delimiter, $enclosure, $escape))
+                {
+                    $data[] = $line;
+                }
+                @fclose($file);
+                return $data;
+            }
+        }
+        return false;
+    }
+    
+    static public function Read($file, $return_array=true)
+    {
+        if (is_file($file) && is_writable($file))
+        {
+            $file = @fopen($file, static::FILE_READ);
+            if ($file !== false)
+            {
+                $data = array();
+                while ($line = fgets($file, 4096))
+                {
+                    $data[] = $line;
+                }
+                @fclose($file);
+                return $return_array ? $data : implode('', $data);
+            }
+        }
+        return false;
     }
     
     static public function GetExtension($filepath)

@@ -3,7 +3,6 @@
 
 /**
  * Make a URL
- * @uses Request::MakeURL()
  * @param string $url
  * @param array $params
  * @return string 

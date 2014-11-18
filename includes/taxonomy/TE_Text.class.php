@@ -25,14 +25,14 @@ class TE_Text extends TaxonomyElements
     
     public function FormConfig()
     {
+        parent::FormConfig();
         ?>
-        <p>
+        <p class="radio">
             <label for="wysiwing-<?php print $this->GetAttrName(); ?>" class="checkbox">
                 <input type="checkbox" name="wysiwing-<?php print $this->GetAttrName(); ?>" id="wysiwing-<?php print $this->GetAttrName(); ?>" value="1" <?php print $this->UseWysiwing() ? 'checked' : ''; ?> /> <?php print_text('Use wysiwing editor'); ?>
             </label>
         </p>
         <?php
-        parent::FormConfig();
     }
     
     public function SaveFormConfig($args = array())
@@ -43,9 +43,12 @@ class TE_Text extends TaxonomyElements
     
     public function FormEdit($page) {
         ?>
-        <textarea class="<?php print $this->UseWysiwing() ? 'ckeditor' : ''; ?> input-block-level" id="text-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" name="text-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" rows="10" cols="10"><?php print $page->GetMeta($this->GetAttrName()); ?></textarea>
+        <div class="form-group">
+            <label for="text-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" class="control-label"><?php echo $this->GetTitle(); ?></label>
+            <textarea class="<?php print $this->UseWysiwing() ? 'ckeditor' : ''; ?> form-control" id="text-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" name="text-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" rows="10" cols="10"><?php print $page->GetMeta($this->GetAttrName()); ?></textarea>
+            <?php parent::FormEdit($page); ?>
+        </div>
         <?php
-        parent::FormEdit($page);
     }
     
     public function GetFormEdit($args=array())

@@ -30,9 +30,10 @@ class IcebergFrontend extends Environment
     
     public function Load()
     {
+        UserCapability::DisableApplyCapabilities();
         require_once ICEBERG_DIR_INCLUDES . 'RoutingFrontend.class.php';
         require_once ICEBERG_DIR_INCLUDES . 'ThemeFrontend.class.php';
-        action_event('iceberg_frontend_load');
+        do_action('iceberg_frontend_load');
         return parent::Load();
     }
     
@@ -67,20 +68,20 @@ class IcebergFrontend extends Environment
                 }
             }
         }
-        action_event('iceberg_frontend_config');
+        do_action('iceberg_frontend_config');
         return parent::Config();
     }
     
     public function Generate()
     {
         /* Exec controllers */
-        action_event('iceberg_frontend_generate');
+        do_action('iceberg_frontend_generate');
         return parent::Generate();
     }
     
     public function Show()
     {
-        action_event('iceberg_frontend_show');
+        do_action('iceberg_frontend_show');
         return parent::Show();
     }
     

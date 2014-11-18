@@ -1,0 +1,77 @@
+
+
+/** BREADCRUMB **/
+.breadcrumb > li + li:before {
+    content: ">";
+}
+.breadcrumb > li,
+.breadcrumb > li a {
+    color:#282f36;
+}
+.breadcrumb > li.active,
+.breadcrumb > li.active a {
+    color:#15191d;
+}
+
+/** PANEL **/
+.panel-primary {
+    border-color: #282f36;
+}
+.panel-primary > .panel-heading {
+    border-color:#282f36;
+    background-color:#282f36;
+}
+
+/** WELL **/
+.well .well-title {
+    margin-top:0px;
+    margin-bottom:30px;
+}
+
+/** HELP **/
+.form-group .help-block,
+.form-group .help-inline {
+    font-size:11px;
+    color: #737373;
+}
+.well .form-group .help-block a {
+    color:#777;
+}
+.help-block-error {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: #737373;
+}
+a.help-block,
+a.help-block-error {
+    color:#282f36;
+}
+a.help-block:hover,
+a.help-block-error:hover {
+    color:#737373;
+}
+
+/* PAGINATION */
+.pagination>li>a,
+.pagination>li>span {
+    color: #282f36;
+}
+.pagination>.active>a,
+.pagination>.active>span,
+.pagination>.active>a:hover,
+.pagination>.active>span:hover,
+.pagination>.active>a:focus,
+.pagination>.active>span:focus {
+    background-color: #282f36;
+    border-color: #282f36;
+    color:#fff;
+}
+.pagination>li>a:hover,
+.pagination>li>span:hover,
+.pagination>li>a:focus,
+.pagination>li>span:focus {
+    color: #282f36;
+    background-color: #eee;
+    border-color: #ddd;
+}

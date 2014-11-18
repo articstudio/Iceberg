@@ -50,11 +50,22 @@ function get_session_id()
  * Returns session name
  * 
  * @uses Session::GetName()
+ * @param boolean $from_config
  * @return string|boolean  
  */
-function get_session_name()
+function get_session_name($from_config=true)
 {
-    return Session::GetName();
+    return Session::GetName($from_config);
+}
+
+/**
+ * Returns session lifetime
+ * 
+ * @return int
+ */
+function get_session_lifetime()
+{
+    return Session::GetLifeTime();
 }
 
 /**
@@ -107,7 +118,7 @@ function isset_session_value($key)
     return Session::IssetKey($key);
 }
 
-function get_session_admin_level()
+/*function get_session_admin_level()
 {
     return Session::GetAdminLevel();
-}
+}*/

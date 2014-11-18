@@ -49,15 +49,16 @@ abstract class ConfigBase extends ObjectDBRelations
             'language' => true
         )
     );
+    
+    const RELATION_KEY_DOMAIN = 'config-domain';
 
     /**
      * Constructor 
      */
     public function  __construct()
     {
-        global $__CONFIG, $__CONFIG_ROWS;
+        global $__CONFIG;
         $__CONFIG = array();
-        $__CONFIG_ROWS = array();
     }
     
 }
@@ -94,7 +95,8 @@ class Config extends ConfigBase
             $config = current($buffer);
             $value = static::DB_DecodeFieldValue($config->value);
         }
-        list($keyname, $value, $default, $isBuffer, $lang) = action_event('config_select', $keyname, $value, $default, $isBuffer, $lang);
+        $value = apply_filters('config_select', $value, $keyname, $default, $isBuffer, $lang);
+        $value = apply_filters('config_select_' . $keyname, $value, $default, $isBuffer, $lang);
         if (!$isBuffer)
         {
             $__CONFIG[$keyname] = $value;
@@ -103,51 +105,22 @@ class Config extends ConfigBase
     }
 
     /**
-     * Add key to row
-     * 
-     * @global array $__CONFIG_ROWS
-     * @param string $keyname 
-     */
-    public static function AddRow($keyname)
-    {
-        global $__CONFIG_ROWS;
-        if (is_null($__CONFIG_ROWS) || !is_array($__CONFIG_ROWS)) { $__CONFIG_ROWS = array(); }
-        if (!in_array($keyname, $__CONFIG_ROWS)) { array_push($__CONFIG_ROWS, $keyname); }
-    }
-
-    /**
-     * Remove key to row
-     * 
-     * @global array $__CONFIG_ROWS
-     * @param string $keyname 
-     */
-    public static function RemoveRow($keyname)
-    {
-        global $__CONFIG_ROWS;
-        if (is_null($__CONFIG_ROWS)) { $__CONFIG_ROWS=array(); }
-        if (is_array($__CONFIG_ROWS) && in_array($keyname, $__CONFIG_ROWS)) { unset($__CONFIG_ROWS[array_search($keyname, $__CONFIG_ROWS)]); }
-    }
-
-    /**
      * Configuration loader
      * 
      * @uses action_event() for 'config_load'
      * @global array $__CONFIG
-     * @global array $__CONFIG_ROWS 
      * @param array $keys Configuration keys to load (If empty uses $__CONFIG_ROWS)
      * @return boolean
      */
     public static function LoadConfig($keys=array(), $lang=null)
     {
-       global $__CONFIG, $__CONFIG_ROWS;
-       $init = empty($keys) ? true : false;
-       $keys = $init ? $__CONFIG_ROWS : $keys;
+       global $__CONFIG;
        $buffer = static::DB_Select(array('name', 'value'), array('name' => $keys), array(), array(), array(), $lang);
        if (count($buffer) > 0) {
            foreach ($buffer AS $config) {
                $__CONFIG[$config->name] = static::DB_DecodeFieldValue($config->value);
            }
-           list($__CONFIG, $init, $keys) = action_event('config_load', $__CONFIG, $init, $keys);
+           do_action('config_load', $keys, $lang);
            return true;
        }
        else {
@@ -176,7 +149,8 @@ class Config extends ConfigBase
             $__CONFIG[$keyname] = $value;
             $done = true;
         }
-        list($keyname, $value) = action_event('config_set', $keyname, $value);
+        $value = apply_filters('config_set', $value, $keyname);
+        $value = apply_filters('config_set_' . $keyname, $value);
         return $done;
     }
     
@@ -192,7 +166,8 @@ class Config extends ConfigBase
         global $__CONFIG;
         $__CONFIG[$keyname] = null;
         unset($__CONFIG[$keyname]);
-        list($keyname) = action_event('config_unset', $keyname);
+        do_action('config_unset', $keyname);
+        do_action('config_unset_' . $keyname);
         return true;
     }
     
@@ -205,7 +180,7 @@ class Config extends ConfigBase
      */
     public static function SaveConfig($keyname, $value=null, $lang=null)
     {
-        $done = (is_null($lang) || I18N::GetLanguage() == $lang || static::REPLICATE_ALL_LANGUAGES == $lang) ? self::SetConfig($keyname, $value) : true;
+        $done = (is_null($lang) || $lang === false || I18N::GetLanguage() === $lang || static::REPLICATE_ALL_LANGUAGES == $lang) ? self::SetConfig($keyname, $value) : true;
         if ($done)
         {
             if (is_null($value)) {
@@ -227,11 +202,6 @@ class Config extends ConfigBase
         return $done;
     }
     
-    public static function InsertConfig($keyname, $value, $lang=null)
-    {
-        
-    }
-    
     /**
      * Unsave configuration value for keyname
      * 
@@ -242,6 +212,37 @@ class Config extends ConfigBase
     public static function UnsaveConfig($keyname, $lang=null)
     {
         return self::SaveConfig($keyname, null, $lang);
+    }
+    
+    public static function InsertConfig($keyname, $value, $lang=null)
+    {
+        if (is_null($value)) {
+            return false;
+        }
+        else {
+            return static::DB_Insert(
+                array(
+                    'name' => $keyname,
+                    'value' => $value,
+                ),
+                array(),
+                $lang
+            );
+        }
+    }
+    
+    public static function UpdateConfig($id, $value)
+    {
+        $args = array(
+            'value' => $value
+        );
+        $where = array(static::DB_GetPrimaryField() => $id);
+        return static::DB_UpdateWhere($args, $where, array(), null);
+    }
+    
+    public static function RemoveConfig($id)
+    {
+        return self::DB_Delete(array(static::DB_GetPrimaryField() => $id), array(), null);
     }
 
     /**
@@ -268,7 +269,8 @@ class Config extends ConfigBase
         else if (is_string($keyname) && isset($__CONFIG[$keyname])) {
             $return = $__CONFIG[$keyname];
         }
-        list($return, $keyname, $default) = action_event('config_get', $return, $keyname, $default);
+        $return = apply_filters('config_get', $return, $keyname, $default);
+        $return = apply_filters('config_get_' . $keyname, $return, $default);
         return $return;
     }
     
@@ -283,7 +285,7 @@ class Config extends ConfigBase
 }
             $config = current($buffer);
         }
-        list($config, $isBuffer, $lang) = action_event('config_select_all', $config, $isBuffer, $lang);
+        $config = apply_filters('config_select_all', $config, $isBuffer, $lang);
         if (!$isBuffer)
         {
             $__CONFIG = $config;
@@ -294,7 +296,7 @@ class Config extends ConfigBase
     public static function SelectAllObjects($lang=null)
     {
         $config = static::DB_Select(array('id', 'name', 'value'), array(), array(), array(), array(), $lang);
-        list($config, $lang) = action_event('config_select_all_objects', $config, $lang);
+        $config = apply_filters('config_select_all_objects', $config, $lang);
         return $config;
     }
     
@@ -305,7 +307,7 @@ class Config extends ConfigBase
         if (count($buffer) > 0) {
             $config = current($buffer);
         }
-        list($keyname, $config, $lang) = action_event('config_select_object_by_id', $keyname, $config, $lang);
+        $config = apply_filters('config_select_object_by_key', $config, $keyname, $lang);
         if ($config === false)
         {
             return static::GetVoidObject();
@@ -320,7 +322,7 @@ class Config extends ConfigBase
         if (count($buffer) > 0) {
             $config = current($buffer);
         }
-        list($config, $id) = action_event('config_select_object_by_id', $config, $id);
+        $config = apply_filters('config_select_object_by_id', $config, $id);
         if ($config === false)
         {
             return static::GetVoidObject();
@@ -336,4 +338,23 @@ class Config extends ConfigBase
         $obj->value = '';
         return $obj;
     }
+}
+
+
+abstract class ConfigAll extends Config
+{
+    
+    /**
+     * Parents relation
+     * @var array 
+     */
+    public static $DB_PARENTS = array(
+        'config-domain' => array(
+            'object' => 'Domain',
+            'force' => true,
+            'function' => 'get_domain_request_id',
+            'language' => false
+        )
+    );
+    
 }

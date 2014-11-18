@@ -40,7 +40,7 @@ class Iceberg {
     {
         $this->time_start = microtime(true);
         self::LoadBase();
-        self::Initialize();
+        self::Initialize($this->time_start);
         self::Session();
     }
 
@@ -57,8 +57,8 @@ class Iceberg {
         
         require_once ICEBERG_DIR_INCLUDES .'Config.class.php';
         require_once ICEBERG_DIR_INCLUDES .'ObjectConfig.class.php'; /* @todo ObjectConfig documentation */
+        require_once ICEBERG_DIR_INCLUDES .'MultiObjectConfig.class.php'; /* @todo MultiObjectConfig documentation */
         require_once ICEBERG_DIR_INCLUDES .'IcebergCache.class.php';
-        
         
         require_once ICEBERG_DIR_INCLUDES .'Domain.class.php';
         
@@ -79,10 +79,13 @@ class Iceberg {
         
         
         
+        require_once ICEBERG_DIR_INCLUDES .'UserConfig.class.php';
+        require_once ICEBERG_DIR_INCLUDES .'UserCapability.class.php';
+        require_once ICEBERG_DIR_INCLUDES .'UserRole.class.php';
         require_once ICEBERG_DIR_INCLUDES .'User.class.php';
         require_once ICEBERG_DIR_INCLUDES .'UserMeta.class.php';
         
-        
+        require_once ICEBERG_DIR_HELPERS .'dependences.php';
         
         require_once ICEBERG_DIR_INCLUDES .'Template.class.php';
         require_once ICEBERG_DIR_INCLUDES .'Theme.class.php';
@@ -91,6 +94,9 @@ class Iceberg {
         require_once ICEBERG_DIR_INCLUDES .'IcebergBackend.class.php';
         require_once ICEBERG_DIR_INCLUDES .'IcebergAPI.class.php';
         require_once ICEBERG_DIR_INCLUDES .'IcebergFrontend.class.php';
+        
+        require_once ICEBERG_DIR_INCLUDES .'Alerts.class.php';
+        
         require_once ICEBERG_DIR_INCLUDES .'Maintenance.class.php';
         
         
@@ -120,8 +126,9 @@ class Iceberg {
      * 
      * @global bool $__ICEBERG_INITIALIZED
      * @throws Exception 
+     * @param int Started timestamp
      */
-    private static function Initialize()
+    private static function Initialize($time=0)
     {
         global $__ICEBERG_INITIALIZED;
         if ( defined( 'ICEBERG_BOOTSTRAP' ) && Bootstrap::IsInitialized() && !self::isInitialized() )
@@ -129,7 +136,7 @@ class Iceberg {
             $__ICEBERG_INITIALIZED = Bootstrap::STATUS_ICEBERG;
             self::LanguageInitialize(); /* Load default language */
             self::LoadRequest(); /* Load resquest */
-            self::Install(); /* Install if it is necessary */
+            self::Install($time); /* Install if it is necessary */
             self::DataBases(); /* Database connect */
             $domain = self::Domain(); /* Load domain data */
             if (!is_null($domain))
@@ -162,21 +169,23 @@ class Iceberg {
     private static function LoadRequest()
     {
         Request::LoadRequest();
-        action_event('iceberg_load_request');
+        do_action('iceberg_load_request');
     }
 
     /**
      * Install process
      * 
      * @todo Reinstall
+     * @param int Started timestamp
      */
-    private static function Install()
+    private static function Install($time=0)
     {
         if (Install::IsInstallationProcess()) {
             define('ICEBERG_INSTALL', true);
             Install::Initialize();
             
-            MySQL::PrintLog();
+            $time -= microtime(true);
+            IcebergDebug::PrintLog($time);
             
             exit();
         }
@@ -203,24 +212,14 @@ class Iceberg {
      */
     private static function LoadConfig()
     {
-        Config::AddRow(I18N::$CONFIG_KEY);
-        Config::AddRow(Request::$CONFIG_KEY);
-        Config::AddRow(Routing::$CONFIG_KEY);
-        Config::AddRow(Session::$CONFIG_KEY);
-        Config::AddRow(Time::$CONFIG_KEY);
-        Config::AddRow(File::$CONFIG_KEY);
-        Config::AddRow(Number::$CONFIG_KEY);
-        Config::AddRow(Time::$CONFIG_KEY);
-        Config::AddRow(Theme::$CONFIG_KEY);
-        Config::AddRow(Maintenance::$CONFIG_KEY);
-        Config::AddRow(Extension::$CONFIG_KEY);
-        Config::AddRow(PageConfig::$CONFIG_KEY);
-        Config::AddRow(Metatag::$CONFIG_KEY);
-        Config::AddRow(IcebergCache::$CONFIG_KEY);
-        Config::AddRow(Template::$CONFIG_KEY);
-        Config::AddRow(TaxonomyElements::$CONFIG_KEY);
-        Config::AddRow(Menubar::$CONFIG_KEY);
-        return Config::LoadConfig();
+        $config_classes = getSubclassesOf('ObjectConfig');
+        $config = array();
+        $configAll = array();
+        foreach ($config_classes AS $class)
+        {
+            ($class::$CONFIG_USE_LANGUAGE) ? ($config[] = $class::$CONFIG_KEY) : ($configAll[] = $class::$CONFIG_KEY);
+        }
+        return (Config::LoadConfig($config) && ConfigAll::LoadConfig($configAll));
     }
     
     /**
@@ -249,7 +248,7 @@ class Iceberg {
     private static function Configure()
     {
         Time::Configure();
-        action_event('iceberg_configure');
+        do_action('iceberg_configure');
     }
     
     /**
@@ -260,7 +259,7 @@ class Iceberg {
     private static function Taxonomy()
     {
         TaxonomyElements::Load();
-        action_event('iceberg_taxonomy');
+        do_action('iceberg_taxonomy');
     }
 
     /**
@@ -271,7 +270,14 @@ class Iceberg {
     {
         Session::Start();
         //Session::LoadSession();
-        action_event('iceberg_session');
+        do_action('iceberg_session');
+    }
+    
+    public function PrintLog()
+    {
+        $this->time_end = microtime(true);
+        $time = $this->time_end - $this->time_start;
+        IcebergDebug::PrintLog($time);
     }
 
     /**
@@ -298,21 +304,19 @@ class Iceberg {
             $this->Environment->Load()->Config();
             $content = '';
             
-            list($content) = action_event('filter_iceberg_environment_content', $content);
+            $content = apply_filters('iceberg_environment_content_before', $content);
             if (empty($content))
             {
                 ob_start();
                 $this->Environment->Generate()->Show();
                 $content = ob_get_clean();
             }
-            list($content) = action_event('iceberg_environment_content', $content);
+            $content = apply_filters('iceberg_environment_content_after', $content);
             printf('%s', $content);
             
-            $this->time_end = microtime(true);
-            $time = $this->time_end - $this->time_start;
-            IcebergDebug::PrintLog($time);
+            $this->PrintLog();
             
-            action_event('iceberg_loaded');
+            do_action('iceberg_loaded');
         }
         else {
             throw new IcebergException('ICEBERG INITIALIZATION ERROR: Environment not found.');

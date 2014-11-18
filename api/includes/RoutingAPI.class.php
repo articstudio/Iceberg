@@ -3,6 +3,10 @@
 class RoutingAPI extends RoutingBackendAPI
 {
     
+    public static $DEFAULT_APIS = array(
+        'permalinks' => 'permalinks.php'
+    );
+    
     public function ParseRequest()
     {
         parent::ParseRequest();

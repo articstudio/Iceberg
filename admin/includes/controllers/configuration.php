@@ -1,115 +1,54 @@
 <?php
 
-
-function get_admin_modes_configuration($args)
+function get_modes_configuration($modes)
 {
-    $array = array(
+    $defaults = array(
         'settings' => array(
             'template' => 'configuration_settings.php',
-            'name' => 'Settings'
+            'name' => _T('Settings')
         ),
         'maintenance' => array(
             'template' => 'configuration_maintenance.php',
-            'name' => 'Maintenance'
+            'name' => _T('Maintenance')
         ),
         'themes' => array(
             'template' => 'configuration_themes.php',
-            'name' => 'Themes'
+            'name' => _T('Themes')
         ),
         'languages' => array(
             'template' => 'configuration_languages.php',
-            'name' => 'Languages'
+            'name' => _T('Languages')
+        ),
+        'roles' => array(
+            'template' => 'configuration_roles.php',
+            'name' => _T('User Roles')
+        ),
+        'capabilities' => array(
+            'template' => 'configuration_capabilities.php',
+            'name' => _T('User Capabilities')
         ),
         'users' => array(
             'template' => 'configuration_users.php',
-            'name' => 'Users'
+            'name' => _T('Users')
         ),
         'routing' => array(
             'template' => 'configuration_routing.php',
-            'name' => 'Routing'
+            'name' => _T('Routing')
         ),
         'domains' => array(
             'template' => 'configuration_domains.php',
-            'name' => 'Domains'
+            'name' => _T('Domains')
         ),
         'db' => array(
             'template' => 'configuration_db.php',
-            'name' => 'Database'
+            'name' => _T('Database')
         ),
         'details' => array(
             'template' => 'configuration_details.php',
-            'name' => 'Configuration'
+            'name' => _T('Configuration')
         )
     );
-    $array = array_merge(isset($args[0]) ? $args[0] : array(), $array);
-    list($array) = action_event('get_admin_modes_configuration', $array);
-    return array($array);
+    $modes = array_merge($modes, $defaults);
+    return $modes;
 }
-add_action('get_modes', 'get_admin_modes_configuration', 10, 1);
-
-
-function get_admin_mode_configuration($args)
-{
-    list($data, $key) = $args;
-    $mode = get_request_mode();
-    $action = get_request_action();
-    if ($mode == 'languages')
-    {
-        if ($action == 'new' || $action == 'edit')
-        {
-            $data['template'] = 'configuration_languages_edit.php';
-        }
-    }
-    else if ($mode == 'domains')
-    {
-        if ($action == 'new' || $action == 'edit')
-        {
-            $data['template'] = 'configuration_domains_edit.php';
-        }
-    }
-    else if ($mode == 'details')
-    {
-        if ($action == 'new' || $action == 'edit')
-        {
-            $data['template'] = 'configuration_details_edit.php';
-        }
-    }
-    return array($data, $key);
-}
-add_action('get_mode', 'get_admin_mode_configuration', 10, 2);
-
-
-function get_admin_breadcrumb_configuration($args)
-{
-    $array = array();
-    $mode = get_request_mode();
-    $action = get_request_action();
-    $id = get_request_id();
-    if ($mode == 'languages')
-    {
-        if ($action == 'new')
-        {
-            $array[_T('New')] = get_admin_action_link(array(RoutingBackend::REQUEST_KEY_ACTION=>$action));
-        }
-        if ($action == 'edit')
-        {
-            $language = I18N::GetLanguageInfo($id);
-            $array[_T('Edit') . ': ' . $language['name']] = get_admin_action_link(array(RoutingBackend::REQUEST_KEY_ACTION=>$action, RoutingBackend::REQUEST_KEY_ID=>$id));
-        }
-    }
-    else if ($mode == 'domains')
-    {
-        if ($action == 'new')
-        {
-            //$data['template'] = 'configuration_domains_edit.php';
-        }
-        if ($action == 'edit')
-        {
-            //$data['template'] = 'configuration_domains_edit.php';
-        }
-    }
-    $array = array_merge(isset($args[0]) ? $args[0] : array(), $array);
-    list($array) = action_event('get_admin_breadcrumb_configuration', $array);
-    return array($array);
-}
-add_action('get_admin_breadcrumb', 'get_admin_breadcrumb_configuration', 10, 1);
+add_filter('get_modes_configuration', 'get_modes_configuration', 5);

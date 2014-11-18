@@ -1,16 +1,14 @@
 <?php
 
-
-function get_admin_modes_media($args)
+function get_modes_media($modes)
 {
-    $array = array(
-        'manager' => array(
-            'template' => 'media_manager.php',
-            'name' => 'Manager'
+    $defaults = array(
+        'uploads' => array(
+            'template' => 'media_uploads.php',
+            'name' => _T('Uploads')
         )
     );
-    $array = array_merge(isset($args[0]) ? $args[0] : array(), $array);
-    list($array) = action_event('get_admin_modes_media', $array);
-    return array($array);
+    $modes = array_merge($modes, $defaults);
+    return $modes;
 }
-add_action('get_modes', 'get_admin_modes_media', 10, 1);
+add_filter('get_modes_media', 'get_modes_media', 5);

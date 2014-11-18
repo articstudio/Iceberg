@@ -1,219 +1,63 @@
 <?php
 
-$action = get_request_action();
-$group = get_request_group();
-$id = get_request_id(); 
-
-if ($action == 'remove')
+function get_actions_content_publish($actions)
 {
-    $have_permision = true;
-    list($have_permision, $id) = action_event('content_publish_remove_have_permision', $have_permision, $id);
-    if ($have_permision && Page::Remove($id))
+    if (in_api())
     {
-        add_alert('Page removed', 'success');
+        $defaults = array(
+            'list-ajax' => array(
+                'template' => 'content_publish_list_ajax.php',
+                'name' => _T('Order')
+            )
+        );
     }
     else
     {
-        add_alert('Failed to remove page', 'error');
+        $defaults = array(
+            'list' => array(
+                'template' => 'content_publish_list.php',
+                'name' => _T('List')
+            ),
+            'new' => array(
+                'template' => 'content_publish_edit.php',
+                'name' => _T('New Page')
+            ),
+            'edit' => array(
+                'template' => 'content_publish_edit.php',
+                'name' => _T('Edit Page')
+            ),
+            'insert' => array(
+                'template' => 'content_publish_insert.php',
+                'name' => _T('Insert')
+            ),
+            'update' => array(
+                'template' => 'content_publish_update.php',
+                'name' => _T('Update')
+            ),
+            'active' => array(
+                'template' => 'content_publish_active.php',
+                'name' => _T('Active')
+            ),
+            'unactive' => array(
+                'template' => 'content_publish_unactive.php',
+                'name' => _T('Unactive')
+            ),
+            'remove' => array(
+                'template' => 'content_publish_remove.php',
+                'name' => _T('Remove')
+            )
+        );
     }
-}
-else if ($action == 'insert')
-{
-    $metas = array(
-        PageMeta::META_TITLE => get_request_p('name', '', true),
-        PageMeta::META_PERMALINK => get_request_p('permalink', '', true),
-        PageMeta::META_TEXT => get_request_p('text', '', true),
-        PageMeta::META_IMAGE => get_request_p('image', '', true),
-        PageMeta::META_TEMPLATE => get_request_p('template', '', true)
-    );
-    if ($metas[PageMeta::META_PERMALINK] === '')
-    {
-        $metas[PageMeta::META_PERMALINK] = Page::UniqueSlug(Page::MakeSlug($metas[PageMeta::META_TITLE]));
-    }
-    $args = array(
-        'taxonomy' => get_request_p('taxonomy', get_default_pagetaxnomy()),
-        'type' => get_request_p('type', get_page_pagetype()),
-        'group' => $group,
-        'parent' => get_request_p('parent', null, true),
-        'metas' => $metas
-    );
-    $args['parent'] = $args['parent']==='NULL' ? null : $args['parent'];
-    $lang = null;
-    $id = Page::Insert($args, $lang);
-    if ($id)
-    {
-        add_alert('Page inserted', 'success');
-        action_event('content_publish_insert', $group, $id, $lang, null);
-    }
-    else
-    {
-        add_alert('Failed to inesrt page', 'error');
-    }
-}
-else if ($action == 'update' || $action == 'translate')
-{
-    $metas = array(
-        PageMeta::META_TITLE => get_request_p('name', '', true),
-        PageMeta::META_PERMALINK => get_request_p('permalink', '', true),
-        PageMeta::META_PERMALINK => get_request_p('permalink', '', true),
-        PageMeta::META_TEXT => get_request_p('text', '', true),
-        PageMeta::META_IMAGE => get_request_p('image', '', true),
-        PageMeta::META_TEMPLATE => get_request_p('template', '', true)
-    );
-    if ($metas[PageMeta::META_PERMALINK] === '')
-    {
-        $metas[PageMeta::META_PERMALINK] = Page::UniqueSlug(Page::MakeSlug($metas[PageMeta::META_TITLE]), $id);
-    }
-    $args = array(
-        'taxonomy' => get_request_p('taxonomy', get_default_pagetaxnomy()),
-        'type' => get_request_p('type', get_page_pagetype()),
-        'group' => $group,
-        'parent' => get_request_p('parent', null, true),
-        'metas' => $metas
-    );
-    $args['parent'] = $args['parent']==='NULL' ? null : $args['parent'];
-    if ($action == 'translate')
-    {
-        $tlang = get_request_gp('tlang');
-        $buffer_page = Page::GetPage($id, $tlang);
-        if ($tlang && Page::Translate($id, $tlang, $args))
-        {
-            add_alert('Page translated', 'success');
-            action_event('content_publish_translate', $group, $id, $tlang, $buffer_page);
-        }
-        else
-        {
-            add_alert('Failed to translate page', 'error');
-        }
-    }
-    else
-    {
-        $lang = null;
-        $buffer_page = Page::GetPage($id, $lang);
-        if (Page::Update($id, $args, $lang))
-        {
-            add_alert('Page updated', 'success');
-            action_event('content_publish_edit', $group, $id, $lang, $buffer_page);
-        }
-        else
-        {
-            add_alert('Failed to update page', 'error');
-        }
-    }
-}
-else if ($action == 'unactive')
-{
-    if (Page::Unactive($id))
-    {
-        add_alert('Page unactived', 'success');
-    }
-    else
-    {
-        add_alert('Failed to unactivate the page', 'error');
-    }
-}
-else if ($action == 'active')
-{
-    if (Page::Active($id))
-    {
-        add_alert('Page actived', 'success');
-    }
-    else
-    {
-        add_alert('Failed to activate the page', 'error');
-    }
-}
-else if ($action == 'order')
-{
-    $order = get_request_gp('order');
-    
-    function execReorder($arr, $parent=null)
-    {
-        foreach ($arr AS $k => $page) {
-            $id = $page['id'];
-            $done = Page::UpdateParent($id, $parent);
-            if ($done)
-            {
-                $done = Page::UpdateOrder($id, $k);
-                if ($done)
-                {
-                    if (isset($page['children']) && !empty($page['children']))
-                    {
-                        $done = execReorder($page['children'], $id);
-                        if (!$done)
-                        {
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-            else
-            {
-                break;
-            }
-        }
-        return $done;
-    }
-    
-    $done = execReorder($order);
-    if ($done)
-    {
-        add_alert('Page reordered', 'success');
-    }
-    else
-    {
-        add_alert('Failed to reorder page', 'error');
-    }
-    
-    /*$parent = get_request_gp('parent');
-    
-    
-    if ($from!==false && $to!==false)
-    {
-        $from = (int)$from ;
-        $to = (int)$to;
-        if (Page::ReOrder($from, $to))
-        {
-            add_alert('Page reordered', 'success');
-        }
-        else
-        {
-            add_alert('Failed to reorder page', 'error');
-        }
-    }
-    else
-    {
-        add_alert('Failed to reorder page', 'error');
-    }*/
+    $actions = array_merge($actions, $defaults);
+    return $actions;
 }
 
-
-if ($action == 'insert' || $action == 'update' || $action == 'translate')
+$groups = PageGroup::GetList();
+if (!empty($groups))
 {
-    $fromLang = get_lang();
-    if ($action == 'translate')
+    foreach ($groups AS $group)
     {
-        $fromLang = get_request_gp('tlang');
-    }
-    $duplicate = get_request_gp('duplicate', array());
-    if ($id && $fromLang && is_array($duplicate) && !empty($duplicate))
-    {
-        foreach ($duplicate AS $toLang)
-        {
-            $lang = get_language_info($toLang);
-            if (is_active_language($toLang) && Page::Duplicate($id, $fromLang, $toLang))
-            {
-                add_alert('Page duplicated to ' . $lang['name'], 'success');
-            }
-            else
-            {
-                add_alert('Failed to duplicate page to ' . $lang['name'], 'error');
-            }
-        }
+        add_filter('get_actions_content_group-' . $group->GetID(), 'get_actions_content_publish', 5);
     }
 }
 

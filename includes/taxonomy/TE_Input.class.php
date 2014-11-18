@@ -13,13 +13,13 @@ class TE_Input extends TaxonomyElements
     
     public function FormConfig()
     {
+        parent::FormConfig();
         ?>
-        <p>
-            <label for="limit-<?php print $this->GetAttrName(); ?>">Limit</label>
-            <input type="text" class="input-block-level" name="limit-<?php print $this->GetAttrName(); ?>" id="limit-<?php print $this->GetAttrName(); ?>" value="<?php print_html_attr($this->limit); ?>" />
+        <p class="form-group">
+            <label for="limit-<?php print $this->GetAttrName(); ?>" class="control-label"><?php print_text('Limit'); ?></label>
+            <input type="text" class="form-control" name="limit-<?php print $this->GetAttrName(); ?>" id="limit-<?php print $this->GetAttrName(); ?>" value="<?php print_html_attr($this->limit); ?>" />
         </p>
         <?php
-        parent::FormConfig();
     }
     
     public function SaveFormConfig($args = array())
@@ -31,9 +31,12 @@ class TE_Input extends TaxonomyElements
     public function FormEdit($page) {
         $limit = (int)$this->limit;
         ?>
-        <input type="text" class="input-block-level" name="input-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" id="input-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" value="<?php print_html_attr($page->GetMeta($this->GetAttrName())); ?>" <?php echo $limit>0 ? 'maxlength="'.$limit.'"' : ''; ?> />
+        <div class="form-group">
+            <label for="input-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" class="control-label"><?php echo $this->GetTitle(); ?></label>
+            <input type="text" class="form-control" name="input-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" id="input-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" value="<?php print_html_attr($page->GetMeta($this->GetAttrName())); ?>" <?php echo $limit>0 ? 'maxlength="'.$limit.'"' : ''; ?> />
+            <?php parent::FormEdit($page); ?>
+        </div>
         <?php
-        parent::FormEdit($page);
     }
     
     public function GetFormEdit($args=array())

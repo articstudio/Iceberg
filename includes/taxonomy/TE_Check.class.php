@@ -7,14 +7,15 @@ class TE_Check extends TaxonomyElements
     
     function __construct($args=array())
     {
-        $this->limit = isset($args['limit']) ? $args['limit'] : 0;
+        $this->default = isset($args['default']) ? $args['default'] : 0;
         parent::__construct($args);
     }
     
     public function FormConfig()
     {
+        parent::FormConfig();
         ?>
-        <p>
+        <p class="radio">
             <label class="checkbox" for="default-<?php print $this->GetAttrName(); ?>">
                 <input type="checkbox" name="default-<?php print $this->GetAttrName(); ?>" id="default-<?php print $this->GetAttrName(); ?>" value="1" <?php print $this->default ? 'checked' : ''; ?> />
                 Default status
@@ -22,7 +23,6 @@ class TE_Check extends TaxonomyElements
             
         </p>
         <?php
-        parent::FormConfig();
     }
     
     public function SaveFormConfig($args = array())
@@ -35,9 +35,16 @@ class TE_Check extends TaxonomyElements
         $checked = $page->GetMeta($this->GetAttrName());
         $checked = !$checked  ? ($this->default ? 1 : 0) : $checked;
         ?>
-        <input type="checkbox" name="checkbox-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" id="checkbox-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" value="1" <?php print $checked==1 ? 'checked' : ''; ?> />
+        <div class="form-group">
+            <p class="radio">
+                <label for="checkbox-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" class="checkbox">
+                    <input type="checkbox" name="checkbox-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" id="checkbox-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" value="1" <?php print $checked==1 ? 'checked' : ''; ?>>
+                    <?php echo $this->GetTitle(); ?>
+                </label>
+            </p>
+            <?php parent::FormEdit($page); ?>
+        </div>
         <?php
-        parent::FormEdit($page);
     }
     
     public function GetFormEdit($args=array())

@@ -16,6 +16,13 @@ require_once ICEBERG_DIR_HELPERS . 'session.php';
  */
 class Session extends ObjectConfig
 {
+    
+    /**
+     * Configuration use language
+     * @var boolean
+     */
+    public static $CONFIG_USE_LANGUAGE = false;
+    
     /**
      * Configuration key
      * @var string
@@ -29,16 +36,7 @@ class Session extends ObjectConfig
     public static $CONFIG_DEFAULTS = array(
         'name' => '',
         'time' => 86400,
-        'multisession' => true,
-        'levels' => array(
-            1 => 'User',
-            100 => 'Translator',
-            200 => 'Editor',
-            500 => 'Administrator',
-            999 => 'Root'
-        ),
-        'minimum-level' => 0,
-        'admin-level' => 100
+        'multisession' => true
     );
     
     /**
@@ -69,20 +67,24 @@ class Session extends ObjectConfig
         {
             $session_name = static::GetConfigValue('name', ICEBERG_SESSION_NAME);
             $session_time = static::GetConfigValue('time', ICEBERG_SESSION_TIME);
-            list($session_name, $session_time) = action_event('session_start', $session_name, $session_time);
+            $session_name = 'iceberg_' . IcebergSecurity::MakeNonce($session_name);
+            do_action('session_start', $session_name, $session_time);
             $last = self::GetValue(self::SESSION_KEY_LAST_ACTIVITY);
-            if ($last && (time() - $last > $session_time)) {
+            if ($last && (time() - $last > $session_time))
+            {
                 self::Stop(true);
                 $done = self::Start();
             }
-            else {
+            else
+            {
                 ini_set('session.gc_maxlifetime', $session_time);
                 ini_set('session.gc_divisor', 10000);
                 ini_set('session.gc_probability', 1);
                 ini_set('session.cookie_lifetime', 0);
                 session_name($session_name);
                 $done = session_start();
-                if ($done) {
+                if ($done)
+                {
                     $__SESSION_ID = session_id();
                 }
             }
@@ -108,11 +110,11 @@ class Session extends ObjectConfig
     static public function Stop($drop=false)
     {
         global $__SESSION_ID;
-        list($drop) = action_event('session_stop', $drop);
         $__SESSION_ID = null;
         if ($drop) { $_SESSION=array(); session_unset(); }
         session_destroy();
         $_SESSION = array();
+        do_action('session_stop', $drop);
     }
 
     /**
@@ -140,13 +142,31 @@ class Session extends ObjectConfig
     /**
      * Retuns session name
      * 
+     * @param boolean $from_config
      * @return strin|boolean 
      */
-    static public function GetName()
+    static public function GetName($from_config=true)
     {
-        return session_name();
+        return $from_config ? static::GetConfigValue('name', ICEBERG_SESSION_NAME) : session_name();
     }
     
+    /**
+     * Returns session lifetime
+     * 
+     * @return int
+     */
+    static public function GetLifeTime()
+    {
+        return static::GetConfigValue('time', ICEBERG_SESSION_TIME);
+    }
+    
+    
+    public static function Save($config)
+    {
+        return static::SaveConfig($config);
+    }
+    
+    /*
     public static function GetLevels()
     {
         $arr = static::GetConfigValue('levels', array());
@@ -163,6 +183,7 @@ class Session extends ObjectConfig
     {
         return static::GetConfigValue('admin-level', 100);
     }
+    */
 
     /**
      * Set a session value for a key, if value is null unset the key
@@ -173,7 +194,6 @@ class Session extends ObjectConfig
      */
     static public function SetValue($key, $value=null)
     {
-        list($key, $value) = action_event('session_set', $key, $value);
         if (is_null($value))
         {
             $_SESSION[$key] = null;
@@ -183,6 +203,7 @@ class Session extends ObjectConfig
         {
             $_SESSION[$key] = $value;
         }
+        do_action('session_set', $key, $value);
         return true;
     }
 
@@ -206,7 +227,7 @@ class Session extends ObjectConfig
     static public function GetValue($key, $default=null)
     {
         $value = isset($_SESSION[$key]) ? $_SESSION[$key] : $default;
-        list($value, $key, $default) = action_event('session_get', $value, $key, $default);
+        do_action('session_get', $value, $key, $default);
         return $value;
     }
 
@@ -220,7 +241,7 @@ class Session extends ObjectConfig
     static function IssetKey($key)
     {
         $isset = isset($_SESSION[$key]) ? true : false;
-        list($isset, $key) = action_event('session_isset', $isset, $key);
+        do_action('session_isset', $isset, $key);
         return $isset;
     }
 }

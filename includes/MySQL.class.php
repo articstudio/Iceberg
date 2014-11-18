@@ -720,6 +720,13 @@ class Query extends MySQLBase {
         $sql = 'SHOW CREATE TABLE ' . $table;
         return $this->doQuery($sql, $this->id);
     }
+    
+    public function show_indexes($table, $id=null)
+    {
+        $this->validIdConnection($id);
+        $sql = 'SHOW INDEXES FROM ' . $table;
+        return $this->doQuery($sql, $this->id);
+    }
 
     public function getInsertId($id=null) {
         $this->validIdConnection($id);
@@ -895,7 +902,7 @@ class Query extends MySQLBase {
             }
             $time_end = microtime(true);
             $time = $time_end - $time_start;
-            list($insertId, $numrows, $result, $query, $time) = action_event('mysql_query_send', $insertId, $numrows, $result, $query, $time);
+            do_action('mysql_query_send', $insertId, $numrows, $result, $query, $time);
             return array($insertId, $numrows, $result);
         }
         else { MySQLBase::reportError('ERROR DATABASE QUERY: '.$query); }

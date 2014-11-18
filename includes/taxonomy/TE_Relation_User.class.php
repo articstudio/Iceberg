@@ -2,7 +2,7 @@
 
 class TE_Relation_User extends TaxonomyElements
 {
-    protected static $NAME = 'Relation';
+    protected static $NAME = 'User Relation';
     protected $levels = array();
     protected $multiple = false;
     
@@ -109,11 +109,11 @@ class TE_Relation_User extends TaxonomyElements
     {
         $ids = $this->GetFormEdit($args);
         $ids = is_array($ids) ? $ids : array($ids);
-        /*User::DeleteRelation($page_id, User::RELATION_KEY_PAGE, $this->GetAttrName());
-        foreach ($ids AS $parent)
+        Page::DB_DeleteParentRelation($page_id, Page::RELATION_KEY_USER_RELATED, $this->GetAttrName(), $lang);
+        foreach ($ids AS $k => $parent)
         {
-            User::InsertUpdateRelation($page_id, User::RELATION_KEY_PAGE, $parent, $this->GetAttrName());
-        }*/
+            Page::DB_InsertParentRelation($page_id, Page::RELATION_KEY_USER_RELATED, $this->GetAttrName(), $parent, $lang, $k);
+        }
         return Page::InsertUpdateMeta($page_id, $this->GetAttrName(), $ids, $lang);
     }
     

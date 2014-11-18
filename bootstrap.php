@@ -126,6 +126,8 @@ class Bootstrap
         $__ICEBERG_BOOTSTRAP = array_merge(Bootstrap::$default_options , $args);
         $__ICEBERG_ADMIN = Bootstrap::GetValue('admin');
         $__ICEBERG_API = Bootstrap::GetValue('api');
+        ini_set('memory_limit', '256M'); 
+        ini_set('max_execution_time', 300);
     }
 
     /**
@@ -139,14 +141,9 @@ class Bootstrap
         require_once ICEBERG_DIR_INCLUDES . 'functions.php';
         
         /**
-         * Actions functions file
+         * Extend functions file
          */
-        require_once ICEBERG_DIR_INCLUDES . 'actions.php';
-        
-        /**
-         * Hooks functions file
-         */
-        //require_once ICEBERG_DIR_INCLUDES . 'hooks.php';
+        require_once ICEBERG_DIR_INCLUDES . 'extend.php';
         
         /**
          * IcebergSingleton class file
@@ -157,6 +154,11 @@ class Bootstrap
          * IcebergDebug class file
          */
         require_once ICEBERG_DIR_INCLUDES . 'IcebergDebug.class.php';
+
+        /**
+         * IcebergDebug class file
+         */
+        require_once ICEBERG_DIR_INCLUDES . 'IcebergSecurity.class.php';
         
         /**
          * Iceberg class file

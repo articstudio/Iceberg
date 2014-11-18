@@ -1,6 +1,6 @@
 <?php
 
-/** Include helpers request file */
+/** Include helpers user file */
 require_once ICEBERG_DIR_HELPERS . 'user.php';
 
 class UserBase extends ObjectDBRelations
@@ -53,16 +53,51 @@ class UserBase extends ObjectDBRelations
             ),
             'index' => true
         ),
-        'level' => array(
-            'name' => 'LEVEL',
-            'type' => 'INT',
-            'length' => '3',
+        'role' => array(
+            'name' => 'ROLE',
+            'type' => 'BIGINT',
+            'length' => '20',
             'flags' => array(
-                'NOT NULL',
-                'DEFAULT \'1\''
+                'NOT NULL'
             ),
             'index' => true
-        )
+        ),
+        'capabilities' => array(
+            'name' => 'CAPABILITIES',
+            'type' => 'TEXT',
+            'length' => null,
+            'flags' => array(
+                'NOT NULL'
+            ),
+            'index' => false
+        ),
+        'lastIP' => array(
+            'name' => 'LAST IP',
+            'type' => 'VARCHAR',
+            'length' => '39',
+            'flags' => array(
+                'NOT NULL'
+            ),
+            'index' => false
+        ),
+        'lastSession' => array(
+            'name' => 'LAST SESSION',
+            'type' => 'VARCHAR',
+            'length' => '40',
+            'flags' => array(
+                'NOT NULL'
+            ),
+            'index' => false
+        ),
+        'lastLogin' => array(
+            'name' => 'LAST LOGIN',
+            'type' => 'TIMESTAMP',
+            'length' => null,
+            'flags' => array(
+                'NOT NULL'
+            ),
+            'index' => false
+        ),
     );
     
     /**
@@ -73,13 +108,20 @@ class UserBase extends ObjectDBRelations
         'user2domain' => array(
             'object' => 'Domain',
             'force' => true,
-            'function' => 'get_domain_request_id'
+            'function' => 'get_domain_request_id',
+            'language' => false
         ),
         'user-user' => array(
-            'object' => 'User'
+            'object' => 'User',
+            'force' => false,
+            'function' => '',
+            'language' => false
         ),
-        'user2page' => array(
-            'object' => 'Page'
+        'user-page' => array(
+            'object' => 'Page',
+            'force' => false,
+            'function' => '',
+            'language' => false
         )
     );
     
@@ -88,18 +130,31 @@ class UserBase extends ObjectDBRelations
      * @var array 
      */
     public static $DB_CHILDS = array(
-        'user-meta' => array(
-            'object' => 'UserMeta'
+        'user2meta' => array(
+            'object' => 'UserMeta',
+            'autodelete' => true
+        ),
+        'user-user' => array(
+            'object' => 'User',
+            'autodelete' => false
+        ),
+        'user2page' => array(
+            'object' => 'Page',
+            'autodelete' => false
         )
     );
     
     const RELATION_KEY_DOMAIN = 'user2domain';
     const RELATION_KEY_USER = 'user-user';
-    const RELATION_KEY_PAGE = 'user2page';
+    const RELATION_KEY_PAGE = 'user-page';
+    const RELATION_KEY_META = 'user-meta';
+    const RELATION_KEY_PAGE_RELATED = 'user2page';
     
     const SESSION_USER = 'user';
     const SESSION_PASSWORD = 'password';
     const GP_SESSION_ID = 'session';
+    const GP_REMEMBERME = 'rememberme';
+    const COOKIE_REMEMBER = 'user_rememeber';
     
     const STATUS_ACTIVE = 1;
     const STATUS_UNACTIVE = 0;
@@ -115,7 +170,7 @@ class UserBase extends ObjectDBRelations
     {
         if (is_string($pass)) {
             $pass_encrypted = md5($pass);
-            list($pass_encrypted) = action_event('user_enctryptpass', $pass_encrypted, $pass);
+            $pass_encrypted = apply_filters('user_enctryptpass', $pass_encrypted, $pass);
             return $pass_encrypted;
         }
         else { return null; }
@@ -154,7 +209,8 @@ class User extends UserBase
     var $username;
     var $password;
     var $status;
-    var $level;
+    var $role;
+    var $capabilities;
     var $metas;
     var $relations;
     
@@ -162,12 +218,13 @@ class User extends UserBase
     
     public function __construct($args=array(), $lang=null)
     {
-        $this->id = isset($args['id']) ? $args['id'] : -1;
+        $this->id = (int)(isset($args['id']) ? $args['id'] : -1);
         $this->email = isset($args['email']) ? $args['email'] : '';
         $this->username = isset($args['username']) ? $args['username'] : '';
         $this->password = isset($args['password']) ? $args['password'] : '';
-        $this->status = isset($args['status']) ? $args['status'] : static::STATUS_ACTIVE;
-        $this->level = isset($args['level']) ? $args['level'] : 0;
+        $this->status = (int)(isset($args['status']) ? $args['status'] : static::STATUS_ACTIVE);
+        $this->role = (int)(isset($args['role']) ? $args['role'] : -1);
+        $this->capabilities = (isset($args['capabilities']) ? $args['capabilities'] : array());
         $this->lang = is_null($lang) ? I18N::GetLanguage() : $lang;
         $this->metas = isset($args['metas']) ? $args['metas'] : static::METAS_FORCE_LOAD;
         if ($this->metas === static::METAS_FORCE_LOAD)
@@ -181,24 +238,8 @@ class User extends UserBase
         $this->relations = array();
         if ($this->id!=-1)
         {
-            $this->LoadRelations($this->lang);
+            //$this->LoadRelations($this->lang);
         }
-    }
-    
-    public function GetLevelName()
-    {
-        $foundLevel = 0;
-        $foundName = '';
-        $levels = Session::GetLevels();
-        foreach ($levels AS $level => $name)
-        {
-            if ($this->level >= $level && $foundLevel < $level)
-            {
-                $foundLevel = $level;
-                $foundName = $name;
-            }
-        }
-        return $foundName;
     }
     
     public function LoadMetas($lang=null)
@@ -214,11 +255,11 @@ class User extends UserBase
     public function LoadRelations($lang=null)
     {
         $this->relations = array();
-        $parents = static::GetParents();
+        $parents = static::DB_GetParents();
         foreach ($parents AS $rel => $parent)
         {
             $this->relations[$rel] = (isset($this->relations[$rel]) && is_array($this->relations[$rel])) ? $this->relations[$rel]  : array();
-            $objs = static::SelectRelation($this->id, $rel, $lang);
+            $objs = static::DB_SelectParentRelation($this->id, $rel, null, $lang);
             if (is_array($objs))
             {
                 foreach ($objs AS $obj)
@@ -246,9 +287,9 @@ class User extends UserBase
     public function SaveMeta($key, $value, $lang=null)
     {
         $lang = is_null($lang) ? $this->lang : $lang;
-        $done = $this->SetMeta($key, $value, $lang); //var_dump($done);
+        $done = $this->SetMeta($key, $value, $lang);
         if ($done)
-        { //var_dump($value); echo 'a';
+        {
             return static::InsertUpdateMeta($this->id, $key, $value, $lang);
         }
         return $done;
@@ -263,7 +304,7 @@ class User extends UserBase
         $where = array(
             'name' => $key
         );
-        return static::DB_InsertUpdateChild('UserMeta', $args_meta, $where, $id, $lang);
+        return static::DB_InsertUpdateChilds($id, static::RELATION_KEY_META, null, $args_meta, $where, array(), $lang);
     }
     
     public function GetMeta($key, $default=false, $lang=null)
@@ -292,14 +333,36 @@ class User extends UserBase
         return false;
     }
     
+    public static function Unactive($id)
+    {
+        $args = array(
+            'status' => static::STATUS_UNACTIVE
+        );
+        return static::DB_Update($id, $args);
+    }
+    
+    public static function Active($id)
+    {
+        $args = array(
+            'status' => static::STATUS_ACTIVE
+        );
+        return static::DB_Update($id, $args);
+    }
+    
     public static function Insert($args=array(), $lang=null)
     {
         $insert_args = array(
             'email' => isset($args['email']) ? $args['email'] : '',
             'username' => isset($args['username']) ? $args['username'] : uniqid(),
             'password' => User::EnctryptPassword(isset($args['password']) ? $args['password'] : uniqid()),
-            'level' => isset($args['level']) ? $args['level'] : 1
+            'role' => isset($args['role']) ? $args['role'] : -1,
+            'capabilities' => isset($args['capabilities']) ? $args['capabilities'] : array(),
+            'status' => isset($args['status']) ? $args['status'] : static::STATUS_ACTIVE
         );
+        if (static::UsernameExists($insert_args['username']))
+        {
+            return false;
+        }
         $relations_args = static::GetRelationsFields($args);
         $userID = static::DB_Insert($insert_args, $relations_args, $lang);
         return $userID;
@@ -320,9 +383,33 @@ class User extends UserBase
         {
             $update_args['password'] = User::EnctryptPassword($args['password']);
         }
-        if (isset($args['level']))
+        if (isset($args['role']))
         {
-            $update_args['level'] = $args['level'];
+            $update_args['role'] = $args['role'];
+        }
+        if (isset($args['capabilities']))
+        {
+            $update_args['capabilities'] = $args['capabilities'];
+        }
+        if (isset($args['status']))
+        {
+            $update_args['status'] = $args['status'];
+        }
+        if (isset($args['lastIP']))
+        {
+            $update_args['lastIP'] = $args['lastIP'];
+        }
+        if (isset($args['lastSession']))
+        {
+            $update_args['lastSession'] = $args['lastSession'];
+        }
+        if (isset($args['lastLogin']))
+        {
+            $update_args['lastLogin'] = $args['lastLogin'];
+        }
+        if (isset($update_args['username']) && static::UsernameExists($update_args['username'], $id))
+        {
+            return false;
         }
         $done = static::DB_Update($id, $update_args, $lang);
         if ($done)
@@ -330,7 +417,7 @@ class User extends UserBase
             $relations_args = static::GetRelationsFields($args);
             foreach ($relations_args AS $rel => $parent)
             {
-                static::InsertUpdateRelation($id, $rel, $parent, $lang, 0);
+                static::DB_InsertUpdateParentRelation($id, $rel, null, $parent, $lang, null);
             }
         }
         return $done;
@@ -339,12 +426,7 @@ class User extends UserBase
     public static function Remove($id, $lang=null)
     {
         $where = static::GetWhereFields(array(static::DB_GetPrimaryField() => $id));
-        $done = static::DB_Delete($where, array(), null);
-        if ($done)
-        {
-            static::DB_DeleteChild('UserMeta', array(), $id, $lang);
-        }
-        return $done;
+        return static::DB_Delete($where, array(), null);
     }
     
     
@@ -402,9 +484,10 @@ class User extends UserBase
     
     public static function GetMetas($id, $lang=null)
     {
-        return static::DB_SelectChild(
-            'UserMeta', 
-            $id, 
+        return static::DB_SelectChilds(
+            $id,
+            static::RELATION_KEY_META,
+            null,
             array(
                 'name', 
                 'value', 
@@ -425,7 +508,7 @@ class User extends UserBase
         if (self::IsLogged())
         {
             $user = self::GetUser();
-            return $user->id;
+            return (int)$user->id;
         }
         return false;
     }
@@ -440,19 +523,53 @@ class User extends UserBase
         return '';
     }
     
-    public static function GetLevel()
+    public static function GetRole()
     {
         if (self::IsLogged())
         {
             $user = self::GetUser();
-            return $user->level;
+            return (int)$user->role;
         }
-        return Session::GetMinimumLevel();
+        return -1;
+    }
+    
+    public static function GetRoleObject()
+    {
+        $role_id = static::GetRole();
+        return UserRole::Get($role_id);
+    }
+    
+    public static function GetCapabilities()
+    {
+        if (self::IsLogged())
+        {
+            $user = self::GetUser();
+            return is_array($user->capabilities) ? $user->capabilities : array();
+        }
+        return array();
+    }
+    
+    public static function HasCapability($capability)
+    {
+        $role = static::GetRoleObject();
+        return $role->HasCapability($capability, static::GetCapabilities());
+    }
+    
+    public static function HasFullCapability($capability)
+    {
+        $role = static::GetRoleObject();
+        return $role->HasFullCapability($capability, static::GetCapabilities());
+    }
+    
+    public static function HasOwnCapability($capability)
+    {
+        $role = static::GetRoleObject();
+        return $role->HasOwnCapability($capability, static::GetCapabilities());
     }
     
     public static function IsAdmin()
     {
-        return (static::GetLevel() >= Session::GetAdminLevel());
+        return static::HasCapability(UserCapability::ADMIN_LOGIN);
     }
     
     protected static function GetUserFromObject($obj, $lang=null)
@@ -463,7 +580,8 @@ class User extends UserBase
             'username' => $obj->username,
             'password' => $obj->password,
             'status' => $obj->status,
-            'level' => $obj->level,
+            'role' => $obj->role,
+            'capabilities' => static::DB_DecodeFieldValue($obj->capabilities),
             'metas' => static::METAS_FORCE_LOAD
         );
         return new User($args, $lang);
@@ -477,7 +595,8 @@ class User extends UserBase
             'username',
             'password',
             'status',
-            'level'
+            'role',
+            'capabilities'
         );
     }
     
@@ -504,9 +623,9 @@ class User extends UserBase
         {
             $arr['status'] = $args['status'];
         }
-        if (isset($args['level']))
+        if (isset($args['role']))
         {
-            $arr['level'] = $args['level'];
+            $arr['role'] = $args['role'];
         }
         return $arr;
     }
@@ -564,13 +683,29 @@ class User extends UserBase
     }
     
     
-    public static function UsernameExists($username)
+    public static function UsernameExists($username, $excludeID=null)
     {
         $args = array(
             'username' => $username
         );
         $users = static::GetList($args);
-        return count($users) > 0;
+        if (count($users) === 0)
+        {
+            return false;
+        }
+        else if ($excludeID===null && count($users)>0)
+        {
+            return true;
+        }
+        $excludeID = is_array($excludeID) ? $excludeID : array($excludeID);
+        foreach ($users AS $user)
+        {
+            if (!in_array($user->id, $excludeID))
+            {
+                return true;
+            }
+        }
+        return false;
     }
     
 
@@ -584,14 +719,16 @@ class User extends UserBase
      * @param string $user
      * @param string $pass 
      */
-    public static function Login($user=null, $pass=null)
+    public static function Login($user=null, $pass=null, $login=null)
     {
         global $__USER_LOGGED, $__USER_LOGIN, $__USER;
         $__USER_LOGGED = false;
-        $__USER_LOGIN = (!is_null($user) && !is_null($pass));
-        $user = is_null($user) ? Session::GetValue(self::SESSION_USER, null) : $user;
-        $pass = is_null($pass) ? Session::GetValue(self::SESSION_PASSWORD, null) : self::EnctryptPassword($pass);
+        $login = is_null($login) ? Request::GetValueGP('login') : $login;
+        $__USER_LOGIN = (!is_null($user) && !is_null($pass) && nonce_check('login', $login));
+        $user = $__USER_LOGIN ? $user : Session::GetValue(self::SESSION_USER, null);
+        $pass = $__USER_LOGIN ? self::EnctryptPassword($pass) : Session::GetValue(self::SESSION_PASSWORD, null);
         $sessionId = Request::GetValueGP(self::GP_SESSION_ID, null);
+        $cookie_user = Request::GetCookie(self::COOKIE_REMEMBER);
         if (!is_null($user) && !is_null($pass))
         {
             $args = array(
@@ -602,20 +739,53 @@ class User extends UserBase
             $users = static::GetList($args);
             if (count($users) > 0)
             {
-                $__USER = current($users);
+                $__USER = reset($users);
                 Session::SetValue(self::SESSION_USER, $user);
                 Session::SetValue(self::SESSION_PASSWORD, $pass);
                 $__USER_LOGGED = true;
             }
+            $rememberme = Request::GetValueGP(self::GP_REMEMBERME);
+            if ($__USER_LOGIN)
+            {
+                if ($rememberme)
+                {
+                    $done = Request::SetCookie(self::COOKIE_REMEMBER, self::GetID() . '_' . IcebergSecurity::MakeNonce(self::COOKIE_REMEMBER), 3600 * 24 * 30);
+                }
+                else
+                {
+                    Request::DeleteCookie(self::COOKIE_REMEMBER);
+                }
+            }
         }
-        else if (!is_null($sessionId) && $sessionId==Session::GetID())
+        else if (!$__USER_LOGIN && !is_null($sessionId) && $sessionId==Session::GetID())
         {
             /**
              * @todo GP Session
              * (!is_null($sessionId) && $sessionId==Session::GetID())
              */
         }
-        list($__USER, $__USER_LOGGED, $__USER_LOGIN) = action_event('user_login', $__USER, $__USER_LOGGED, $__USER_LOGIN);
+        else if (!$__USER_LOGIN && $cookie_user)
+        {
+            $cookie_user = explode('_', $cookie_user);
+            $user_nonce = IcebergSecurity::MakeNonce(self::COOKIE_REMEMBER);
+            if (count($cookie_user)===2)
+            {
+                $args = array(
+                    'id' => $cookie_user[0],
+                    'status' => static::STATUS_ACTIVE
+                );
+                $users = static::GetList($args);
+                if (count($users) > 0 && $user_nonce === $cookie_user[1])
+                {
+                    $__USER = current($users);
+                    Session::SetValue(self::SESSION_USER, $__USER->username);
+                    Session::SetValue(self::SESSION_PASSWORD, $__USER->password);
+                    $__USER_LOGGED = true;
+                }
+            }
+        }
+        //list($__USER, $__USER_LOGGED, $__USER_LOGIN) = do_action('user_login', $__USER, $__USER_LOGGED, $__USER_LOGIN);
+        do_action('user_login', $__USER, $__USER_LOGGED, $__USER_LOGIN);
         if ($__USER_LOGIN && $__USER_LOGGED)
         {
             self::RegisterLogin(self::GetID());
@@ -623,10 +793,11 @@ class User extends UserBase
         return $__USER_LOGGED;
     }
     
-    public static function Logout($drop=false)
+    public static function Logout($drop=true)
     {
         global $__USER, $__USER_LOGGED;
         $__USER = $__USER_LOGGED = false;
+        Request::DeleteCookie(self::COOKIE_REMEMBER);
         if ($drop)
         {
             return Session::Stop(true);
@@ -637,12 +808,34 @@ class User extends UserBase
     public static function RegisterLogin($id)
     {
         $last = array(
-            'ip' => getIP(),
-            'session' => Session::GetID(),
-            'time' => time()
+            'lastIP' => getIP(),
+            'lastSession' => Session::GetID(),
+            'lastLogin' => date('Y-m-d H:i:s')
         );
-        list($last, $id) = action_event('user_register_login', $last, $id);
-        return static::InsertUpdateMeta($id, UserMeta::META_LAST_VISIT, $last);
+        do_action('user_register_login', $last, $id);
+        return static::Update($id, $last);
+    }
+    
+    /* PAGES */
+    public static function GetParentPageID($id=null)
+    {
+        $id = is_null($id) ? get_user_id() : $id;
+        $relations = static::DB_SelectParentRelation($id, static::RELATION_KEY_PAGE);
+        foreach ($relations AS $relation)
+        {
+            return (int)$relation->pid;
+        }
+        return -1;
+    }
+    
+    public static function GetDependencePagesID($id=null)
+    {
+        $results = $direct_pages = array(static::GetParentPageID($id));
+        foreach ($direct_pages AS $direact_page)
+        {
+            $results = array_merge($results, Page::GetChildsDependences((int)$direact_page, true, $results));
+        }
+        return array_unique($results);
     }
     
     /* CACHE */

@@ -5,6 +5,13 @@ require_once ICEBERG_DIR_HELPERS . 'taxonomy_elements.php';
 
 abstract class TaxonomyElementsBase extends ObjectConfig
 {
+    
+    /**
+     * Configuration use language
+     * @var boolean
+     */
+    public static $CONFIG_USE_LANGUAGE = false;
+    
     /**
      * Configuration key
      * @var string
@@ -23,7 +30,8 @@ abstract class TaxonomyElementsBase extends ObjectConfig
             'TE_Images',
             'TE_Geolocation',
             'TE_Relation',
-            'TE_Relation_User'
+            'TE_Dependence',
+            //'TE_Relation_User'
         ),
         'dynamic' => array()
     );
@@ -152,13 +160,13 @@ abstract class TaxonomyElements extends TaxonomyElementsBase implements Taxonomy
     public function FormConfig()
     {
         ?>
-        <p>
-            <label for="title-<?php print $this->GetAttrName(); ?>"><?php print_text('Title'); ?></label>
-            <input type="text" class="input-block-level" name="title-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" id="title-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" value="<?php print_html_attr($this->GetTitle()); ?>">
+        <p class="form-group">
+            <label for="title-<?php print $this->GetAttrName(); ?>" class="control-label"><?php print_text('Title'); ?></label>
+            <input type="text" class="form-control" name="title-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" id="title-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" value="<?php print_html_attr($this->GetTitle()); ?>">
         </p>
-        <p>
-            <label for="comments-<?php print $this->GetAttrName(); ?>"><?php print_text('Comments'); ?></label>
-            <textarea class="input-block-level" name="comments-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" id="comments-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>"><?php print $this->GetComments(); ?></textarea>
+        <p class="form-group">
+            <label for="comments-<?php print $this->GetAttrName(); ?>" class="control-label"><?php print_text('Comments'); ?></label>
+            <textarea class="form-control" name="comments-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>" id="comments-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>"><?php print $this->GetComments(); ?></textarea>
         </p>
         <?php
     }
@@ -172,7 +180,7 @@ abstract class TaxonomyElements extends TaxonomyElementsBase implements Taxonomy
     public function FormEdit($page)
     {
         ?>
-        <p><small><?php print $this->GetComments(); ?></small></p>
+        <p class="help-block"><?php print $this->GetComments(); ?></p>
         <?php
     }
     

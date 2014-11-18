@@ -1,18 +1,18 @@
 <?php
 
-$action = get_request_action();
-$id = get_request_id();
-
-if ($action == 'active')
+function get_actions_configuration_themes($actions)
 {
-    $type = get_request_p('type', 'frontend', true);
-    if (Theme::Active($type, $id))
-    {
-        add_alert('Theme actived', 'success');
-    }
-    else
-    {
-        add_alert('Failed to activate the theme', 'error');
-    }
+    $defaults = array(
+        'list' => array(
+            'template' => 'configuration_themes_list.php',
+            'name' => _T('List')
+        ),
+        'active' => array(
+            'template' => 'configuration_themes_active.php',
+            'name' => _T('Active')
+        )
+    );
+    $actions = array_merge($actions, $defaults);
+    return $actions;
 }
-
+add_filter('get_actions_configuration_themes', 'get_actions_configuration_themes', 5);

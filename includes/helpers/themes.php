@@ -55,6 +55,12 @@ function theme_register_script($name, $url, $version=null, $dependency=array(), 
     return !is_null($theme) ? $theme->RegisterScript($name, $url, $version, $dependency, $in_footer) : false;
 }
 
+function theme_localize_script($name, $localize_name, $translation=array())
+{
+    $theme = Theme::GetTheme();
+    return !is_null($theme) ? $theme->LocalizeScript($name, $localize_name, $translation) : false;
+}
+
 function theme_enqueue_script($name, $url='', $version=null, $dependency=array(), $in_footer=false)
 {
     $theme = Theme::GetTheme();

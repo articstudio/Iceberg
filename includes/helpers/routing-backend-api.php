@@ -1,36 +1,35 @@
 <?php
 
-function filter_array_by_level($args)
+function filter_array_by_capability($arr)
 {
-    list($arr) = $args;
-    $level = get_user_level();
-    foreach ($arr AS $key => $value) {
-        if (isset($value['level'])) {
-            if ($level<$value['level']) {
-                unset($arr[$key]);
-            }
+    foreach ($arr AS $key => $value)
+    {
+        if (isset($value['capability']) && !User::HasCapability($value['capability']))
+        {
+            unset($arr[$key]);
         }
     }
-    return array($arr);
+    return $arr;
 }
-add_action('get_modules', 'filter_array_by_level', 100, 1);
-add_action('get_modes', 'filter_array_by_level', 100, 1);
+add_filter('get_modules_after', 'filter_array_by_capability', 100);
+add_filter('get_modes_after', 'filter_array_by_capability', 100);
+add_filter('get_actions_after', 'filter_array_by_capability', 100);
 
 
 
 function get_logout()
 {
-    return get_link(array(RoutingBackendAPI::REQUEST_KEY_LOGOUT=>time()));
+    return RoutingBackendAPI::GetLogoutURL();
 }
 
-function get_modules()
+function get_modules($cache=true)
 {
-    return RoutingBackendAPI::GetModules();
+    return RoutingBackendAPI::GetModules($cache);
 }
 
-function get_module($key=null)
+function get_module($key=null, $cache=true)
 {
-    return RoutingBackendAPI::GetModule($key);
+    return RoutingBackendAPI::GetModule($key, $cache);
 }
 
 function get_request_module()
@@ -38,19 +37,29 @@ function get_request_module()
     return RoutingBackendAPI::GetRequestModule();
 }
 
-function get_modes()
+function get_modes($cache=true)
 {
-    return RoutingBackendAPI::GetModes();
+    return RoutingBackendAPI::GetModes($cache);
 }
 
-function get_mode($key=null)
+function get_mode($key=null, $cache=true)
 {
-    return RoutingBackendAPI::GetMode($key);
+    return RoutingBackendAPI::GetMode($key, $cache);
 }
 
 function get_request_mode()
 {
     return RoutingBackendAPI::GetRequestMode();
+}
+
+function get_actions($cache=true)
+{
+    return RoutingBackendAPI::GetActions($cache);
+}
+
+function get_action($key=null, $cache=true)
+{
+    return RoutingBackendAPI::GetAction($key, $cache);
 }
 
 function get_request_action()
@@ -68,19 +77,42 @@ function get_request_group()
     return RoutingBackendAPI::GetRequestGroup();
 }
 
-function get_iceberg_api_link($params=array())
+function sanitize_admin_action_params($params)
 {
-    $url = get_base_url_api() .  API_ICEBERG_ENVIRONMENT . DIRECTORY_SEPARATOR;
-    return get_link($params, $url);
-    return $url;
+    return RoutingBackendAPI::SanitizeActionParams($params);
 }
 
+function get_admin_action_link($params=array())
+{
+    return RoutingBackendAPI::GetAdminActionURL($params);
+}
 
+function sanitize_api_action_params($params)
+{
+    return RoutingBackendAPI::SanitizeActionParams($params);
+}
 
+function get_api_link($params=array())
+{
+    return RoutingBackendAPI::GetAPIActionURL($params);
+}
 
+function get_iceberg_api_link()
+{
+    return RoutingBackendAPI::GetIcebergAPIURL();
+}
 
+function get_iceberg_api_action_link($params=array())
+{
+    return RoutingBackendAPI::GetIcebergAPIActionURL($params);
+}
 
+function get_admin_api_link($params=array())
+{
+    return RoutingBackendAPI::GetAdminAPIURL();
+}
 
-
-
-
+function get_admin_api_action_link($params=array())
+{
+    return RoutingBackendAPI::GetAdminAPIActionURL($params);
+}

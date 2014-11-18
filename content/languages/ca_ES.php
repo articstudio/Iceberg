@@ -2,7 +2,7 @@
 /*
  * LANGUAGE DATA
  */
-$__LANGUAGES['ca_ES']=array(
+$_LANGUAGE = array(
     'locale' => 'ca_ES',
     'name' => 'Català',
     'iso' => 'ca',
@@ -98,7 +98,7 @@ $_TEXT['Developed by Artic Studio']='Desenvolupat per Artic Studio';
 $_TEXT['INCORRECT E-MAIL']='E-MAIL INCORRECTE';
 $_TEXT['RESTORE']='RESTAURAR';
 $_TEXT['Back to login']='Tornar per identificar-se';
-$_TEXT['aaaa']='aaaa';
+$_TEXT['Remember me']='Recordar-me';
 $_TEXT['aaaa']='aaaa';
 $_TEXT['aaaa']='aaaa';
 $_TEXT['aaaa']='aaaa';

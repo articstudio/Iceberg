@@ -2,56 +2,59 @@
 
 <?php
 $active_langs = get_active_langs();
+$lang = get_lang();
 ?>
-<div class="block-table block-table-full">
-    
-    <div class="block-table-cell-center">
-        <div class="form-login-container">
-            
-            <?php if ( is_login() ): ?>
-            <div class="alert alert-error">
-                <strong><?php print_text('INCORRECT DATA'); ?></strong>
-            </div>
-            <?php endif; ?>
-            
-            <?php /*
-            <div class="alert alert-success">
-                <strong><?php print_text('RESTORED PASSWORD'); ?></strong>
-            </div>
-            */ ?>
-            
-            <form action="<?php print_html_attr(get_base_url_admin()); ?>" method="post" class="form-login" validate>
-                <h1 class="form-login-heading">
-                    <img src="<?php print_html_attr( DEFAULT_ADMIN_THEME_URL ); ?>img/iceberg_logo.png" alt="Iceberg  v<?php print_html_attr( ICEBERG_VERSION ); ?>" />
-                    <img src="<?php print_html_attr( DEFAULT_ADMIN_THEME_URL ); ?>img/iceberg_header.jpg" alt="Iceberg  v<?php print_html_attr( ICEBERG_VERSION ); ?>" />
-                </h1>
-                
-                <?php if (!is_null(Domain::GetID())): ?>
-                <label for="username" class="hidden"><?php print_text('User'); ?></label>
-                <input name="username" id="username" type="text" class="input-block-level" placeholder="<?php print_text('User'); ?>" required>
-                <label for="password" class="hidden"><?php print_text('Password'); ?></label>
-                <input name="password" id="password" type="password" class="input-block-level" placeholder="<?php print_html_attr( _T('Password') ); ?>" required>
-                <?php if (!empty($active_langs)): ?>
-                <label for="language" class="hidden"><?php print_text('Language'); ?>:</label>
-                <select id="language" name="lang" class="input-block-level">
-                    <?php foreach($active_langs AS $locale=>$language): ?>
-                    <option value="<?php print $locale; ?>" <?php print get_lang()==$locale?'selected':''; ?>><?php print $language['name']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <?php endif; ?>
-                <p class="text-center">
-                    <button class="btn btn-large btn-inverse" type="subdmit"><?php print_html_attr( _T('ENTER') ); ?></button>
-                </p>
-                <?php endif; ?>
-                
-                <div id="footer">
-                    Iceberg v<?php print ICEBERG_VERSION; ?>  &copy; <a href="http://www.articstudio.com" title="Developed by Artic Studio" target="_blank">Artic Studio</a>
-                </div>
-            </form>
-        </div>
-    </div>
 
+<article id="form-login-wrapper">
     
-</div>
+    <form action="<?php print_html_attr(get_base_url_admin()); ?>" method="post" id="form-login" role="form" validate>
+        <header>
+            <img src="<?php print_html_attr( DEFAULT_ADMIN_THEME_URL ); ?>img/iceberg_logo.png" alt="Iceberg  v<?php print_html_attr( ICEBERG_VERSION ); ?>" />
+            <img src="<?php print_html_attr( DEFAULT_ADMIN_THEME_URL ); ?>img/iceberg_header.jpg" alt="Iceberg  v<?php print_html_attr( ICEBERG_VERSION ); ?>" />
+        </header>
+        <?php if (!is_null(Domain::GetID())): ?>
+        <?php if (is_login()): ?>
+        <div class="alert alert-danger">
+            <strong><?php print_text('INCORRECT DATA'); ?></strong>
+        </div>
+        <?php endif; ?>
+        <input type="hidden" name="login" value="<?php echo nonce_make('login'); ?>">
+        <p class="form-group">
+            <label for="username" class="control-label sr-only"><?php print_text('User'); ?></label>
+            <input type="text" name="username" id="username" class="form-control" placeholder="<?php print_html_attr( _T('User') ); ?>" required>
+        </p>
+        <p class="form-group">
+            <label for="password" class="control-label sr-only"><?php print_text('Password'); ?></label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="<?php print_text('Password'); ?>" required>
+        </p>
+        <?php if (!empty($active_langs) && count($active_langs)>1): ?>
+        <p class="form-group">
+            <label for="lang" class="control-label sr-only"><?php print_text('Language'); ?></label>
+            <select id="lang" name="lang" class="form-control">
+                <?php foreach($active_langs AS $locale=>$language): ?>
+                <option value="<?php print $locale; ?>" <?php print $lang===$locale?'selected':''; ?>><?php print $language['name']; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        <?php endif; ?>
+        <p class="form-group">
+            <label class="checkbox" for="rememberme">
+                <input type="checkbox" name="rememberme" id="rememberme" value="1" />
+                <?php print_text('Remember me'); ?>
+            </label>
+        </p>
+        <p class="form-group">
+            <button class="btn btn-default btn-lg" type="subdmit"><?php print_text('ENTER'); ?></button>
+        </p>
+        <?php else: ?>
+        <div class="alert alert-danger">
+            <strong><?php print_text('DOMAIN ERROR'); ?></strong>
+        </div>
+        <?php endif; ?>
+        <footer>
+            Iceberg v<?php print ICEBERG_VERSION; ?>  &copy; <a href="http://www.articstudio.com" title="Developed by Artic Studio" target="_blank">Artic Studio</a>
+        </footer>
+    </form>
+</article>
 
 <?php theme_footer(); ?>

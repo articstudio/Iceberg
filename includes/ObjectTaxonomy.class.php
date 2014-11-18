@@ -17,7 +17,8 @@ class ObjectTaxonomy
     protected $locked;
     
     
-    public function __construct($args=array()) {
+    public function __construct($args=array())
+    {
         $this->SetID(isset($args['id']) ? $args['id'] : -1);
         $this->SetName(isset($args['name']) ? $args['name'] : '');
         $this->SetLock(isset($args['locked']) ? $args['locked'] : false);

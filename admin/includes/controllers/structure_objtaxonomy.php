@@ -1,157 +1,57 @@
 <?php
-$mode = get_mode('mode');
-$action = get_request_action();
-$id = get_request_id();
 
-if ($action == 'remove')
+function get_actions_structure_objtaxonomy($actions)
 {
-    if (ObjectTaxonomy::Remove($id))
+    $defaults = array();
+    if (in_api())
     {
-        add_alert('Taxonomy item removed', 'success');
+        $defaults = array(
+            'order' => array(
+                'template' => 'structure_objtaxonomy_order.php',
+                'name' => _T('Order')
+            )
+        );
     }
     else
     {
-        add_alert('Failed to remove taxonomy item', 'error');
+        $defaults = array(
+            'list' => array(
+                'template' => 'structure_objtaxonomy_list.php',
+                'name' => _T('List')
+            ),
+            'new' => array(
+                'template' => 'structure_objtaxonomy_edit.php',
+                'name' => _T('New')
+            ),
+            'edit' => array(
+                'template' => 'structure_objtaxonomy_edit.php',
+                'name' => _T('Edit')
+            ),
+            'config' => array(
+                'template' => 'structure_objtaxonomy_config.php',
+                'name' => _T('Configuration')
+            ),
+            'save' => array(
+                'template' => 'structure_objtaxonomy_save.php',
+                'name' => _T('Save')
+            ),
+            'remove' => array(
+                'template' => 'structure_objtaxonomy_remove.php',
+                'name' => _T('Manager')
+            ),
+            'insert' => array(
+                'template' => 'structure_objtaxonomy_insert.php',
+                'name' => _T('Manager')
+            ),
+            'update' => array(
+                'template' => 'structure_objtaxonomy_update.php',
+                'name' => _T('Manager')
+            )
+        );
     }
+    $actions = array_merge($actions, $defaults);
+    return $actions;
 }
-else if ($action == 'insert')
-{
-    $obj = false;
-    $args = array(
-        'name' => get_request_p('name', '', true)
-    );
-    if ($mode === 'pagegroups')
-    {
-        $args['type'] = get_request_p('type', array());
-        $obj = new PageGroup($args);
-    }
-    else if ($mode === 'pagetypes')
-    {
-        $args['taxonomy'] = get_request_p('taxonomy', array());
-        $obj = new PageType($args);
-    }
-    else if ($mode === 'pagetaxonomies')
-    {
-        $e_names = get_request_p('element_name', array());
-        $e_types = get_request_p('element_type', array());
-        $args['permalink'] = get_request_p('permalink', false);
-        $args['permalink-comments'] = get_request_p('comments-permalink', '', true);
-        $args['text'] = get_request_p('text', false);
-        $args['text-comments'] = get_request_p('comments-text', '', true);
-        $args['image'] = get_request_p('image', false);
-        $args['image-comments'] = get_request_p('comments-image', '', true);
-        $args['childs'] = get_request_p('childs', false);
-        $args['templates'] = get_request_p('templates', array());
-        $args['elements'] = array();
-        foreach ($e_names AS $k => $e_name) {
-            if (!empty($e_name) && isset($e_types[$k])) {
-                $e_type = $e_types[$k];
-                array_push($args['elements'], array('name' => $e_name, 'type' => $e_type));
-            }
-        }
-        $obj = new PageTaxonomy($args);
-    }
-    if ($obj && ObjectTaxonomy::Insert($obj))
-    {
-        add_alert('Taxonomy item inserted', 'success');
-    }
-    else
-    {
-        add_alert('Failed to insert taxonomy item', 'error');
-    }
-}
-else if ($action == 'update')
-{
-    $obj = ObjectTaxonomy::Get($id);
-    $obj->SetName(get_request_p('name', '', true));
-    if ($mode === 'pagegroups')
-    {
-        $obj->SetType(get_request_p('type', array())); 
-    }
-    else if ($mode === 'pagetypes')
-    {
-        $obj->SetTaxonomy(get_request_p('taxonomy', array()));
-    }
-    else if ($mode === 'pagetaxonomies')
-    {
-        $obj->UsePermalink(get_request_p('permalink', false));
-        $obj->PermalinkComments(get_request_p('comments-permalink', '', true));
-        $obj->UseText(get_request_p('text', false));
-        $obj->TextComments(get_request_p('comments-text', '', true));
-        $obj->UseImage(get_request_p('image', false));
-        $obj->ImageComments(get_request_p('comments-image', '', true));
-        $obj->ChildsAllowed(get_request_p('childs', false));
-        $templates = get_request_p('templates', array());
-        $obj->SetTemplates($templates);
-        $e_names = get_request_p('element_name', array());
-        $e_types = get_request_p('element_type', array());
-        $elements = array();
-        foreach ($e_names AS $k => $e_name) {
-            if (!empty($e_name) && isset($e_types[$k])) {
-                $e_type = $e_types[$k];
-                array_push($elements, array('name' => $e_name, 'type' => $e_type));
-            }
-        }
-        $obj->SetElements($elements);
-    }
-    if (ObjectTaxonomy::Update($id, $obj))
-    {
-        add_alert('Taxonomy item updated', 'success');
-    }
-    else
-    {
-        add_alert('Failed to update taxonomy item', 'error');
-    }
-}
-else if ($action == 'save')
-{
-    $obj = ObjectTaxonomy::Get($id);
-    $obj->Configure();
-    if (ObjectTaxonomy::Update($id, $obj))
-    {
-        add_alert('Taxonomy item configured', 'success');
-    }
-    else
-    {
-        add_alert('Failed to configure taxonomy item', 'error');
-    }
-}
-else if ($action == 'order')
-{
-    $from = get_request_p('fromPosition');
-    $to = get_request_p('toPosition');
-    $class = 'ObjectTaxonomy';
-    if ($mode === 'pagegroups')
-    {
-        $class = 'PageGroup';
-    }
-    else if ($mode === 'pagetypes')
-    {
-        $class = 'PageType';
-    }
-    else if ($mode === 'pagetaxonomies')
-    {
-        $class = 'PageTaxonomy';
-    }
-    
-    if ($from!==false && $to!==false)
-    {
-        $from = (int)$from ;
-        $to = (int)$to;
-        if ($class::ReOrder($from, $to))
-        {
-            add_alert('Taxonomy item reordered', 'success');
-        }
-        else
-        {
-            add_alert('Failed to reorder taxonomy item', 'error');
-        }
-    }
-    else
-    {
-        add_alert('Failed to reorder taxonomy item', 'error');
-    }
-}
-
-
-
+add_filter('get_actions_structure_' . PageTaxonomy::$TAXONOMY_KEY, 'get_actions_structure_objtaxonomy', 5);
+add_filter('get_actions_structure_' . PageType::$TAXONOMY_KEY, 'get_actions_structure_objtaxonomy', 5);
+add_filter('get_actions_structure_' . PageGroup::$TAXONOMY_KEY, 'get_actions_structure_objtaxonomy', 5);

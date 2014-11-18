@@ -1,0 +1,217 @@
+
+html {
+    position:relative;
+    min-height:100%;
+    height:100%;
+    padding-top:110px;
+}
+body {
+    position:relative;
+    min-height:100%;
+    background:#bfbfbf none;
+    color:#424242;
+}
+
+/** HEADER **/
+#header {
+    background:#282f36 none;
+    text-align:center;
+    padding:15px 0px;
+    margin:0;
+    height:110px;
+    border:0;
+}
+
+/** FOOTER **/
+#footer {
+    z-index: 1030;
+    position:fixed;
+    bottom:0;
+    right:0;
+    width: 100%;
+    height:30px;
+    line-height:30px;
+    text-align:center;
+    background:#282f36 none;
+    color:#b79952;
+    font-size:12px;
+}
+#footer a {
+    color:#b79952;
+}
+
+/** TRANSITIONS **/
+#wrapper,
+#sidebar-wrapper,
+.sidebar-nav,
+.sidebar-nav .option,
+.sidebar-nav .option img {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+/** WRAPPER **/
+#wrapper {
+    padding-left: 30px;
+    min-height:100%;
+}
+#wrapper.toggled {
+    padding-left: 250px;
+}
+
+/** SIDEBAR **/
+#sidebar-wrapper {
+    z-index: 1000;
+    position: absolute;
+    left:250px;
+    width: 30px;
+    height:100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background:#282f36 none;
+    color:#b79952;
+}
+#wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+}
+.sidebar-nav {
+    /*position: absolute;
+    top: 0;
+    width: 250px;
+    padding: 0;*/
+    
+    margin:0;
+    padding:0px 0px 45px 0px;
+}
+.sidebar-nav .option {
+    display:block;
+    background:#15191d none;
+    color:#fff;
+    padding:5px 0px;
+    text-align:center;
+    text-decoration:none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin:0 0 10px 0;
+}
+.sidebar-nav a.option:hover,
+.sidebar-nav .option.active {
+    background-color:#b79952;
+}
+.sidebar-nav .option.sidebar-toggle {
+    margin-bottom:30px;
+}
+.sidebar-nav .option .toggle-left,
+#wrapper.toggled .sidebar-nav .option .toggle-right {
+    display:none;
+}
+#wrapper.toggled .sidebar-nav .option .toggle-left,
+.sidebar-nav .option .toggle-right {
+    display:inline-block;
+}
+.sidebar-nav .option img {
+    display:block;
+    width:30px;
+    height:auto;
+    margin:0 auto;
+}
+#wrapper.toggled .sidebar-nav .option img {
+    width:50px;
+    margin-bottom:10px;
+}
+.sidebar-nav .option .option-title {
+    display:none;
+}
+#wrapper.toggled .sidebar-nav .option .option-title {
+    display:inherit;
+}
+
+/** CONTENT **/
+#page-wrapper {
+    position:relative;
+    width: 100%;
+    padding: 15px 15px 45px 15px;
+}
+#wrapper.toggled #page-wrapper {
+    position: absolute;
+    margin-right: -250px;
+}
+#page-header {
+    /*background:#857448 none;
+    margin:-15px -15px 15px -15px;
+    padding:15px;*/
+}
+#page-header h2 {
+    margin:0px 0px 15px 0px;
+    /*font-size:28px;
+    line-height:32px;*/
+    /*color:#fff;*/
+}
+#page-header .breadcrumb {
+    /*margin:0;*/
+}
+
+.form-actions {
+    padding-top:20px;
+    border-top:1px solid #fff;
+}
+
+
+/** MEDIA QUERIES **/
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 250px;
+    }
+    #wrapper.toggled {
+        padding-left: 30px;
+    }
+    #sidebar-wrapper {
+        width: 250px;
+    }
+    #wrapper.toggled #sidebar-wrapper {
+        width: 30px;
+    }
+    
+    .sidebar-nav .option .toggle-left,
+    #wrapper.toggled .sidebar-nav .option .toggle-right {
+        display:inline-block;
+    }
+    #wrapper.toggled .sidebar-nav .option .toggle-left,
+    .sidebar-nav .option .toggle-right {
+        display:none;
+    }
+    .sidebar-nav .option img {
+        width:50px;
+        margin-bottom:10px;
+    }
+    .sidebar-nav .option .option-title {
+        display:inherit;
+    }
+    
+    #wrapper.toggled .sidebar-nav .option img {
+        width:30px;
+        margin-bottom:0px;
+    }
+    #wrapper.toggled .sidebar-nav .option .option-title {
+        display:none;
+    }
+    
+    #page-wrapper {
+        padding: 30px 30px 60px 30px;
+    }
+    #wrapper.toggled #page-wrapper {
+        position: relative;
+        margin-right:0;
+    }
+    
+    #page-header {
+        /*margin:-30px -30px 30px -30px;
+        padding:15px 30px;*/
+    }
+}
+
+
+
+

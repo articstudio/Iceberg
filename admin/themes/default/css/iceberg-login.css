@@ -1,0 +1,36 @@
+html {
+    height:100%;
+}
+body {
+    height:100%;
+    background:#282f36 none;
+    color:#b79952;
+}
+a {
+    color:#b79952;
+}
+a:hover {
+    color:#857448;
+    text-decoration:none;
+}
+
+#form-login-wrapper {
+    display:table;
+    height:100%;
+    max-width: 540px;
+    margin:0 auto;
+    padding:0;
+}
+#form-login {
+    display:table-cell;
+    vertical-align:middle;
+    padding:30px 20px;
+    text-align:center;
+}
+#form-login header {
+    margin-bottom:20px;
+}
+#form-login footer {
+    font-size:12px;
+    line-height:16px;
+}

@@ -10,7 +10,7 @@ function get_default_pagegroup()
     return PageConfig::GetDefaultGroup();
 }
 
-function get_page_pagetype()
+function get_default_pagetype()
 {
-    return PageConfig::GetPageType();
+    return PageConfig::GetDefaultType();
 }

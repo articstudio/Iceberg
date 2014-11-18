@@ -5,6 +5,13 @@ require_once ICEBERG_DIR_HELPERS . 'cache.php';
 
 abstract class IcebergCache extends ObjectConfig
 {
+    
+    /**
+     * Configuration use language
+     * @var boolean
+     */
+    public static $CONFIG_USE_LANGUAGE = false;
+    
     /**
      * Configuration key
      * @var string
@@ -67,7 +74,7 @@ abstract class IcebergCache extends ObjectConfig
                 $done = true;
             }
         }
-        action_event('iceberg_cache_action', 'ADD', $done, $rel, $id, $object);
+        do_action('iceberg_cache_action', 'ADD', $done, $rel, $id, $object);
         return $done;
     }
     
@@ -103,7 +110,7 @@ abstract class IcebergCache extends ObjectConfig
                 }
             }
         }
-        action_event('iceberg_cache_action', 'GET', (bool)$found, $rel, $id, $found);
+        do_action('iceberg_cache_action', 'GET', (bool)$found, $rel, $id, $found);
         return $found;
     }
     
@@ -122,7 +129,7 @@ abstract class IcebergCache extends ObjectConfig
             }
             $done = true;
         }
-        action_event('iceberg_cache_action', 'GET', $done, $rel, $id);
+        do_action('iceberg_cache_action', 'GET', $done, $rel, $id, null);
         return $done;
     }
     
@@ -137,7 +144,7 @@ abstract class IcebergCache extends ObjectConfig
             static::Log('CACHE RMV ALL', $rel);
             $done = true;
         }
-        action_event('iceberg_cache_action', 'RMVALL', $done, $rel);
+        do_action('iceberg_cache_action', 'RMVALL', $done, $rel, null, null);
         return $done;
     }
     
@@ -162,21 +169,21 @@ abstract class IcebergCache extends ObjectConfig
                 $done = $memcached->connect($config['server'], $config['port']);
                 if ($done)
                 {
-                    action_event('iceberg_cache_action_memcached', 'CONNECTION', true);
-                    action_event('iceberg_cache_action_memcached', 'VERSION', true, $memcached->getVersion());
+                    do_action('iceberg_cache_action_memcached', 'CONNECTION', true, null);
+                    do_action('iceberg_cache_action_memcached', 'VERSION', true, $memcached->getVersion());
 
                     if (empty($_POST))
                     {
                         $key = static::GetRequestKey();
                         $found = $memcached->get($key[0]);
-                        action_event('iceberg_cache_action_memcached', 'REQUEST', (bool)$found, $key[1]);
+                        do_action('iceberg_cache_action_memcached', 'REQUEST', (bool)$found, $key[1]);
 
                         $__CACHE_OBJECTS = is_array($__CACHE_OBJECTS) ? $__CACHE_OBJECTS : array();
                         $__CACHE_OBJECTS[$key[0]] = $found;
                     }
                     else
                     {
-                        action_event('iceberg_cache_action_memcached', 'REQUEST NOT CACHEABLE', true);
+                        do_action('iceberg_cache_action_memcached', 'REQUEST NOT CACHEABLE', true, null);
                     }
 
 
@@ -185,22 +192,21 @@ abstract class IcebergCache extends ObjectConfig
                 else
                 {
                     //static::SaveConfigValue('memcached', false, Config::REPLICATE_ALL_LANGUAGES);
-                    action_event('iceberg_cache_action_memcached', 'CONNECTION', false);
+                    do_action('iceberg_cache_action_memcached', 'CONNECTION', false, null);
                 }
             }
             catch (Exception $e)
             {
                 //static::SaveConfigValue('memcached', false, Config::REPLICATE_ALL_LANGUAGES);
-                action_event('iceberg_cache_action_memcached', 'CONNECTION', false);
+                do_action('iceberg_cache_action_memcached', 'CONNECTION', false);
             }
             
         }
     }
     
-    public static function EnvironmentContentCache_Filter($args)
+    public static function GetEnvironmentContentCache($content)
     {
         global $__CACHE_OBJECTS;
-        list($content) = $args;
         if (static::Memcached())
         {
             $key = static::GetRequestKey();
@@ -209,13 +215,12 @@ abstract class IcebergCache extends ObjectConfig
                 $content = $__CACHE_OBJECTS[$key[0]];
             }
         }
-        return array($content);
+        return $content;
     }
     
-    public static function EnvironmentContentCache($args)
+    public static function SaveEnvironmentContentCache($content)
     {
         global $__CACHE_OBJECTS;
-        list($content) = $args;
         if (static::Memcached())
         {
             $key = static::GetRequestKey();
@@ -230,10 +235,10 @@ abstract class IcebergCache extends ObjectConfig
                     $done = $memcached->set($key[0], $content, $config['flag'], $config['expire']);
                     $memcached->close();
                 }
-                action_event('iceberg_cache_action_memcached', 'SET', $done, $key[1]);
+                do_action('iceberg_cache_action_memcached', 'SET', $done, $key[1]);
             }
         }
-        return array($content);
+        return $content;
     }
     
     
@@ -257,21 +262,20 @@ abstract class IcebergCache extends ObjectConfig
 }
 
 
-function iceberg_load_request_cache($args)
+function iceberg_load_request_cache()
 {
     IcebergCache::LoadRequest();
-    return $args;
 }
-add_action('iceberg_load_request', 'iceberg_load_request_cache', 10);
+add_action('iceberg_load_request', 'iceberg_load_request_cache', 5);
 
-function filter_iceberg_environment_content_cache($args)
+function iceberg_environment_content_cache_before($content)
 {
-    return IcebergCache::EnvironmentContentCache_Filter($args);
+    return IcebergCache::GetEnvironmentContentCache($content);
 }
-add_action('filter_iceberg_environment_content', 'filter_iceberg_environment_content_cache', 10, 1);
+add_filter('iceberg_environment_content_before', 'iceberg_environment_content_cache_before', 5);
 
-function iceberg_environment_content_cache($args)
+function iceberg_environment_content_cache_after($content)
 {
-    return IcebergCache::EnvironmentContentCache($args);
+    return IcebergCache::SaveEnvironmentContentCache($content);
 }
-add_action('iceberg_environment_content', 'iceberg_environment_content_cache', 10, 1);
+add_filter('iceberg_environment_content_after', 'iceberg_environment_content_cache_after', 5);

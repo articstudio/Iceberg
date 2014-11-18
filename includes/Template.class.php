@@ -6,6 +6,13 @@ require_once ICEBERG_DIR_HELPERS . 'templates.php';
 
 abstract class TemplateBase extends ObjectConfig
 {
+    
+    /**
+     * Configuration use language
+     * @var boolean
+     */
+    public static $CONFIG_USE_LANGUAGE = false;
+    
     /**
      * Configuration key
      * @var string
@@ -35,7 +42,7 @@ abstract class TemplateBase extends ObjectConfig
             array_push($templates, $template);
         }
         array_unique ($templates);
-        return static::SaveConfigValue($environment, $templates, Config::REPLICATE_ALL_LANGUAGES);
+        return static::SaveConfigValue($environment, $templates);
     }
     
     public static function RemoveTemplate($environment, $template)
@@ -62,7 +69,7 @@ abstract class TemplateBase extends ObjectConfig
             }
             $templates = array_flip($flip);
         }
-        return static::SaveConfigValue($environment, $templates, Config::REPLICATE_ALL_LANGUAGES);
+        return static::SaveConfigValue($environment, $templates);
     }
     
     public static function GetTemplates($environment)
@@ -127,7 +134,7 @@ class Template extends TemplateBase
             ob_start($this->template_callback);
             include $this->GetTemplateFile();
             $content = ob_get_clean();
-            list($content) = action_event('template_generate_content', $content, $this->GetTemplate());
+            $content = apply_filters('template_generate_content', $content, $this->GetTemplate());
             $this->template_content = $content;
             $done = true;
         }

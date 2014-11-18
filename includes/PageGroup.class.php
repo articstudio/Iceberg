@@ -117,4 +117,32 @@ class PageGroup extends ObjectTaxonomy
         }
         return $found;
     }
+    
+    public function GetTaxonomyChildsAllowed()
+    {
+        $found = array();
+        $list = $this->GetTaxonomyObjects();
+        foreach ($list AS $k => $v)
+        {
+            if ($v->ChildsAllowed())
+            {
+                array_push($found, $k);
+            }
+        }
+        return $found;
+    }
+    
+    public function GetTaxonomyUserRelation()
+    {
+        $found = array();
+        $list = $this->GetTaxonomyObjects();
+        foreach ($list AS $k => $v)
+        {
+            if ($v->UserRelation())
+            {
+                array_push($found, $k);
+            }
+        }
+        return $found;
+    }
 }

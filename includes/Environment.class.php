@@ -69,6 +69,8 @@ abstract class Environment implements EnvironmentInterface
     
     public function Load()
     {
+        
+        
         /* ROUTING */
         $this->routing = class_exists(static::$ROUTING_CLASS) ? new static::$ROUTING_CLASS() : null;
         if (is_null($this->routing))
@@ -99,7 +101,7 @@ abstract class Environment implements EnvironmentInterface
             I18N::LoadLanguage($language);
         }
         
-        action_event('iceberg_environment_load');
+        do_action('iceberg_environment_load');
         return $this;
     }
     
@@ -109,14 +111,27 @@ abstract class Environment implements EnvironmentInterface
         $env_tpl = isset($this->environments[$this->environment]) ? $this->environments[$this->environment] : $this->environment;
         $this->theme->SetTemplate($env_tpl);
         
-        action_event('iceberg_environment_config');
+        do_action('iceberg_environment_config');
         return $this;
     }
     
     public function Generate()
     {
+        $alerts = Alerts::GetList();
+        if (!empty($alerts))
+        {
+            foreach ($alerts AS $alert)
+            {
+                $this->AddAlert($alert->GetName(), $alert->GetType());
+                if (!$alert->IsPErmanent())
+                {
+                    Alerts::Remove($alert->GetID());
+                }
+            }
+        }
+        
         $done = $this->theme->Generate();
-        action_event('iceberg_environment_generate', $done);
+        do_action('iceberg_environment_generate', $done);
         return $this;
     }
     
@@ -126,7 +141,7 @@ abstract class Environment implements EnvironmentInterface
         {
             $this->theme->PrintTheme();
         }
-        action_event('iceberg_environment_show');
+        do_action('iceberg_environment_show');
         return $this;
     }
     

@@ -18,6 +18,7 @@ class ThemeAPI extends ThemeBackendAPI
         $this->SetDirectory('');
         static::LoadFrontendThemeSettings();
         static::LoadBackendThemeSettings();
+        parent::__construct();
     }
     
     /**

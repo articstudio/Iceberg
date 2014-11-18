@@ -1,294 +1,227 @@
 <?php
-$pagegroup_id = get_request_group();
-if ($pagegroup_id === null)
-{
-    $pagegroups = get_pagegroups();
-    $pagegroup = current($pagegroups);
-    $pagegroup_id = $pagegroup->GetID();
-}
-else
-{
-    $pagegroup = get_pagegroup($pagegroup_id);
-}
 
+/* Routing */
+$action = get_mode('action');
+$mode = get_mode('mode');
+$mode_group = explode('-', get_mode('mode'));
+
+/* Language */
 $language = get_language_info();
 $languages = get_active_langs();
 
-$id = (int)get_request_id();
-$action = get_request_action();
+/* Translate language */
+$translate_locale = get_request_gp('tlang');
+$translate_language = get_language_info($translate_locale);
 
-$tlang = get_request_gp('tlang');
-$tlanguage = get_language_info($tlang);
+/* Translate / Duplicate */
+$is_translate = (bool)($translate_locale===false ? $translate_locale : is_active_language($translate_locale));
+$is_duplicate = ((bool)get_request_g('duplicate') && $is_translate);
 
-$is_duplicate = (bool)get_request_g('duplicate');
-$is_translate = $tlang===false ? $tlang : is_active_language($tlang);
+/* Capabilities */
+$capabilities = get_user_capabilities();
 
-$plang = $is_translate && !$is_duplicate ? $tlang : $language['locale'];
-$page = get_page($id, $plang);
-$tpage = $is_translate ? get_page($id) : $page;
+/* Page group */
+$pagegroup_id = isset($mode_group[1]) ? (int)$mode_group[1] : -1;
+$pagegroup = get_pagegroup($pagegroup_id);
+$pagegroup_types = $pagegroup->GetTypeObject();
+$pagegroup_types_count = count($pagegroup_types);
+$pagegroup_taxonomies = $pagegroup->GetTaxonomyObjects();
+$pagegroup_taxonomies_count = count($pagegroup_taxonomies);
+$pagegroup_templates = $pagegroup->GetTemplates();
+$pagegroup_templates_count = count($pagegroup_templates);
 
-$is_new = !(bool)$id || $action === 'new' || $page->id === -1;
-
-$submit = $is_new ? ($is_translate ? array('action'=>'translate', 'id'=>$id, 'group'=>$pagegroup_id, 'tlang'=>$tlang) : array('action'=>'insert', 'group'=>$pagegroup_id)) : ($is_translate ? array('action'=>'translate', 'id'=>$id, 'group'=>$pagegroup_id, 'tlang'=>$tlang) : array('action'=>'update', 'id'=>$id, 'group'=>$pagegroup_id));
-$back = array('group'=>$pagegroup_id);
-
-$user = get_user();
-$user_level = $user->level;
-$user_page = $user->GetMeta('page');
-$user2page = $user->GetRelation(User::RELATION_KEY_PAGE);
-$user_edit = true;
-if ($user_level == get_session_admin_level())
-{
-    if (in_array($id, $user2page))
-    {
-        $user_edit = false;
-    }
-    /*if ($user_page == $page->id)
-    {
-        $user_edit = false;
-    }*/
-}
-
-$p_type = get_pagetype($page->type);
-$p_taxonomy = get_pagetaxonomy($page->taxonomy);
-$p_templates = $p_taxonomy->GetTemplates();
-
-$pages = get_pages(array(
-    'group' => $pagegroup_id,
-    'order' => 'name'
-), $plang);
-
+/* Page */
+$page_id = (int)get_request_id();
+$page_locale = ($is_translate && !$is_duplicate) ? $translate_locale : $language['locale'];
+$page = get_page($page_id, $page_locale, false);
+$page_id = $page->id;
+$translate_page = $is_translate ? get_page($page_id, null, false) : $page;
+$page_type = get_pagetype($page->type);
+$page_taxonomy = get_pagetaxonomy($page->taxonomy);
+$page_templates = $page_taxonomy->GetTemplates();
 $page_parent = $page->parent;
+$page_user = $page_id===-1 ? new User() : $page->GetUser();
 
-$types = $pagegroup->GetTypeObject();
-$taxonomies = $pagegroup->GetTaxonomyObjects();
-$templates = $pagegroup->GetTemplates();
-list($pages, $page_parent, $types, $taxonomies, $templates) = action_event('filter_content_publish_edit_settings', $pages, $page_parent, $types, $taxonomies, $templates, $action, $pagegroup_id, $id, $plang);
+/* Pagegroup taxonomies */
+$pagegroup_taxonomy_ids_use_permalink = $pagegroup->GetTaxonomyUsePermalink();
+$pagegroup_taxonomy_ids_use_permalink_count = count($pagegroup_taxonomy_ids_use_permalink);
+$pagegroup_taxonomy_ids_use_text = $pagegroup->GetTaxonomyUseText();
+$pagegroup_taxonomy_ids_use_text_count = count($pagegroup_taxonomy_ids_use_text);
+$pagegroup_taxonomy_ids_use_image = $pagegroup->GetTaxonomyUseImage();
+$pagegroup_taxonomy_ids_use_image_count = count($pagegroup_taxonomy_ids_use_image);
+$pagegroup_taxonomy_ids_accept_childs = $pagegroup->GetTaxonomyChildsAllowed();
+$pagegroup_taxonomy_ids_accept_childs_count = count($pagegroup_taxonomy_ids_accept_childs);
+$pagegroup_taxonomy_ids_user_relation = $pagegroup->GetTaxonomyUserRelation();
+$pagegroup_taxonomy_ids_user_relation_count = count($pagegroup_taxonomy_ids_user_relation);
 
-$taxonomies_permalink = $pagegroup->GetTaxonomyUsePermalink();
-$taxonomies_text = $pagegroup->GetTaxonomyUseText();
-$taxonomies_image = $pagegroup->GetTaxonomyUseImage();
-
-$have_permalink = false;
-if ($is_new)
+/* Possible parents */
+$possible_parents = array();
+if ($pagegroup_taxonomy_ids_accept_childs_count > 0)
 {
-    if (count($taxonomies)>1)
+    $possible_parents = get_pages(
+        array(
+            'group' => $pagegroup_id,
+            'taxonomy' => $pagegroup_taxonomy_ids_accept_childs,
+            'order' => 'name'
+        ),
+        $page_locale,
+        true,
+        array(
+            PageMeta::META_TITLE
+        )
+    );
+    if (count($possible_parents) > 0)
     {
-        $have_permalink = true;
-    }
-    else if (count($taxonomies)==1)
-    {
-        $intersect = array_intersect(array_keys($taxonomies), $taxonomies_permalink);
-        if (count($intersect)>0)
+        foreach ($possible_parents AS $k => $v)
         {
-            $have_permalink = true;
-        }
-    }
-}
-else if ($p_taxonomy->UsePermalink())
-{
-    $have_permalink = true;
-}
-
-$have_text = false;
-if ($is_new)
-{
-    if (count($taxonomies)>1)
-    {
-        $have_text = true;
-    }
-    else if (count($taxonomies)==1)
-    {
-        $intersect = array_intersect(array_keys($taxonomies), $taxonomies_text);
-       if (count($intersect)>0)
-       {
-           $have_text = true;
-       }
-    }
-}
-else if ($p_taxonomy->UseText())
-{
-    $have_text = true;
-}
-
-function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = null, $found = false)
-{
-    $user = get_user();
-    $user_level = $user->level;
-    $user2page = $user->GetRelation(User::RELATION_KEY_PAGE);
-    foreach ($pages AS $k => $page)
-    {
-        if (($parent === $page->parent || (is_null($parent) && !isset($pages[$page->parent]))) && $page->id != $actual && $page->GetTaxonomy()->ChildsAllowed())
-        {
-            $found2 = $found ? $found : ($user_level > get_session_admin_level() || in_array($page->id, $user2page));
-            if ($found2)
+            if ($v->id === $page_id)
             {
-                ?>
-                <li>
-                    <span class="click <?php print $page->id==$active ? 'active' : ''; ?>" data-click="<?php print $page->id; ?>"><?php print $page->GetTitle(); ?></span>
-
-                    <?php if ($page->GetTaxonomy()->ChildsAllowed()): ?>
-                    <ul>
-                        <?php printPagesHTMLTree($pages, $active, $actual, $page->id, $found2); ?>
-                    </ul>
-                    <?php endif; ?>
-                </li>
-                <?php
-            }
-            else if ($page->GetTaxonomy()->ChildsAllowed())
-            {
-                printPagesHTMLTree($pages, $active, $actual, $page->id, $found2);
+                unset($possible_parents[$k]);
+                break;
             }
         }
     }
 }
+$possible_parents_count = count($possible_parents);
+
+
+/* Is new action */
+$is_new = (!(bool)$page_id || $page->id === -1 || $action === 'new');
+
+/* Buttons Attributes */
+$submit = array('action'=>'insert');
+if (!$is_new)
+{
+    if ($is_translate)
+    {
+        $submit = array('action'=>'translate', 'id'=>$page_id, 'tlang'=>$translate_locale);
+    }
+    else
+    {
+       $submit = array('action'=>'update', 'id'=>$page_id);
+    }
+}
+$back = array('action'=>'list');
+
+$have_permalink = $is_new ? ($pagegroup_taxonomy_ids_use_permalink_count>0) : $page_taxonomy->UsePermalink();
+
+$have_text = $is_new ? ($pagegroup_taxonomy_ids_use_text_count>0) : $page_taxonomy->UseText();
+
+
+/* BYPASS TRANSLATE */
+//$is_translate = true; $translate_locale = 'es_ES'; $translate_language = get_language_info($translate_locale);
+
 ?>
 
 <?php if ($is_translate): ?>
 <div class="alert alert-info">
-    <img src="<?php print get_base_url() . $tlanguage['flag']; ?>" alt="<?php print_html_attr($tlanguage['name']); ?>" />
-    <strong><?php print_text('Content is showing and editing in'); ?> <?php print $tlanguage['name']; ?></strong>
+    <img src="<?php print get_base_url() . $translate_language['flag']; ?>" alt="<?php print_html_attr($translate_language['name']); ?>" />
+    <strong><?php print_text('Content is showing and editing in'); ?> <?php print $translate_language['name']; ?></strong>
 </div>
 <?php endif; ?>
 
-<form action="<?php print get_admin_action_link($submit); ?>" method="post" id="publish-edit">
-    <div class="row-fluid">
-        <div class="span9">
-            <div class="well">
-                <header><?php print_text('Page'); ?></header>
-                
-                <p>
-                    <label for="name"><?php print_text('Name'); ?>:</label>
-                    <input type="text" name="name" id="name" class="input-block-level" value="<?php print_html_attr($page->GetTitle()); ?>" permalink="#permalink" required />
+<form action="<?php print get_admin_action_link($submit); ?>" method="post" id="publish-edit" role="form" validate>
+    <div class="row">
+        <!-- EDIT COLUMN -->
+        <div class="col-sm-9">
+            
+            <div id="page-edit-content-wrapper">
+                <?php do_action('content_publish_edit_content_header', $action, $pagegroup_id, $page_id, $page_locale); ?>
+            
+                <p class="form-group">
+                    <label for="name" class="control-label"><?php print_text('Name'); ?></label>
+                    <input type="text" name="name" id="name" class="form-control" value="<?php print_html_attr($page->GetTitle()); ?>" data-permalink="#permalink" required>
+                    <?php if ($have_permalink): ?>
+                    <a href="#" class="help-block" data-toggle="#permalink-wrapper" data-filter="taxonomy" data-filter-values="<?php print implode(',', $pagegroup_taxonomy_ids_use_permalink); ?>"><span class="glyphicon glyphicon-link"></span> <?php print_text('Show/hide permalink'); ?></a>
+                    <?php endif; ?>
                 </p>
-                
+
                 <?php if ($have_permalink): ?>
-                <p id="permalink-container" data-filter="taxonomy" data-filter-values="<?php print implode(',', $taxonomies_permalink); ?>">
-                    <label for="permalink"><?php print_text('Permalink'); ?>:</label>
-                    <input type="text" name="permalink" id="permalink" class="input-block-level" value="<?php print_html_attr($page->GetPermalink()); ?>" required />
-                </p>
+                <div id="permalink-wrapper" style="display:none;">
+                    <p class="form-group" data-filter="taxonomy" data-filter-values="<?php print implode(',', $pagegroup_taxonomy_ids_use_permalink); ?>">
+                        <label for="permalink" class="control-label"><?php print_text('Permalink'); ?></label>
+                        <input type="text" name="permalink" id="permalink" class="form-control" value="<?php print_html_attr($page->GetPermalink()); ?>" data-language="<?php echo $page_locale; ?>" data-id="<?php echo $page_id; ?>" required />
+                    </p>
+                </div>
                 <?php endif; ?>
-                
+
                 <?php if ($have_text): ?>
-                <div id="text-container" data-filter="taxonomy" data-filter-values="<?php print implode(',', $taxonomies_text); ?>">
-                    <label for="text"><?php print_text('Text'); ?>:</label>
-                    <textarea class="ckeditor input-block-level" id="text" name="text" rows="10" cols="10"><?php print $page->GetText(); ?></textarea>
+                <div class="form-group" data-filter="taxonomy" data-filter-values="<?php print implode(',', $pagegroup_taxonomy_ids_use_text); ?>">
+                    <label for="text" class="control-label"><?php print_text('Text'); ?></label>
+                    <textarea class="ckeditor form-control" id="text" name="text" rows="10" cols="10"><?php print $page->GetText(); ?></textarea>
                 </div>
                 <?php endif; ?>
                 
+                <?php do_action('content_publish_edit_content_middle', $action, $pagegroup_id, $page_id, $page_locale); ?>
+                
                 <?php if ($is_new): ?>
-                <?php foreach ($taxonomies AS $taxonomy): ?>
+                
+                <?php foreach ($pagegroup_taxonomies AS $taxonomy): ?>
                 <div id="taxonomy-<?php print $taxonomy->GetID(); ?>" data-filter="taxonomy" data-filter-values="<?php print $taxonomy->GetID(); ?>">
-                    <hr />
-                    <h5><?php print $taxonomy->GetName(); ?></h5>
                     <?php $elements = $taxonomy->GetElements(); foreach ($elements AS $e_name => $element): ?>
-                    <?php list($show_element) = action_event('filter_content_publish_edit_show_te', true, $taxonomy, $element, $tpage, $is_new); ?>
-                    <?php if ($show_element || true): ?>
-                    <div id="element-<?php print $taxonomy->GetID(); ?>-<?php print $element->GetAttrName(); ?>" class="<?php echo $show_element?'':'hidden'; ?>">
-                        <hr />
-                        <h6><?php print $element->GetTitle(); ?> <small>(<?php print $e_name; ?>)</small></h6>
+                    <div id="element-<?php print $taxonomy->GetID(); ?>-<?php print $element->GetAttrName(); ?>">
                         <?php $element->FormEdit($page); ?>
                     </div>
-                    <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
                 <?php endforeach; ?>
+                
                 <?php else: ?>
                 
-                <hr />
-                <!--<h5><?php print $p_taxonomy->GetName(); ?></h5>-->
-                <?php $elements = $p_taxonomy->GetElements(); foreach ($elements AS $e_name => $element): ?>
-                <?php list($show_element) = action_event('filter_content_publish_edit_show_te', true, $p_taxonomy, $element, $tpage, $is_new); ?>
-                <?php if ($show_element || true): ?>
-                <div id="element-<?php print $p_taxonomy->GetID(); ?>-<?php print $element->GetAttrName(); ?>" class="<?php echo $show_element?'':'hidden'; ?>">
-                    <hr />
-                    <h6><?php print $element->GetTitle(); ?> <small>(<?php print $e_name; ?>)</small></h6>
+                <?php $elements = $page_taxonomy->GetElements(); foreach ($elements AS $e_name => $element): ?>
+                <div id="element-<?php print $page_taxonomy->GetID(); ?>-<?php print $element->GetAttrName(); ?>">
                     <?php $element->FormEdit($page); ?>
                 </div>
-                <?php endif; ?>
                 <?php endforeach; ?>
                 
                 <?php endif; ?>
-            
-                <?php action_event('content_publish_edit_content', $action, $pagegroup_id, $id, $plang); ?>
-                
-                
-                <div class="form-actions text-right">
-                    <a href="<?php print get_admin_action_link($back); ?>" class="btn btn-large btn-inverse"><?php print_text('Cancel'); ?> <i class="icon-remove-circle icon-white"></i></a>
-                    <?php if ($is_translate): ?>
-                    <button type="submit" class="btn btn-large btn-success"><img src="<?php print get_base_url() . $tlanguage['flag']; ?>" alt="<?php print_html_attr($tlanguage['name']); ?>" /> <?php print_text('Save'); ?></button>
-                    <?php else: ?>
-                    <button type="submit" class="btn btn-large btn-success"><?php print_text('Save'); ?> <i class="icon-ok-circle icon-white"></i></button>
-                    <?php endif; ?>
-                </div>
+
+                <?php do_action('content_publish_edit_content_footer', $action, $pagegroup_id, $page_id, $page_locale); ?>
             </div>
+            
         </div>
-        <div class="span3">
+        <!-- /EDIT COLUMN -->
+        
+        <!-- SIDEBAR COLUMN -->
+        <div class="col-sm-3">
+            
+            <?php do_action('content_publish_edit_sidebar_header', $action, $pagegroup_id, $page_id, $page_locale); ?>
             
             <?php if (count($languages) > 1): ?>
+            <!-- TRANSLATION WIDGET -->
             <?php if ($is_translate): ?>
-            
             <div class="well widget">
-                <header><?php print_text('Translation'); ?></header>
+                <header><?php print_text($is_duplicate ? 'Duplication' : 'Translation'); ?></header>
                 <div class="btn-toolbar header">
-                    <a href="#" class="btn btn-inverse btn-mini" btn-action="collapse"><i class="icon-chevron-up icon-white"></i></a>
-                    <a href="#" class="btn btn-inverse btn-mini" btn-action="expand"><i class="icon-chevron-down icon-white"></i></a>
+                    <a href="#" class="btn btn-default btn-xs" btn-action="collapse"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                    <a href="#" class="btn btn-default btn-xs" btn-action="expand"><span class="glyphicon glyphicon-chevron-down"></span></a>
                 </div>
-                
                 <p>
-                    <img src="<?php print get_base_url() . $tlanguage['flag']; ?>" alt="<?php print_html_attr($tlanguage['name']); ?>" /> <?php print $tlanguage['name']; ?>
+                    <img src="<?php print get_base_url() . $translate_language['flag']; ?>" alt="<?php print_html_attr($translate_language['name']); ?>" /> <?php print $translate_language['name']; ?>
                 </p>
                 <p>
-                    <i><?php print $tpage->GetTitle(); ?></i>
+                    <i><?php print $translate_page->GetTitle(); ?></i>
                 </p>
-                
-                <?php if (count($languages) > 2): ?>
-                <p>
-                    <strong><?php print_text('Duplicate'); ?>:</strong>
-                </p>
-                <?php foreach ($languages AS $locale => $lang): ?>
-                <?php if ($language['locale'] !== $locale && $tlang !== $locale): ?>
-                <p>
-                    
-                    <label class="checkbox" for="duplicate_<?php print_html_attr($locale); ?>">
-                        <input type="checkbox" name="duplicate[]" id="duplicate_<?php print_html_attr($lang['locale']); ?>" value="<?php print_html_attr($locale); ?>" <?php print !$page->IsTranslated($locale) ? 'checked' : ''; ?> />
-                        <img src="<?php print get_base_url() . $lang['flag']; ?>" alt="<?php print_html_attr($lang['name']); ?>" />
-                        <?php print $lang['name']; ?>
-                        <?php if ($page->IsTranslated($locale)): ?>
-                        <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'edit', 'tlang'=>$locale)); ?>" class="">
-                            <i class="icon-pencil"></i>
-                        </a>
-                        <?php endif; ?>
-                    </label>
-                </p>
-                <?php endif; ?>
-                <?php endforeach; ?>
-                <?php endif; ?>
             </div>
+            <?php endif; ?>
             
-            <?php else: ?>
-            
+            <?php if (!$is_translate || count($languages)>2): ?>
             <div class="well widget">
-                <header><?php print_text('Translations'); ?></header>
+                <header><?php print_text('Duplicate'); ?></header>
                 <div class="btn-toolbar header">
-                    <a href="#" class="btn btn-inverse btn-mini" btn-action="collapse"><i class="icon-chevron-up icon-white"></i></a>
-                    <a href="#" class="btn btn-inverse btn-mini" btn-action="expand"><i class="icon-chevron-down icon-white"></i></a>
+                    <a href="#" class="btn btn-default btn-xs" btn-action="collapse"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                    <a href="#" class="btn btn-default btn-xs" btn-action="expand"><span class="glyphicon glyphicon-chevron-down"></span></a>
                 </div>
-                
-                <p>
-                    <strong><?php print_text('Duplicate'); ?>:</strong>
-                </p>
-                <?php foreach ($languages AS $locale => $lang): ?>
-                <?php if ($language['locale'] !== $locale): ?>
-                <p>
-                    
-                    <label class="checkbox" for="duplicate_<?php print_html_attr($locale); ?>">
-                        <input type="checkbox" name="duplicate[]" id="duplicate_<?php print_html_attr($lang['locale']); ?>" value="<?php print_html_attr($locale); ?>" <?php print !$page->IsTranslated($locale) ? 'checked' : ''; ?> />
-                        <img src="<?php print get_base_url() . $lang['flag']; ?>" alt="<?php print_html_attr($lang['name']); ?>" />
-                        <?php print $lang['name']; ?>
-                        <?php if ($page->IsTranslated($locale)): ?>
-                        <a href="<?php print get_admin_action_link(array('group'=>$page->group, 'id'=>$page->id, 'action'=>'edit', 'tlang'=>$locale)); ?>" class="">
-                            <i class="icon-pencil"></i>
+                <?php foreach ($languages AS $duplicate_locale => $duplicate_lang): ?>
+                <?php if (($language['locale'] !== $duplicate_locale) && (!$is_translate || $translate_locale !== $duplicate_locale)): ?>
+                <p class="radio">
+                    <label class="checkbox" for="duplicate_<?php print_html_attr($duplicate_locale); ?>" class="control-label">
+                        <input type="checkbox" name="duplicate[]" id="duplicate_<?php print_html_attr($duplicate_lang['locale']); ?>" value="<?php print_html_attr($duplicate_locale); ?>" <?php print !$page->IsTranslated($duplicate_locale) ? 'checked' : ''; ?>>
+                        <img src="<?php print get_base_url() . $duplicate_lang['flag']; ?>" alt="<?php print_html_attr($duplicate_lang['name']); ?>" />
+                        <?php print $duplicate_lang['name']; ?>
+                        <?php if ($page->IsTranslated($duplicate_locale)): ?>
+                        <a href="<?php print get_admin_action_link(array('id'=>$page->id,'action'=>'edit','tlang'=>$duplicate_locale)); ?>" class="">
+                            <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                         <?php endif; ?>
                     </label>
@@ -297,206 +230,218 @@ function printPagesHTMLTree($pages, $active = null, $actual = null, $parent = nu
                 <?php endforeach; ?>
                 
             </div>
-            
             <?php endif; ?>
+            <!-- /TRANSLATION WIDGET -->
             <?php endif; ?>
             
+            
+            <!-- PUBLISH WIDGET -->
             <div class="well widget">
                 <header><?php print_text('Publish'); ?></header>
                 <div class="btn-toolbar header">
-                    <a href="#" class="btn btn-inverse btn-mini" btn-action="collapse"><i class="icon-chevron-up icon-white"></i></a>
-                    <a href="#" class="btn btn-inverse btn-mini" btn-action="expand"><i class="icon-chevron-down icon-white"></i></a>
+                    <a href="#" class="btn btn-default btn-xs" btn-action="collapse"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                    <a href="#" class="btn btn-default btn-xs" btn-action="expand"><span class="glyphicon glyphicon-chevron-down"></span></a>
                 </div>
-                
-                <?php /* if ($is_new): ?>
-                <p>
-                    <?php print_text('Created by'); ?>: <?php print get_user_name(); ?><br />
-                    <?php print_text('Created on'); ?>: <?php print get_datetime(); ?>
-                </p>
-                <?php else: ?>
-                <p>
-                    <?php print_text('Created by'); ?>: <?php print get_user($page->created_uid)->username; ?><br />
-                    <?php print_text('Created on'); ?>: <?php print get_datetime($page->created); ?>
-                </p>
-                <?php if (is_null($page->updated_uid)): ?>
-                <p>
-                    <?php print_text('Edited by'); ?>: <?php print get_user_name(); ?><br />
-                    <?php print_text('Edited on'); ?>: <?php print get_datetime(); ?>
-                </p>
-                <?php else: ?>
-                <p>
-                    <?php print_text('Edited by'); ?>: <?php print get_user($page->updated_uid)->username; ?><br />
-                    <?php print_text('Edited on'); ?>: <?php print get_datetime($page->updated); ?>
-                </p>
-                <?php endif; ?>
-                <?php endif; */ ?>
-                
-                <div class="form-actions text-right">
-                    <a href="<?php print get_admin_action_link($back); ?>" class="btn btn-inverse"><?php print_text('Cancel'); ?> <i class="icon-remove-circle icon-white"></i></a>
+                <?php //@todo Owner / Created / Edited ?>
+                <div class="text-right">
+                    <a href="<?php print get_admin_action_link($back); ?>" class="btn btn-default"><span class="glyphicon glyphicon-ban-circle"></span> <?php print_text('Cancel'); ?></a>
                     <?php if ($is_translate): ?>
-                    <button type="submit" class="btn btn-success"><img src="<?php print get_base_url() . $tlanguage['flag']; ?>" alt="<?php print_html_attr($tlanguage['name']); ?>" /> <?php print_text('Save'); ?></button>
+                    <button type="submit" class="btn btn-success"><img src="<?php print get_base_url() . $translate_language['flag']; ?>" alt="<?php print_html_attr($translate_language['name']); ?>" /> <?php print_text('Save'); ?></button>
                     <?php else: ?>
-                    <button type="submit" class="btn btn-success"><?php print_text('Save'); ?> <i class="icon-ok-circle icon-white"></i></button>
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> <?php print_text('Save'); ?></button>
                     <?php endif; ?>
                 </div>
             </div>
+            <!-- /PUBLISH WIDGET -->
             
-            <?php if ($user_edit): ?>
+            <!-- SETTINGS WIDGET -->
+            <?php if ($possible_parents_count>0 || $pagegroup_types_count>1 || $pagegroup_taxonomies_count>1 || $pagegroup_templates_count>1): ?>
+            
             <div class="well widget">
                 <header><?php print_text('Settings'); ?></header>
                 <div class="btn-toolbar header">
-                    <a href="#" class="btn btn-inverse btn-mini" btn-action="collapse"><i class="icon-chevron-up icon-white"></i></a>
-                    <a href="#" class="btn btn-inverse btn-mini" btn-action="expand"><i class="icon-chevron-down icon-white"></i></a>
+                    <a href="#" class="btn btn-default btn-xs" btn-action="collapse"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                    <a href="#" class="btn btn-default btn-xs" btn-action="expand"><span class="glyphicon glyphicon-chevron-down"></span></a>
                 </div>
                 
-                <p>
-                    <label><?php print_text('Group'); ?>: <strong><?php print $pagegroup->GetName(); ?></strong></label>
-                </p>
-                
-                <?php if (count($pages) > 1): ?>
-                <label for="parent"><?php print_text('Parent'); ?>:</label>
-                <div class="treeview-container mini">
-                    <ul select-treeview="parent">
-                        <?php
-                        printPagesHTMLTree($pages, $page_parent, $id);
-                        ?>
-                    </ul>
-                    <input type="hidden" name="parent" id="parent" value="<?php print is_null($page_parent) ? 'NULL' : $page_parent; ?>" />
-                </div>
-                <?php elseif (count($pages) == 1): $b_parent=current($pages); ?>
-                
-                <?php if ($b_parent->id == $page_parent): ?>
-                <p>
-                    <label><?php print_text('Parent'); ?>: <strong><?php print $b_parent->GetTitle(); ?></strong></label>
-                    <input type="hidden" name="parent" id="parent" value="<?php print $b_parent->id; ?>" />
-                </p>
-                <?php else: ?>
-                <p>
-                    <label for="parent"><?php print_text('Parent'); ?>:</label>
-                    <select name="parent" id="parent" class="input-block-level">
+                <?php if ($possible_parents_count>0): ?>
+                <!-- PARENT BLOCK -->
+                <p class="control-group">
+                    <label for="parent" class="control-label"><?php print_text('Parent'); ?></label>
+                    <select name="parent" id="parent" class="form-control">
                         <option value="NULL"></option>
-                        <option value="<?php print $b_parent->id; ?>"><?php print $b_parent->GetTitle(); ?></option>
+                        <?php foreach ($possible_parents AS $possible_parent): ?>
+                        <?php if ($possible_parent->id !== $page_id): ?>
+                        <option value="<?php echo $possible_parent->id; ?>" <?php echo $page_parent === $possible_parent->id ? 'selected' : ''; ?>><?php echo $possible_parent->GetTitle(); ?></option>
+                        <?php endif; ?>
+                        <?php endforeach; ?>
                     </select>
                 </p>
-                <?php endif; ?>
-                
+                <!-- /PARENT BLOCK -->
                 <?php endif; ?>
                 
                 <?php if ($is_new): ?>
                 
-                <?php if (count($types) > 1): ?>
-                <p>
-                    <label for="type"><?php print_text('Type'); ?>:</label>
-                    <select name="type" id="type" class="input-block-level">
-                        <?php foreach ($types AS $type): ?>
-                        <option value="<?php print $type->GetID(); ?>" data-filter-values="<?php print implode(',', $type->GetTaxonomy()); ?>" <?php print ($type->GetID() == $page->type) ? 'selected' : ''; ?>><?php print $type->GetName(); ?></option>
+                <!-- TYPE BLOCK -->
+                <?php if ($pagegroup_types_count>1): ?>
+                <p class="control-group">
+                    <label for="type" class="control-label"><?php print_text('Type'); ?>:</label>
+                    <select name="type" id="type" class="form-control">
+                        <?php foreach ($pagegroup_types AS $buffer_type): ?>
+                        <option value="<?php print $buffer_type->GetID(); ?>" data-filter-values="<?php print implode(',', $buffer_type->GetTaxonomy()); ?>"><?php print $buffer_type->GetName(); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </p>
-                <?php elseif (count($types) == 1): reset($types); $type=current($types); ?>
-                <p>
-                    <label><?php print_text('Type'); ?>: <strong><?php print $type->GetName(); ?></strong></label>
-                    <input type="hidden" name="type" id="type" value="<?php print $type->GetID(); ?>" />
-                </p>
+                <?php elseif ($pagegroup_types_count===1): $buffer_type=reset($pagegroup_types); ?>
+                <input type="hidden" name="type" id="type" value="<?php print $buffer_type->GetID(); ?>">
                 <?php endif; ?>
+                <!-- /TYPE BLOCK -->
                 
-                <?php if (count($taxonomies) > 1): ?>
-                <p>
-                    <label for="taxonomy"><?php print_text('Taxonomy'); ?>:</label>
-                    <select name="taxonomy" id="taxonomy" class="input-block-level" data-filter="type">
-                        <?php foreach ($taxonomies AS $taxonomy): ?>
-                        <option value="<?php print $taxonomy->GetID(); ?>" data-filter-values="<?php print implode(',', $taxonomy->GetTemplates()); ?>" <?php print ($taxonomy->GetID() == $page->taxonomy) ? 'selected' : ''; ?>><?php print $taxonomy->GetName(); ?></option>
+                <!-- TAXONOMY BLOCK -->
+                <?php if ($pagegroup_taxonomies_count>1): ?>
+                <p class="control-group">
+                    <label for="taxonomy" class="control-label"><?php print_text('Taxonomy'); ?>:</label>
+                    <select name="taxonomy" id="taxonomy" class="form-control" data-filter="type">
+                        <?php foreach ($pagegroup_taxonomies AS $buffer_taxonomy): ?>
+                        <option value="<?php print $buffer_taxonomy->GetID(); ?>" data-filter-values="<?php print implode(',', $buffer_taxonomy->GetTemplates()); ?>"><?php print $buffer_taxonomy->GetName(); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </p>
-                <?php elseif (count($taxonomies) == 1): reset($taxonomies); $taxonomy=current($taxonomies); ?>
-                <p>
-                    <label><?php print_text('Taxonomy'); ?>: <strong><?php print $taxonomy->GetName(); ?></strong></label>
-                    <input type="hidden" name="taxonomy" id="taxonomy" value="<?php print $taxonomy->GetID(); ?>" />
-                </p>
+                <?php elseif ($pagegroup_taxonomies_count===1): $buffer_taxonomy=reset($pagegroup_taxonomies); ?>
+                <input type="hidden" name="taxonomy" id="taxonomy" value="<?php print $buffer_taxonomy->GetID(); ?>">
                 <?php endif; ?>
-                
-                
-                <?php if (count($templates) > 1): ?>
-                <p>
-                    <label for="template"><?php print_text('Template'); ?>:</label>
-                    <select name="template" id="template" class="input-block-level" data-filter="taxonomy">
-                        <?php foreach ($templates AS $template): ?>
-                        <option value="<?php print $template; ?>" <?php print ($template == $page->GetTemplate()) ? 'selected' : ''; ?>><?php print $template; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </p>
-                <?php elseif (count($templates) == 1): reset($templates); $template=current($templates); ?>
-                <p>
-                    <label><?php print_text('Template'); ?>: <strong><?php print $template; ?></strong></label>
-                    <input type="hidden" name="template" id="template" value="<?php print $template; ?>" />
-                </p>
-                <?php endif; ?>
+                <!-- /TAXONOMY BLOCK -->
                 
                 <?php else: ?>
                 
-                <p>
-                    <label><?php print_text('Type'); ?>: <strong><?php print $p_type->GetName(); ?></strong></label>
-                    <input type="hidden" name="type" value="<?php print $page->type; ?>" />
-                </p>
-                <p>
-                    <label><?php print_text('Taxonomy'); ?>: <strong><?php print $p_taxonomy->GetName(); ?></strong></label>
-                    <input type="hidden" name="taxonomy" value="<?php print $page->taxonomy; ?>" />
-                </p>
+                <input type="hidden" name="type" id="type" value="<?php print $page->type; ?>">
+                <input type="hidden" name="taxonomy" id="taxonomy" value="<?php print $page->taxonomy; ?>">
                 
-                <?php if (count($p_templates) > 1): ?>
-                <p>
-                    <label for="template"><?php print_text('Template'); ?>:</label>
-                    <select name="template" id="template" class="input-block-level" data-filter="taxonomy">
-                        <?php foreach ($p_templates AS $template): ?>
-                        <option value="<?php print $template; ?>" <?php print ($template == $page->GetTemplate()) ? 'selected' : ''; ?>><?php print $template; ?></option>
+                <?php endif; ?>
+                
+                <!-- /TEMPLATE BLOCK -->
+                <?php if ($pagegroup_templates_count>1): ?>
+                <p class="control-group">
+                    <label for="template" class="control-label"><?php print_text('Template'); ?>:</label>
+                    <select name="template" id="template" class="form-control" data-filter="taxonomy">
+                        <?php foreach ($pagegroup_templates AS $buffer_template): ?>
+                        <option value="<?php print $buffer_template; ?>" <?php echo $buffer_template===$page->GetTemplate() ? 'selected' : ''; ?>><?php print $buffer_template; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </p>
-                <?php elseif (count($p_templates) == 1): reset($p_templates); $template=current($p_templates); ?>
-                <p>
-                    <label><?php print_text('Template'); ?>: <strong><?php print $template; ?></strong></label>
-                    <input type="hidden" name="template" id="template" value="<?php print $template; ?>" />
-                </p>
+                <?php elseif ($pagegroup_templates_count===1): $buffer_template=reset($pagegroup_templates); ?>
+                <input type="hidden" name="template" id="template" value="<?php print $buffer_template; ?>">
                 <?php endif; ?>
+                <!-- TEMPLATE BLOCK -->
                 
-                <?php endif; ?>
+                
             </div>
+            
             <?php else: ?>
             
-            <input type="hidden" name="parent" id="parent" value="<?php print is_null($page->parent) ? 'NULL' : $page->parent; ?>" />
-            <input type="hidden" name="type" value="<?php print $page->type; ?>" />
-            <input type="hidden" name="taxonomy" value="<?php print $page->taxonomy; ?>" />
-            <input type="hidden" name="template" id="template" value="<?php print $page->GetTemplate(); ?>" />
+            <?php if ($is_new): ?>
             
+            <?php if ($pagegroup_types_count===1): $buffer_type=reset($pagegroup_types); ?>
+            <input type="hidden" name="type" id="type" value="<?php print $buffer_type->GetID(); ?>">
+            <?php endif; ?>
+            <?php if ($pagegroup_taxonomies_count===1): $buffer_taxonomy=reset($pagegroup_taxonomies); ?>
+            <input type="hidden" name="taxonomy" id="taxonomy" value="<?php print $buffer_taxonomy->GetID(); ?>">
+            <?php endif; ?>
+            <?php if ($pagegroup_templates_count===1): $buffer_template=reset($pagegroup_templates); ?>
+            <input type="hidden" name="template" id="template" value="<?php print $buffer_template; ?>">
             <?php endif; ?>
             
-            <?php if (($is_new && count($taxonomies_image)>0) || (!$is_new && $p_taxonomy->UseImage())): ?>
-            <div class="well widget" id="image-container" data-filter="taxonomy" data-filter-values="<?php print implode(',', $taxonomies_image); ?>">
+            <?php else: ?>
+                
+            <input type="hidden" name="parent" id="parent" value="<?php print is_null($page->parent) ? 'NULL' : $page->parent; ?>">
+            <input type="hidden" name="type" id="type" value="<?php print $page->type; ?>">
+            <input type="hidden" name="taxonomy" id="taxonomy" value="<?php print $page->taxonomy; ?>">
+            <input type="hidden" name="template" id="template" value="<?php print $page->GetTemplate(); ?>">
+
+            <?php endif; ?>
+            
+            <?php endif; ?>
+            <!-- /SETTINGS WIDGET -->
+            
+            <?php if (($is_new && $pagegroup_taxonomy_ids_use_image_count) || (!$is_new && $page_taxonomy->UseImage())): ?>
+            <!-- IMAGE WIDGET -->
+            <div class="well widget" id="page-edit-image-wrapper" data-filter="taxonomy" data-filter-values="<?php print implode(',', $pagegroup_taxonomy_ids_use_image); ?>">
                 <header><?php print_text('Principal image'); ?></header>
                 <div class="btn-toolbar header">
-                    <a href="#" class="btn btn-inverse btn-mini" btn-action="collapse"><i class="icon-chevron-up icon-white"></i></a>
-                    <a href="#" class="btn btn-inverse btn-mini" btn-action="expand"><i class="icon-chevron-down icon-white"></i></a>
+                    <a href="#" class="btn btn-default btn-xs" btn-action="collapse"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                    <a href="#" class="btn btn-default btn-xs" btn-action="expand"><span class="glyphicon glyphicon-chevron-down"></span></a>
                 </div>
                 
-                <div id="page-image">
-                    <p>
-                        <button type="button" id="page-image-button" class="btn btn-inverse"><?php print_text('Browse'); ?></button>
-                        <input type="hidden" name="image" id="image" class="input-block-level" value="<?php print_html_attr($page->GetImage()); ?>" />
-                        <span class="thumbnail"><img src="<?php print_html_attr($page->GetImage()); ?>" /></span>
-                        <?php if ($is_new): ?>
-                        <?php foreach ($taxonomies AS $taxonomy): ?>
-                        <small id="image-comments-<?php print $taxonomy->GetID(); ?>" data-filter="taxonomy" data-filter-values="<?php print $taxonomy->GetID(); ?>"><?php print $taxonomy->ImageComments(); ?></small>
-                        <?php endforeach; ?>
-                        <?php else: ?>
-                        <small><?php print $p_taxonomy->ImageComments(); ?></small>
-                        <?php endif; ?>
-                    </p>
-                </div>
+                <p class="control-group">
+                    <button class="btn btn-default" data-elfinder-file="image"><span class="glyphicon glyphicon-picture"></span> <?php print_text('Browse'); ?></button>
+                    <input type="hidden" name="image" id="image" value="<?php print_html_attr($page->GetImage()); ?>" data-thumbnail="#page-image-thumbnail">
+                </p>
+                <p class="control-group" id="page-image-thumbnail">
+                    <?php if ($page->GetImage()): ?>
+                    <span class="thumbnail"><img src="<?php print_html_attr($page->GetImage()); ?>"></span>
+                    <?php endif; ?>
+                </p>
+                <p class="control-group">
+                    <?php if ($is_new): ?>
+                    <?php foreach ($pagegroup_taxonomies AS $buffer_taxonomy): ?>
+                    <span class="help-block" id="image-comments-<?php print $buffer_taxonomy->GetID(); ?>" data-filter="taxonomy" data-filter-values="<?php print $buffer_taxonomy->GetID(); ?>"><?php print $buffer_taxonomy->ImageComments(); ?></span>
+                    <?php endforeach; ?>
+                    <?php else: ?>
+                    <span class="help-block"><?php print $page_taxonomy->ImageComments(); ?></span>
+                    <?php endif; ?>
+                </p>
             </div>
+            <!-- /IMAGE WIDGET -->
             <?php endif; ?>
             
-            <?php action_event('content_publish_edit_sidebar', $action, $pagegroup_id, $id, $plang); ?>
+            <?php if (($is_new && $pagegroup_taxonomy_ids_user_relation_count) || (!$is_new && $page_taxonomy->UserRelation() && $page_user->id!==get_user_id())): ?>
+            <!-- USER WIDGET -->
+            <div class="well widget" id="page-edit-user-wrapper" data-filter="taxonomy" data-filter-values="<?php print implode(',', $pagegroup_taxonomy_ids_user_relation); ?>">
+                <header><?php print_text('User'); ?></header>
+                <div class="btn-toolbar header">
+                    <a href="#" class="btn btn-default btn-xs" btn-action="collapse"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                    <a href="#" class="btn btn-default btn-xs" btn-action="expand"><span class="glyphicon glyphicon-chevron-down"></span></a>
+                </div>
+
+                <input type="hidden" name="user-id" value="<?php echo $page_user->id; ?>" />
+                <input type="hidden" name="user-password-encrypted" value="<?php echo $page_user->password; ?>" />
+                
+                <p class="control-group">
+                    <label for="user-email" class="control-label"><?php print_text('E-mail'); ?></label>
+                    <input type="text" name="user-email" id="user-email" class="form-control" value="<?php echo $page_user->email; ?>">
+                </p>
+                <p class="control-group">
+                    <label for="user-username" class="control-label"><?php print_text('Username'); ?></label>
+                    <input type="text" name="user-username" id="user-username" class="form-control" value="<?php echo $page_user->username; ?>">
+                </p>
+                <p class="control-group">
+                    <label for="user-password" class="control-label"><?php print_text('Password'); ?></label>
+                    <input type="password" name="user-password" id="user-password" class="form-control" value="<?php echo $page_user->password; ?>">
+                </p>
+                <?php if (!empty($capabilities)): ?>
+                <p class="radio">
+                    <?php foreach ($capabilities AS $buffer_capability): ?>
+                    <?php if (User::HasCapability($buffer_capability->GetCapability())): ?>
+                    <label for="user-capability-<?php echo $buffer_capability->GetCapability(); ?>" class="checkbox">
+                        <input type="checkbox" name="user-capabilities[]" id="user-capability-<?php echo $buffer_capability->GetCapability(); ?>" value="<?php print_html_attr($buffer_capability->GetCapability()); ?>" <?php echo in_array($buffer_capability->GetCapability(), $page_user->capabilities) ? 'checked' : ''; ?>>
+                        <?php echo $buffer_capability->GetName(); ?>
+                    </label>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                </p>
+                <?php endif; ?>
+            </div>
+            <!-- /USER WIDGET -->
+            <?php endif; ?>
+            
+            <?php do_action('content_publish_edit_sidebar_footer', $action, $pagegroup_id, $page_id, $page_locale); ?>
+            
         </div>
+        <!-- /SIDEBAR COLUMN -->
     </div>
 </form>
+
+
+
+
+

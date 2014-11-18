@@ -16,6 +16,13 @@ require_once ICEBERG_DIR_HELPERS . 'maintenance.php';
  */
 class Maintenance extends ObjectConfig
 {
+    
+    /**
+     * Configuration use language
+     * @var boolean
+     */
+    public static $CONFIG_USE_LANGUAGE = false;
+    
     /**
      * Configuration key
      * @var string
@@ -63,7 +70,7 @@ class Maintenance extends ObjectConfig
         $ip = getIP();
         $ips = str_replace(',', ' ', static::GetConfigValue('allowed'));
         $ips = explode(' ', $ips);
-        $is = (in_array($ip, $ips) || User::IsAdmin());
+        $is = (in_array($ip, $ips) || (User::IsAdmin() && User::HasCapability('admin_root')));
         return $is;
     }
     

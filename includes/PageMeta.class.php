@@ -37,7 +37,7 @@ class PageMeta extends ObjectDBRelations
      * @var array 
      */
     public static $DB_PARENTS = array(
-        'page-meta' => array(
+        'page2meta' => array(
             'object' => 'Page',
             'force' => true,
             'function' => 'get_page_id',
@@ -45,7 +45,7 @@ class PageMeta extends ObjectDBRelations
         )
     );
     
-    const RELATION_KEY_PAGE = 'page-meta';
+    const RELATION_KEY_PAGE = 'page2meta';
     
     /**
      * Title META

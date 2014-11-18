@@ -1,75 +1,22 @@
 <?php
 
-
-function get_admin_modes_structure($args)
+function get_modes_structure($modes)
 {
-    $array = array(
-        'pagetaxonomies' => array(
+    $defaults = array(
+        PageTaxonomy::$TAXONOMY_KEY => array(
             'template' => 'structure_objtaxonomy.php',
-            'name' => 'Taxonomies'
+            'name' => _T('Taxonomies')
         ),
-        'pagetypes' => array(
+        PageType::$TAXONOMY_KEY => array(
             'template' => 'structure_objtaxonomy.php',
-            'name' => 'Types'
+            'name' => _T('Types')
         ),
-        'pagegroups' => array(
+        PageGroup::$TAXONOMY_KEY => array(
             'template' => 'structure_objtaxonomy.php',
-            'name' => 'Groups'
+            'name' => _T('Groups')
         )
     );
-    $array = array_merge(isset($args[0]) ? $args[0] : array(), $array);
-    list($array) = action_event('get_admin_modes_structure', $array);
-    return array($array);
+    $modes = array_merge($modes, $defaults);
+    return $modes;
 }
-add_action('get_modes', 'get_admin_modes_structure', 10, 1);
-
-
-function get_admin_mode_structure($args)
-{
-    list($data, $key) = $args;
-    $mode = get_request_mode();
-    $action = get_request_action();
-    if ($mode == 'pagegroups' || $mode == 'pagetypes' || $mode == 'pagetaxonomies')
-    {
-        if ($action == 'new' || $action == 'edit')
-        {
-            $data['template'] = 'structure_objtaxonomy_edit.php';
-        }
-        else if ($action == 'config')
-        {
-            $data['template'] = 'structure_objtaxonomy_config.php';
-        }
-    }
-    return array($data, $key);
-}
-add_action('get_mode', 'get_admin_mode_structure', 10, 2);
-
-
-function get_admin_breadcrumb_structure($args)
-{
-    $array = array();
-    $mode = get_request_mode();
-    $action = get_request_action();
-    $id = get_request_id();
-    if ($mode == 'pagegroups' || $mode == 'pagetypes' || $mode == 'pagetaxonomies')
-    {
-        if ($action == 'new')
-        {
-            $array[_T('New')] = get_admin_action_link(array(RoutingBackend::REQUEST_KEY_ACTION=>$action));
-        }
-        else if ($action == 'edit')
-        {
-            $obj = get_objtaxonomy($id);
-            $array[_T('Edit') . ': ' . $obj->GetName()] = get_admin_action_link(array(RoutingBackend::REQUEST_KEY_ACTION=>$action, RoutingBackend::REQUEST_KEY_ID=>$id));
-        }
-        else if ($action == 'config')
-        {
-            $obj = get_objtaxonomy($id);
-            $array[_T('Configuration') . ': ' . $obj->GetName()] = get_admin_action_link(array(RoutingBackend::REQUEST_KEY_ACTION=>$action, RoutingBackend::REQUEST_KEY_ID=>$id));
-        }
-    }
-    $array = array_merge(isset($args[0]) ? $args[0] : array(), $array);
-    list($array) = action_event('get_admin_breadcrumb_structure', $array);
-    return array($array);
-}
-add_action('get_admin_breadcrumb', 'get_admin_breadcrumb_structure', 10, 1);
+add_filter('get_modes_structure', 'get_modes_structure', 5);

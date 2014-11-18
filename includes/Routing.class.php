@@ -129,14 +129,14 @@ abstract class Routing extends Request
     public static function GetCanonicals()
     {
         $arr = array();
-        list($arr) = action_event('routing_get_canonicals', $arr);
+        $arr = apply_filters('routing_get_canonicals', $arr);
         return $arr;
     }
     
     public static function GetTypes()
     {
         $arr = array();
-        list($arr) = action_event('routing_get_types', $arr);
+        $arr = apply_filters('routing_get_types', $arr);
         return $arr;
     }
     
@@ -168,7 +168,7 @@ abstract class Routing extends Request
         {
             $url .= '#' . $hash;
         }
-        list($url, $baseurl, $params) = action_event('routing_make_url', $url, $baseurl, $params);
+        $url = apply_filters('routing_make_url', $url, $baseurl, $params);
         return $url;
     }
     
@@ -358,7 +358,7 @@ abstract class Routing extends Request
     {
         $url = self::GetBaseUrl() . str_replace(ICEBERG_DIR, '', $dir);
         $url = self::MakeURL($url, $params);
-        list($url) = action_event('request_makeurldir', $url, $dir, $params);
+        $url = apply_filters('request_makeurldir', $url, $dir, $params);
         return $url;
     }
     

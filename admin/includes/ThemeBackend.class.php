@@ -17,6 +17,7 @@ class ThemeBackend extends ThemeBackendAPI
     {
         $this->SetDirectory(ICEBERG_DIR_ADMIN_THEMES);
         static::LoadFrontendThemeSettings();
+        parent::__construct();
     }
     
     /**
@@ -25,8 +26,9 @@ class ThemeBackend extends ThemeBackendAPI
      */
     public function Page()
     {
-        $template = RoutingBackend::GetMode('template');
-        action_event('theme_print_page');
+        $template = RoutingBackend::GetAction('template');
+        do_action('theme_print_page');
+        $template = apply_filters('theme_backend_print_page', $template);
         return $this->ThemeSnippet($template);
     }
 }

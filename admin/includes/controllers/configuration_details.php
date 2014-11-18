@@ -1,46 +1,34 @@
 <?php
-$mode = get_mode('mode');
-$action = get_request_action();
-$id = get_request_id();
 
-if ($action == 'remove')
+function get_actions_configuration_details($actions)
 {
-    if (Config::UnsaveConfig($id))
-    {
-        add_alert('Configuration item removed', 'success');
-    }
-    else
-    {
-        add_alert('Failed to remove configuration item', 'error');
-    }
+    $defaults = array(
+        'list' => array(
+            'template' => 'configuration_details_list.php',
+            'name' => _T('List')
+        ),
+        'new' => array(
+            'template' => 'configuration_details_edit.php',
+            'name' => _T('New')
+        ),
+        'edit' => array(
+            'template' => 'configuration_details_edit.php',
+            'name' => _T('Edit')
+        ),
+        'remove' => array(
+            'template' => 'configuration_details_remove.php',
+            'name' => _T('Remove')
+        ),
+        'insert' => array(
+            'template' => 'configuration_details_insert.php',
+            'name' => _T('Insert')
+        ),
+        'update' => array(
+            'template' => 'configuration_details_update.php',
+            'name' => _T('Update')
+        )
+    );
+    $actions = array_merge($actions, $defaults);
+    return $actions;
 }
-else if ($action == 'insert')
-{
-    $name = get_request_gp('config_name', '', true);
-    $value = get_request_gp('config_value', '', true);
-    if (Config::SaveConfig($name, $value))
-    {
-        add_alert('Configuration item inserted', 'success');
-    }
-    else
-    {
-        add_alert('Failed to insert configuration item', 'error');
-    }
-}
-else if ($action == 'update')
-{
-    $value = get_request_gp('config_value', '', true);
-    if (Config::SaveConfig($id, $value))
-    {
-        add_alert('Configuration item updated', 'success');
-    }
-    else
-    {
-        add_alert('Failed to update configuration item', 'error');
-    }
-}
-
-
-
-
-
+add_filter('get_actions_configuration_details', 'get_actions_configuration_details', 5);

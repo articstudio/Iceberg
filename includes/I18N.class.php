@@ -18,6 +18,13 @@ require_once ICEBERG_DIR_HELPERS . 'i18n.php';
  */
 class I18N extends ObjectConfig
 {
+    
+    /**
+     * Configuration use language
+     * @var boolean
+     */
+    public static $CONFIG_USE_LANGUAGE = false;
+    
     /**
      * Configuration key
      * @var string
@@ -93,7 +100,7 @@ class I18N extends ObjectConfig
     {
         global $__LANGUAGE;
         $__LANGUAGE = ICEBERG_DEFAULT_LANGUAGE;
-        list($__LANGUAGE) = action_event('i18n_load_default', $__LANGUAGE);
+        $__LANGUAGE = apply_filters('i18n_load_default', $__LANGUAGE);
         self::LoadLanguage( $__LANGUAGE );
     }
     
@@ -108,7 +115,7 @@ class I18N extends ObjectConfig
         global $__LANGUAGES;
         $__LANGUAGES = array();
         $languages = static::GetConfigValue('languages', array());
-        list($__LANGUAGES) = action_event('i18n_load_dinamics', $languages);
+        $__LANGUAGES = apply_filters('i18n_load_dinamics', $languages);
         $__LANGUAGES = static::NormalizeLanguages($__LANGUAGES);
     }
 
@@ -130,17 +137,29 @@ class I18N extends ObjectConfig
         }
         $file_lang =  ICEBERG_DIR_LANGUAGES . $__LANGUAGE . '.php';
         $_TEXT = array();
+        $_LANGUAGE = array();
         if ( is_file($file_lang) && is_readable($file_lang) )
         {
             include( $file_lang );
+            if (!isset($__LANGUAGES[$__LANGUAGE]))
+            {
+                $__LANGUAGES[$__LANGUAGE] = static::NormalizeLanguage($_LANGUAGE);
+            }
         }
-        list($_TEXT, $lang) = action_event('i18n_load_language', $_TEXT, $lang);
+        $_TEXT = apply_filters('i18n_load_language', $_TEXT, $lang);
         $__I18N_TEXT[$__LANGUAGE] = array_merge($__I18N_TEXT[$__LANGUAGE], $_TEXT);
         setlocale(LC_ALL, $__LANGUAGE);
         $done = true;
         if ($forceConfig)
         {
-            $done = Config::LoadConfig();
+            $config_classes = getSubclassesOf('ObjectConfig');
+            $config = array();
+            $configAll = array();
+            foreach ($config_classes AS $class)
+            {
+                ($class::$CONFIG_USE_LANGUAGE) ? ($config[] = $class::$CONFIG_KEY) : ($configAll[] = $class::$CONFIG_KEY);
+            }
+            $done = Config::LoadConfig($config);
             if ($done)
             {
                 static::LoadDinamicLanguages();
@@ -181,7 +200,8 @@ class I18N extends ObjectConfig
         {
             include( $file_lang );
         }
-        list($_TEXT, $lang) = action_event('i18n_load_language_extension', $_TEXT, $lang);
+        //$_TEXT = do_action('i18n_load_language_extension', $_TEXT, $lang);
+        do_action('i18n_load_language_extension', $_TEXT, $lang);
         $__I18N_TEXT[$lang] = array_merge($__I18N_TEXT[$lang], $_TEXT);
         return true;
     }
@@ -221,7 +241,7 @@ class I18N extends ObjectConfig
         $languages = static::GetLanguages();
         $return = array();
         foreach ($languages AS $key => $value) {
-            if (isset($value['active']) && $value['active']==true) {
+            if (isset($value['active']) && $value['active']===true) {
                 $return[$key]=$value;
             }
         }
@@ -239,7 +259,7 @@ class I18N extends ObjectConfig
         $languages = static::GetActiveLanguages();
         $return = array();
         foreach ($languages AS $key => $value) {
-            if ($value['visible']==true) {
+            if ($value['visible']===true) {
                 $return[$key]=$value;
             }
         }

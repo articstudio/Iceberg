@@ -11,11 +11,11 @@ function is_maintenance_allowed()
 }
 
 function maintenance() {
-    action_event('maintenance_start');
+    do_action('maintenance_start');
     Config::SetConfig('maintenance_theme_file', 'maintenance.php');
     Config::SetConfig('maintenance_theme_url', Config::GetConfig('theme_url'));
     Config::SetConfig('maintenance_theme_path', Config::GetConfig('theme_path'));
-    action_event('maintenance_postconfig');
+    do_action('maintenance_postconfig');
     $file=Config::GetConfig('maintenance_theme_path') . Config::GetConfig('maintenance_theme_file');
     if (is_file($file)) { theme_load($file); }
     else {
@@ -35,6 +35,6 @@ function maintenance() {
         </html>
         <?php
     }
-    action_event('maintenance_stop');
+    do_action('maintenance_stop');
     die();
 }

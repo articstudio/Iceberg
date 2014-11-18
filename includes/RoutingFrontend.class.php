@@ -3,14 +3,17 @@
 /** Include helpers routing file */
 require_once ICEBERG_DIR_HELPERS . 'routing-frontend.php';
 
-add_action('routing_get_canonicals', 'routing_get_canonicals_fontend', 10, 1);
-add_action('routing_get_types', 'routing_get_types_frontend', 10, 1);
-add_action('routingfrontend_make_url_canonical_' . RoutingFrontend::CANONICAL_NOT_FORCE, 'routingfrontend_make_url_canonical_not_force', 10, 3);
-add_action('routingfrontend_make_url_canonical_' . RoutingFrontend::CANONICAL_FORCE, 'routingfrontend_make_url_canonical_force', 10, 3);
-add_action('routingfrontend_make_url_canonical_' . RoutingFrontend::CANONICAL_FORCE_BY_LANGUAGE, 'routingfrontend_make_url_canonical_force_by_language', 10, 3);
-add_action('routingfrontend_make_url_type_' . RoutingFrontend::TYPE_BASIC, 'routingfrontend_make_url_type_basic', 10, 3);
-add_action('routingfrontend_make_url_type_' . RoutingFrontend::TYPE_PERMALINK, 'routingfrontend_make_url_type_permalink', 10, 3);
-add_action('routingfrontend_make_url_type_' . RoutingFrontend::TYPE_PERMALINK_HTML_EXT, 'routingfrontend_make_url_type_permalink_html_ext', 10, 3);
+add_filter('routing_get_canonicals', 'routing_get_canonicals_fontend', 10);
+add_filter('routing_get_types', 'routing_get_types_frontend', 10);
+
+//add_filter('routingfrontend_make_url_canonical_' . RoutingFrontend::CANONICAL_NOT_FORCE, 'routingfrontend_make_url_canonical_not_force', 10, 3);
+add_filter('routingfrontend_make_url_canonical_' . RoutingFrontend::CANONICAL_FORCE, 'routingfrontend_make_url_canonical_force', 10, 3);
+add_filter('routingfrontend_make_url_canonical_' . RoutingFrontend::CANONICAL_FORCE_BY_LANGUAGE, 'routingfrontend_make_url_canonical_force_by_language', 10, 3);
+
+add_filter('routingfrontend_make_url_type_' . RoutingFrontend::TYPE_BASIC, 'routingfrontend_make_url_type_basic', 10, 3);
+add_filter('routingfrontend_make_url_type_' . RoutingFrontend::TYPE_PERMALINK, 'routingfrontend_make_url_type_permalink', 10, 3);
+add_filter('routingfrontend_make_url_type_' . RoutingFrontend::TYPE_PERMALINK_HTML_EXT, 'routingfrontend_make_url_type_permalink_html_ext', 10, 3);
+
 add_action('routingfrontend_parserequest_type_' . RoutingFrontend::TYPE_BASIC, 'routingfrontend_parserequest_type_basic', 10, 0);
 add_action('routingfrontend_parserequest_type_' . RoutingFrontend::TYPE_PERMALINK, 'routingfrontend_parserequest_type_permalink', 10, 0);
 add_action('routingfrontend_parserequest_type_' . RoutingFrontend::TYPE_PERMALINK_HTML_EXT, 'routingfrontend_parserequest_type_permalink_html_ext', 10, 0);
@@ -50,7 +53,7 @@ class RoutingFrontend extends Routing
         Session::SetValue(static::REQUEST_KEY_LANGUAGE, $this->request[static::REQUEST_KEY_LANGUAGE]);
         $this->SetLanguage($this->request[static::REQUEST_KEY_LANGUAGE]);
         $r_type = get_routing_type();
-        action_event('routingfrontend_parserequest_type_' . $r_type);
+        do_action('routingfrontend_parserequest_type_' . $r_type);
     }
     
     
@@ -81,7 +84,7 @@ class RoutingFrontend extends Routing
             }
             array_push($breadcrumb, $page);
         }
-        list($breadcrumb, $page_id) = action_event('get_breadcrumb', $breadcrumb, $page_id);
+        $breadcrumb = apply_filters('get_breadcrumb', $breadcrumb, $page_id);
         return $breadcrumb;
     }
     
@@ -106,31 +109,29 @@ class RoutingFrontend extends Routing
     }
     
     
-    public static function GetFrontendCanonicals($args=array())
+    public static function GetFrontendCanonicals($arr)
     {
-        list($arr) = $args;
-        $arr[static::CANONICAL_NOT_FORCE] = 'Not force';
-        $arr[static::CANONICAL_FORCE] = 'Force canonical domain';
-        $arr[static::CANONICAL_FORCE_BY_LANGUAGE] = 'Force canonical domain by language';
-        return array($arr);
+        $arr[static::CANONICAL_NOT_FORCE] = _T('Not force');
+        $arr[static::CANONICAL_FORCE] = _T('Force canonical domain');
+        $arr[static::CANONICAL_FORCE_BY_LANGUAGE] = _T('Force canonical domain by language');
+        return $arr;
     }
     
-    public static function GetFrontendTypes($args=array())
+    public static function GetFrontendTypes($arr)
     {
-        list($arr) = $args;
         $arr[static::TYPE_BASIC] = array(
-            'name' => 'Basic routing',
+            'name' => _T('Basic routing'),
             'example' => 'http://www.example.com/?lang=en_US&page=10'
         );
         $arr[static::TYPE_PERMALINK] = array(
-            'name' => 'Permalink routing 1',
+            'name' => _T('Permalink routing 1'),
                 'example' => 'http://www.example.com/en/hello-world'
         );
         $arr[static::TYPE_PERMALINK_HTML_EXT] = array(
-            'name' => 'Permalink routing 2',
+            'name' => _T('Permalink routing 2'),
                 'example' => 'http://www.example.com/en/hello-world.html'
         );
-        return array($arr);
+        return $arr;
     }
     
     public static function MakeURL($params=array(), $baseurl=null)
@@ -147,17 +148,16 @@ class RoutingFrontend extends Routing
         if ($baseurl == $canonical_url || in_array($baseurl, $childs_url))
         {
             $r_canonical = get_routing_canonical();
-            list($url, $baseurl, $params) = action_event('routingfrontend_make_url_canonical_' . $r_canonical, $url, $baseurl, $params);
+            $url = apply_filters('routingfrontend_make_url_canonical_' . $r_canonical, $url, $baseurl, $params);
             $r_type = get_routing_type();
-            list($url, $baseurl, $params) = action_event('routingfrontend_make_url_type_' . $r_type, $url, $baseurl, $params);
+            $url = apply_filters('routingfrontend_make_url_type_' . $r_type, $url, $baseurl, $params);
         }
-        list($url, $baseurl, $params) = action_event('routingfrontend_make_url', $url, $baseurl, $params);
+        $url = apply_filters('routingfrontend_make_url', $url, $baseurl, $params);
         return $url;
     }
     
-    public static function MakeURLCanonicalForce($args=array())
+    public static function MakeURLCanonicalForce($url, $baseurl, $params)
     {
-        list($url, $baseurl, $params) = $args;
         $default_language = I18N::GetDefaultLanguage();
         if (isset($params[static::REQUEST_KEY_LANGUAGE]) && $params[static::REQUEST_KEY_LANGUAGE] === $default_language)
         {
@@ -166,12 +166,11 @@ class RoutingFrontend extends Routing
         }
         $baseurl = Domain::GetCanonical();
         $url = parent::MakeURL($params, $baseurl);
-        return array($url, $baseurl, $params);
+        return $url;
     }
     
-    public static function MakeURLCanonicalForceByLanguage($args=array())
+    public static function MakeURLCanonicalForceByLanguage($url, $baseurl, $params)
     {
-        list($url, $baseurl, $params) = static::MakeURLCanonicalForce($args);
         $default_language = I18N::GetDefaultLanguage();
         $locale = isset($params[static::REQUEST_KEY_LANGUAGE]) ? $params[static::REQUEST_KEY_LANGUAGE] : $default_language;
         if ($locale !== $default_language)
@@ -191,20 +190,20 @@ class RoutingFrontend extends Routing
                 }
             }
         }
-        return array($url, $baseurl, $params);
+        return $url;
     }
     
-    public static function MakeURLTypeBasic($args=array())
+    public static function MakeURLTypeBasic($url, $baseurl, $params)
     {
-        list($url, $baseurl, $params) = $args;
         $baseurl = is_null($baseurl) ? Domain::GetCanonical() : $baseurl;
         $url = parent::MakeURL($params, $baseurl);
-        return array($url, $baseurl, $params);
+        return $url;
     }
     
-    public static function MakeURLTypePermalink($args=array())
+    public static function MakeURLTypePermalink($url, $baseurl, $params)
     {
-        list($url, $baseurl, $params) = static::MakeURLTypeBasic($args); 
+        $baseurl = is_null($baseurl) ? Domain::GetCanonical() : $baseurl;
+        $url = parent::MakeURL($params, $baseurl);
         $domain_name = explode('://', $baseurl);
         $domain_name = isset($domain_name[1]) ? $domain_name[1] : $domain_name[0];
         $domain = Domain::GetDomainByName($domain_name);
@@ -297,19 +296,19 @@ class RoutingFrontend extends Routing
         $query = http_build_query($params);
         $url .= empty($query) ? '' : '?' . $query;
         $url .= empty($hash) ? '' : '#' . $hash;
-        return array($url, $baseurl, $params);
+        return $url;
     }
     
-    public static function MakeURLTypePermalinkHTMLExt($args=array())
+    public static function MakeURLTypePermalinkHTMLExt($url, $baseurl, $params)
     {
-        list($url, $baseurl, $params) = static::MakeURLTypePermalink($args);
+        $url = static::MakeURLTypePermalink($url, $baseurl, $params);
         $url = explode('?', $url);
         if (substr($url[0], -1) !== '/')
         {
             $url[0] .= '.html';
         }
         $url = implode('?', $url);
-        return array($url, $baseurl, $params);
+        return $url;
     }
     
     public static function ParseRequestTypeBasic($args=array())

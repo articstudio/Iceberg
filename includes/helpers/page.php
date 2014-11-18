@@ -5,6 +5,16 @@ function get_pages($args=array(), $lang=null, $cache=true, $metas=true)
     return Page::GetList($args, $lang, $cache, $metas);
 }
 
+function get_pages_ids($args=array(), $lang=null, $cache=true)
+{
+    return Page::GetListIDs($args, $lang, $cache);
+}
+
+function get_pages_count($args=array(), $lang=null, $cache=true)
+{
+    return Page::GetCountList($args, $lang, $cache);
+}
+
 function get_page_id()
 {
     return Page::GetPageID();

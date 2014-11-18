@@ -38,12 +38,17 @@ define('ICEBERG_DIR_API',               ICEBERG_DIR . 'api' . DIRECTORY_SEPARATO
 /**
  * Debug mode (Boolean)
  */
-define('ICEBERG_DEBUG_MODE',            TRUE);
+define('ICEBERG_DEBUG_MODE',            FALSE);
 
 /**
  * Default language
  */
 define('ICEBERG_DEFAULT_LANGUAGE',      'ca_ES');
+
+/**
+ * NONCE key
+ */
+define('ICEBERG_NONCE',                 'jhn587g5HY58ghsd9y87H&Yg8gtdu7ygtsdyut/jguy7gfzHH');
 
 /**
  * DB tables configuration and file

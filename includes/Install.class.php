@@ -47,6 +47,11 @@ class Install
     const REQUEST_KEY_DB_LIST = 'dbslist';
     
     /**
+     * Request key for database prefix
+     */
+    const REQUEST_KEY_DB_PREFIX = 'dbprefix';
+    
+    /**
      * Request key for domains list
      */
     const REQUEST_KEY_DOMAINS_LIST = 'domainslist';
@@ -74,7 +79,12 @@ class Install
     
     public static function IsInstallationProcess()
     {
-        return (!defined('ICEBERG_DB_PREFIX') || Request::IssetKeyGP(self::REQUEST_KEY_REINSTALL));
+        return (!defined('ICEBERG_DB_PREFIX') || static::IsReInstallationProcess());
+    }
+    
+    public static function IsReInstallationProcess()
+    {
+        return (Request::IssetKeyGP(self::REQUEST_KEY_REINSTALL) && IcebergSecurity::CheckNonce('iceberg_reinstall', Request::GetValueGP(self::REQUEST_KEY_REINSTALL)));
     }
     
     public static function Initialize()
@@ -82,7 +92,7 @@ class Install
         if (defined('ICEBERG_INSTALL'))
         {
             /* Reinstallation */
-            if (Request::IssetKeyGP(self::REQUEST_KEY_REINSTALL))
+            if (static::IsReInstallationProcess())
             {
                 define('ICEBERG_REINSTALL', true);
                 self::SetStep(count(self::$STEPS)-2);
@@ -130,7 +140,7 @@ class Install
     public static function GetStep($key=null)
     {
         $steps = self::GetSteps();
-        $key = Request::GetValueGP(self::REQUEST_KEY_STEP, 0);
+        $key = is_null($key) ? (int)Request::GetValueGP(self::REQUEST_KEY_STEP, 0) : (int)$key;
         return isset($steps[$key]) ? $steps[$key] : $steps[0];
     }
     
@@ -141,13 +151,15 @@ class Install
     
     public static function Template()
     {
-        $step = self::GetStep();
+        print_template(ICEBERG_DIR_INSTALL . 'index.php', get_install_url());
+        
+        /*$step = self::GetStep();
         $file_index = ICEBERG_DIR_INSTALL . 'index.php';
         $tpl_index = get_template($file_index, get_install_url(), null);
         $file_step = ICEBERG_DIR_INSTALL . strtolower($step) . '.php';
         $tpl_step = get_template($file_step, get_install_url(), null);
         $tpl = str_replace('%CONTENT%', $tpl_step, $tpl_index);
-        print $tpl;
+        print $tpl;*/
     }
     
     public static function INSTRUCTIONS()
@@ -166,31 +178,38 @@ class Install
     
     public static function INSTALLATION()
     {
-        $dbs = Request::GetValueGP(self::REQUEST_KEY_DB_LIST, array(), true);
-        $dbs = str_replace(array('"[',']"'), array('[',']'), $dbs);
-        $dbs = json_decode($dbs, true);
-        $done = self::GenerateDBFile($dbs);
-        if ($done)
+        if (IcebergSecurity::CheckNonce('iceberg_install', Request::GetValueGP(IcebergSecurity::REQUEST_KEY_NONCE)))
         {
-            $done = self::CreateDBTables();
+            $dbs = Request::GetValueGP(self::REQUEST_KEY_DB_LIST, '[]', true);
+            $dbs = str_replace(array('"[',']"'), array('[',']'), $dbs);
+            $dbs = json_decode($dbs, true);
+            $done = self::GenerateDBFile($dbs);
             if ($done)
             {
-                $domain = get_base_url(false);
-                $domainAliases = json_decode(Request::GetValueGP(self::REQUEST_KEY_DOMAINS_LIST, '[]', true), true);
-                $timezone = Request::GetValueGP(self::REQUEST_KEY_TIMEZONE, date_default_timezone_get(), true);
-                $username = Request::GetValueGP(self::REQUEST_KEY_USERNAME, '', true);
-                $password = Request::GetValueGP(self::REQUEST_KEY_PASSWORD, '', true);
-                $email = Request::GetValueGP(self::REQUEST_KEY_EMAIL, '', true);
-                $domainID = self::NewDomain($domain, $domainAliases, $timezone, $username, $password, $email);
+                $done = self::CreateDBTables();
+                if ($done)
+                {
+                    $domain = get_base_url(false);
+                    $domainAliases = json_decode(Request::GetValueGP(self::REQUEST_KEY_DOMAINS_LIST, '[]', true), true);
+                    $timezone = Request::GetValueGP(self::REQUEST_KEY_TIMEZONE, date_default_timezone_get(), true);
+                    $username = Request::GetValueGP(self::REQUEST_KEY_USERNAME, '', true);
+                    $password = Request::GetValueGP(self::REQUEST_KEY_PASSWORD, '', true);
+                    $email = Request::GetValueGP(self::REQUEST_KEY_EMAIL, '', true);
+                    $domainID = self::NewDomain($domain, $domainAliases, $timezone, $username, $password, $email);
+                }
             }
-        }
-        if (count_install_errors() == 0)
-        {
-            add_install_alert('Install finished correctly.');
+            if (count_install_errors() == 0)
+            {
+                add_install_alert('Install finished correctly.');
+            }
+            else
+            {
+                add_install_alert('Install not finished.', 'error');
+            }
         }
         else
         {
-            add_install_alert('Install not finished.', 'error');
+            add_install_alert('Installation error', 'error');
         }
     }
     
@@ -205,7 +224,8 @@ class Install
         $__ICEBERG_DB = array();
         $dbs_php_arr = array();
         $tab = '    ';
-        foreach ($dbs AS $value) {
+        foreach ($dbs AS $value)
+        {
             $db_php_arr = array(
                 $tab . $tab ."'host'=>'" . $value[0] . "'",
                 $tab . $tab ."'port'=>'" . $value[1] . "'",
@@ -292,7 +312,7 @@ class Install
         return $done;
     }
     
-    protected static function AddRoot($domainID, $user, $password=null, $email=null)
+    protected static function AddRoot($domainID, $role_id, $user, $password=null, $email=null)
     {
         if (is_int($user) && is_null($password) && is_null($email))
         {
@@ -301,15 +321,15 @@ class Install
         }
         else if (is_string($user) && is_string($password) && is_string($email))
         {
-            $userID = User::DB_Insert(array(
+            $userID = User::Insert(array(
                 'email' => $email,
                 'username' => $user,
-                'password' => User::EnctryptPassword($password),
-                'level' => 999
+                'password' => $password,
+                'role' => $role_id
             ));
             if ($userID)
             {
-                $done = User::Login($user, $password);
+                $done = User::Login($user, $password, IcebergSecurity::MakeNonce('login'));
                 if (!$done)
                 {
                     add_install_error('Root user login.');
@@ -438,8 +458,65 @@ class Install
             /* TAXONOMY ELEMENTS */
             TaxonomyElements::SaveConfig(array());
             
+            /* ROLES */
+            $role_root = new UserRole(array(
+                'name' => _T('Root'),
+                'capabilities' => array(
+                    'admin_root'
+                )
+            ));
+            $role_root_id = UserRole::Insert($role_root);
+            $role_admin = new UserRole(array(
+                'name' => _T('Administrator'),
+                'capabilities' => array(
+                    'admin_login',
+                    'module_dashboard_full',
+                    'module_structure_full',
+                    'module_content_full',
+                    'module_media_full',
+                    'module_extensions_full',
+                    'module_profile_full',
+                    'module_configuration_full',
+                    'media_edit'
+                )
+            ));
+            UserRole::Insert($role_admin);
+            $role_editor = new UserRole(array(
+                'name' => _T('Editor'),
+                'capabilities' => array(
+                    'admin_login',
+                    'module_content_full',
+                    'module_media_full',
+                    'module_profile_own',
+                    'media_edit'
+                )
+            ));
+            UserRole::Insert($role_editor);
+            $role_translator = new UserRole(array(
+                'name' => _T('Author'),
+                'capabilities' => array(
+                    'admin_login',
+                    'module_content_own',
+                    'module_media_own',
+                    'module_profile_own',
+                    'media_edit_own'
+                )
+            ));
+            UserRole::Insert($role_translator);
+            $role_user = new UserRole(array(
+                'name' => _T('User'),
+                'capabilities' => array()
+            ));
+            $role_user_id = UserRole::Insert($role_user);
+            
+            /* USER CONFIG */
+            UserConfig::SaveConfig(array(
+                'rootrole' => $role_root_id,
+                'defaultrole' => $role_user_id
+            ));
+            
             /* ROOT USER */
-            $userID = self::AddRoot($domainID, $user, $password, $email);
+            $userID = static::AddRoot($domainID, $role_root_id, $user, $password, $email);
             
             /**
              * Metatags

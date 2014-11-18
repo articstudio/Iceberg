@@ -1,16 +1,14 @@
 <?php
 
-
-function get_admin_modes_extensions($args)
+function get_modes_extensions($modes)
 {
-    $array = array(
-        'list' => array(
-            'template' => 'extensions_list.php',
-            'name' => 'List'
+    $defaults = array(
+        'addeds' => array(
+            'template' => 'extensions_addeds.php',
+            'name' => _T('Addeds')
         )
     );
-    $array = array_merge(isset($args[0]) ? $args[0] : array(), $array);
-    list($array) = action_event('get_admin_modes_extensions', $array);
-    return array($array);
+    $modes = array_merge($modes, $defaults);
+    return $modes;
 }
-add_action('get_modes', 'get_admin_modes_extensions', 10, 1);
+add_filter('get_modes_extensions', 'get_modes_extensions', 5);

@@ -15,6 +15,13 @@ require_once ICEBERG_DIR_HELPERS . 'themes.php';
  */
 abstract class ThemeBase extends ObjectConfig
 {
+    
+    /**
+     * Configuration use language
+     * @var boolean
+     */
+    public static $CONFIG_USE_LANGUAGE = false;
+    
     /**
      * Configuration key
      * @var string
@@ -44,18 +51,9 @@ abstract class ThemeBase extends ObjectConfig
      * @var array
      */
     public static $CONFIG_DEFAULTS = array(
-        'frontend' => array(
-            'name' => 'Iceberg default theme',
-            'dirname' => 'default'
-        ),
-        'backend' => array(
-            'name' => 'Iceberg default theme',
-            'dirname' => 'default'
-        ),
-        'api' => array(
-            'name' => 'Iceberg default theme',
-            'dirname' => 'default'
-        )
+        'frontend' => 'default',
+        'backend' => 'default',
+        'api' => 'default'
     );
     
     /**
@@ -84,6 +82,48 @@ abstract class ThemeBase extends ObjectConfig
     protected static $HEADER_FILE = 'header.php';
     protected static $FOOTER_FILE = 'footer.php';
     protected static $PAGE_FILE = 'page.php';
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        // Styles
+        $this->RegisterStyle('bootstrap', get_dependences_url() . 'bootstrap/css/bootstrap.min.css', '3.2.0');
+        $this->RegisterStyle('bootstrap-theme', get_dependences_url() . 'bootstrap/css/bootstrap-theme.min.css', '3.2.0', array('bootstrap'));
+
+        $this->RegisterStyle('jquery-ui', get_dependences_url() . 'jquery-ui/jquery-ui.min.css', '1.11.2');
+        $this->RegisterStyle('jquery-ui-theme', get_dependences_url() . 'jquery-ui/jquery-ui.theme.min.css', '1.11.2', array('jquery-ui'));
+        
+        $this->RegisterStyle('datatables', get_dependences_url() . 'datatables/css/jquery.dataTables.min.css', '1.10.3');
+        $this->RegisterStyle('datatables-bootstrap', get_dependences_url() . 'datatables/integration/bootstrap/dataTables.bootstrap.css', '1.10.3', array('datatables'));
+        $this->RegisterStyle('datatables-tabletools', get_dependences_url() . 'datatables/extensions/TableTools/css/dataTables.tableTools.min.css', '1.10.3', array('datatables'));
+        
+        $this->RegisterStyle('elfinder', get_dependences_url() . 'elfinder/css/elfinder.min.css', '2.0');
+        $this->RegisterStyle('elfinder-theme', get_dependences_url() . 'elfinder/css/theme.css', '2.0', array('elfinder','jquery-ui-theme'));
+        
+        // Scripts
+        $this->RegisterScript('modernizr', get_dependences_url() . 'modernizr.js', '2.8.3');
+        
+        $this->RegisterScript('jquery', get_dependences_url() . 'jquery/jquery.min.js', '2.1.1', array(), true);
+        $this->RegisterScript('jquery-migrate', get_dependences_url() . 'jquery/jquery-migrate.min.js', '1.2.1', array('jquery'), true);
+        $this->RegisterScript('jquery-validate', get_dependences_url() . 'jquery-validate/jquery.validate.min.js', '1.13.0', array('jquery'), true);
+
+        $this->RegisterScript('jquery-ui', get_dependences_url() . 'jquery-ui/jquery-ui.min.js', '1.11.2', array('jquery'), true);
+
+        $this->RegisterScript('bootstrap', get_dependences_url() . 'bootstrap/js/bootstrap.min.js', '3.2.0', array('jquery'), true);
+
+        $this->RegisterScript('datatables', get_dependences_url() . 'datatables/js/jquery.dataTables.min.js', '1.10.3', array('jquery'), true);
+        $this->RegisterScript('datatables-bootstrap', get_dependences_url() . 'datatables/integration/bootstrap/dataTables.bootstrap.js', '1.10.3', array('datatables'), true);
+        $this->RegisterScript('datatables-tabletools', get_dependences_url() . 'datatables/extensions/TableTools/js/dataTables.tableTools.min.js', '2.2.3', array('datatables'), true);
+        $this->RegisterScript('datatables-rowreordering', get_dependences_url() . 'datatables/extensions/RowReordering/js/dataTables.rowReordering.min.js', '1.2.1', array('datatables'), true);
+        
+        $this->RegisterScript('elfinder', get_dependences_url() . 'elfinder/js/elfinder.min.js', '2.0', array('jquery'), true);
+        $this->RegisterScript('elfinder-iceberg', get_dependences_url() . 'elfinder/iceberg.js', '1.0', array('jquery','elfinder'), true);
+        
+        $this->RegisterScript('ckeditor', get_dependences_url() . 'ckeditor/ckeditor.js', '4.4.5', array('jquery'), true);
+
+    }
     
     public static function GetFrontendTheme()
     {
@@ -148,19 +188,15 @@ abstract class ThemeBase extends ObjectConfig
         $type = $type=='backend' ? $type : 'frontend';
         $dir = $type=='backend' ? ICEBERG_DIR_ADMIN_THEMES : ICEBERG_DIR_THEMES;
         $theme = static::GetThemeFileInfo($dir, $dirname);
-        $theme_config = array(
-            'name' => $theme['name'],
-            'dirname' => $dirname
-        );
         
         $install_file = $theme['dir'] . DIRECTORY_SEPARATOR . static::$INSTALL_FILE;
         $install_settings_file = $theme['dir'] . DIRECTORY_SEPARATOR . static::$SETTINGS_FILE;
         
-        $config_buffer = static::GetConfigValue($type, array('dirname'=>''));
-        $uninstall_file = $dir . $config_buffer['dirname'] . DIRECTORY_SEPARATOR . static::$UNINSTALL_FILE;
+        $buffer_dirname = static::GetConfigValue($type, '');
+        $uninstall_file = $dir . $buffer_dirname . DIRECTORY_SEPARATOR . static::$UNINSTALL_FILE;
         //$uninstall_settings_file = $dir . $config_buffer['dirname'] . DIRECTORY_SEPARATOR . static::$SETTINGS_FILE;
         
-        $done = static::SaveConfigValue($type, $theme_config, Config::REPLICATE_ALL_LANGUAGES);
+        $done = static::SaveConfigValue($type, $theme['dirname']);
         if ($done)
         {
             //if (is_file($uninstall_settings_file) && is_readable($uninstall_settings_file)) {
@@ -207,8 +243,9 @@ abstract class Theme extends ThemeBase
     {
         if (is_null($dirname))
         {
-            $theme = Theme::GetConfigValue(static::$THEME_CONFIG_KEY, array());
-            $dirname = isset($theme['dirname']) ? $theme['dirname'] : '';
+            //$theme = Theme::GetConfigValue(static::$THEME_CONFIG_KEY, array());
+            //$dirname = isset($theme['dirname']) ? $theme['dirname'] : '';
+            $dirname = Theme::GetConfigValue(static::$THEME_CONFIG_KEY, array());
         }
         $this->directory = $basedir . $dirname . DIRECTORY_SEPARATOR;
         $this->url = File::GetURL($this->directory, ICEBERG_DIR, Request::GetBaseUrl());
@@ -292,7 +329,7 @@ abstract class Theme extends ThemeBase
      */
     public function Header()
     {
-        action_event('theme_print_header');
+        do_action('theme_print_header');
         return $this->ThemeSnippet(static::$HEADER_FILE);
     }
     
@@ -302,7 +339,7 @@ abstract class Theme extends ThemeBase
      */
     public function Footer()
     {
-        action_event('theme_print_footer');
+        do_action('theme_print_footer');
         return $this->ThemeSnippet(static::$FOOTER_FILE);
     }
     
@@ -312,7 +349,7 @@ abstract class Theme extends ThemeBase
      */
     public function Page()
     {
-        action_event('theme_print_page');
+        do_action('theme_print_page');
         return $this->ThemeSnippet(static::$PAGE_FILE);
     }
     
@@ -335,6 +372,22 @@ abstract class Theme extends ThemeBase
             $this->scripts_reg[$name][$version] = $script;
         }
         return true;
+    }
+    
+    public function LocalizeScript($name, $localize_name, $translation=array())
+    {
+        $name = (string)$name;
+        $localize_name = (string)$localize_name;
+        if (isset($this->scripts_reg[$name]) && is_array($translation))
+        {
+            if (!isset($this->scripts_reg[$name]['localize'])) { $this->scripts_reg[$name]['localize'] = array(); }
+            if (!isset($this->scripts_reg[$name]['localize'][$localize_name]))
+            {
+                $this->scripts_reg[$name]['localize'][$localize_name] = $translation;
+                return true;
+            }
+        }
+        return false;
     }
     
     public function EnqueueScript($name, $url='', $version=null, $dependency=array(), $in_footer=false)
@@ -406,21 +459,56 @@ abstract class Theme extends ThemeBase
      */
     public function Head()
     {
-        action_event('theme_print_head');
+        do_action('theme_print_head');
         $output = '';
         /* SCRIPTS */
         foreach ($this->scripts_enqueue AS $name => $versions)
         {
             $found = false;
+            $localizes = array();
             if (isset($this->scripts_reg[$name]))
             {
-                $versions = array_merge($versions, $this->scripts_reg[$name]);
+                $regs = $this->scripts_reg[$name];
+                if (isset($regs['localize']))
+                {
+                    $localizes = $regs['localize'];
+                    unset($regs['localize']);
+                }
+                $versions = array_merge($versions, $regs);
             }
             krsort($versions, SORT_NUMERIC);
             foreach ($versions AS $version => $script)
             {
                 if (!empty($script['url']) && !$script['in_footer'])
                 {
+                    if (!empty($localizes))
+                    {
+                        $output .= '<script type="text/javascript">' . "\n";
+                        foreach ($localizes AS $localize_var => $localize_translations)
+                        {
+                            $output .= 'var ' . $localize_var . ' = {' . "\n";
+                            $n = 0;
+                            foreach ($localize_translations AS $translation_name => $translation_value)
+                            {
+                                $output .= $n>0 ? ',' : '';
+                                if (is_string($translation_value))
+                                {
+                                    $output .= $translation_name . ' : "' . addslashes($translation_value) . '"' . "\n";
+                                }
+                                else if (is_numeric($translation_value))
+                                {
+                                    $output .= $translation_name . ' : ' . addslashes($translation_value) . "\n";
+                                }
+                                else if (is_object($translation_value) || is_array($translation_value))
+                                {
+                                    $output .= $translation_name . ' : ' . json_encode($translation_value) . "\n";
+                                }
+                                ++$n;
+                            }
+                            $output .= '};' . "\n";
+                        }
+                        $output .= '</script>' . "\n";
+                    }
                     $output .= '<script type="text/javascript" src="' . get_html_attr($script['url']) . '?v=' . get_html_attr($version) . '"></script>' . "\n";
                     $found = false;
                     break;
@@ -469,21 +557,56 @@ abstract class Theme extends ThemeBase
      */
     public function Foot()
     {
-        action_event('theme_print_foot');
+        do_action('theme_print_foot');
         $output = '';
         /* SCRIPTS */
         foreach ($this->scripts_enqueue AS $name => $versions)
         {
             $found = false;
+            $localizes = array();
             if (isset($this->scripts_reg[$name]))
             {
-                $versions = array_merge($versions, $this->scripts_reg[$name]);
+                $regs = $this->scripts_reg[$name];
+                if (isset($regs['localize']))
+                {
+                    $localizes = $regs['localize'];
+                    unset($regs['localize']);
+                }
+                $versions = array_merge($versions, $regs);
             }
             krsort($versions, SORT_NUMERIC);
             foreach ($versions AS $version => $script)
             {
                 if (!empty($script['url']) && $script['in_footer'])
                 {
+                    if (!empty($localizes))
+                    {
+                        $output .= '<script type="text/javascript">' . "\n";
+                        foreach ($localizes AS $localize_var => $localize_translations)
+                        {
+                            $output .= 'var ' . $localize_var . ' = {' . "\n";
+                            $n = 0;
+                            foreach ($localize_translations AS $translation_name => $translation_value)
+                            {
+                                $output .= $n>0 ? ',' : '';
+                                if (is_string($translation_value))
+                                {
+                                    $output .= $translation_name . ' : "' . addslashes($translation_value) . '"' . "\n";
+                                }
+                                else if (is_numeric($translation_value))
+                                {
+                                    $output .= $translation_name . ' : ' . addslashes($translation_value) . "\n";
+                                }
+                                else if (is_object($translation_value) || is_array($translation_value))
+                                {
+                                    $output .= $translation_name . ' : ' . json_encode($translation_value) . "\n";
+                                }
+                                ++$n;
+                            }
+                            $output .= '};' . "\n";
+                        }
+                        $output .= '</script>' . "\n";
+                    }
                     $output .= '<script type="text/javascript" src="' . get_html_attr($script['url']) . '?v=' . get_html_attr($version) . '"></script>' . "\n";
                     $found = false;
                     break;
@@ -541,7 +664,8 @@ abstract class Theme extends ThemeBase
     static public function CMSGetTemplateFileBasic($key)
     {
         $file = isset(CMSTheme::$theme_files[$key]) ? CMSTheme::$theme_files[$key] : CMSTheme::$theme_file_null;
-        list($file) = action_event('theme_get_template_file_basic', $file, CMSTheme::$theme_files, $key);
+        //list($file) = do_action('theme_get_template_file_basic', $file, CMSTheme::$theme_files, $key);
+        do_action('theme_get_template_file_basic', $file, CMSTheme::$theme_files, $key);
         return $file;
     }
     

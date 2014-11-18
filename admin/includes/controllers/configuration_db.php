@@ -1,48 +1,22 @@
 <?php
 
-$action = get_request_action();
-
-if ($action == 'backup')
+function get_actions_configuration_db($actions)
 {
-    $args = array(
-        'filename' => 'DB_Backup_Iceberg_' . ICEBERG_VERSION . '_' . get_domain_name() . '_' . time()
+    $defaults = array(
+        'panel' => array(
+            'template' => 'configuration_db_panel.php',
+            'name' => _T('Panel')
+        ),
+        'backup' => array(
+            'template' => 'configuration_db_backup.php',
+            'name' => _T('Backup')
+        ),
+        'searchreplace' => array(
+            'template' => 'configuration_db_searchreplace.php',
+            'name' => _T('Search&Replace')
+        )
     );
-    $file  = MySQL::Dump($args);
-    if ($file && is_file($file))
-    {
-        $info = pathinfo($file); //var_dump($info); die();
-        $filename = $info['filename'] . '.' . $info['extension'];
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header('Content-Length: ' . filesize( $file ));
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
-        $done = readfile( $file );
-        unlink( $file );
-        exit;
-    }
-    die('ERROR');
+    $actions = array_merge($actions, $defaults);
+    return $actions;
 }
-else if ($action == 'search-replace')
-{
-    $args = array(
-        'filename' => 'DB_Backup_Iceberg_' . ICEBERG_VERSION . '_' . get_domain_name() . '_' . time(),
-        'search' => get_request_gp('db_search', '', true),
-        'replace' => get_request_gp('db_replace', '', true)
-    );
-    $file  = MySQL::Dump($args);
-    if ($file && is_file($file))
-    {
-        $info = pathinfo($file); //var_dump($info); die();
-        $filename = $info['filename'] . '.' . $info['extension'];
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header('Content-Length: ' . filesize( $file ));
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
-        $done = readfile( $file );
-        unlink( $file );
-        exit;
-    }
-    die('ERROR');
-}
-
-
+add_filter('get_actions_configuration_db', 'get_actions_configuration_db', 5);

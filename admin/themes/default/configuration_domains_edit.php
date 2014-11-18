@@ -6,50 +6,47 @@ $canonical = get_domain();
 $canonical_childs = get_domains_by_parent($canonical->id);
 ?>
 
-<form action="<?php print get_admin_action_link($submit); ?>" method="post" id="languages-edit">
+<form action="<?php print get_admin_action_link($submit); ?>" method="post" id="domains-edit" role="form" validate>
     <div class="well">
-        <header><?php print_text('Data domain'); ?></header>
-        
-        <div class="row-fluid">
+        <div class="row">
             
-            <div class="span6">
-                <p>
-                    <label for="canonical_name"><?php print_text('Name'); ?>:</label>
-                    <input name="canonical_name" id="canonical_name" class="input-block-level" value="<?php print_html_attr($canonical->name); ?>" required />
+            <div class="col-md-6">
+                <p class="form-group">
+                    <label for="canonical_name" class="control-label"><?php print_text('Domain'); ?></label>
+                    <input name="canonical_name" id="canonical_name" class="form-control" value="<?php print_html_attr($canonical->name); ?>" required>
                 </p>
             </div>
             
         </div>
         
         
-        <div class="row-fluid" data-push="alias" data-push-template="tpl-domain-list">
-            <div class="span6">
-                <div class="well">
-                    <header><?php print_text('New alias'); ?></header>
-                    <input type="text" name="newalias" id="newalias" data-push-value="title" class="input-block-level" placeholder="<?php print_text('Domain'); ?>" />
-
-                    <div class="form-actions form-actions-mini">
-                        <button title="<?php print_html_attr( _T('ADD') ); ?>" class=" btn-large btn-success btn-mini"><i class="icon-plus-sign icon-white"></i> <?php print_text( 'ADD' ); ?></button>
-                    </div>
-                </div>
+        <div class="row" data-push="alias" data-push-template="tpl-domain-list">
+            <div class="col-md-6">
+                <p class="form-group">
+                    <label for="newalias" class="control-label"><?php print_text('New alias'); ?></label>
+                    <input type="text" name="newalias" id="newalias" data-push-value="title" data-push-required="1" class="form-control" placeholder="<?php print_text('Alias'); ?>">
+                </p>
+                <p class="form-group">
+                    <button title="<?php print_html_attr( _T('ADD') ); ?>" class="btn btn-success btn-sm btn-add"><span class="glyphicon glyphicon-plus"></span> <?php print_text( 'ADD' ); ?></button>
+                </p>
             </div>
             
-            <div class="span6">
-                <div class="well">
-                    <header><?php print_text('Alias'); ?></header>
-                    <ul class="unstyled" id="alias" data-sortable="revert,droppable">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label"><?php print_text('Alias'); ?></label>
+                    <ul class="list-unstyled" id="alias" data-sortable="revert,droppable">
                         <?php foreach ($canonical_childs AS $domain_id => $domain): ?>
                         <li>
                             <div class="well widget collapsed">
                                 <header><?php print $domain->name; ?></header>
                                 <div class="btn-toolbar header">
-                                    <a href="#" class="btn btn-inverse btn-mini" btn-action="collapse"><i class="icon-chevron-up icon-white"></i></a>
-                                    <a href="#" class="btn btn-inverse btn-mini" btn-action="expand"><i class="icon-chevron-down icon-white"></i></a>
-                                    <a href="#" class="btn btn-danger btn-mini" btn-action="remove"><i class="icon-trash"></i></a>
+                                    <a href="#" class="btn btn-default btn-xs" btn-action="collapse"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                                    <a href="#" class="btn btn-default btn-xs" btn-action="expand"><span class="glyphicon glyphicon-chevron-down"></span></a>
+                                    <a href="#" class="btn btn-danger btn-xs" btn-action="remove"><span class="glyphicon glyphicon-trash"></span></a>
                                 </div>
                                 <input type="hidden" name="alias_id[]" value="<?php print_html_attr($domain_id); ?>">
-                                <p>
-                                    <input type="text" class="input-block-level" name="alias_name[]" value="<?php print_html_attr($domain->name); ?>" widget-action="title" placeholder="<?php print_text('Name'); ?>" required>
+                                <p class="form-group">
+                                    <input type="text" class="form-control" name="alias_name[]" value="<?php print_html_attr($domain->name); ?>" widget-action="title" placeholder="<?php print_text('Name'); ?>" required>
                                 </p>
                                 <p>
                                     ID: <?php print $domain_id; ?>
@@ -64,8 +61,8 @@ $canonical_childs = get_domains_by_parent($canonical->id);
         
         
         <div class="form-actions text-right">
-            <a href="<?php print get_admin_action_link(); ?>" class="btn btn-large btn-inverse"><?php print_text('Cancel'); ?> <i class="icon-remove-circle icon-white"></i></a>
-            <button type="submit" class="btn btn-large btn-success"><?php print_text('Save'); ?> <i class="icon-ok-circle icon-white"></i></button>
+            <a href="<?php print get_admin_action_link(); ?>" class="btn btn-large btn-default"><span class="glyphicon glyphicon-ban-circle"></span> <?php print_text('Cancel'); ?></a>
+            <button type="submit" class="btn btn-large btn-success"><span class="glyphicon glyphicon-ok"></span> <?php print_text('Save'); ?></button>
         </div>
     </div>
 </form>
@@ -75,13 +72,13 @@ $canonical_childs = get_domains_by_parent($canonical->id);
         <div class="well widget">
             <header>%data-title%</header>
             <div class="btn-toolbar header">
-                <a href="#" class="btn btn-inverse btn-mini" btn-action="collapse"><i class="icon-chevron-up icon-white"></i></a>
-                <a href="#" class="btn btn-inverse btn-mini" btn-action="expand"><i class="icon-chevron-down icon-white"></i></a>
-                <a href="#" class="btn btn-danger btn-mini" btn-action="remove"><i class="icon-trash"></i></a>
+                <a href="#" class="btn btn-default btn-xs" btn-action="collapse"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                <a href="#" class="btn btn-default btn-xs" btn-action="expand"><span class="glyphicon glyphicon-chevron-down"></span></a>
+                <a href="#" class="btn btn-danger btn-xs" btn-action="remove"><span class="glyphicon glyphicon-trash"></span></a>
             </div>
             <input type="hidden" name="alias_id[]" value="-1">
-            <p>
-                <input type="text" class="input-block-level" name="alias_name[]" value="%data-title%" widget-action="title" placeholder="<?php print_text('Name'); ?>" required>
+            <p class="form-group">
+                <input type="text" class="form-control" name="alias_name[]" value="%data-title%" widget-action="title" placeholder="<?php print_text('Name'); ?>" required>
             </p>
         </div>
     </li>

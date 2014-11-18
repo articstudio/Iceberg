@@ -38,7 +38,7 @@ function get_install_next_step_link()
 function get_install_reinstall_link()
 {
     $query = array(
-        Install::REQUEST_KEY_REINSTALL => 1
+        Install::REQUEST_KEY_REINSTALL => IcebergSecurity::MakeNonce('iceberg_reinstall')
     );
     return get_base_url() . '?' . http_build_query($query);
 }

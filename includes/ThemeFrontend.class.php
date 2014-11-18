@@ -16,6 +16,7 @@ class ThemeFrontend extends Theme
     public function __construct()
     {
         $this->SetDirectory(ICEBERG_DIR_THEMES);
+        parent::__construct();
     }
     
     /**
@@ -33,7 +34,7 @@ class ThemeFrontend extends Theme
             $templates = $taxonomy->GetTemplates();
             $template = empty($templates) ? '' : current($templates);
         }
-        action_event('theme_print_page');
+        do_action('theme_print_page');
         return $this->ThemeSnippet($template);
     }
 }

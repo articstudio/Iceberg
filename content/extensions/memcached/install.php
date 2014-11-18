@@ -1,3 +1,0 @@
-<?php
-
-IcebergMemcached::Save();

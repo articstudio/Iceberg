@@ -25,6 +25,19 @@ function phpVersionCompatible($version)
     return strnatcmp(phpversion(), $version) >= 0 ? true : false;
 }
 
+function getSubclassesOf($parent)
+{
+    $result = array();
+    foreach (get_declared_classes() AS $class)
+    {
+        if (is_subclass_of($class, $parent))
+        {
+            $result[] = $class;
+        }
+    }
+    return $result;
+}
+
 
 function reOrderArray($arr, $from, $to)
 {

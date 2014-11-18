@@ -16,6 +16,11 @@ define('ICEBERG_VERSION',                   '1.0');
 define('ICEBERG_PHP_VERSION_REQUIRED',      '5.3.0');
 
 /**
+ * Iceberg dependences directory
+ */
+define('ICEBERG_DIR_DEPENDENCES',           ICEBERG_DIR_INCLUDES . 'dependences' . DIRECTORY_SEPARATOR);
+
+/**
  * Iceberg helpers directory
  */
 define('ICEBERG_DIR_HELPERS',               ICEBERG_DIR_INCLUDES . 'helpers' . DIRECTORY_SEPARATOR);
@@ -28,7 +33,7 @@ define('ICEBERG_DIR_INSTALL',               ICEBERG_DIR_INCLUDES . 'install' . D
 /**
  * Iceberg taxonomy directory
  */
-define('ICEBERG_DIR_TAXONOMY',     ICEBERG_DIR_INCLUDES . 'taxonomy' . DIRECTORY_SEPARATOR);
+define('ICEBERG_DIR_TAXONOMY',              ICEBERG_DIR_INCLUDES . 'taxonomy' . DIRECTORY_SEPARATOR);
 
 /**
  * Iceberg widgets directory
@@ -66,6 +71,11 @@ define('ICEBERG_DIR_UPLOADS',               ICEBERG_DIR_CONTENT . 'uploads' . DI
 define('ICEBERG_DIR_TEMP',                  ICEBERG_DIR_CONTENT . 'temp' . DIRECTORY_SEPARATOR);
 
 /**
+ * Iceberg temp content directory
+ */
+define('ICEBERG_DIR_VOID',                  ICEBERG_DIR_CONTENT . 'void' . DIRECTORY_SEPARATOR);
+
+/**
  * Iceberg api includes directory
  */
 define('ICEBERG_DIR_API_INCLUDES',          ICEBERG_DIR_API . 'includes' . DIRECTORY_SEPARATOR);
@@ -73,7 +83,7 @@ define('ICEBERG_DIR_API_INCLUDES',          ICEBERG_DIR_API . 'includes' . DIREC
 /**
  * Iceberg api includes defaults directory
  */
-define('ICEBERG_DIR_API_INCLUDES_DEFAULTS',          ICEBERG_DIR_API_INCLUDES . 'defaults' . DIRECTORY_SEPARATOR);
+define('ICEBERG_DIR_API_INCLUDES_DEFAULTS', ICEBERG_DIR_API_INCLUDES . 'defaults' . DIRECTORY_SEPARATOR);
 
 /**
  * Iceberg admin includes directory
@@ -132,7 +142,7 @@ $__ICEBERG_API                  = false;
 /**#@-*/
 
 /**#@+
- * Degub
+ * Debug
  */
 //$__ICEBERG_DEBUG                = null;
 /**#@-*/
@@ -172,10 +182,15 @@ $__SESSION_ID                   = null;
 /**#@-*/
 
 /**#@+
+ * ROLE CAPABILITIES
+ */
+$__APPLY_ROLE_CAPABILITIES      = null;
+/**#@-*/
+
+/**#@+
  * Configuration
  */
 $__CONFIG                       = array();
-$__CONFIG_ROWS                  = array();
 /**#@-*/
 
 /**#@+
@@ -193,9 +208,10 @@ $__USER                         = false;
 /**#@-*/
 
 /**#@+
- * Actions
+ * Actions / Filters
  */
 $__ACTIONS                      = array();
+$__FILTERS                      = array();
 /**#@-*/
 
 

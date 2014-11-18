@@ -2,136 +2,90 @@
 define('DEFAULT_ADMIN_THEME_DIR', dirname( __FILE__ ) . DIRECTORY_SEPARATOR);
 define('DEFAULT_ADMIN_THEME_URL', get_file_url(DEFAULT_ADMIN_THEME_DIR, ICEBERG_DIR_ADMIN, get_base_url_admin()));
 
-require_once DEFAULT_ADMIN_THEME_DIR . 'ckeditor/iceberg-ckeditor.php';
-require_once DEFAULT_ADMIN_THEME_DIR . 'elfinder/iceberg-elfinder.php';
+
+/* TABLES */
+require_once DEFAULT_ADMIN_THEME_DIR . 'tables/TableThemes.class.php';
+require_once DEFAULT_ADMIN_THEME_DIR . 'tables/TableLanguages.class.php';
+require_once DEFAULT_ADMIN_THEME_DIR . 'tables/TableRoles.class.php';
+require_once DEFAULT_ADMIN_THEME_DIR . 'tables/TableCapabilities.class.php';
+require_once DEFAULT_ADMIN_THEME_DIR . 'tables/TableUsers.class.php';
+require_once DEFAULT_ADMIN_THEME_DIR . 'tables/TableDomains.class.php';
+require_once DEFAULT_ADMIN_THEME_DIR . 'tables/TableConfigs.class.php';
+require_once DEFAULT_ADMIN_THEME_DIR . 'tables/TableExtensions.class.php';
+require_once DEFAULT_ADMIN_THEME_DIR . 'tables/TableObjTaxonomy.class.php';
+require_once DEFAULT_ADMIN_THEME_DIR . 'tables/TablePages.class.php';
 
 /* THEME */
-function default_admin_theme_head($args)
+function default_admin_theme_head()
 {
-    theme_enqueue_style('jquery-ui');
     theme_enqueue_style('bootstrap');
+    theme_enqueue_style('iceberg-bootstrap');
     if (in_admin_login())
     {
-        
+        theme_enqueue_style('iceberg-login');
     }
     else
     {
-        theme_enqueue_style('jquery-elfinder');
-        //theme_enqueue_style('jquery-treetable');
-        theme_enqueue_style('jquery-datatables');
-        theme_enqueue_style('jquery-nestable');
-        theme_enqueue_style('jquery-select-treeview');
+        theme_enqueue_style('jquery-ui');
+        theme_enqueue_style('datatables-bootstrap');
+        theme_enqueue_style('iceberg-application');
     }
-    theme_enqueue_style('iceberg');
     theme_enqueue_script('modernizr');
-    return $args;
 }
-function default_admin_theme_foot($args)
+function default_admin_theme_foot()
 {
-    theme_enqueue_script('underscore');
     theme_enqueue_script('jquery');
-    theme_enqueue_script('bootstrap');
+    theme_enqueue_script('jquery-migrate');
     theme_enqueue_script('jquery-validate');
-    theme_enqueue_script('iceberg');
+    theme_enqueue_script('iceberg-jquery-validate');
+    theme_enqueue_script('bootstrap');
+    
     if (in_admin_login())
     {
-        
+        theme_enqueue_script('iceberg-login');
     }
     else
     {
-        theme_enqueue_script('bootstrap-datepicker');
-        theme_enqueue_script('bootstrap-selectpicker');
-        theme_enqueue_script('jquery-elfinder');
-        //theme_enqueue_script('jquery-treetable');
-        theme_enqueue_script('jquery-datatables');
-        theme_enqueue_script('jquery-nestable');
-        theme_enqueue_script('jquery-select-treeview');
-        theme_enqueue_script('ckeditor');
+        theme_enqueue_script('jquery-ui');
+        theme_enqueue_script('datatables');
+        theme_enqueue_script('datatables-tabletools');
+        theme_enqueue_script('datatables-rowreordering');
+        theme_enqueue_script('datatables-bootstrap');
         theme_enqueue_script('iceberg-application');
+        
+        $iceberg_application_translations = array(
+            'close' => _T('Close'),
+            'save' => _T('Save'),
+            'confirm' => _T('Confirm'),
+            'new' => _T('New'),
+            'translate' => _T('Translate'),
+            'duplicate' => _T('Duplicate'),
+            'loading' => _T('Loading...'),
+            'error' => array(
+                'reorder' => _T('Failed to reorder items')
+            )
+        );
+        $iceberg_application_translations = apply_filters('iceberg_application_translations', $iceberg_application_translations);
+        theme_localize_script('iceberg-application', 'js_iceberg_i18n', $iceberg_application_translations);
     }
-    return $args;
 }
 
 if (in_admin())
 {
     /* CSS */
-    theme_register_style('bootstrap', DEFAULT_ADMIN_THEME_URL . 'css/bootstrap.css', '2.3.2');
-    //theme_register_style('jquery-ui', DEFAULT_ADMIN_THEME_URL . 'css/jquery-ui/jquery-ui.css', '1.10.3');
-    theme_register_style('jquery-ui', DEFAULT_ADMIN_THEME_URL . 'css/jquery-ui-1.8.18/jquery-ui.css', '1.8.18');
-    theme_register_style('jquery-elfinder', DEFAULT_ADMIN_THEME_URL . 'elfinder/jquery-elfinder.css', '2.0');
-    theme_register_style('jquery-treetable', DEFAULT_ADMIN_THEME_URL . 'css/jquery-treetable.css', '3.0.2');
-    theme_register_style('jquery-datatables', DEFAULT_ADMIN_THEME_URL . 'css/jquery-datatables.css', '3.0.2');
-    theme_register_style('jquery-nestable', DEFAULT_ADMIN_THEME_URL . 'css/jquery-nestable.css', '1.0');
-    theme_register_style('jquery-select-treeview', DEFAULT_ADMIN_THEME_URL . 'css/jquery-select-treeview.css', '1.5');
-    theme_register_style('iceberg', DEFAULT_ADMIN_THEME_URL . 'css/iceberg.css');
+    theme_register_style('iceberg-bootstrap', get_theme_url() . 'css/iceberg-bootstrap.css', '1.0');
+    theme_register_style('iceberg-login', get_theme_url() . 'css/iceberg-login.css');
+    theme_register_style('iceberg-application', get_theme_url() . 'css/iceberg-application.css');
     
     /* SCRIPTS */
-    theme_register_script('modernizr', DEFAULT_ADMIN_THEME_URL . 'js/modernizr.js');
-    
-    theme_register_script('underscore', DEFAULT_ADMIN_THEME_URL . 'js/underscore.js', '1.4.4', array(), true);
-    
-    //theme_register_script('jquery', DEFAULT_ADMIN_THEME_URL . 'js/jquery.js', '1.10.1', array(), true);
-    theme_register_script('jquery', DEFAULT_ADMIN_THEME_URL . 'js/jquery-1.7.2.js', '1.7.2', array(), true);
-    theme_register_script('jquery-validate', DEFAULT_ADMIN_THEME_URL . 'js/jquery-validate.js', '2.3.2', array('jquery'), true);
-    theme_register_script('jquery-treetable', DEFAULT_ADMIN_THEME_URL . 'js/jquery-treetable.js', '3.0.2', array('jquery'), true);
-    theme_register_script('jquery-datatables', DEFAULT_ADMIN_THEME_URL . 'js/jquery-datatables.js', '1.9.4', array('jquery'), true);
-    theme_register_script('jquery-datatables-treetable', DEFAULT_ADMIN_THEME_URL . 'js/jquery-datatables-treetable.js', '1.9.4', array('jquery'), true);
-    theme_register_script('jquery-nestable', DEFAULT_ADMIN_THEME_URL . 'js/jquery-nestable.js', '1.0', array('jquery'), true);
-    theme_register_script('jquery-select-treeview', DEFAULT_ADMIN_THEME_URL . 'js/jquery-select-treeview.js', '1.5', array('jquery'), true);
-    theme_register_script('jquery-elfinder', DEFAULT_ADMIN_THEME_URL . 'elfinder/jquery-elfinder.js', '2.0', array('jquery'), true);
-    theme_register_script('ckeditor', DEFAULT_ADMIN_THEME_URL . 'ckeditor/ckeditor.js', '4.1.2', array('jquery-elfinder'), true);
-    
-    
-    theme_register_script('bootstrap', DEFAULT_ADMIN_THEME_URL . 'js/bootstrap.js', '2.3.2', array('jquery'), true);
-    theme_register_script('bootstrap-datepicker', DEFAULT_ADMIN_THEME_URL . 'js/bootstrap-datepicker.js', '1.0.1', array('bootstrap'), true);
-    theme_register_script('bootstrap-selectpicker', DEFAULT_ADMIN_THEME_URL . 'js/bootstrap-selectpicker.js', null, array('bootstrap'), true);
-    
-    
-    theme_register_script('iceberg', DEFAULT_ADMIN_THEME_URL . 'js/iceberg.js', ICEBERG_VERSION, array('jquery'), true);
-    theme_register_script('iceberg-application', DEFAULT_ADMIN_THEME_URL . 'js/iceberg-application.js', ICEBERG_VERSION, array('jquery'), true);
+    theme_register_script('iceberg-jquery-validate', get_theme_url() . 'js/iceberg-jquery-validate.js', '1.0', array('jquery','jquery-validate'), true);
+    theme_register_script('iceberg-login', get_theme_url() . 'js/iceberg-login.js', '1.0', array('jquery','bootstrap','jquery-validate','jquery-validate-iceberg'), true);
+    theme_register_script('iceberg-application', get_theme_url() . 'js/iceberg-application.js', '1.0', array('jquery','bootstrap','jquery-validate','jquery-validate-iceberg'), true);
     
     add_action('theme_print_foot', 'default_admin_theme_foot');
     add_action('theme_print_head', 'default_admin_theme_head');
 }
 
-
-/* OBJECT TAXONOMY */
-function structure_objtaxonomy_edit_by_mode($args)
-{
-    $mode = get_mode('mode');
-    if ($mode === 'pagegroups')
-    {
-        include(DEFAULT_ADMIN_THEME_DIR . 'structure_objtaxonomy_edit_pagegroup.php');
-    }
-    else if ($mode === 'pagetypes')
-    {
-        include(DEFAULT_ADMIN_THEME_DIR . 'structure_objtaxonomy_edit_pagetype.php');
-    }
-    else if ($mode === 'pagetaxonomies')
-    {
-        include(DEFAULT_ADMIN_THEME_DIR . 'structure_objtaxonomy_edit_pagetaxonomy.php');
-    }
-    return $args;
-}
-function structure_objtaxonomy_config_by_mode($args)
-{
-    $mode = get_mode('mode');
-    if ($mode === 'pagegroups')
-    {
-    }
-    else if ($mode === 'pagetypes')
-    {
-    }
-    else if ($mode === 'pagetaxonomies')
-    {
-        include(DEFAULT_ADMIN_THEME_DIR . 'structure_objtaxonomy_config_pagetaxonomy.php');
-    }
-    return $args;
-}
-
-if (in_admin())
-{
-    add_action('structure_objtaxonomy_edit', 'structure_objtaxonomy_edit_by_mode', 1);
-    add_action('structure_objtaxonomy_config', 'structure_objtaxonomy_config_by_mode', 1);
-}
-
+/* THEME SUPPORT DEPENDENCES */
+require_once get_dependences_dir() . 'elfinder/iceberg.php';
+require_once get_dependences_dir() . 'ckeditor/iceberg.php';

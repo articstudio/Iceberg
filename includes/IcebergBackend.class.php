@@ -30,15 +30,17 @@ class IcebergBackend extends Environment
     
     public function Load()
     {
+        UserCapability::EnableApplyCapabilities();
         require_once ICEBERG_DIR_ADMIN_INCLUDES . 'RoutingBackend.class.php';
         require_once ICEBERG_DIR_ADMIN_INCLUDES . 'ThemeBackend.class.php';
         require_once ICEBERG_DIR_ADMIN_INCLUDES . 'helpers.php';
-        action_event('iceberg_backend_load');
+        do_action('iceberg_backend_load');
         return parent::Load();
     }
     
     public function Config()
     {
+        $this->routing->ProcessRequest();
         $this->environment = 'login';
         if (User::IsLogged())
         {
@@ -71,29 +73,30 @@ class IcebergBackend extends Environment
                 }
             }
         }
-        action_event('iceberg_backend_config');
+        do_action('iceberg_backend_config');
         return parent::Config();
     }
     
     public function Generate()
     {
         /* Exec controllers */
-        $this->ExecController(RoutingBackend::GetModule('template'));
-        $this->ExecController(RoutingBackend::GetMode('template'));
+        $this->ExecController(RoutingBackend::GetModule('template', false));
+        $this->ExecController(RoutingBackend::GetMode('template', false));
+        $this->ExecController(RoutingBackend::GetAction('template', false));
         
-        action_event('iceberg_backend_generate');
+        do_action('iceberg_backend_generate');
         return parent::Generate();
     }
     
     public function Show()
     {
-        action_event('iceberg_backend_show');
+        do_action('iceberg_backend_show');
         return parent::Show();
     }
     
     public static function ExecController($template)
     {
-        $file = ICEBERG_DIR_ADMIN_CONTROLLERS . $template;
+        $file = is_file($template) ? $template : ICEBERG_DIR_ADMIN_CONTROLLERS . $template;
         if (is_file($file) && is_readable($file))
         {
             include $file;

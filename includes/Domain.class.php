@@ -33,7 +33,10 @@ class DomainBase extends ObjectDBRelations
      */
     public static $DB_PARENTS = array(
         'domain-canonical' => array(
-            'object' => 'Domain'
+            'object' => 'Domain',
+            'force' => false,
+            'function' => '',
+            'language' => false
         )
     );
     
@@ -387,6 +390,12 @@ class Domain extends DomainBase
         return static::GetDomainsByParent(null, $cache);
     }
     
+    
+    public static function Remove($id)
+    {
+        $where = static::GetWhereFields(array(static::DB_GetPrimaryField() => $id));
+        return static::DB_Delete($where, array(), null);
+    }
     
     
     

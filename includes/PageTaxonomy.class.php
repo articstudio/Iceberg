@@ -18,6 +18,8 @@ class PageTaxonomy extends ObjectTaxonomy
     protected $image;
     protected $image_comments;
     protected $childs_allowed;
+    protected $user_relation;
+    protected $user_role;
     protected $templates;
     protected $elements;
     
@@ -29,6 +31,8 @@ class PageTaxonomy extends ObjectTaxonomy
         $this->UseImage(isset($args['image']) ? $args['image'] : false);
         $this->ImageComments(isset($args['image-comments']) ? $args['image-comments'] : '');
         $this->ChildsAllowed(isset($args['childs']) ? $args['childs'] : false);
+        $this->UserRelation(isset($args['user_relation']) ? $args['user_relation'] : false);
+        $this->UserRole(isset($args['user_role']) ? $args['user_role'] : -1);
         $this->SetTemplates(isset($args['templates']) ? $args['templates'] : array());
         $this->SetElements(isset($args['elements']) ? $args['elements'] : array());
         parent::__construct($args);
@@ -38,7 +42,7 @@ class PageTaxonomy extends ObjectTaxonomy
     {
         if (is_null($use))
         {
-            return $this->permalink;
+            return (bool)$this->permalink;
         }
         else
         {
@@ -62,7 +66,7 @@ class PageTaxonomy extends ObjectTaxonomy
     {
         if (is_null($use))
         {
-            return $this->text;
+            return (bool)$this->text;
         }
         else
         {
@@ -86,7 +90,7 @@ class PageTaxonomy extends ObjectTaxonomy
     {
         if (is_null($use))
         {
-            return $this->image;
+            return (bool)$this->image;
         }
         else
         {
@@ -110,11 +114,35 @@ class PageTaxonomy extends ObjectTaxonomy
     {
         if (is_null($allowed))
         {
-            return $this->childs_allowed;
+            return (bool)$this->childs_allowed;
         }
         else
         {
             return $this->childs_allowed = $allowed;
+        }
+    }
+    
+    public function UserRelation($relation=null)
+    {
+        if (is_null($relation))
+        {
+            return (bool)$this->user_relation;
+        }
+        else
+        {
+            return $this->user_relation = $relation;
+        }
+    }
+    
+    public function UserRole($role=null)
+    {
+        if (is_null($role))
+        {
+            return (int)$this->user_role;
+        }
+        else
+        {
+            return $this->user_role = $role;
         }
     }
     
@@ -172,7 +200,8 @@ class PageTaxonomy extends ObjectTaxonomy
         return $this->elements = $buffer;
     }
     
-    public function Configure($args=array()) {
+    public function Configure($args=array())
+    {
         foreach ($this->elements AS $element)
         {
             $element->SetParentTaxonomy($this->GetID());

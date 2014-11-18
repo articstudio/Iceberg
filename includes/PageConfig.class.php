@@ -16,6 +16,13 @@ require_once ICEBERG_DIR_HELPERS . 'pageconfig.php';
  */
 class PageConfig extends ObjectConfig
 {
+    
+    /**
+     * Configuration use language
+     * @var boolean
+     */
+    public static $CONFIG_USE_LANGUAGE = false;
+    
     /**
      * Configuration key
      * @var string
@@ -42,7 +49,7 @@ class PageConfig extends ObjectConfig
         return static::GetConfigValue('pagegroup', -1);
     }
     
-    public static function GetPageType()
+    public static function GetDefaultType()
     {
         return static::GetConfigValue('pagetype', -1);
     }

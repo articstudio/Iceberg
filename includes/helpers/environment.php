@@ -38,20 +38,26 @@ function in_web()
 
 
 
-function add_alert($txt, $type='info')
+function add_env_alert($txt, $type='info')
 {
     $env = Environment::GetEnvironment();
     return $env->AddAlert($txt, $type);
 }
 
-function get_alerts()
+function get_env_alerts()
 {
     $env = Environment::GetEnvironment();
     return $env->GetAlerts();
 }
 
-function get_json_alerts()
+function get_env_alerts_json()
 {
-    $alerts = get_alerts();
+    $alerts = get_env_alerts();
     return json_encode($alerts);
+}
+
+
+function get_environment_controller()
+{
+    return Environment::GetController();
 }

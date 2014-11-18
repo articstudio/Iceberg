@@ -38,9 +38,9 @@ class IcebergDebug extends IcebergSingleton
                 ini_set('display_errors', 0);
             }
             
-            add_action('mysql_query_send', 'mysql_query_send_debug', 10, 5);
-            add_action('iceberg_cache_action', 'iceberg_cache_action_debug', 10, 5);
-            add_action('iceberg_cache_action_memcached', 'iceberg_cache_action_memcached_debug', 10, 3);
+            add_action('mysql_query_send', 'mysql_query_send_debug', 5, 5);
+            add_action('iceberg_cache_action', 'iceberg_cache_action_debug', 5, 5);
+            add_action('iceberg_cache_action_memcached', 'iceberg_cache_action_memcached_debug', 5, 3);
             
             return true;
         }
@@ -80,7 +80,7 @@ class IcebergDebug extends IcebergSingleton
             $buffer .= 'Query results: ' . $query[1] . "\n";
             $buffer .= 'Query: ' . $query[3] . "\n\n";
         }
-        $average = $time_total / $n;
+        $average = $n>0 ? $time_total / $n : 0;
         $buffer = "MySQL time: " . $time_total . " seconds\n MySQL time average: " . $average . " seconds\n MySQL queries: " . $n . "\n\n\n" . $buffer;
         return $buffer;
     }
@@ -127,7 +127,7 @@ class IcebergDebug extends IcebergSingleton
     public static function PrintLog($time=0)
     {
         $obj = static::getInstance();
-        if ($obj->isDebug())
+        if ($obj->isDebug() && (Install::IsInstallationProcess() || User::HasCapability('debug') || true))
         {
             if ($time > 0)
             {
@@ -136,8 +136,8 @@ class IcebergDebug extends IcebergSingleton
             }
             static::PrintLogMySQL();
             static::PrintLogCache();
-            static::PrintLogCacheMemcached();
-            action_event('iceberg_debug_print_log');
+            //static::PrintLogCacheMemcached();
+            do_action('iceberg_debug_print_log');
         }
     }
     
@@ -163,24 +163,21 @@ class IcebergDebug extends IcebergSingleton
     }
 }
 
-function mysql_query_send_debug($args)
+function mysql_query_send_debug($insertId, $numrows, $result, $query, $time)
 {
-    IcebergDebug::Log(IcebergDebug::COLLECTION_MYSQL, $args);
-    return $args;
+    //var_dump($args);
+    IcebergDebug::Log(IcebergDebug::COLLECTION_MYSQL, array($insertId, $numrows, $result, $query, $time));
 }
 
-function iceberg_cache_action_debug($args)
+function iceberg_cache_action_debug($action, $done, $rel, $id, $object)
 {
-    list($action, $done, $rel, $id, $object) = $args;
     $object = is_string($object) ? $object : gettype($object);
     IcebergDebug::Log(IcebergDebug::COLLECTION_CACHE, array($action, $done, $rel, $id, $object));
-    return $args;
 }
 
-function iceberg_cache_action_memcached_debug($args)
+function iceberg_cache_action_memcached_debug($action, $done, $value)
 {
-    IcebergDebug::Log(IcebergDebug::COLLECTION_CACHE_MEMCACHED, $args);
-    return $args;
+    IcebergDebug::Log(IcebergDebug::COLLECTION_CACHE_MEMCACHED, array($action, $done, $value));
 }
 
 

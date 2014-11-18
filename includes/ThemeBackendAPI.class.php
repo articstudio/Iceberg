@@ -1,5 +1,7 @@
 <?php
 
+require_once ICEBERG_DIR_ADMIN_INCLUDES . 'TableBackend.class.php';
+
 abstract class ThemeBackendAPI extends Theme
 {
     
@@ -9,7 +11,7 @@ abstract class ThemeBackendAPI extends Theme
         $theme = static::GetFrontendTheme();
         if ($theme)
         {
-            $file = ICEBERG_DIR_THEMES . $theme['dirname'] . DIRECTORY_SEPARATOR . static::$SETTINGS_FILE;
+            $file = ICEBERG_DIR_THEMES . $theme . DIRECTORY_SEPARATOR . static::$SETTINGS_FILE;
             if (is_file($file) && is_readable($file)) {
                 require_once $file;
             }
@@ -21,7 +23,7 @@ abstract class ThemeBackendAPI extends Theme
         $theme = static::GetBackendTheme();
         if ($theme)
         {
-            $file = ICEBERG_DIR_ADMIN_THEMES . $theme['dirname'] . DIRECTORY_SEPARATOR . static::$SETTINGS_FILE;
+            $file = ICEBERG_DIR_ADMIN_THEMES . $theme . DIRECTORY_SEPARATOR . static::$SETTINGS_FILE;
             if (is_file($file) && is_readable($file)) {
                 require_once $file;
             }

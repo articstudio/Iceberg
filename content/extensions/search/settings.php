@@ -6,6 +6,7 @@ define('SEARCH_DIR_ADMIN_CONTROLLERS', SEARCH_DIR_ADMIN . 'controllers' . DIRECT
 
 define('SEARCH_META', 'search-text');
 
+/* CONFIG */
 function select_search_config()
 {
     return select_config('search_config', array());
@@ -20,21 +21,19 @@ function save_search_config($config)
     return save_config('search_config', $config);
 }
 
-
-function clean_serach_text2($str)
+/* ADMIN */
+function search_get_modes_configuration($arr)
 {
-    $str = trim($str);
-    $str = @strip_tags($str);
-    $str = @stripslashes($str);
-    
-    $str = html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|caron|cedil|circ|grave|lig|orn|ring|slash|tilde|uml);~i', '$1', $str), ENT_QUOTES, 'UTF-8');
-    $string = strtolower(trim(preg_replace('~[^0-9a-z]+~i', ' ', $str), ' '));
-    
-    //$str = htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
-    $str = str_replace("\n", '', $str);
-    $str = trim($str);
-    return $str;
+    $arr['search'] = array(
+        'template' => SEARCH_DIR_ADMIN . 'mode_configuration_search.php',
+        'name' => _T('Search')
+    );
+    return $arr;
 }
+add_filter('get_modes_configuration', 'search_get_modes_configuration', 10 ,1);
+
+
+/* GENERATE METAS */
 function clean_search_text($string){ 
     $a = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿŔŕ'; 
     $b = 'aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr'; 
@@ -48,6 +47,99 @@ function clean_search_text($string){
     return utf8_encode($string); 
 }
 
+function search_generate_page_meta($page, $fields, $lang=null)
+{
+    $page_taxonomy = get_pagetaxonomy($page->taxonomy);
+    $page_elements = $page_taxonomy->GetElements();
+    
+    $search_text = array();
+    foreach ($fields AS $field)
+    {
+        $field_value = $page->GetMeta($field, '', $lang);
+        
+        $field_value = apply_filters('search_generate_field_value', $field_value, $field, (isset($page_elements[$field]) ? $page_elements[$field] : false), $lang);
+        
+        if (is_string($field_value))
+        {
+            $search_text[] = $field_value;
+        }
+    }
+    
+    $dependences = Page::DB_SelectParentRelation($page->id, Page::RELATION_KEY_PAGE_DEPENDENCE);
+    foreach ($dependences AS $dependence)
+    {
+        if (!$dependence->attribute || empty($dependence->attribute) || !in_array($dependence->attribute, $fields))
+        {
+            $dependence_page = get_page($dependence->pid, $lang);
+            $search_text[] = $dependence_page->GetTitle();
+            $search_text[] = $dependence_page->GetTitle();
+        }
+    }
+    
+    
+    $search_text = array_filter($search_text);
+    $search_text = implode(' ', $search_text);
+
+    $search_text = clean_search_text($search_text); var_dump($search_text);
+    
+    return Page::InsertUpdateMeta($page->id, SEARCH_META, mysql_escape($search_text));
+}
+
+function search_generate_field_value_defaults($field_value, $field, $element, $lang)
+{
+    if ($element)
+    {
+        $element_type = get_class($element);
+        
+        if ($element_type === 'TE_Images')
+        {
+            $buffer = array();
+            $field_value = is_array($field_value) ? $field_value : array();
+            foreach ($field_value AS $image)
+            {
+                $buffer[] = $image['image'] . ' ' . $image['alt'];
+            }
+            return implode(' ', $buffer);
+        }
+        else if ($element_type === 'TE_Text' || $element_type === 'TE_Input')
+        {
+            return str_replace(array("\n","\t","\r",'  '), ' ', strip_tags($field_value));
+        }
+        else if ($element_type === 'TE_Dependence' || $element_type === 'TE_Relation')
+        {
+            $buffer = array();
+            $field_value = is_array($field_value) ? $field_value : array();
+            foreach ($field_value AS $item_id)
+            {
+                $item_page = get_page($item_id, $lang);
+                $buffer[] = $item_page->GetTitle();
+                if ($element_type === 'TE_Dependence')
+                {
+                    $buffer[] = $item_page->GetTitle();
+                }
+            }
+            return implode(' ', $buffer);
+        }
+        
+    }
+    return $field_value;
+}
+add_filter('search_generate_field_value', 'search_generate_field_value_defaults', 10, 4);
+
+function search_page_edit_generate_metas($page_id, $pagegroup_id)
+{
+    $config = get_search_config();
+    $page = get_page($page_id);
+    if (in_array($page->taxonomy, $config['taxonomies']))
+    {
+        $fields = (isset($config['fields']) && isset($config['fields'][$page->taxonomy])) ? $config['fields'][$page->taxonomy] : array();
+        search_generate_page_meta($page, $fields);
+    }
+}
+add_action('content_publish_insert', 'search_page_edit_generate_metas', 10, 2);
+add_action('content_publish_update', 'search_page_edit_generate_metas', 10, 2);
+
+/* SEARCH */
 function get_search_ids($string, $min_score=0, $lang=null)
 {
     $lang = is_null($lang) ? get_lang() : $lang;
@@ -84,53 +176,23 @@ function get_search_ids($string, $min_score=0, $lang=null)
     return $result;
 }
 
-function get_admin_modes_configuration_search($args)
+/* ORDER */
+function order_search_by_score(&$results, $scores)
 {
-    list($array) = $args;
-    $array['search'] = array(
-        'template' => SEARCH_DIR_ADMIN . 'search.php',
-        'name' => 'Search',
-        'level' => 500
-    );
-    return array($array);
-}
-add_action('get_admin_modes_configuration', 'get_admin_modes_configuration_search', 10, 1);
-
-
-function iceberg_backend_generate_search($args)
-{
-    $template = get_mode('template');
-    $template = (strpos($template, SEARCH_DIR_ADMIN) !== false) ? str_replace(SEARCH_DIR_ADMIN, SEARCH_DIR_ADMIN_CONTROLLERS, $template) : '';
-    if (is_file($template) && is_readable($template))
+    foreach ($results AS $k => $v)
     {
-        include $template;
+        $results[$k]->search_score = (isset($scores[$k])) ? $scores[$k]->score : 0;
     }
-    return $args;
+    
+    uasort($results, 'order_search_by_score_compare');
 }
-add_action('iceberg_backend_generate', 'iceberg_backend_generate_search', 10, 0);
-
-function search_generate_page_meta($page, $fields, $lang)
+function order_search_by_score_compare($a, $b)
 {
-    $search_text = array();
-    foreach ($fields AS $field)
-    {
-        $field_value = $page->GetMeta($field, '', $lang);
-        if (is_string($field_value))
-        {
-            array_push($search_text, $field_value);
-        }
-    }
-    $search_text = array_filter($search_text);
-    $search_text = implode(' ', $search_text);
-
-    $search_text = clean_search_text($search_text); //var_dump($search_text);
-
-    $args = array('value'=>  mysql_escape($search_text));
-    $where = array('name'=>SEARCH_META);
-    $relations = array(PageMeta::RELATION_KEY_PAGE=>$page->id);
-    PageMeta::DB_InsertUpdate($args, $where, $relations, $lang);
+    //echo $a->search_score . ' / ' . $b->search_score . "\n";
+    return ($a->search_score == $b->search_score) ? 0 : ( ($a->search_score < $b->search_score) ? 1 : -1);
 }
 
+/*
 function search_get_page_meta($page_id, $lang=null)
 {
     $lang = is_null($lang) ? get_lang() : $lang;
@@ -147,20 +209,4 @@ function search_get_page_meta($page_id, $lang=null)
     return '';
 }
 
-function content_publish_insert_edit_translate_search($args)
-{
-    list ($pagegroup_id, $page_id, $lang) = $args;
-    
-    $config = get_search_config();
-    $page = get_page($page_id);
-    if (in_array($page->taxonomy, $config['taxonomies']))
-    {
-        $fields = (isset($config['fields']) && isset($config['fields'][$page->taxonomy])) ? $config['fields'][$page->taxonomy] : array();
-        search_generate_page_meta($page, $fields, $lang);
-    }
-    
-    return $args;
-}
-add_action('content_publish_insert', 'content_publish_insert_edit_translate_search', 999, 3);
-add_action('content_publish_translate', 'content_publish_insert_edit_translate_search', 999, 3);
-add_action('content_publish_edit', 'content_publish_insert_edit_translate_search', 999, 3);
+*/

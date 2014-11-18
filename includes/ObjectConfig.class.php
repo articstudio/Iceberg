@@ -15,6 +15,12 @@
 abstract class ObjectConfigBase
 {
     /**
+     * Configuration use language
+     * @var boolean
+     */
+    public static $CONFIG_USE_LANGUAGE = true;
+    
+    /**
      * Configuration key
      * @var string
      */
@@ -81,9 +87,9 @@ abstract class ObjectConfigBase
      */
     static public function GetConfig()
     {
-        $value = Config::GetConfig(static::$CONFIG_KEY, static::$CONFIG_DEFAULTS);
+        $value = static::$CONFIG_USE_LANGUAGE ? Config::GetConfig(static::$CONFIG_KEY, static::$CONFIG_DEFAULTS) :  ConfigAll::GetConfig(static::$CONFIG_KEY, static::$CONFIG_DEFAULTS);
         $value = static::NormalizeConfig($value);
-        list($value, $class) = action_event(static::$CONFIG_EVENT_GET, $value, get_called_class());
+        $value = apply_filters(static::$CONFIG_EVENT_GET, $value, get_called_class());
         return $value;
     }
     
@@ -97,13 +103,13 @@ abstract class ObjectConfigBase
     {
         $done = false;
         if (is_null($value)) {
-            $done = Config::UnsetConfig(static::$CONFIG_KEY);
+            $done = static::$CONFIG_USE_LANGUAGE ? Config::UnsetConfig(static::$CONFIG_KEY) : ConfigAll::UnsetConfig(static::$CONFIG_KEY);
         }
         else {
             $value = static::NormalizeConfig($value);
-            $done = Config::SetConfig(static::$CONFIG_KEY, $value);
+            $done = static::$CONFIG_USE_LANGUAGE ? Config::SetConfig(static::$CONFIG_KEY, $value) : ConfigAll::SetConfig(static::$CONFIG_KEY, $value);
         }
-        list($value, $class) = action_event(static::$CONFIG_EVENT_SET, $value, get_called_class());
+        $value = apply_filters(static::$CONFIG_EVENT_SET, $value, get_called_class());
         return $done;
     }
     
@@ -126,11 +132,11 @@ abstract class ObjectConfigBase
     static public function SaveConfig($value=null, $lang=null)
     {
         $value = is_null($value) ? $value : static::NormalizeConfig($value);
-        list($key, $value, $class, $lang) = action_event(static::$CONFIG_EVENT_SAVE, static::$CONFIG_KEY, $value, get_called_class(), $lang);
-        $done = (is_null($lang) || $lang == I18N::GetLanguage() || $lang == Config::REPLICATE_ALL_LANGUAGES) ? static::SetConfig($value) : true;
+        $value = apply_filters(static::$CONFIG_EVENT_SAVE, $value, get_called_class(), static::$CONFIG_KEY, $lang);
+        $done = (is_null($lang) || $lang === I18N::GetLanguage() || $lang === Config::REPLICATE_ALL_LANGUAGES || !static::$CONFIG_USE_LANGUAGE) ? static::SetConfig($value) : true;
         if ($done) {
             $value = static::NormalizeConfig($value);
-            $done = Config::SaveConfig(static::$CONFIG_KEY, $value, $lang);
+            $done = static::$CONFIG_USE_LANGUAGE ? Config::SaveConfig(static::$CONFIG_KEY, $value, $lang) : ConfigAll::SaveConfig(static::$CONFIG_KEY, $value);
         }
         return $done;
     }
@@ -154,9 +160,9 @@ abstract class ObjectConfigBase
      */
     static public function SelectConfig($default=false, $inBuffer=false, $lang=null)
     {
-        $value = Config::SelectConfig(static::$CONFIG_KEY, $default, $inBuffer, $lang);
+        $value = static::$CONFIG_USE_LANGUAGE ? Config::SelectConfig(static::$CONFIG_KEY, $default, $inBuffer, $lang) : ConfigAll::SelectConfig(static::$CONFIG_KEY, $default, $inBuffer);
         $value = static::NormalizeConfig($value);
-        list($value, $default, $inBuffer, $class, $lang) = action_event(static::$CONFIG_EVENT_SELECT, $value, $default, $inBuffer, get_called_class(), $lang);
+        $value = apply_filters(static::$CONFIG_EVENT_SELECT, $value, $default, $inBuffer, get_called_class(), $lang);
         return $value;
     }
     
@@ -206,14 +212,14 @@ abstract class ObjectConfig extends ObjectConfigBase implements ObjectConfigInte
     {
         $config = static::GetConfig();
         $value = isset($config[$key]) ? $config[$key] : $default;
-        list($value, $key, $default, $class) = action_event(static::$CONFIG_EVENT_GET_VALUE, $value, $key, $default, get_called_class());
+        $value = apply_filters(static::$CONFIG_EVENT_GET_VALUE, $value, $key, $default, get_called_class());
         return $value;
     }
     
     static public function SetConfigValue($key, $value)
     {
         $config = static::GetConfig();
-        list($key, $value, $class) = action_event(static::$CONFIG_EVENT_SET_VALUE, $key, $value, get_called_class());
+        $value = apply_filters(static::$CONFIG_EVENT_SET_VALUE, $value, $key, get_called_class());
         $config[$key] = $value;
         return static::SetConfig($config);
     }
@@ -221,9 +227,8 @@ abstract class ObjectConfig extends ObjectConfigBase implements ObjectConfigInte
     static public function SaveConfigValue($key, $value, $lang=null)
     {
         $config = static::GetConfig();
-        list($key, $value, $class, $lang) = action_event(static::$CONFIG_EVENT_SAVE_VALUE, $key, $value, get_called_class(), $lang);
+        $value = apply_filters(static::$CONFIG_EVENT_SAVE_VALUE, $value, $key, get_called_class(), $lang);
         $config[$key] = $value;
         return static::SaveConfig($config, $lang);
     }
-    
 }

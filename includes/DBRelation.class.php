@@ -51,6 +51,15 @@ class DBRelation extends ObjectDB
             ),
             'index' => true
         ),
+        'attribute' => array(
+            'name' => 'RELATION ATTRIBUTE',
+            'type' => 'VARCHAR',
+            'length' => '150',
+            'flags' => array(
+                'NOT NULL'
+            ),
+            'index' => true
+        ),
         'language' => array(
             'name' => 'LANGUAGE',
             'type' => 'VARCHAR',
@@ -78,6 +87,8 @@ class DBRelation extends ObjectDB
     
     public static $DB_NAME_FIELD = 'name';
     
+    public static $DB_ATTRIBUTE_FIELD = 'attribute';
+    
     public static $DB_LANGUAGE_FIELD = 'language';
     
     public static $DB_COUNT_FIELD = 'count';
@@ -95,6 +106,11 @@ class DBRelation extends ObjectDB
     public static function GetNameField()
     {
         return static::$DB_NAME_FIELD;
+    }
+    
+    public static function GetAttributeField()
+    {
+        return static::$DB_ATTRIBUTE_FIELD;
     }
     
     public static function GetLanguageField()

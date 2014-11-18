@@ -2,12 +2,11 @@
 /*
  * LANGUAGE DATA
  */
-$__LANGUAGES['es_ES']=array(
+$_LANGUAGE = array(
     'locale' => 'es_ES',
     'name' => 'Español',
     'iso' => 'es',
-    'flag' => 'content/languages/flags/es.png',
-    'active' => false
+    'flag' => 'content/languages/flags/es.png'
 );
 
 /*

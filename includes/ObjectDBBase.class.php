@@ -144,7 +144,7 @@ abstract class ObjectDBBase implements ObjectDBBaseInterface
             return $data;
         }
         $data = @json_decode($value, true);
-        if (json_last_error() == JSON_ERROR_NONE)
+        if (json_last_error() === JSON_ERROR_NONE)
         {
             return $data;
         }
@@ -190,12 +190,17 @@ abstract class ObjectDBBase implements ObjectDBBaseInterface
         return $fields;
     }
     
-    protected static function DB_FilterFields($fields)
+    protected static function DB_IsField($field)
     {
         $o_fields = static::DB_GetFields();
+        return (is_string($field) && isset($o_fields[$field]));
+    }
+    
+    protected static function DB_FilterFields($fields)
+    {
         foreach ($fields AS $k => $v)
         {
-            if (!isset($o_fields[$k]))
+            if (!static::DB_IsField($k))
             {
                 $fields[$k] = null;
                 unset($fields[$k]);
@@ -206,21 +211,14 @@ abstract class ObjectDBBase implements ObjectDBBaseInterface
     
     protected static function DB_FilterFieldsOnValues($fields)
     {
-        $o_fields = static::DB_GetFields();
         foreach ($fields AS $k => $v)
         {
-            if ((!is_string($v) && !is_numeric($v)) || !isset($o_fields[$v]))
+            if (!static::DB_IsField($v))
             {
                 $fields[$k] = null;
                 unset($fields[$k]);
             }
         }
         return $fields;
-    }
-    
-    protected static function DB_IsField($field)
-    {
-        $o_fields = static::DB_GetFields();
-        return isset($o_fields[$field]);
     }
 }

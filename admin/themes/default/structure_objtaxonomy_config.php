@@ -2,19 +2,21 @@
 $id = get_request_id();
 $submit = $id ? array('action'=>'save', 'id'=>$id) : array('action'=>'list');
 $obj = get_objtaxonomy($id);
+$mode = get_mode('mode');
 ?>
 
 <form action="<?php print get_admin_action_link($submit); ?>" method="post" id="form-objtaxonomy">
     <div class="well">
-        <header><?php print_text('Object Taxonomy'); ?></header>
+        <?php /*<h4><?php print_text('Name'); ?>: <strong><?php print_html_attr($obj->GetName()); ?></strong></h4>*/ ?>
         
-        <p><?php print_text('Name'); ?>: <strong><?php print_html_attr($obj->GetName()); ?></strong></p>
-        
-        <?php action_event('structure_objtaxonomy_config'); ?>
+        <?php
+        do_action('structure_objtaxonomy_config', $mode);
+        do_action('structure_objtaxonomy_config_' . $mode);
+        ?>
         
         <div class="form-actions text-right">
-            <a href="<?php print get_admin_action_link(); ?>" class="btn btn-large btn-inverse"><?php print_text('Cancel'); ?> <i class="icon-remove-circle icon-white"></i></a>
-            <button type="submit" class="btn btn-large btn-success"><?php print_text('Save'); ?> <i class="icon-ok-circle icon-white"></i></button>
+            <a href="<?php print get_admin_action_link(); ?>" class="btn btn-large btn-default"><span class="glyphicon glyphicon-ban-circle"></span> <?php print_text('Cancel'); ?></a>
+            <button type="submit" class="btn btn-large btn-success"><span class="glyphicon glyphicon-ok"></span> <?php print_text('Save'); ?></button>
         </div>
     </div>
 </form>

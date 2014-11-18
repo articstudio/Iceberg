@@ -1,24 +1,26 @@
 <?php
 
 /* CONTROLLERS ADMINS */
+
+//require_once ICEBERG_DIR_ADMIN_INCLUDES . 'controllers.php';
+
 function exec_admin_controller($template)
 {
     return IcebergBackend::ExecController($template);
 }
 
 
-
-
 /* API ADMIN */
-function iceberg_api_generate_admin($args)
+function iceberg_api_generate_admin()
 {
     if (is_api_admin())
     {
         if (is_admin())
         {
-            exec_admin_controller(get_module('template'));
-            exec_admin_controller(get_mode('template'));
-            print get_json_alerts();
+            exec_admin_controller(get_module('template', false));
+            exec_admin_controller(get_mode('template', false));
+            exec_admin_controller(get_action('template', false));
+            print get_env_alerts_json();
         }
         else
         {
@@ -26,6 +28,5 @@ function iceberg_api_generate_admin($args)
         }
         exit();
     }
-    return $args;
 }
-add_action('iceberg_api_generate', 'iceberg_api_generate_admin', 0);
+add_action('iceberg_api_generate', 'iceberg_api_generate_admin', 5);

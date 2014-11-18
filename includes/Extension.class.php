@@ -16,6 +16,13 @@ require_once ICEBERG_DIR_HELPERS . 'extensions.php';
  */
 class Extension extends ObjectConfig
 {
+    
+    /**
+     * Configuration use language
+     * @var boolean
+     */
+    public static $CONFIG_USE_LANGUAGE = false;
+    
     /**
      * Configuration key
      * @var string
@@ -33,6 +40,7 @@ class Extension extends ObjectConfig
      * @var array 
      */
     private static $EXTENSION_DEFAULTS = array(
+        'dirname' => '',
         'name' => '',
         'description' => '',
         'url' => '',
@@ -100,6 +108,7 @@ class Extension extends ObjectConfig
                         if (is_array($extension) && !empty($extension))
                         {
                             $extensions[$file] = self::NormalizeExtensionInfo($extension);
+                            $extensions[$file]['dirname'] = $file;
                             $extensions[$file]['active'] = array_key_exists($file, $active);
                         }
                     }

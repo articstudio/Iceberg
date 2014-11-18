@@ -1,29 +1,18 @@
 <?php
 
-$action = get_request_action();
-
-if ($action == 'save')
+function get_actions_configuration_routing($actions)
 {
-    $args = array(
-        'canonical' => get_request_gp('routing_canonical', -1),
-        'type' => get_request_gp('routing_type', -1),
-        'domains_by_language' => array(),
-        'domains' => array()
+    $defaults = array(
+        'edit' => array(
+            'template' => 'configuration_routing_edit.php',
+            'name' => _T('Edit')
+        ),
+        'save' => array(
+            'template' => 'configuration_routing_save.php',
+            'name' => _T('Save')
+        )
     );
-    $l2d = get_request_gp('language_domains', array());
-    foreach ($l2d AS $l => $d)
-    {
-        $args['domains_by_language'][$l] = explode(',', $d);
-        $args['domains'] = array_merge($args['domains'], $args['domains_by_language'][$l]);
-    }
-    if (Routing::Save($args))
-    {
-        add_alert('Routing settings saved', 'success');
-    }
-    else
-    {
-        add_alert('Failed to save the routing settings', 'error');
-    }
+    $actions = array_merge($actions, $defaults);
+    return $actions;
 }
-
-
+add_filter('get_actions_configuration_routing', 'get_actions_configuration_routing', 5);

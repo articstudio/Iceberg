@@ -35,10 +35,10 @@ function get_user_name()
  * @uses User::GetLevel()
  * @return int 
  */
-function get_user_level()
+/*function get_user_level()
 {
     return User::GetLevel();
-}
+}*/
 
 
 function users_encrypt_password($pass)
@@ -59,5 +59,20 @@ function is_logged()
 function is_admin()
 {
     return User::IsAdmin();
+}
+
+function user_has_capability($capability)
+{
+    return User::HasCapability($capability);
+}
+
+function user_has_full_capability($capability)
+{
+    return User::HasFullCapability($capability);
+}
+
+function user_has_own_capability($capability)
+{
+    return User::HasOwnCapability($capability);
 }
 

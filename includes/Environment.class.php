@@ -117,13 +117,13 @@ abstract class Environment implements EnvironmentInterface
     
     public function Generate()
     {
-        $alerts = Alerts::GetList();
+        $alerts = Alerts::GetAlerts();
         if (!empty($alerts))
         {
             foreach ($alerts AS $alert)
             {
                 $this->AddAlert($alert->GetName(), $alert->GetType());
-                if (!$alert->IsPErmanent())
+                if (!$alert->IsPermanent())
                 {
                     Alerts::Remove($alert->GetID());
                 }

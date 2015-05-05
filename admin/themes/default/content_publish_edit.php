@@ -1,7 +1,7 @@
 <?php
 
 /* Routing */
-$action = get_mode('action');
+$action = get_action('action');
 $mode = get_mode('mode');
 $mode_group = explode('-', get_mode('mode'));
 

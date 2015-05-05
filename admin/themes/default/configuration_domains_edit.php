@@ -61,7 +61,7 @@ $canonical_childs = get_domains_by_parent($canonical->id);
         
         
         <div class="form-actions text-right">
-            <a href="<?php print get_admin_action_link(); ?>" class="btn btn-large btn-default"><span class="glyphicon glyphicon-ban-circle"></span> <?php print_text('Cancel'); ?></a>
+            <a href="<?php print get_admin_action_link(array('action'=>'list')); ?>" class="btn btn-large btn-default"><span class="glyphicon glyphicon-ban-circle"></span> <?php print_text('Cancel'); ?></a>
             <button type="submit" class="btn btn-large btn-success"><span class="glyphicon glyphicon-ok"></span> <?php print_text('Save'); ?></button>
         </div>
     </div>

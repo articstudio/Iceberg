@@ -154,7 +154,7 @@ class MultiObjectConfig
         return new $class();
     }
     
-    public static function Insert($object)
+    public static function Insert($object, $relations=array())
     {
         if (is_subclass_of($object, get_class()))
         {
@@ -163,7 +163,7 @@ class MultiObjectConfig
                 'name' => $class::$CONFIG_KEY,
                 'value' => $object
             );
-            $id = ConfigAll::DB_Insert($args, array(), null);
+            $id = ConfigAll::DB_Insert($args, $relations, null);
             if ($id !== false)
             {
                 IcebergCache::AddObject($id, $object);
@@ -258,15 +258,20 @@ class MultiObjectConfig
     protected static function GetRelationsFields($args)
     {
         $arr = array();
+        if (isset($args['user']))
+        {
+            $arr[ConfigAll::RELATION_KEY_USER] = $args['user'];
+        }
         return $arr;
     }
     
     
     
-    public static function Register($args)
+    public static function Register($args, $relations=array())
     {
         $obj = new static($args);
-        return static::Insert($obj);
+        $relations = static::GetRelationsFields($relations);
+        return static::Insert($obj, $relations);
     }
     
 }

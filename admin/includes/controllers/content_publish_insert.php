@@ -43,21 +43,29 @@ if ($id)
     /** USER RELATION **/
     if ($page_taxonomy->UserRelation())
     {
-        if (!empty($page_user_username) && !empty($page_user_password) && !User::UsernameExists($page_user_username))
+        if (!empty($page_user_username) && !empty($page_user_password))
         {
-            $insert_args = array(
-                'email' => $page_user_email,
-                'username' => $page_user_username,
-                'password' => $page_user_password,
-                'role' => $page_taxonomy->UserRole(),
-                'capabilities' => $page_user_capabilities,
-                'page' => $id
-            );
-            $user_id = User::Insert($insert_args);
-            if (!$user_id)
+            if (!User::UsernameExists($page_user_username))
+            {
+                $insert_args = array(
+                    'email' => $page_user_email,
+                    'username' => $page_user_username,
+                    'password' => $page_user_password,
+                    'role' => $page_taxonomy->UserRole(),
+                    'capabilities' => $page_user_capabilities,
+                    'page' => $id
+                );
+                $user_id = User::Insert($insert_args);
+                if (!$user_id)
+                {
+                    register_alert('Failed to insert user', 'error');
+                }
+            }
+            else
             {
                 register_alert('Failed to insert user', 'error');
             }
+            
         }
     }
     

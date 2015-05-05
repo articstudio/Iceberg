@@ -1,11 +1,11 @@
 <?php
 
-function register_alert($txt, $type='info', $permanent=false)
+function register_alert($txt, $type='info', $permanent=false, $user_id=true)
 {
-    return Alerts::Register(array('name'=>$txt,'type'=>$type,'permanent'=>$permanent));
+    return Alerts::RegisterAlert($txt, $type, $permanent, $user_id);
 }
 
-function get_alerts()
+function get_alerts($user_id=true)
 {
-    return Alerts::GetList();
+    return Alerts::GetAlerts($user_id);
 }

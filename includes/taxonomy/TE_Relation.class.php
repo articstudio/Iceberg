@@ -131,11 +131,11 @@ class TE_Relation extends TaxonomyElements
         ?>
         
         <h4><?php echo $taxonomy->GetName(); ?></h4>
-        <div class="row" data-select="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-list">
+        <div class="row" data-select="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-<?php print $taxonomy->GetID(); ?>-list">
             <div class="col-md-6">
                 <p class="control-group">
-                    <label for="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-choices" class="control-label"><?php print_text('Choices'); ?></label>
-                    <select id="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-choices" class="form-control" multiple="multiple" data-list="<?php echo implode(',',$possibles_keys); ?>">
+                    <label for="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-<?php print $taxonomy->GetID(); ?>-choices" class="control-label"><?php print_text('Choices'); ?></label>
+                    <select id="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-<?php print $taxonomy->GetID(); ?>-choices" class="form-control" multiple="multiple" data-list="<?php echo implode(',',$possibles_keys); ?>">
                         <?php foreach ($possibles AS $possible): ?>
                         <?php if (!$this->IsRelation($page, $possible->id)): ?>
                         <option value="<?php echo $possible->id; ?>"><?php echo $possible->GetTitle(); ?></option>
@@ -144,13 +144,13 @@ class TE_Relation extends TaxonomyElements
                     </select>
                 </p>
                 <p class="control-group">
-                    <a href="#" data-add="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-choices" title="<?php print_html_attr( _T('ADD') ); ?>" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> <?php print_text( 'ADD' ); ?></a>
+                    <a href="#" data-add="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-<?php print $taxonomy->GetID(); ?>-choices" title="<?php print_html_attr( _T('ADD') ); ?>" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> <?php print_text( 'ADD' ); ?></a>
                 </p>
             </div>
             <div class="col-md-6">
                 <p class="control-group">
-                    <label for="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-list" class="control-label"><?php print_text('Selecteds'); ?></label>
-                    <select id="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-list" class="form-control" multiple="multiple" data-hidden-destionation="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>">
+                    <label for="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-<?php print $taxonomy->GetID(); ?>-list" class="control-label"><?php print_text('Selecteds'); ?></label>
+                    <select id="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-<?php print $taxonomy->GetID(); ?>-list" class="form-control" multiple="multiple" data-hidden-destionation="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>">
                         <?php foreach ($possibles AS $possible): ?>
                         <?php if ($this->IsRelation($page, $possible->id)): ?>
                         <option value="<?php echo $possible->id; ?>"><?php echo $possible->GetTitle(); ?></option>
@@ -164,7 +164,7 @@ class TE_Relation extends TaxonomyElements
                     <?php endforeach; ?>
                 </p>
                 <p class="control-group">
-                    <a href="#" data-remove="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-list" title="<?php print_html_attr( _T('REMOVE') ); ?>" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span> <?php print_text( 'REMOVE' ); ?></a>
+                    <a href="#" data-remove="select-<?php print $this->GetAttrName(); ?>-<?php print $this->GetTaxonomy(); ?>-<?php print $taxonomy->GetID(); ?>-list" title="<?php print_html_attr( _T('REMOVE') ); ?>" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span> <?php print_text( 'REMOVE' ); ?></a>
                 </p>
 
             </div>

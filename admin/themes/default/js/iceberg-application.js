@@ -161,6 +161,8 @@ function callbackAjaxTableListCellActions(actions)
 {
     var buttons = [];
     
+    /* OVERWRITE */
+    
     /* LANGUAGES */
     if (typeof actions.languages === 'object')
     {

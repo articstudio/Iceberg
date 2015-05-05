@@ -354,7 +354,16 @@ abstract class ConfigAll extends Config
             'force' => true,
             'function' => 'get_domain_request_id',
             'language' => false
+        ),
+        'config-user' => array(
+            'object' => 'User',
+            'force' => false,
+            'function' => '',
+            'language' => false
         )
     );
+    
+    
+    const RELATION_KEY_USER = 'config-user';
     
 }

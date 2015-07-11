@@ -264,7 +264,7 @@ function cms_menubar($config=array())
             }
             ?>
             <li>
-                <a href="<?php print_html_attr($url); ?>" class="<?php print_html_attr($page_id==$link['page']?$config['css_item_active']:''); ?> <?php print_html_attr($link['cssclasses']); ?>" <?php print($link['external']==1?'target="_blank"':'');?>><? print($title); ?></a>
+                <a href="<?php print_html_attr($url); ?>" class="<?php print_html_attr($page_id==$link['page']?$config['css_item_active']:''); ?> <?php print_html_attr($link['cssclasses']); ?>" <?php print($link['external']==1?'target="_blank"':'');?>><?php print($title); ?></a>
                 <?php if ($link['submenu']==1 && $page!=null): ?>
                 <ul>
                     <?php $childs = $page->GetChilds(); ?>

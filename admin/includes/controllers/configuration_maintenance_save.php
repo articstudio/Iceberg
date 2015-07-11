@@ -18,4 +18,4 @@ else
     register_alert('Failed to save the maintenance configuration', 'error');
 }
 
-locate(get_admin_action_link(array('action'=>'edit')));
+locate(get_admin_action_link(array('action'=>'edit')), 302);

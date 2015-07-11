@@ -8,12 +8,12 @@
 /**
  * Iceberg version
  */
-define('ICEBERG_VERSION',                   '1.0');
+define('ICEBERG_VERSION',                   '1.1');
 
 /**
  * PHP required version for this Iceberg version
  */
-define('ICEBERG_PHP_VERSION_REQUIRED',      '5.3.0');
+define('ICEBERG_PHP_VERSION_REQUIRED',      '5.4.0');
 
 /**
  * Iceberg dependences directory

@@ -13,4 +13,4 @@ foreach ($taxs AS $tax_id)
 $config['fields'] = $fields;
 $done = save_search_config($config);
 ($done ? register_alert('Search taxonomies and fields saved correctly', 'success') : register_alert('Failed to save the search taxonomies and fields', 'error'));
-locate(get_admin_action_link(array('action'=>'panel')));
+locate(get_admin_action_link(array('action'=>'panel')), 302);

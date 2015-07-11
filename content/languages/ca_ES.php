@@ -86,6 +86,26 @@ $_TEXT['Reinstall']='Reinstal·lar';
 /* BACKEND */
 $_TEXT['ADMINISTRATION PANEL']='PANELL D\'ADMINISTRACIÓ';
 $_TEXT['YOU NEED JAVASCRIPT ENABLED TO VIEW AND USE ICEBERG']='NECESSITES TENIR INSTAL·LAT I HABILITAT EL JAVASCRIPT PER UTILITZAR L\'ICEBERG';
+$_TEXT['Confirm']='Confirmació';
+$_TEXT['Are you sure to remove this item?']='Estàs segur d\'eliminar aquest ítem?';
+$_TEXT['Close']='Tancar';
+$_TEXT['Cancel']='Cancel·lar';
+$_TEXT['Save']='Guardar';
+$_TEXT['Status']='Estat';
+$_TEXT['Active']='Actiu';
+$_TEXT['Unactive']='Inactiu';
+$_TEXT['Username']='Usuari';
+$_TEXT['Role']='Rol';
+$_TEXT['Capabilities']='Permisos';
+$_TEXT['Logout']='Sortir';
+$_TEXT['aaaa']='aaaa';
+$_TEXT['aaaa']='aaaa';
+$_TEXT['aaaa']='aaaa';
+$_TEXT['aaaa']='aaaa';
+$_TEXT['aaaa']='aaaa';
+$_TEXT['aaaa']='aaaa';
+$_TEXT['aaaa']='aaaa';
+$_TEXT['aaaa']='aaaa';
 $_TEXT['aaaa']='aaaa';
 
 /* LOGIN / RESTORE PASSWORD */

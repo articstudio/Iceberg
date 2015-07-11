@@ -16,4 +16,4 @@ else
     register_alert('Failed to update language', 'error');
 }
 
-locate(get_admin_action_link(array('action'=>'list')));
+locate(get_admin_action_link(array('action'=>'list')), 302);

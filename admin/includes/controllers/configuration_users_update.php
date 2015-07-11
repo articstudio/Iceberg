@@ -16,10 +16,11 @@ if ($password !== '')
 if (User::Update($id, $user))
 {
     register_alert('User updated', 'success');
+    do_action('configuration_users_update', $id);
 }
 else
 {
     register_alert('Failed to update user', 'error');
 }
 
-locate(get_admin_action_link(array('action'=>'list')));
+locate(get_admin_action_link(array('action'=>'list')), 302);

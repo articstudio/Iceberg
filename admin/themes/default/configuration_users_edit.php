@@ -22,6 +22,8 @@ $capabilities = get_user_capabilities();
                     <label for="password" class="control-label"><?php print_text('Password'); ?></label>
                     <input name="password" id="password" class="form-control" value="" <?php echo $id ? '' : 'required'; ?>>
                 </p>
+                
+                <?php do_action('configuration_users_edit_form_col_left', $user); ?>
             </div>
             
             <div class="col-md-6">
@@ -51,9 +53,14 @@ $capabilities = get_user_capabilities();
                     </p>
                     <?php endforeach; ?>
                 </div>
+                
+                <?php do_action('configuration_users_edit_form_col_right', $user); ?>
             </div>
             
         </div>
+        
+        <?php do_action('configuration_users_edit_form', $user); ?>
+        
         <div class="form-actions text-right">
             <a href="<?php print get_admin_action_link(array('action'=>'list')); ?>" class="btn btn-large btn-default"><span class="glyphicon glyphicon-ban-circle"></span> <?php print_text('Cancel'); ?></a>
             <button type="submit" class="btn btn-large btn-success"><span class="glyphicon glyphicon-ok"></span> <?php print_text('Save'); ?></button>

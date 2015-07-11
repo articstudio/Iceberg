@@ -8,13 +8,15 @@ $user = array(
     'capabilities' => get_request_gp('capabilities', array()),
     'status' => get_request_gp('status', User::STATUS_ACTIVE, true)
 );
-if (User::Insert($user))
+$id = User::Insert($user);
+if ($id)
 {
     register_alert('User inserted', 'success');
+    do_action('configuration_users_insert', $id);
 }
 else
 {
     register_alert('Failed to insert user', 'error');
 }
 
-locate(get_admin_action_link(array('action'=>'list')));
+locate(get_admin_action_link(array('action'=>'list')), 302);

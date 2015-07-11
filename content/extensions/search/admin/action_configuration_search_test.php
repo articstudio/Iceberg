@@ -14,5 +14,5 @@ add_filter('theme_backend_print_page', 'theme_backend_print_page_configuration_s
 /**************************************************************/
 
 register_alert('Test success', 'success');
-locate(get_admin_action_link(array('action'=>'panel')));
+locate(get_admin_action_link(array('action'=>'panel')), 302);
 

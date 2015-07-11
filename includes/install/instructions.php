@@ -22,9 +22,9 @@ $langs = get_langs();
     <div class="form-group">
         <label for="language-select" class="control-label"><?php print_text('Choose your language'); ?></label>
         <select name="<?php print Install::REQUEST_KEY_LANGUAGE; ?>" id="language-select" class="form-control">
-            <? foreach ($langs AS $key => $value ): ?>
+            <?php foreach ($langs AS $key => $value ): ?>
             <option value="<?php print_html_attr( $key ); ?>" <?php echo get_lang()===$key ? 'selected' : ''; ?>><?php echo $value['name']; ?></option>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </select>
     </div>
 </form>

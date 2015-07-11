@@ -15,22 +15,28 @@ $moduleObject = get_module();
 $modeObject = get_mode();
 $actionObject = get_action();
 
+$actionObject = apply_filters('application_page_header_title_object', $actionObject);
+$actionObject = apply_filters('application_page_header_title_object_' . $moduleObject['module'] . '_' . $modeObject['mode'] . '_' . $actionObject['action'], $actionObject);
+
+
 $alerts = get_env_alerts();
+
+$sidebar_toggle = Request::GetCookie('ICEBERG_SIDEBAR_TOGGLE') === 'true';
 ?>
         
-<header id="header" class="navbar navbar-fixed-top" role="navigation">
+<header id="header" class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="pull-left">
         <img src="<?php echo get_theme_url(); ?>/img/iceberg_logo.png" class="iceberg-logo" alt="Iceberg  v<?php print_html_attr( ICEBERG_VERSION ); ?>">
         <img src="<?php echo get_theme_url(); ?>/img/iceberg_header.jpg" class="iceberg-name" alt="Iceberg  v<?php print_html_attr( ICEBERG_VERSION ); ?>">
     </div>
     <div class="pull-right btn-toolbar">
         <?php if (!in_admin_dashboard() && user_has_capability('module_dashboard')): ?>
-        <div class="btn-group">
+        <div id="btn-group-dashboard" class="btn-group">
             <a href="<?php echo get_admin_dashboard(); ?>" class="btn btn-default"><span class="glyphicon glyphicon-dashboard"></span> <span class="hidden-xs hidden-sm visible-md-inline visible-lg-inline"><?php print_text('Dashboard'); ?></span></a>
         </div>
         <?php endif; ?>
-        
-        <div class="btn-group">
+
+        <div id="btn-group-languages" class="btn-group">
             <?php if (count($languages) > 1): ?>
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-languages" data-toggle="dropdown">
                 <img src="<?php echo get_base_url() . $language['flag']; ?>" alt="<?php print_html_attr($language['name']); ?>" class="flag">
@@ -50,9 +56,12 @@ $alerts = get_env_alerts();
             <?php endif; ?>
         </div>
 
-        <?php /* @todo Domain dropdown */ ?>
+        <div id="btn-group-domains" class="btn-group">
+            <?php do_action('application_header_domains_group'); ?>
+            <?php /* @todo Domain dropdown */ ?>
+        </div>
 
-        <div class="btn-group">
+        <div id="btn-group-profile" class="btn-group">
             <?php if (user_has_capability('module_profile')): ?>
             <a href="<?php print_link(array('module'=>'profile'));?>" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> <span class="hidden-xs hidden-sm visible-md-inline visible-lg-inline"><?php print get_user_name(); ?></span></a>
             <?php else: ?>
@@ -63,7 +72,7 @@ $alerts = get_env_alerts();
     </div>
 </header>
 
-<div id="wrapper">
+<div id="wrapper" class="<?php echo $sidebar_toggle ? 'toggled' : ''; ?>">
             
     <sidebar id="sidebar-wrapper" role="navigation">
         <nav class="sidebar-nav">
@@ -88,7 +97,11 @@ $alerts = get_env_alerts();
 
     <article id="page-wrapper">
         <header id="page-header">
+            <?php do_action('application_page_header_title_pre'); ?>
+            <?php do_action('application_page_header_title_pre_' . $moduleObject['module'] . '_' . $modeObject['mode'] . '_' . $actionObject['action']); ?>
             <h2><?php echo $actionObject['name']; ?></h2>
+            <?php do_action('application_page_header_title_post'); ?>
+            <?php do_action('application_page_header_title_post_' . $moduleObject['module'] . '_' . $modeObject['mode'] . '_' . $actionObject['action']); ?>
             <ol class="breadcrumb">
                 <?php $n=1; foreach ($breadcrumb AS $key => $value): ?>
                 <?php if ($n>=$n_breadcrumb): ?>
@@ -98,6 +111,7 @@ $alerts = get_env_alerts();
                 <?php endif; ?>
                 <?php ++$n; endforeach; ?>
             </ol>
+            <?php do_action('application_page_header_breadcrumb_post'); ?>
         </header>
         <?php if (count($modes)>1): ?>
         <div class="btn-toolbar">
@@ -105,7 +119,7 @@ $alerts = get_env_alerts();
             <a href="<?php print_link(array('module'=>$moduleObject['module'], 'mode'=>$mode['mode'])); ?>" class="btn btn-default btn-large <?php print_html_attr( $key==$modeObject['mode'] ? 'active' : '' ); ?>" title="<?php print_html_attr($mode['name']); ?>"><?php echo $mode['name']; ?></a>
             <?php endforeach; ?>
         </div>
-        <? endif; ?>
+        <?php endif; ?>
         <div id="alerts">
             <?php foreach ($alerts AS $sms): ?>
             <?php if ($sms['type']==='success'): ?>

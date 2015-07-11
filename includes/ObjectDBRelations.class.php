@@ -545,6 +545,8 @@ abstract class ObjectDBRelations extends ObjectDB
             return $childObj::DB_InsertUpdate($args, $where, $relations, $lang);
         }
         else {
+            var_dump($relation_name);
+            die();
             echo $relation_name . '<br>';
         }
         return false;
@@ -601,7 +603,14 @@ abstract class ObjectDBRelations extends ObjectDB
                 {}
                 else
                 {
-                    if (!isset($correct_relations[$relation_name]['operator']))
+                    if (isset($correct_relations[$relation_name]['multiple']))
+                    {
+                        if (!$correct_relations[$relation_name]['multiple'])
+                        {
+                            $correct_relations[$relation_name]['multiple'] = true;
+                        }
+                    }
+                    else if (!isset($correct_relations[$relation_name]['operator']))
                     {
                         $correct_relations[$relation_name]['operator'] = 'IN';
                     }
@@ -621,12 +630,27 @@ abstract class ObjectDBRelations extends ObjectDB
         {
             if (static::DB_IsParentRelation($relation_name))
             {
-                $tables[$relation_name] = array('table' => DBRelation::DB_GetTableName(), 'alias' => 't' . $n);
-                ++$n;
+                if (is_array($relation) && isset($relation['multiple']) && $relation['multiple'])
+                {
+                    $tables[$relation_name] = array();
+                    foreach ($relation As $rk => $rv)
+                    {
+                        if ($rk != 'multiple')
+                        {
+                            $tables[$relation_name][$rk] = array('table' => DBRelation::DB_GetTableName(), 'alias' => 't' . $n);
+                            ++$n;
+                        }
+                    }
+                }
+                else
+                {
+                    $tables[$relation_name] = array('table' => DBRelation::DB_GetTableName(), 'alias' => 't' . $n);
+                    ++$n;
+                }
             }
         }
         $tables['fields'] = array('table' => DBRelation::DB_GetTableName(), 'alias' => 't' . $n);
-        ++$n;
+        /*++$n;
         foreach ($fields AS $relation_name => $field)
         {
             if (is_array($field) && !isset($tables[$relation_name]))
@@ -634,7 +658,7 @@ abstract class ObjectDBRelations extends ObjectDB
                 $tables['fields'] = array('table' => DBRelation::DB_GetTableName(), 'alias' => 't' . $n);
                 break;
             }
-        }
+        }*/
         return $tables;
     }
     
@@ -763,6 +787,29 @@ abstract class ObjectDBRelations extends ObjectDB
                                 $buffer .= ' INNER JOIN ' . $table['table'] . ' AS ' . $table['alias'] . ' ON ' . $table['alias'] . "." . $table_relation_name_field . "='" . $relation_name . "' AND " . $table['alias'] . "." . $table_relation_attribute_field . "='" . $relation_attribute . "' AND " . $table['alias'] . "." . $table_relation_parent_field . " IN (" . implode(',', $relation_value) . ") AND " . $table['alias'] . "." . $table_relation_child_field . "=" . $table_self . "." . $table_self_field . ' ';
                             }
                         }
+                        else if (isset($relations[$relation_name]['multiple']) && $relations[$relation_name]['multiple'])
+                        {
+                            unset($relations[$relation_name]['multiple']);
+                            foreach ($relations[$relation_name] AS $relation_attribute => $relation_value)
+                            {
+                                if (isset($table[$relation_attribute]))
+                                {
+                                    if (is_null($relation_value) || $relation_value === static::DB_RELATION_NOT_NULL)
+                                    {
+                                        $buffer .= ' LEFT OUTER JOIN ' . $table[$relation_attribute]['table'] . ' AS ' . $table[$relation_attribute]['alias'] . ' ON ' . $table[$relation_attribute]['alias'] . "." . $table_relation_name_field . "='" . $relation_name . "' AND " . $table[$relation_attribute]['alias'] . "." . $table_relation_attribute_field . "='" . $relation_attribute . "' AND " . $table[$relation_attribute]['alias'] . "." . $table_relation_child_field . "=" . $table_self . "." . $table_self_field . ' ';
+                                    }
+                                    else if (is_string($relation_value) || is_numeric($relation_value))
+                                    {
+                                        $buffer .= ' INNER JOIN ' . $table[$relation_attribute]['table'] . ' AS ' . $table[$relation_attribute]['alias'] . ' ON ' . $table[$relation_attribute]['alias'] . "." . $table_relation_name_field . "='" . $relation_name . "' AND " . $table[$relation_attribute]['alias'] . "." . $table_relation_attribute_field . "='" . $relation_attribute . "' AND " . $table[$relation_attribute]['alias'] . "." . $table_relation_parent_field . "=" . (int)$relation_value . " AND " . $table[$relation_attribute]['alias'] . "." . $table_relation_child_field . "=" . $table_self . "." . $table_self_field . ' ';
+                                    }
+                                    else if (is_array($relation_value))
+                                    {
+                                        $relation_value = empty($relation_value) ? array(-1) : $relation_value;
+                                        $buffer .= ' INNER JOIN ' . $table[$relation_attribute]['table'] . ' AS ' . $table[$relation_attribute]['alias'] . ' ON ' . $table[$relation_attribute]['alias'] . "." . $table_relation_name_field . "='" . $relation_name . "' AND " . $table[$relation_attribute]['alias'] . "." . $table_relation_attribute_field . "='" . $relation_attribute . "' AND " . $table[$relation_attribute]['alias'] . "." . $table_relation_parent_field . " IN (" . implode(',', $relation_value) . ") AND " . $table[$relation_attribute]['alias'] . "." . $table_relation_child_field . "=" . $table_self . "." . $table_self_field . ' ';
+                                    }
+                                }
+                            }
+                        }
                         else
                         {
                             $operator = 'IN';
@@ -851,9 +898,9 @@ abstract class ObjectDBRelations extends ObjectDB
         {
             if (isset($tables[$relation_name])) // && !isset($fields[$rel])
             {
-                $table_relation = $tables[$relation_name]['alias'];
                 if (is_null($relation))
                 {
+                    $table_relation = $tables[$relation_name]['alias'];
                     $sql .= " AND " . $table_relation . '.' . mysql_escape($table_relation_child_field) . " IS NULL";
                 }
             }

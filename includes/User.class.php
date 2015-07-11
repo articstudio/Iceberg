@@ -147,7 +147,7 @@ class UserBase extends ObjectDBRelations
     const RELATION_KEY_DOMAIN = 'user2domain';
     const RELATION_KEY_USER = 'user-user';
     const RELATION_KEY_PAGE = 'user-page';
-    const RELATION_KEY_META = 'user-meta';
+    const RELATION_KEY_META = 'user2meta';
     const RELATION_KEY_PAGE_RELATED = 'user2page';
     
     const SESSION_USER = 'user';
@@ -248,7 +248,7 @@ class User extends UserBase
         $metas = static::GetMetas($this->id, $lang);
         foreach ($metas AS $meta)
         {
-            $this->SetMeta($meta->name, static::DB_DecodeFieldValue($meta->value), $meta->lang);
+            $this->SetMeta($meta->name, static::DB_DecodeFieldValue($meta->value), $lang);
         }
     }
     

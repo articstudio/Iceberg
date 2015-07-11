@@ -23,4 +23,4 @@ foreach ($config['taxonomies'] AS $tax_id)
 }
 
 register_alert('Search metas generateds', 'success');
-locate(get_admin_action_link(array('action'=>'panel')));
+locate(get_admin_action_link(array('action'=>'panel')), 302);

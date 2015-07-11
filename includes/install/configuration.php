@@ -23,7 +23,7 @@
 <?php else: ?>
 <p class="alert alert-danger"><i class="glyphicon glyphicon-warning-sign"></i> <?php print_text( $sms['text'] ); ?></p>
 <?php endif; ?>
-<? endforeach; ?>
+<?php endforeach; ?>
 
 <form action="<?php print get_install_next_step_link(); ?>" method="post" id="form-config" role="form">
     <input type="hidden" name="nonce" value="<?php echo nonce_make('iceberg_install'); ?>">

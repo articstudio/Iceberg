@@ -4,6 +4,7 @@ html {
     min-height:100%;
     height:100%;
     padding-top:80px;
+    overflow-x:hidden;
 }
 body {
     position:relative;
@@ -89,7 +90,7 @@ body {
     position: absolute;
     left:250px;
     width: 50px;
-    height:100%;
+    min-height:100%;
     margin-left: -250px;
     overflow-y: auto;
     background:#282f36 none;
@@ -112,12 +113,12 @@ body {
     display:block;
     background:#15191d none;
     color:#fff;
-    padding:5px 10px;
+    padding:10px 10px;
     text-align:left;
     text-decoration:none;
     text-overflow: ellipsis;
     white-space: nowrap;
-    margin:0 0 10px 0;
+    margin:0 0 1px 0;
 }
 .sidebar-nav a.option:hover,
 .sidebar-nav .option.active {
@@ -254,16 +255,19 @@ img.flag {
 }
 
 /** DATE PICKER **/
+.ui-datepicker {
+    margin-top:-80px;
+}
 .datepicker-wrapper {
     margin-bottom:15px;
 }
-.datepicker-wrapper .ui-datepicker-inline {
+.datepicker-wrapper .ui-datepicker.ui-datepicker-inline {
     margin:0 auto;
     width: 99%;
     padding: 0;
     font-size: 0.9em;
 }
-.datepicker-wrapper .ui-datepicker-inline table {
+.datepicker-wrapper .ui-datepicker.ui-datepicker-inline table {
     font-size: 0.7em;
 }
 
@@ -280,6 +284,10 @@ img.flag {
 }
 .table a {
     color:#282f36;
+}
+.dataTables_table_wrapper {
+    max-width:100%;
+    /*overflow-x:auto;*/
 }
 
 /** LISTS **/

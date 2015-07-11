@@ -19,6 +19,7 @@ require_once DEFAULT_ADMIN_THEME_DIR . 'tables/TablePages.class.php';
 function default_admin_theme_head()
 {
     theme_enqueue_style('bootstrap');
+    theme_enqueue_style('bootstrap-theme');
     theme_enqueue_style('iceberg-bootstrap');
     if (in_admin_login())
     {
@@ -26,6 +27,9 @@ function default_admin_theme_head()
     }
     else
     {
+        theme_enqueue_style('bootstrap-tabdrop');
+        theme_enqueue_style('bootstrap-timepicker');
+        theme_enqueue_style('bootstrap-select');
         theme_enqueue_style('jquery-ui');
         theme_enqueue_style('datatables-bootstrap');
         theme_enqueue_style('iceberg-application');
@@ -46,6 +50,9 @@ function default_admin_theme_foot()
     }
     else
     {
+        theme_enqueue_script('bootstrap-tabdrop');
+        theme_enqueue_script('bootstrap-timepicker');
+        theme_enqueue_script('bootstrap-select');
         theme_enqueue_script('jquery-ui');
         theme_enqueue_script('datatables');
         theme_enqueue_script('datatables-tabletools');

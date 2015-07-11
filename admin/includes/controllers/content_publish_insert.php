@@ -96,4 +96,4 @@ if ($id && is_array($duplicate) && !empty($duplicate))
     }
 }
 
-locate(get_admin_action_link(array('action'=>'list')));
+locate(get_admin_action_link(array('action'=>'list')), 302);

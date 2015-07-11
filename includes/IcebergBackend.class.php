@@ -47,7 +47,7 @@ class IcebergBackend extends Environment
             if (RoutingBackend::GetRequestLogout())
             {
                 User::Logout();
-                Request::Locate(get_base_url_admin());
+                Request::Locate(get_base_url_admin(), 302);
             }
             if (User::IsAdmin())
             {

@@ -183,7 +183,7 @@ function language_navbar_show($config=array())
         <nav id="<?php print_html_attr($config['id']); ?>" class="<?php print_html_attr($config['css_nav_class']); ?>">
             <?php $n=0; $k=count($active_langs); foreach($active_langs AS $locale => $lang): ?>
             <?php if ($n>0 && $config['show_separator']): ?><span><?php print($config['separator']); ?></span><?php endif; ?>
-            <a href="<?php page_link(array('lang'=>$locale)); ?>" class="<?php print_html_attr($config['css_item_class']); ?> <?php print_html_attr($active_lang==$locale?$config['css_item_active']:''); ?> <?php print_html_attr($n==$k-1?$config['css_last_item_class']:''); ?>"><? print($lang['name']); ?></a>
+            <a href="<?php page_link(array('lang'=>$locale)); ?>" class="<?php print_html_attr($config['css_item_class']); ?> <?php print_html_attr($active_lang==$locale?$config['css_item_active']:''); ?> <?php print_html_attr($n==$k-1?$config['css_last_item_class']:''); ?>"><?php print($lang['name']); ?></a>
             <?php $n++; endforeach; ?>
         </nav>
         <?php

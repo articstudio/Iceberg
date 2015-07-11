@@ -32,7 +32,7 @@ abstract class IcebergCache extends ObjectConfig
             ),
             'server' => 'localhost',
             'port' => 11211,
-            'flag' => MEMCACHE_COMPRESSED,
+            'flag' => null,
             'expire' => 120
         )
     );

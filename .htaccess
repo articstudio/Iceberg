@@ -9,8 +9,8 @@
 #   perishablepress.com/press/2006/01/10/stupid-htaccess-tricks/
 #   Sample .htaccess file of CMS MODx: modxcms.com
 
-#php_flag opcache.enable Off
-#php_flag opcache.enable_cli Off
+php_flag opcache.enable Off
+php_flag opcache.enable_cli Off
 
 
 # ----------------------------------------------------------------------

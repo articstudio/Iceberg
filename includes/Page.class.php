@@ -162,6 +162,7 @@ class Page extends PageBase
     
     const STATUS_ACTIVE = 1;
     const STATUS_UNACTIVE = 0;
+    const STATUS_PENDING = -1;
     
     var $id;
     var $type;
@@ -439,6 +440,14 @@ class Page extends PageBase
         return static::DB_Update($id, $args);
     }
     
+    public static function Pending($id)
+    {
+        $args = array(
+            'status' => static::STATUS_PENDING
+        );
+        return static::DB_Update($id, $args);
+    }
+    
     public static function InsertUpdateMeta($id, $key, $value, $lang=null)
     {
         $args_meta = array(
@@ -490,6 +499,10 @@ class Page extends PageBase
         $args_update = array(
             'updated' => date('Y-m-d H:i:s')
         );
+        if (isset($args['status']))
+        {
+            $args_update['status'] = $args['status'];
+        }
         $where_update = array(
             'id' => $id
         );
@@ -726,6 +739,23 @@ class Page extends PageBase
     public static function GetChildsDependences($id, $recursive=true, $done=array(), $cache=true)
     {
         $childs = static::DB_SelectChildRelation($id, static::RELATION_KEY_PAGE_DEPENDENCE, null, null);
+        foreach ($childs AS $child)
+        { 
+            if (!in_array((int)$child->cid, $done))
+            {
+                $done[] = (int)$child->cid;
+                if ($recursive)
+                {
+                    $done = array_merge($done, static::GetChildsDependences((int)$child->cid, $recursive, $done));
+                }
+            }
+        }
+        $done = array_unique($done);
+        return $done;
+    }
+    public static function GetChildsRelations($id, $recursive=true, $done=array(), $cache=true)
+    {
+        $childs = static::DB_SelectChildRelation($id, static::RELATION_KEY_PAGE, null, null);
         foreach ($childs AS $child)
         { 
             if (!in_array((int)$child->cid, $done))

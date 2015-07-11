@@ -89,8 +89,11 @@ abstract class ThemeBase extends ObjectConfig
     public function __construct()
     {
         // Styles
-        $this->RegisterStyle('bootstrap', get_dependences_url() . 'bootstrap/css/bootstrap.min.css', '3.2.0');
-        $this->RegisterStyle('bootstrap-theme', get_dependences_url() . 'bootstrap/css/bootstrap-theme.min.css', '3.2.0', array('bootstrap'));
+        $this->RegisterStyle('bootstrap', get_dependences_url() . 'bootstrap/css/bootstrap.min.css', '3.3.4');
+        $this->RegisterStyle('bootstrap-theme', get_dependences_url() . 'bootstrap/css/bootstrap-theme.min.css', '3.3.4', array('bootstrap'));
+        $this->RegisterStyle('bootstrap-select', get_dependences_url() . 'bootstrap-select/css/bootstrap-select.min.css', '1.7.3', array('bootstrap'));
+        $this->RegisterStyle('bootstrap-tabdrop', get_dependences_url() . 'bootstrap-tabdrop/css/bootstrap-tabdrop.css', '1.0', array('bootstrap'));
+        $this->RegisterStyle('bootstrap-timepicker', get_dependences_url() . 'bootstrap-timepicker/css/bootstrap-timepicker.min.css', '0.2.5', array('bootstrap'));
 
         $this->RegisterStyle('jquery-ui', get_dependences_url() . 'jquery-ui/jquery-ui.min.css', '1.11.2');
         $this->RegisterStyle('jquery-ui-theme', get_dependences_url() . 'jquery-ui/jquery-ui.theme.min.css', '1.11.2', array('jquery-ui'));
@@ -111,7 +114,10 @@ abstract class ThemeBase extends ObjectConfig
 
         $this->RegisterScript('jquery-ui', get_dependences_url() . 'jquery-ui/jquery-ui.min.js', '1.11.2', array('jquery'), true);
 
-        $this->RegisterScript('bootstrap', get_dependences_url() . 'bootstrap/js/bootstrap.min.js', '3.2.0', array('jquery'), true);
+        $this->RegisterScript('bootstrap', get_dependences_url() . 'bootstrap/js/bootstrap.min.js', '3.3.4', array('jquery'), true);
+        $this->RegisterScript('bootstrap-select', get_dependences_url() . 'bootstrap-select/js/bootstrap-select.min.js', '1.7.3', array('bootstrap'), true);
+        $this->RegisterScript('bootstrap-tabdrop', get_dependences_url() . 'bootstrap-tabdrop/js/bootstrap-tabdrop.js', '1.0', array('bootstrap'), true);
+        $this->RegisterScript('bootstrap-timepicker', get_dependences_url() . 'bootstrap-timepicker/js/bootstrap-timepicker.min.js', '0.2.5', array('bootstrap'), true);
 
         $this->RegisterScript('datatables', get_dependences_url() . 'datatables/js/jquery.dataTables.min.js', '1.10.3', array('jquery'), true);
         $this->RegisterScript('datatables-bootstrap', get_dependences_url() . 'datatables/integration/bootstrap/dataTables.bootstrap.js', '1.10.3', array('datatables'), true);

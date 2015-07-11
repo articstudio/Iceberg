@@ -152,22 +152,13 @@ class Request extends ObjectConfig
             ob_clean();
             print '<h1>ICEBERG v' . ICEBERG_VERSION . '</h1>';
             print '<h2>By Artic studio (<a href="http://www.articstudio.com">www.articstudio.com</a>)</h2>';
-            print '<h3>Author</h3>';
+            print '<h3>Developed by</h3>';
             print '<ul>';
             print '<li>Marc Mascort Bou (<a href="http://www.marcmascort.com">www.marcmascort.com</a>)</li>';
             print '</ul>';
-            print '<h4>Design contributors</h4>';
+            print '<h4>Designed by</h4>';
             print '<ul>';
-            print '<li>Gerard Yanes Font (<a href="http://www.articstudio.com">www.articstudio.com</a>)</li>';
-            print '</ul>';
-            print '<h4>Developing contributors</h4>';
-            print '<ul>';
-            print '<li>Xevi Sañé Farrés (<a href="http://www.codibit.com">www.codibit.com</a>)</li>';
-            print '<li>David Gironella Casademont (<a href="http://www.xapes.net">www.xapes.net</a>)</li>';
-            print '</ul>';
-            print '<h4>Usability and performance testing contributors</h4>';
-            print '<ul>';
-            print '<li>Arnau Òdena Manuel (<a href="http://www.articstudio.com">www.articstudio.com</a>)</li>';
+            print '<li>Gerard Yanes Font (<a href="http://www.gerardyanes.com">www.gerardyanes.com</a>)</li>';
             print '</ul>';
             die();
         }

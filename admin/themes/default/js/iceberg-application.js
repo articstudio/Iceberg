@@ -85,6 +85,31 @@ String.prototype.inStringList = function(value, separator)
     return arr.inArray(value);
 };
 
+function ICEBERG_GetCookie(c_name, c_default)
+{
+    var i, x, y, allCookies = document.cookie.split(';');
+    for (i=0; i<allCookies.length; i++)
+    {
+        x = allCookies[i].substr(0,allCookies[i].indexOf('='));
+        y = allCookies[i].substr(allCookies[i].indexOf('=') + 1);
+        x = x.replace(/^\s+|\s+$/g, '');
+        if (x === c_name)
+        {
+         return unescape(y);
+        }
+    }
+    return c_default;
+}
+
+function ICEBERG_SetCookie(c_name, c_value, c_life_in_days)
+{
+	var c_expiration = new Date();
+	c_expiration.setDate(c_expiration.getDate() + c_life_in_days);
+	var c_value = escape(c_value) + ((c_life_in_days === null) ? '' : '; expires=' + c_expiration.toUTCString());
+	document.cookie = c_name + '=' + c_value;
+    return true;
+}
+
 
 
 
@@ -116,9 +141,25 @@ function initSidebar()
         e.preventDefault();
         e.stopPropagation();
         $('#wrapper').toggleClass('toggled');
+        $(window).trigger('iceberg-sidebar-change');
+        ICEBERG_SetCookie('ICEBERG_SIDEBAR_TOGGLE', $('#wrapper').hasClass('toggled'), 30);
         return false;
     });
 }
+
+function initSelectpicker()
+{
+    //$('.selectpicker').selectpicker();
+    $('select').not('[data-select] select').selectpicker({
+        size:5
+    });
+}
+
+function ResetSelectpicker()
+{
+   initSelectpicker();
+}
+
 
 function initDatapicker()
 {
@@ -154,6 +195,16 @@ function initDatapicker()
             };
         }*/
         $obj.datepicker(datepicker_options);
+    });
+}
+
+function initTimepicker()
+{
+    $('.timepicker').timepicker({
+        minuteStep: 5,
+        showInputs: false,
+        showMeridian: false,
+        disableFocus: true
     });
 }
 
@@ -382,7 +433,7 @@ function addDataTable($obj)
         });
     }
     var dt_args = {
-        'sDom': "<'row'<'col-md-6'T><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+        'sDom': "<'row'<'col-md-6'T><'col-md-6'f>r><'dataTables_table_wrapper't><'row'<'col-md-6'i><'col-md-6'p>>",
         'bSort': dt_sort,
         'bPaginate': dt_paginate,
         'bInfo': dt_paginate,
@@ -462,6 +513,14 @@ function IcebergUnloading()
 {
     _loading_active = false;
     $('body').removeClass('loading');
+}
+
+function initTabs()
+{
+    $('.nav.nav-tabs.nav-tabs-js a').click(function(e){
+        e.preventDefault()
+        $(this).tab('show')
+    });
 }
 
 var _modal, _modal_options = {}, _modal_defaults = {
@@ -766,7 +825,11 @@ function initPushLists()
                             value = $elem.is(':checked') ? 'checked' : '';
                             $elem.attr('checked', false);
                         }
-                        else
+                        else if ($elem.is('input[type=hidden]'))
+                        {
+                            
+                        }
+                        else if ($elem.is('input[type=text]') || $elem.is('select') || $elem.is('textarea'))
                         {
                             $elem.val('');
                         }
@@ -848,6 +911,7 @@ function ResetWidgets()
 {
     UnWidgets();
     initWidgets();
+    ResetSelectpicker();
 }
 function RemoveWidget($widget)
 {
@@ -1209,12 +1273,15 @@ function initializeGMaps() {
             }
             markers = [];
         }
-        
-        google.maps.event.addListener(map, 'click', function(e) {
-            placeMarker(e.latLng, map);
-        });
+        if ($obj.data('action') == 'place-marker')
+        {
+            google.maps.event.addListener(map, 'click', function(e) {
+                placeMarker(e.latLng, map);
+            });
+        }
         if (mll[0] !== '' && mll[1] !== '') {
             placeMarker(new google.maps.LatLng(mll[0],mll[1]), map);
+            map.setZoom(11);
         }
         
         $('#wrapper').bind('change', function(event) {
@@ -1240,9 +1307,12 @@ function initGMaps()
 var IcebergApplicationLoaded = false;
 $(document).ready(function(){
     initSidebar();
+    initSelectpicker();
     initDatapicker();
+    initTimepicker();
     initDataTables();
     initLoading();
+    initTabs();
     initModals();
     initConfirmModals();
     initDynamicSelectors();

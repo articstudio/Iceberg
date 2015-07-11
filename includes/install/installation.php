@@ -29,7 +29,7 @@
 <?php else: ?>
 <p class="alert alert-danger"><i class="glyphicon glyphicon-warning-sign"></i> <?php print_text( $sms['text'] ); ?></p>
 <?php endif; ?>
-<? endforeach; ?>
+<?php endforeach; ?>
 
 <div class="form-actions text-right">
     <a href="<?php print get_install_reinstall_link(); ?>" title="<?php print_html_attr( _T('Reinstall') ); ?>" class="btn btn-default"><?php print_text('Reinstall'); ?> <span class="glyphicon glyphicon-refresh"></span></a>
